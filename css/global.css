@@ -1,0 +1,34 @@
+/* line 2, ../sass/global.scss */
+body {
+  width: 900px;
+  height: 600px;
+  margin-top: 40px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 15px;
+}
+
+/* line 12, ../sass/global.scss */
+table#content {
+  width: 100%;
+  height: 100%;
+  border-spacing: 0px;
+}
+/* line 18, ../sass/global.scss */
+table#content td {
+  width: 50%;
+}
+
+/* line 24, ../sass/global.scss */
+div.main_column {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+}
+
+/* line 34, ../sass/global.scss */
+#resources_column td {
+  min-width: 100px;
+  border: 1px solid black;
+}
