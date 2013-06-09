@@ -84,3 +84,29 @@ div.tab_content {
   border: 1px solid black;
   border-radius: 10px;
 }
+/* line 95, ../sass/global.scss */
+div.tab_content div.action_content {
+  padding: 5px;
+}
+/* line 98, ../sass/global.scss */
+div.tab_content div.action_content .action_title {
+  padding: 2px;
+  font-size: 14px;
+  font-weight: bold;
+}
+/* line 104, ../sass/global.scss */
+div.tab_content div.action_content .action_info {
+  padding-left: 7px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+/* line 110, ../sass/global.scss */
+div.tab_content div.action_content .action_costs_holder {
+  display: inline-block;
+  width: 150px;
+}
+/* line 115, ../sass/global.scss */
+div.tab_content div.action_content .action_gains_holder {
+  display: inline-block;
+  width: 150px;
+}

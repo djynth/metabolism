@@ -12,6 +12,7 @@ $(document).ready(function() {
     populateResourceTable();
     incrementTurn();
     setPoints(0);
+    populateTabs();
     showTab(1);
 
     $('button#next_turn').click(function() {
@@ -34,13 +35,11 @@ $(document).ready(function() {
         }
 
         var organ = $('input[name=organ]:checked', '#organ_selector').val();
-        var result = runAction(action.id, organ, resources);
-        if (typeof result == "string") {
-            $(this).siblings('p.error').html(result);
+        resources = action.run(organ, resources);
+        if (typeof resources == "string") {
+            $(this).siblings('p.error').html(resources);
             return;
         }
-
-        resources = result;
 
         for (i = 0; i < resources.length; i++) {
             $('div#resources_column table.current_resources#' + resources[i].organ + ' tr')
@@ -183,4 +182,20 @@ function showTab(id)
 {
     $('div.tab_content').addClass('hidden');
     $('div.tab_content').filter(function() { return $(this).attr('value') == id; }).removeClass('hidden');
+}
+
+function populateTabs()
+{
+    $('div.tab_header').each(function() {
+        var organ = $(this).attr('id');
+        var value = $(this).attr('value');
+
+        $('div.tab_content').filter(function() { return $(this).attr('value') == value; }).each(function() {
+            var actions = getActions(organ);
+
+            for (var i = 0; i < actions.length; i++) {
+                $(this).append(actions[i].toHTML());
+            }
+        });
+    });
 }

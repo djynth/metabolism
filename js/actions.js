@@ -10,26 +10,6 @@ function getActions(organ)
     return actions;
 }
 
-function runAction(id, organ, resources)
-{
-    var action = getAction(id);
-
-    if (!action.hasOrgan(organ)) {
-        throw "invalid organ " + organ + " for action id " + id;
-    }
-
-    var resource_changes = action.resources;
-    for (var i = 0; i < resource_changes.length; i++) {
-        var res = resource_changes[i].res;
-        var val = resource_changes[i].val;
-        if (!isResourceLevelValid(res, changeResourceValue(res, isResourceGlobal(res) ? BODY : organ, resources, val))) {
-            return "Not enough " + res + ".";
-        }
-    }
-
-    return resources;
-}
-
 function action(name, id, points, organs, resources, catabolic)
 {
     this.name = name;
@@ -49,15 +29,55 @@ function action(name, id, points, organs, resources, catabolic)
         return false;
     }
 
-    this.toString = function() {
-        return this.name;
-    }
-}
+    this.run = function(organ, resources) {
+        if (!this.hasOrgan(organ)) {
+            throw "invalid organ " + organ + " for action id " + this.id;
+        }
 
-function resource_change(resource, change)
-{
-    this.resource = resource;
-    this.change = change;
+        for (var i = 0; i < this.resources.length; i++) {
+            var res = this.resources[i].res;
+            var val = this.resources[i].val;
+            if (!isResourceLevelValid(res, changeResourceValue(res, isResourceGlobal(res) ? BODY : organ, resources, val))) {
+                return "Not enough " + res + ".";
+            }
+        }
+
+        return resources;
+    }
+
+    this.toHTML = function() {
+        var s = '';
+        s += '<div class="action_content">';
+
+        s += '<h5 class="action_title">' + this.name + '</h5>'
+        s += '<p class="action_info">Points: ' + this.points + '</p>';
+        s += '<p class="action_info">' + (this.catabolic ? 'Catabolic' : 'Anabolic') + '</p>';
+
+        s += '<div class="action_costs_holder">';
+        s += '<p class="action_costs_header">Costs</p>';
+        for (var i = 0; i < this.resources.length; i++) {
+            if (this.resources[i].val < 0) {
+                s += '<p class="action_cost_info">' + this.resources[i].res + ': ' + this.resources[i].val + '</p>';
+            }
+        }
+        s += '</div>';
+
+        s += '<div class="action_gains_holder">';
+        s += '<p class="action_gains_header">Gains</p>';
+        for (var i = 0; i < this.resources.length; i++) {
+            if (this.resources[i].val > 0) {
+                s += '<p class="action_gain_info">' + this.resources[i].res + ': ' + this.resources[i].val + '</p>';
+            }
+        }
+        s += '</div>'; 
+
+        s += '</div>';
+        return s;
+    }
+
+    this.toString = function() {
+        return this.name + " [" + this.id + "]";
+    }
 }
 
 function isResourceGlobal(resource)

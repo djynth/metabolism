@@ -90,4 +90,31 @@ div.tab_content
     min-height: 400px;
     border: 1px solid black;
     border-radius: 10px;
+
+    div.action_content
+    {
+        padding: 5px;
+
+        .action_title {
+            padding: 2px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .action_info {
+            padding-left: 7px;
+            padding-top: 1px;
+            padding-bottom: 1px;
+        }
+
+        .action_costs_holder {
+            display: inline-block;
+            width: 150px;
+        }
+
+        .action_gains_holder {
+            display: inline-block;
+            width: 150px;
+        }
+    }
 }
