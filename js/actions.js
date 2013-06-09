@@ -66,7 +66,7 @@ function runAction(id, organ, resources)
 
         changeResourceValue('Glc', organ, resources, 20);
         changeResourceValue('Ala', organ, resources, 10);
-        changeResourceValue('Palmi-tate (Fatty Acid)', organ, resources, 20);
+        changeResourceValue('Palmitate (Fatty Acid)', organ, resources, 20);
         break;
     case 4:         // Pump Na+ and K+ ions
         if (organ != BRAIN) {
@@ -132,34 +132,139 @@ function runAction(id, organ, resources)
         changeResourceValue('HSCoA', organ, resources, 7);
         break;
     case 10:        // Lactate to Pyruvate
+        if (organ != LIVER) {
+            throw "incorrect organ " + organ  + " for action id " + id;
+        }
+
+        if (changeResourceValue('NAD+', organ, resources, -1) < 0) { return "Not enough NAD+"; }
+        if (changeResourceValue('Lact', BODY, resources, -1) < 0) { return "Not enough Lact"; }
+        changeResourceValue('NADH', organ, resources, 1);
+        changeResourceValue('Pyr', organ, resources, 1);
         break;
     case 11:        // Alanine to Pyruvate
+        if (organ != LIVER) {
+            throw "incorrect organ " + organ  + " for action id " + id;
+        }
+
+        if (changeResourceValue('NAD+', organ, resources, -1) < 0) { return "Not enough NAD+"; }
+        if (changeResourceValue('Ala', BODY, resources, -1) < 0) { return "Not enough Ala"; }
+        changeResourceValue('NADH', organ, resources, 1);
+        changeResourceValue('NH3', BODY, resources, 1);
+        changeResourceValue('Pyr', organ, resources, 1);
         break;
     case 12:        // Gluconeogenesis
+        if (organ != LIVER) {
+            throw "incorrect organ " + organ  + " for action id " + id;
+        }
+
+        if (changeResourceValue('ATP', organ, resources, -6) < 0) { return "Not enough ATP"; }
+        if (changeResourceValue('NADH', organ, resources, -2) < 0) { return "Not enough NADH"; }
+        if (changeResourceValue('Pyr', organ, resources, -2) < 0) { return "Not enough Pyr"; }
+        changeResourceValue('ADP', organ, resources, 6);
+        changeResourceValue('Pi', organ, resources, 6);
+        changeResourceValue('NAD+', organ, resources, 2);
+        changeResourceValue('Glc', BODY, resources, 2);
         break;
     case 13:        // Fatty Acid Degradation
+        if (organ != LIVER && organ != MUSCLE) {
+            throw "incorrect organ " + organ  + " for action id " + id;
+        }
+
+        if (changeResourceValue('NAD+', organ, resources, -7) < 0) { return "Not enough NAD+"; }
+        if (changeResourceValue('FAD', organ, resources, -7) < 0) { return "Not enough FAD"; }
+        if (changeResourceValue('HSCoA', organ, resources, -8) < 0) { return "Not enough HSCoA"; }
+        if (changeResourceValue('Palmitate (Fatty Acid)', BODY, resources, -1) < 0) { return "Not enough Palmitate (Fatty Acid)"; }
+        changeResourceValue('NADH', organ, resources, 7);
+        changeResourceValue('FADH2', organ, resources, 7);
+        changeResourceValue('Acetyl-S-CoA', organ, resources, 8);
         break;
     case 14:        // Glycogen Degradation to Release Glucose
+        if (organ != LIVER && organ != MUSCLE) {
+            throw "incorrect organ " + organ  + " for action id " + id;
+        }
+
+        if (changeResourceValue('Pi', organ, resources, -1) < 0) { return "Not enough Pi"; }
+        if (changeResourceValue('Glycogen', organ, resources, -1) < 0) { return "Not enough Glycogen"; }
+        changeResourceValue('Glc', BODY, resources, 1);
         break;
     case 15:        // Glycogen Synthesis
+        if (organ != LIVER && organ != MUSCLE) {
+            throw "incorrect organ " + organ  + " for action id " + id;
+        }
+
+        if (changeResourceValue('ATP', organ, resources, -2) < 0) { return "Not enough ATP"; }
+        if (changeResourceValue('Glc', BODY, resources, -1) < 0) { return "Not enough Glc"; }
+        changeResourceValue('ADP', organ, resources, 2);
+        changeResourceValue('Pi', organ, resources, 2);
+        changeResourceValue('Glycogen', organ, resources, 1);
         break;
     case 16:        // Glycolysis
+        if (changeResourceValue('ATP', organ, resources, -2) < 0) { return "Not enough ATP"; }
+        if (changeResourceValue('NAD+', organ, resources, -2) < 0) { return "Not enough NAD+"; }
+        if (changeResourceValue('Glc', BODY, resources, -1) < 0) { return "Not enough Glc"; }
+        changeResourceValue('ADP', organ, resources, 2);
+        changeResourceValue('Pi', organ, resources, 2);
+        changeResourceValue('NADH', organ, resources, 2);
+        changeResourceValue('Pyr', organ, resources, 2);
         break;
     case 17:        // Pyruvate Dehydrogenase
+        if (changeResourceValue('NAD+', organ, resources, -1) < 0) { return "Not enough NAD+"; }
+        if (changeResourceValue('HSCoA', organ, resources, -1) < 0) { return "Not enough HSCoA"; }
+        if (changeResourceValue('Pyr', organ, resources, -1) < 0) { return "Not enough Pyr"; }
+        changeResourceValue('NADH', organ, resources, 1);
+        changeResourceValue('Acetyl-S-CoA', organ, resources, 1);
         break;
     case 18:        // PPP (oxid)
+        if (changeResourceValue('NADP+', organ, resources, -2) < 0) { return "Not enough NADP+"; }
+        if (changeResourceValue('Glc', BODY, resources, -1) < 0) { return "Not enough Glc"; }
+        changeResourceValue('NADPH', organ, resources, 2);
+        changeResourceValue('CO2', BODY, resources, 1);
+        changeResourceValue('Ribose', organ, resources, 1);
         break;
     case 19:        // PPP (non-oxid) Reversible
+        if (changeResourceValue('Ribose', organ, resources, -6) < 0) { return "Not enough Ribose"; }
+        changeResourceValue('Glc', BODY, resources, 5);
         break;
     case 20:        // Kreb's Cycle
+        if (changeResourceValue('ADP', organ, resources, -1) < 0) { return "Not enough ADP"; }
+        if (changeResourceValue('Pi', organ, resources, -1) < 0) { return "Not enough Pi"; }
+        if (changeResourceValue('NAD+', organ, resources, -3) < 0) { return "Not enough NAD+"; }
+        if (changeResourceValue('FAD', organ, resources, -1) < 0) { return "Not enough FAD"; }
+        if (changeResourceValue('Acetyl-S-CoA', organ, resources, -1) < 0) { return "Not enough Acetyl-S-CoA"; }
+        changeResourceValue('ATP', organ, resources, 1);
+        changeResourceValue('NADH', organ, resources, 3);
+        changeResourceValue('HSCoA', organ, resources, 1);
+        changeResourceValue('CO2', BODY, resources, 2);
         break;
     case 21:        // Oxidative Phosphorylation FADH2
+        if (changeResourceValue('ADP', organ, resources, -3) < 0) { return "Not enough ADP"; }
+        if (changeResourceValue('Pi', organ, resources, -3) < 0) { return "Not enough Pi"; }
+        if (changeResourceValue('FADH2', organ, resources, -2) < 0) { return "Not enough FADH2"; }
+        if (changeResourceValue('O2', BODY, resources, -1) < 0) { return "Not enough O2"; }
+        changeResourceValue('ATP', organ, resources, 3);
+        changeResourceValue('FAD', organ, resources, 2);
         break;
     case 22:        // Oxidative Phosphorylation NADH
+        if (changeResourceValue('ADP', organ, resources, -5) < 0) { return "Not enough ADP"; }
+        if (changeResourceValue('Pi', organ, resources, -5) < 0) { return "Not enough Pi"; }
+        if (changeResourceValue('NADH', organ, resources, -2) < 0) { return "Not enough NADH"; }
+        if (changeResourceValue('O2', BODY, resources, -1) < 0) { return "Not enough O2"; }
+        changeResourceValue('ATP', organ, resources, 5);
+        changeResourceValue('NAD+', organ, resources, 2);
         break;
     case 23:        // RNA Synthesis
+        if (changeResourceValue('ATP', organ, resources, -2) < 0) { return "Not enough ATP"; }
+        if (changeResourceValue('Ribose', organ, resources, -1) < 0) { return "Not enough Ribose"; }
+        changeResourceValue('ADP', organ, resources, 2);
+        changeResourceValue('Pi', organ, resources, 2);
+        changeResourceValue('RNA', organ, resources, 1);
         break;
     case 24:        // Protein Synthesis
+        if (changeResourceValue('ATP', organ, resources, -4) < 0) { return "Not enough ATP"; }
+        if (changeResourceValue('Ala', BODY, resources, -1) < 0) { return "Not enough Ala"; }
+        changeResourceValue('ADP', organ, resources, 4);
+        changeResourceValue('Pi', organ, resources, 4);
+        changeResourceValue('Protein', organ, resources, 1);
         break;
     default:
         throw "invalid action id " + id;

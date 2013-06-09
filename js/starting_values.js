@@ -18,7 +18,7 @@ function getStartingResources()
         res.push(new resource('Glycogen', 0, organs[organ]));
         res.push(new resource('Acetyl-S-CoA', 0, organs[organ]));
         res.push(new resource('Pyr', 0, organs[organ]));
-        res.push(new resource('Rib-ose', 0, organs[organ]));
+        res.push(new resource('Ribose', 0, organs[organ]));
     }
 
     res.push(new resource('O2', 0, BODY));
@@ -26,7 +26,7 @@ function getStartingResources()
     res.push(new resource('NH3', 0, BODY));
     res.push(new resource('Glc', 0, BODY));
     res.push(new resource('Ala', 0, BODY));
-    res.push(new resource('Palmi-tate (Fatty Acid)', 0, BODY));
+    res.push(new resource('Palmitate (Fatty Acid)', 0, BODY));
     res.push(new resource('Lact', 0, BODY));
 
     return res;
