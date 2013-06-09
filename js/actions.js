@@ -1,290 +1,69 @@
 function getActions(organ)
 {
     var actions = new Array();
-
-    if (organ == BODY) {
-        actions.push(getAction(1));
-        actions.push(getAction(2));
-        actions.push(getAction(3));
-    } else if (organ == BRAIN) {
-        actions.push(getAction(4));
-    } else if (organ == MUSCLE) {
-        actions.push(getAction(5));
-        actions.push(getAction(6));
-        actions.push(getAction(7));
-    } else if (organ == LIVER) {
-        actions.push(getAction(8));
-        actions.push(getAction(9));
-        actions.push(getAction(10));
-        actions.push(getAction(11));
-        actions.push(getAction(12));
+    for (var i = 0; i < 24; i++) {
+        var action = getAction(i);
+        if (action.hasOrgan(organ)) {
+            actions.push(action);
+        }
     }
-
-    if (organ == LIVER || organ == MUSCLE) {
-        actions.push(getAction(13));
-        actions.push(getAction(14));
-        actions.push(getAction(15));
-    }
-
-    if (organ == BRAIN || organ == MUSCLE || organ == LIVER) {
-        actions.push(getAction(16));
-        actions.push(getAction(17));
-        actions.push(getAction(18));
-        actions.push(getAction(19));
-        actions.push(getAction(20));
-        actions.push(getAction(21));
-        actions.push(getAction(22));
-        actions.push(getAction(23));
-        actions.push(getAction(24));
-    }
-
     return actions;
 }
 
 function runAction(id, organ, resources)
 {
-    switch(id)
-    {
-    case 1:         // Breath In
-        if (organ != BODY) {
-            throw "incorrect organ " + organ  + " for action id " + id;
-        }
+    var action = getAction(id);
 
-        changeResourceValue('O2', organ, resources, 50);
-        break;
-    case 2:         // Breath Out
-        if (organ != BODY) {
-            throw "incorrect organ " + organ  + " for action id " + id;
-        }
+    if (!action.hasOrgan(organ)) {
+        throw "invalid organ " + organ + " for action id " + id;
+    }
 
-        if (changeResourceValue('CO2', organ, resources, -50) < 0) { return "Not enough CO2"; }
-        break;
-    case 3:         // Eat
-        if (organ != BODY) {
-            throw "incorrect organ " + organ  + " for action id " + id;
+    var resource_changes = action.resources;
+    for (var i = 0; i < resource_changes.length; i++) {
+        var res = resource_changes[i].res;
+        var val = resource_changes[i].val;
+        if (!isResourceLevelValid(res, changeResourceValue(res, isResourceGlobal(res) ? BODY : organ, resources, val))) {
+            return "Not enough " + res + ".";
         }
-
-        changeResourceValue('Glc', organ, resources, 20);
-        changeResourceValue('Ala', organ, resources, 10);
-        changeResourceValue('Palmitate (Fatty Acid)', organ, resources, 20);
-        break;
-    case 4:         // Pump Na+ and K+ ions
-        if (organ != BRAIN) {
-            throw "incorrect organ " + organ  + " for action id " + id;
-        }
-        
-        if (changeResourceValue('ATP', organ, resources, -50) < 0) { return "Not enough ATP"; }
-        changeResourceValue('ADP', organ, resources, 50);
-        changeResourceValue('Pi', organ, resources, 50);
-        break;
-    case 5:         // Pyruvate to Lactate
-        if (organ != MUSCLE) {
-            throw "incorrect organ " + organ  + " for action id " + id;
-        }
-        
-        if (changeResourceValue('NADH', organ, resources, -1) < 0) { return "Not enough NADH"; }
-        if (changeResourceValue('Pyr', organ, resources, -1) < 0) { return "Not enough Pyr"; }
-        changeResourceValue('NAD+', organ, resources, 1);
-        changeResourceValue('Lact', BODY, resources, 1);
-        break;
-    case 6:         // Pyruvate to Alanine
-        if (organ != MUSCLE) {
-            throw "incorrect organ " + organ  + " for action id " + id;
-        }
-
-        if (changeResourceValue('NADH', organ, resources, -1) < 0) { return "Not enough NADH"; }
-        if (changeResourceValue('NH3', BODY, resources, -1) < 0) { return "Not enough NH3"; }
-        if (changeResourceValue('Pyr', organ, resources, -1) < 0) { return "Not enough Pyr"; }
-        changeResourceValue('NAD+', organ, resources, 1);
-        changeResourceValue('Ala', BODY, resources, 1);
-        break;
-    case 7:         // Muscle Contraction
-        if (organ != MUSCLE) {
-            throw "incorrect organ " + organ  + " for action id " + id;
-        }
-
-        if (changeResourceValue('ATP', organ, resources, -50) < 0) { return "Not enough ATP"; }
-        changeResourceValue('ADP', organ, resources, 50);
-        changeResourceValue('Pi', organ, resources, 50);
-        break;
-    case 8:         // Urea Cycle
-        if (organ != LIVER) {
-            throw "incorrect organ " + organ  + " for action id " + id;
-        }
-
-        if (changeResourceValue('ATP', organ, resources, -4) < 0) { return "Not enough ATP"; }
-        if (changeResourceValue('CO2', organ, resources, -1) < 0) { return "Not enough CO2"; }
-        if (changeResourceValue('NH3', organ, resources, -2) < 0) { return "Not enough NH3"; }
-        changeResourceValue('ADP', organ, resources, 4);
-        changeResourceValue('Pi', organ, resources, 4);
-        break;
-    case 9:         // Fatty Acid Synthesis
-        if (organ != LIVER) {
-            throw "incorrect organ " + organ  + " for action id " + id;
-        }
-
-        if (changeResourceValue('ATP', organ, resources, -7) < 0) { return "Not enough ATP"; }
-        if (changeResourceValue('NADPH', organ, resources, -14) < 0) { return "Not enough NADPH"; }
-        if (changeResourceValue('Acetyl-S-CoA', organ, resources, -8) < 0) { return "Not enough Acetyl-S-CoA"; }
-        changeResourceValue('ADP', organ, resources, 7);
-        changeResourceValue('Pi', organ, resources, 7);
-        changeResourceValue('NADP+', organ, resources, 14);
-        changeResourceValue('HSCoA', organ, resources, 7);
-        break;
-    case 10:        // Lactate to Pyruvate
-        if (organ != LIVER) {
-            throw "incorrect organ " + organ  + " for action id " + id;
-        }
-
-        if (changeResourceValue('NAD+', organ, resources, -1) < 0) { return "Not enough NAD+"; }
-        if (changeResourceValue('Lact', BODY, resources, -1) < 0) { return "Not enough Lact"; }
-        changeResourceValue('NADH', organ, resources, 1);
-        changeResourceValue('Pyr', organ, resources, 1);
-        break;
-    case 11:        // Alanine to Pyruvate
-        if (organ != LIVER) {
-            throw "incorrect organ " + organ  + " for action id " + id;
-        }
-
-        if (changeResourceValue('NAD+', organ, resources, -1) < 0) { return "Not enough NAD+"; }
-        if (changeResourceValue('Ala', BODY, resources, -1) < 0) { return "Not enough Ala"; }
-        changeResourceValue('NADH', organ, resources, 1);
-        changeResourceValue('NH3', BODY, resources, 1);
-        changeResourceValue('Pyr', organ, resources, 1);
-        break;
-    case 12:        // Gluconeogenesis
-        if (organ != LIVER) {
-            throw "incorrect organ " + organ  + " for action id " + id;
-        }
-
-        if (changeResourceValue('ATP', organ, resources, -6) < 0) { return "Not enough ATP"; }
-        if (changeResourceValue('NADH', organ, resources, -2) < 0) { return "Not enough NADH"; }
-        if (changeResourceValue('Pyr', organ, resources, -2) < 0) { return "Not enough Pyr"; }
-        changeResourceValue('ADP', organ, resources, 6);
-        changeResourceValue('Pi', organ, resources, 6);
-        changeResourceValue('NAD+', organ, resources, 2);
-        changeResourceValue('Glc', BODY, resources, 2);
-        break;
-    case 13:        // Fatty Acid Degradation
-        if (organ != LIVER && organ != MUSCLE) {
-            throw "incorrect organ " + organ  + " for action id " + id;
-        }
-
-        if (changeResourceValue('NAD+', organ, resources, -7) < 0) { return "Not enough NAD+"; }
-        if (changeResourceValue('FAD', organ, resources, -7) < 0) { return "Not enough FAD"; }
-        if (changeResourceValue('HSCoA', organ, resources, -8) < 0) { return "Not enough HSCoA"; }
-        if (changeResourceValue('Palmitate (Fatty Acid)', BODY, resources, -1) < 0) { return "Not enough Palmitate (Fatty Acid)"; }
-        changeResourceValue('NADH', organ, resources, 7);
-        changeResourceValue('FADH2', organ, resources, 7);
-        changeResourceValue('Acetyl-S-CoA', organ, resources, 8);
-        break;
-    case 14:        // Glycogen Degradation to Release Glucose
-        if (organ != LIVER && organ != MUSCLE) {
-            throw "incorrect organ " + organ  + " for action id " + id;
-        }
-
-        if (changeResourceValue('Pi', organ, resources, -1) < 0) { return "Not enough Pi"; }
-        if (changeResourceValue('Glycogen', organ, resources, -1) < 0) { return "Not enough Glycogen"; }
-        changeResourceValue('Glc', BODY, resources, 1);
-        break;
-    case 15:        // Glycogen Synthesis
-        if (organ != LIVER && organ != MUSCLE) {
-            throw "incorrect organ " + organ  + " for action id " + id;
-        }
-
-        if (changeResourceValue('ATP', organ, resources, -2) < 0) { return "Not enough ATP"; }
-        if (changeResourceValue('Glc', BODY, resources, -1) < 0) { return "Not enough Glc"; }
-        changeResourceValue('ADP', organ, resources, 2);
-        changeResourceValue('Pi', organ, resources, 2);
-        changeResourceValue('Glycogen', organ, resources, 1);
-        break;
-    case 16:        // Glycolysis
-        if (changeResourceValue('ATP', organ, resources, -2) < 0) { return "Not enough ATP"; }
-        if (changeResourceValue('NAD+', organ, resources, -2) < 0) { return "Not enough NAD+"; }
-        if (changeResourceValue('Glc', BODY, resources, -1) < 0) { return "Not enough Glc"; }
-        changeResourceValue('ADP', organ, resources, 2);
-        changeResourceValue('Pi', organ, resources, 2);
-        changeResourceValue('NADH', organ, resources, 2);
-        changeResourceValue('Pyr', organ, resources, 2);
-        break;
-    case 17:        // Pyruvate Dehydrogenase
-        if (changeResourceValue('NAD+', organ, resources, -1) < 0) { return "Not enough NAD+"; }
-        if (changeResourceValue('HSCoA', organ, resources, -1) < 0) { return "Not enough HSCoA"; }
-        if (changeResourceValue('Pyr', organ, resources, -1) < 0) { return "Not enough Pyr"; }
-        changeResourceValue('NADH', organ, resources, 1);
-        changeResourceValue('Acetyl-S-CoA', organ, resources, 1);
-        break;
-    case 18:        // PPP (oxid)
-        if (changeResourceValue('NADP+', organ, resources, -2) < 0) { return "Not enough NADP+"; }
-        if (changeResourceValue('Glc', BODY, resources, -1) < 0) { return "Not enough Glc"; }
-        changeResourceValue('NADPH', organ, resources, 2);
-        changeResourceValue('CO2', BODY, resources, 1);
-        changeResourceValue('Ribose', organ, resources, 1);
-        break;
-    case 19:        // PPP (non-oxid) Reversible
-        if (changeResourceValue('Ribose', organ, resources, -6) < 0) { return "Not enough Ribose"; }
-        changeResourceValue('Glc', BODY, resources, 5);
-        break;
-    case 20:        // Kreb's Cycle
-        if (changeResourceValue('ADP', organ, resources, -1) < 0) { return "Not enough ADP"; }
-        if (changeResourceValue('Pi', organ, resources, -1) < 0) { return "Not enough Pi"; }
-        if (changeResourceValue('NAD+', organ, resources, -3) < 0) { return "Not enough NAD+"; }
-        if (changeResourceValue('FAD', organ, resources, -1) < 0) { return "Not enough FAD"; }
-        if (changeResourceValue('Acetyl-S-CoA', organ, resources, -1) < 0) { return "Not enough Acetyl-S-CoA"; }
-        changeResourceValue('ATP', organ, resources, 1);
-        changeResourceValue('NADH', organ, resources, 3);
-        changeResourceValue('HSCoA', organ, resources, 1);
-        changeResourceValue('CO2', BODY, resources, 2);
-        break;
-    case 21:        // Oxidative Phosphorylation FADH2
-        if (changeResourceValue('ADP', organ, resources, -3) < 0) { return "Not enough ADP"; }
-        if (changeResourceValue('Pi', organ, resources, -3) < 0) { return "Not enough Pi"; }
-        if (changeResourceValue('FADH2', organ, resources, -2) < 0) { return "Not enough FADH2"; }
-        if (changeResourceValue('O2', BODY, resources, -1) < 0) { return "Not enough O2"; }
-        changeResourceValue('ATP', organ, resources, 3);
-        changeResourceValue('FAD', organ, resources, 2);
-        break;
-    case 22:        // Oxidative Phosphorylation NADH
-        if (changeResourceValue('ADP', organ, resources, -5) < 0) { return "Not enough ADP"; }
-        if (changeResourceValue('Pi', organ, resources, -5) < 0) { return "Not enough Pi"; }
-        if (changeResourceValue('NADH', organ, resources, -2) < 0) { return "Not enough NADH"; }
-        if (changeResourceValue('O2', BODY, resources, -1) < 0) { return "Not enough O2"; }
-        changeResourceValue('ATP', organ, resources, 5);
-        changeResourceValue('NAD+', organ, resources, 2);
-        break;
-    case 23:        // RNA Synthesis
-        if (changeResourceValue('ATP', organ, resources, -2) < 0) { return "Not enough ATP"; }
-        if (changeResourceValue('Ribose', organ, resources, -1) < 0) { return "Not enough Ribose"; }
-        changeResourceValue('ADP', organ, resources, 2);
-        changeResourceValue('Pi', organ, resources, 2);
-        changeResourceValue('RNA', organ, resources, 1);
-        break;
-    case 24:        // Protein Synthesis
-        if (changeResourceValue('ATP', organ, resources, -4) < 0) { return "Not enough ATP"; }
-        if (changeResourceValue('Ala', BODY, resources, -1) < 0) { return "Not enough Ala"; }
-        changeResourceValue('ADP', organ, resources, 4);
-        changeResourceValue('Pi', organ, resources, 4);
-        changeResourceValue('Protein', organ, resources, 1);
-        break;
-    default:
-        throw "invalid action id " + id;
     }
 
     return resources;
-    // run the action, return the modified resources if it was completed or an error string if the resources are not sufficient to perform the action
 }
 
-function action(name, id, catabolic, points)
+function action(name, id, points, organs, resources, catabolic)
 {
     this.name = name;
     this.id = id;
     this.points = points;
+    this.organs = organs;
+    this.resources = resources;
     this.catabolic = catabolic;
     this.anabolic = !catabolic;
+
+    this.hasOrgan = function(organ) {
+        for (var i = 0; i < organs.length; i++) {
+            if (organs[i] == organ) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     this.toString = function() {
         return this.name;
     }
+}
+
+function resource_change(resource, change)
+{
+    this.resource = resource;
+    this.change = change;
+}
+
+function isResourceGlobal(resource)
+{
+    return resource == "O2" || resource == "CO2" || resource == "NH3" || resource == "Glc" || resource == "Ala" || 
+        resource == "Palmitate (Fatty Acid)" || resource == "Lact";
 }
 
 function getAction(id)
@@ -294,31 +73,37 @@ function getAction(id)
     }
 
     switch(id)
-    {
-    case 1:  return new action("Breath In",                                1,  true,  0);
-    case 2:  return new action("Breath Out",                               2,  true,  0);
-    case 3:  return new action("Eat",                                      3,  true,  0);
-    case 4:  return new action("Pump Na+ and K+ ions",                     4,  false, 50);
-    case 5:  return new action("Pyruvate to Lactate",                      5,  true,  0);
-    case 6:  return new action("Pyruvate to Alanine",                      6,  true,  0);
-    case 7:  return new action("Muscle Contraction",                       7,  false, 50);
-    case 8:  return new action("Urea Cycle",                               8,  true,  4);
-    case 9:  return new action("Fatty Acid Synthesis",                     9,  false, 7);
-    case 10: return new action("Lactate to Pyruvate",                      10, false, 0);
-    case 11: return new action("Alanine to Pyruvate",                      11, false, 0);
-    case 12: return new action("Gluconeogenesis",                          12, false, 6);
-    case 13: return new action("Fatty Acid Degradation",                   13, true,  0);
-    case 14: return new action("Glycogen Degradation to Release Glucose",  14, true,  0);
-    case 15: return new action("Glycogen Synthesis",                       15, false, 2);
-    case 16: return new action("Glycolysis",                               16, true,  0);
-    case 17: return new action("Pyruvate Dehydrogenase",                   17, true,  0);
-    case 18: return new action("PPP (oxid)",                               18, true,  0);
-    case 19: return new action("PPP (non-oxid) Reversible",                19, true,  0);
-    case 20: return new action("Kreb's Cycle",                             20, true,  0);
-    case 21: return new action("Oxidative Phosphorylation FADH2",          21, true,  0);
-    case 22: return new action("Oxidative Phosphorylation NADH",           22, true,  0);
-    case 23: return new action("RNA Synthesis",                            23, false, 2);
-    case 24: return new action("Protein Synthesis",                        24, false, 4);
+    {   
+    //                         Action name                               ID Points  Organ(s)              Resource Level Changes                                                                                                                                                                                                                                                                                          Is Catabolic
+    case 0:  return new action("Breath In",                               0,  0,  [BODY],                 [{res: 'O2',    val:  50}],                                                                                                                                                                                                                                                                                           true);
+    case 1:  return new action("Breath Out",                              1,  0,  [BODY],                 [{res: 'CO2',   val: -50}],                                                                                                                                                                                                                                                                                           true);
+    case 2:  return new action("Eat",                                     2,  0,  [BODY],                 [{res: 'Glc',   val:  20}, {res: 'Ala',    val:  10}, {res: 'Palmitate (Fatty Acid)', val:  20}],                                                                                                                                                                                                                     true);
+    case 3:  return new action("Pump Na+ and K+ ions",                    3,  50, [BRAIN],                [{res: 'ADP',   val:  50}, {res: 'ATP',    val: -50}, {res: 'Pi',                     val:  50}],                                                                                                                                                                                                                     false);
+    case 4:  return new action("Pyruvate to Lactate",                     4,  0,  [MUSCLE],               [{res: 'NAD+',  val:  1},  {res: 'NADH',   val: -1},  {res: 'Pyr',                    val: -1}, {res: 'Lact',         val:  1}],                                                                                                                                                                                      true);
+    case 5:  return new action("Pyruvate to Alanine",                     5,  0,  [MUSCLE],               [{res: 'NAD+',  val:  1},  {res: 'NADH',   val: -1},  {res: 'NH3',                    val: -1}, {res: 'Ala',          val:  1},  {res: 'Pyr',      val: -1}],                                                                                                                                                         true);
+    case 6:  return new action("Muscle Contraction",                      6,  50, [MUSCLE],               [{res: 'ADP',   val:  50}, {res: 'ATP',    val: -50}, {res: 'Pi',                     val:  50}],                                                                                                                                                                                                                     false);
+    case 7:  return new action("Urea Cycle",                              7,  4,  [LIVER],                [{res: 'ADP',   val:  4},  {res: 'ATP',    val: -4},  {res: 'Pi',                     val:  4}, {res: 'CO2',          val: -1},  {res: 'NH3',      val: -2}],                                                                                                                                                         true);
+    case 8:  return new action("Fatty Acid Synthesis",                    8,  7,  [LIVER],                [{res: 'ADP',   val:  7},  {res: 'ATP',    val: -7},  {res: 'Pi',                     val:  7}, {res: 'NADP+',        val:  14}, {res: 'NADPH',    val: -14}, {res: 'HSCoA',                  val:  7}, {res: 'Acetyl-S-CoA', val: -8}],                                                                              false);
+    case 9:  return new action("Lactate to Pyruvate",                     9,  0,  [LIVER],                [{res: 'NAD+',  val: -1},  {res: 'NADH',   val:  1},  {res: 'Pyr',                    val:  1}, {res: 'Lact',         val: -1}],                                                                                                                                                                                      false);
+    case 10: return new action("Alanine to Pyruvate",                     10, 0,  [LIVER],                [{res: 'NAD+',  val: -1},  {res: 'NADH',   val:  1},  {res: 'NH3',                    val:  1}, {res: 'Ala',          val: -1},  {res: 'Pyr',      val: 1}],                                                                                                                                                          false);
+    case 11: return new action("Gluconeogenesis",                         11, 6,  [LIVER],                [{res: 'ADP',   val:  6},  {res: 'ATP',    val: -6},  {res: 'Pi',                     val:  6}, {res: 'NAD+',         val:  2},  {res: 'NADH',     val: -2},  {res: 'Glc',                    val:  1}, {res: 'Pyr',          val: -2}],                                                                              false);
+    case 12: return new action("Fatty Acid Degradation",                  12, 0,  [LIVER, MUSCLE],        [{res: 'NAD+',  val: -7},  {res: 'NADH',   val:  7},  {res: 'FAD',                    val: -7}, {res: 'FADH2',        val:  7},  {res: 'HSCoA',    val: -8},  {res: 'Palmitate (Fatty Acid)', val: -1}, {res: 'Acetyl-S-CoA', val: 8}],                                                                               true);
+    case 13: return new action("Glycogen Degradation to Release Glucose", 13, 0,  [LIVER, MUSCLE],        [{res: 'Pi',    val: -1},  {res: 'Glc',    val:  1},  {res: 'Glycogen',               val: -1}],                                                                                                                                                                                                                      true);
+    case 14: return new action("Glycogen Synthesis",                      14, 2,  [LIVER, MUSCLE],        [{res: 'ADP',   val:  2},  {res: 'ATP',    val: -2},  {res: 'Pi',                     val:  2}, {res: 'Glc',          val: -1},  {res: 'Glycogen', val: 1}],                                                                                                                                                          false);
+    case 15: return new action("Glycolysis",                              15, 0,  [LIVER, MUSCLE, BRAIN], [{res: 'ADP',   val: -2},  {res: 'ATP',    val:  2},  {res: 'Pi',                     val: -2}, {res: 'NAD+',         val: -2},  {res: 'NADH',     val: 2},   {res: 'Glc',                    val: -1}, {res: 'Pyr',          val: 2}],                                                                               true);
+    case 16: return new action("Pyruvate Dehydrogenase",                  16, 0,  [LIVER, MUSCLE, BRAIN], [{res: 'NAD+',  val: -1},  {res: 'NADH',   val:  1},  {res: 'HSCoA',                  val: -1}, {res: 'Acetyl-S-CoA', val:  1},  {res: 'Pyr',      val: -1}],                                                                                                                                                         true);
+    case 17: return new action("PPP (oxid)",                              17, 0,  [LIVER, MUSCLE, BRAIN], [{res: 'NADP+', val: -2},  {res: 'NADPH',  val:  2},  {res: 'CO2',                    val:  1}, {res: 'Glc',          val: -1},  {res: 'Ribose',   val: 1}],                                                                                                                                                          true);
+    case 18: return new action("PPP (non-oxid) Reversible",               18, 0,  [LIVER, MUSCLE, BRAIN], [{res: 'Glc',   val:  5},  {res: 'Ribose', val: -6}],                                                                                                                                                                                                                                                                 true);
+    case 19: return new action("Kreb's Cycle",                            19, 0,  [LIVER, MUSCLE, BRAIN], [{res: 'ADP',   val: -1},  {res: 'ATP',    val:  1},  {res: 'Pi',                     val: -1}, {res: 'NAD+',         val: -3},  {res: 'NADH',     val: 3},   {res: 'FAD',                    val: -1}, {res: 'FADH2',        val: 1}, {res: 'HSCoA', val: 1}, {res: 'CO2', val: 2}, {res: 'Acetyl-S-CoA', val: -1}], true);
+    case 20: return new action("Oxidative Phosphorylation FADH2",         20, 0,  [LIVER, MUSCLE, BRAIN], [{res: 'ADP',   val: -3},  {res: 'ATP',    val:  3},  {res: 'Pi',                     val: -3}, {res: 'FAD',          val:  2},  {res: 'FADH2',    val: -2},  {res: 'O2',                     val: -1}],                                                                                                              true);
+    case 21: return new action("Oxidative Phosphorylation NADH",          21, 0,  [LIVER, MUSCLE, BRAIN], [{res: 'ADP',   val: -5},  {res: 'ATP',    val:  5},  {res: 'Pi',                     val: -5}, {res: 'NAD+',         val:  2},  {res: 'NADH',     val: -2},  {res: 'O2',                     val: -1}],                                                                                                              true);
+    case 22: return new action("RNA Synthesis",                           22, 2,  [LIVER, MUSCLE, BRAIN], [{res: 'ADP',   val:  2},  {res: 'ATP',    val: -2},  {res: 'Pi',                     val:  2}, {res: 'Ribose',       val: -1},  {res: 'RNA',      val: 1}],                                                                                                                                                          false);
+    case 23: return new action("Protein Synthesis",                       23, 4,  [LIVER, MUSCLE, BRAIN], [{res: 'ADP',   val:  4},  {res: 'ATP',    val: -4},  {res: 'Pi',                     val:  4}, {res: 'Ala',          val: -1},  {res: 'Protein',  val: 1}],                                                                                                                                                          false);
     }
     throw "unknown action id: " + id;
+}
+
+function isResourceLevelValid(resource, level)
+{
+    return level > 0;
 }
