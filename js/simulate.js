@@ -1,45 +1,69 @@
-var BRAIN_NAME = "brain";
-var MUSCLE_NAME = "muscle";
-var LIVER_NAME = "liver";
+var BRAIN = "brain";
+var MUSCLE = "muscle";
+var LIVER = "liver";
+var BODY = "body";
 var starting_resources = new Array();
+
+var MAX_TURNS = 50;
+var turn = 0;
+var points = 0;
 
 $(document).ready(function() {
     populateResourceTable();
+    incrementTurn();
+    setPoints(0);
 
     $('button#next_turn').click(function() {
         var resources = new Array();
         var i = 0;
 
         $('div#resources_column table.current_resources tr td.resource_name').each(function() {
-            resources[i++] = new resource($(this).html(), $(this).siblings('.resource_value').html(),
-                getOrgan($(this).parent().parent().parent().attr('id')));
+            resources[i++] = new resource($(this).html(), parseFloat($(this).siblings('.resource_value').html()),
+                $(this).parent().parent().parent().attr('id'));
         });
 
-        // TODO get turn action choices
-
-        // TODO verify turn action choices, print error and exit if they are invalid
-
-        // TODO adjust resources
-        for (i = 0; i < resources.length; i++) {
-            console.log(i + ": " + resources[i].name + " - " + resources[i].value + ", " + resources[i].organ);
-            if (isBrain(resources[i].organ)) {
-                resources[i].value = Math.ceil(Math.random()*3);
-            }
-            else if (isMuscle(resources[i].organ)) {
-                resources[i].value = 3 + Math.ceil(Math.random()*3);
-            }
-            else if (isLiver(resources[i].organ)) {
-                resources[i].value = 6 + Math.ceil(Math.random()*3);
-            }
-            
+        try {
+            var action = getAction($('select#actions option:selected').attr('value'));
+            $(this).siblings('p.error').html('');
+        }
+        catch (err) {
+            console.log(err);
+            $(this).siblings('p.error').html('Select an Action');
+            return;
         }
 
+        var organ = $('input[name=organ]:checked', '#organ_selector').val();
+        var result = runAction(action.id, organ, resources);
+        if (typeof result == "string") {
+            $(this).siblings('p.error').html(result);
+            return;
+        }
+
+        resources = result;
+
         for (i = 0; i < resources.length; i++) {
-            $('div#resources_column table#' + resources[i].organ + ' tr')
-                .filter(function() { return $(this).children().html() == resources[i].name; })
+            $('div#resources_column table.current_resources#' + resources[i].organ + ' tr')
+                .filter(function() { return $(this).children('.resource_name').html() == resources[i].name; })
                 .children('.resource_value')
                 .html(resources[i].value);
         }
+
+        incrementTurn();
+        addPoints(action.points);
+    });
+
+    $('form#organ_selector').change(function() {
+        var organ = $('input[name=organ]:checked', '#organ_selector').val();
+        var actions = getActions(organ);
+
+        var actionsHTML = "";
+
+        for (var i = 0; i < actions.length; i++)
+        {
+            actionsHTML += '<option value="' + actions[i].id + '">' + actions[i].name + '</option>';
+        }
+
+        $('select#actions').html(actionsHTML);
     });
 });
 
@@ -49,16 +73,10 @@ The resource table is empty (i.e. with no rows/cells) prior to calling this func
 */
 function populateResourceTable()
 {
-    // TODO load starting resources from file
-    starting_resources[0] = new resource('ATP', 2.5, "brain");
-    starting_resources[1] = new resource('ADP', 0.75, "brain");
-    starting_resources[2] = new resource('ATP', 4.2, "muscle");
-    starting_resources[3] = new resource('ADP', 1.0, "muscle");
-    starting_resources[4] = new resource('ATP', 2.96, "liver");
-    starting_resources[5] = new resource('ADP', 0.3, "liver");
+    starting_resources = getStartingResources();
 
     for (var i = 0; i < starting_resources.length; i++) {
-        $('table.current_resources#' + getOrgan(starting_resources[i])).append('<tr><td class="resource_name">' + starting_resources[i].name + '</td>' + 
+        $('table.current_resources#' + starting_resources[i].organ).append('<tr><td class="resource_name">' + starting_resources[i].name + '</td>' + 
             '<td class="resource_value">' + starting_resources[i].value + '</td></tr>');
     }
 }
@@ -75,7 +93,23 @@ function resource(name, value, organ)
 
     this.name = name;
     this.value = value;
-    this.organ = getOrgan(organ);
+    this.organ = organ;
+
+    this.inBrain = function() {
+        return this.organ == BRAIN;
+    }
+
+    this.inMuscle = function() {
+        return this.organ == MUSCLE;
+    }
+
+    this.inLiver = function() {
+        return this.organ == LIVER;
+    }
+
+    this.inBody = function() {
+        return this.organ == BODY;
+    }
 
     this.toString = function() {
         return this.name + ": " + this.value + ", " + this.organ;
@@ -96,62 +130,46 @@ function getResourceValue(name, organ, resources)
     return null;
 }
 
-/*
-Gets the organ name for the given resource.
-If the given resource is a string, if it matches an organ name (ignoring case), that organ's proper name is returned, otherwise an error is thrown.
-If the given resource is a resource object, its organ field is checked in the same was as a string and then the matching organ name is returned (or an error is thrown).
-*/
-function getOrgan(resource) {
-    if (typeof resource == "undefined") {
-        throw "undefined resource";
-    }
-    if (isBrain(resource)) { return BRAIN_NAME; }
-    if (isMuscle(resource)) { return MUSCLE_NAME; }
-    if (isLiver(resource)) { return LIVER_NAME; }
-    throw "unknown organ: " + resource.toString();
-}
-
-/*
-Determines whether the given resource corresponds to the brain organ.
-If the resource is a string, it is compared to the brain's proper name (ignoring case), and the result is returned.
-If the resource is a resource object, its organ field is run throught the same test.
-Otherwise, false is returned.
-*/
-function isBrain(resource) {
-    if (typeof resource == "string") {
-        return resource.toUpperCase() == BRAIN_NAME.toUpperCase();
-    } else if (typeof resource == "object") {
-        return resource.organ.toUpperCase() == BRAIN_NAME.toUpperCase();
+function setResourceValue(name, organ, resources, value)
+{
+    for (var i = 0; i < resources.length; i++) {
+        if (resources[i].name == name && resources[i].organ == organ) {
+            resources[i].value = value;
+            return true;
+        }
     }
     return false;
 }
 
-/*
-Determines whether the given resource corresponds to the muscle organ.
-If the resource is a string, it is compared to the muscle's proper name (ignoring case), and the result is returned.
-If the resource is a resource object, its organ field is run throught the same test.
-Otherwise, false is returned.
-*/
-function isMuscle(resource) {
-    if (typeof resource == "string") {
-        return resource.toUpperCase() == MUSCLE_NAME.toUpperCase();
-    } else if (typeof resource == "object") {
-        return resource.organ.toUpperCase() == MUSCLE_NAME.toUpperCase();
+function changeResourceValue(name, organ, resources, change)
+{
+    for (var i = 0; i < resources.length; i++) {
+        if (resources[i].name == name && resources[i].organ == organ) {
+            resources[i].value += change;
+            return resources[i].value;
+        }
     }
     return false;
 }
 
-/*
-Determines whether the given resource corresponds to the liver organ.
-If the resource is a string, it is compared to the liver's proper name (ignoring case), and the result is returned.
-If the resource is a resource object, its organ field is run throught the same test.
-Otherwise, false is returned.
-*/
-function isLiver(resource) {
-    if (typeof resource == "string") {
-        return resource.toUpperCase() == LIVER_NAME.toUpperCase();
-    } else if (typeof resource == "object") {
-        return resource.organ.toUpperCase() == LIVER_NAME.toUpperCase();
+function setPoints(points)
+{
+    $('p#points').attr('value', points);
+    $('p#points').html('Points: ' + points);
+}
+
+function addPoints(points)
+{
+    setPoints(points + points);
+}
+
+function incrementTurn()
+{
+    turn = parseInt($('p#turn').attr('value')) + 1;
+    $('p#turn').html('Turn: ' + turn + "/" + MAX_TURNS);
+    $('p#turn').attr('value', turn);
+
+    if (turn > MAX_TURNS) {
+        // TODO link to score page
     }
-    return false;
 }

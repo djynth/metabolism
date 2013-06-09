@@ -28,6 +28,11 @@ div.main_column
     border: 1px solid black;
 }
 
+.error
+{
+    color: red;
+}
+
 #resources_column
 {
     td.title
@@ -38,7 +43,7 @@ div.main_column
 
     td
     {
-        min-width: 100px;
+        min-width: 150px;
         border: 1px solid black;
     }
 }

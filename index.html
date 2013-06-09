@@ -5,6 +5,8 @@
 <link rel="stylesheet" type="text/css" href="css/global.css">
 <script src="lib/jquery-1.10.1.min.js"></script>
 <script src="js/simulate.js"></script>
+<script src="js/starting_values.js"></script>
+<script src="js/actions.js"></script>
 
 <title>Metabolism Game</title>
 <meta name="description" content="Metabolism Game">
@@ -13,11 +15,18 @@
 </head>
 
 <body>
+
+<div id="header">
+<p id="turn" value="0"></p>
+<p id="points" value="0"></p>
+</div>
+
 <table id="content"><tr>
 
 <td><div class="main_column" id="resources_column">
 
 <p>Resource Levels</p>
+<table class="current_resources" id="body"  ><tr><td class="title">Body</td  ></tr></table>
 <table class="current_resources" id="brain" ><tr><td class="title">Brain</td ></tr></table>
 <table class="current_resources" id="muscle"><tr><td class="title">Muscle</td></tr></table>
 <table class="current_resources" id="liver" ><tr><td class="title">Liver</td ></tr></table>
@@ -28,7 +37,21 @@
 
 <p>Adjust Turn Actions</p>
 
+<form id="organ_selector">
+<input type="radio" name="organ" value="body">Body<br>
+<input type="radio" name="organ" value="brain">Brain<br>
+<input type="radio" name="organ" value="muscle">Muscle<br>
+<input type="radio" name="organ" value="liver">Liver
+</form>
+
+<select id="actions">
+    <option value="null">Select an Organ</option>
+</select>
+
+<br><br>
+
 <button id="next_turn">Next Turn</button>
+<p class="error"></p>
 
 </div></td>
 

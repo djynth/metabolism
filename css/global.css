@@ -27,13 +27,18 @@ div.main_column {
   border: 1px solid black;
 }
 
-/* line 34, ../sass/global.scss */
+/* line 32, ../sass/global.scss */
+.error {
+  color: red;
+}
+
+/* line 39, ../sass/global.scss */
 #resources_column td.title {
   font-weight: bold;
   border: 2px solid black;
 }
-/* line 40, ../sass/global.scss */
+/* line 45, ../sass/global.scss */
 #resources_column td {
-  min-width: 100px;
+  min-width: 150px;
   border: 1px solid black;
 }
