@@ -30,13 +30,15 @@ div.main_column
 
 #resources_column
 {
+    td.title
+    {
+        font-weight: bold;
+        border: 2px solid black;
+    }
+
     td
     {
         min-width: 100px;
         border: 1px solid black;
     }
-}
-
-#turn_levels_column
-{
 }

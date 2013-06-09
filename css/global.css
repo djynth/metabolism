@@ -28,6 +28,11 @@ div.main_column {
 }
 
 /* line 34, ../sass/global.scss */
+#resources_column td.title {
+  font-weight: bold;
+  border: 2px solid black;
+}
+/* line 40, ../sass/global.scss */
 #resources_column td {
   min-width: 100px;
   border: 1px solid black;
