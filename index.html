@@ -16,27 +16,28 @@
 
 <body>
 
-<div id="header">
-<p id="turn" value="0"></p>
-<p id="points" value="0"></p>
+<div class="main_column" id="actions_column">
+
+<p class="header" id="turn" value="0"></p>
+
+<h2>Turn Actions</h2>
+
+<div id="actions_holder">
+
+<div id="tab_holder">
+<div class="tab_header" id="body" value="1">Body</div>
+<div class="tab_header" id="brain" value="2">Brain</div>
+<div class="tab_header" id="muscle" value="3">Muscle</div>
+<div class="tab_header" id="liver" value="4">Liver</div>
 </div>
 
-<table id="content"><tr>
+<div class="tab_content hidden" id="body_content" value="1"><h3>Body</h3></div>
+<div class="tab_content hidden" id="brain_content" value="2"><h3>Brain</h3></div>
+<div class="tab_content hidden" id="muscle_content" value="3"><h3>Muscle</h3></div>
+<div class="tab_content hidden" id="liver_content" value="4"><h3>Liver</h3></div>
 
-<td><div class="main_column" id="resources_column">
-
-<p>Resource Levels</p>
-<table class="current_resources" id="body"  ><tr><td class="title">Body</td  ></tr></table>
-<table class="current_resources" id="brain" ><tr><td class="title">Brain</td ></tr></table>
-<table class="current_resources" id="muscle"><tr><td class="title">Muscle</td></tr></table>
-<table class="current_resources" id="liver" ><tr><td class="title">Liver</td ></tr></table>
-
-</div></td>
-
-<td><div class="main_column" id="turn_levels_column">
-
-<p>Adjust Turn Actions</p>
-
+</div>
+<!--
 <form id="organ_selector">
 <input type="radio" name="organ" value="body">Body<br>
 <input type="radio" name="organ" value="brain">Brain<br>
@@ -47,14 +48,21 @@
 <select id="actions">
     <option value="null">Select an Organ</option>
 </select>
+-->
 
-<br><br>
+</div>
 
-<button id="next_turn">Next Turn</button>
-<p class="error"></p>
+<div class="main_column" id="resources_column">
 
-</div></td>
+<p class="header" id="points" value="0"></p>
 
-</tr></table>
+<h2>Resource Levels</h2>
+<table class="current_resources" id="body"  ><tr><td class="title">Body</td  ></tr></table>
+<table class="current_resources" id="brain" ><tr><td class="title">Brain</td ></tr></table>
+<table class="current_resources" id="muscle"><tr><td class="title">Muscle</td></tr></table>
+<table class="current_resources" id="liver" ><tr><td class="title">Liver</td ></tr></table>
+
+</div>
+
 </body>
 </html>

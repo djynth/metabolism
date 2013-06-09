@@ -12,6 +12,7 @@ $(document).ready(function() {
     populateResourceTable();
     incrementTurn();
     setPoints(0);
+    showTab(1);
 
     $('button#next_turn').click(function() {
         var resources = new Array();
@@ -64,6 +65,10 @@ $(document).ready(function() {
         }
 
         $('select#actions').html(actionsHTML);
+    });
+
+    $('div.tab_header').click(function() {
+        showTab($(this).attr('value'));
     });
 });
 
@@ -155,7 +160,7 @@ function changeResourceValue(name, organ, resources, change)
 function setPoints(points)
 {
     $('p#points').attr('value', points);
-    $('p#points').html('Points: ' + points);
+    $('p#points').html(points + ' Points');
 }
 
 function addPoints(points)
@@ -172,4 +177,10 @@ function incrementTurn()
     if (turn > MAX_TURNS) {
         // TODO link to score page
     }
+}
+
+function showTab(id)
+{
+    $('div.tab_content').addClass('hidden');
+    $('div.tab_content').filter(function() { return $(this).attr('value') == id; }).removeClass('hidden');
 }
