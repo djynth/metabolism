@@ -15,6 +15,34 @@ $(document).ready(function() {
     populateTabs();
     showTab(1);
 
+    $('.action_content').click(function() {
+        var action = getAction($(this).attr('value'));
+        var organ = getOrgan($(this).parent().attr('value'));
+        var resources = new Array();
+        var i = 0;
+
+        $('div#resources_column table.current_resources tr td.resource_name').each(function() {
+            resources[i++] = new resource($(this).html(), parseFloat($(this).siblings('.resource_value').html()),
+                $(this).parent().parent().parent().attr('id'));
+        });
+
+        resources = action.run(organ, resources);
+        if (typeof resources == "string") {
+            $(this).siblings('p.error').html(resources);
+            return;
+        }
+
+        for (i = 0; i < resources.length; i++) {
+            $('div#resources_column table.current_resources#' + resources[i].organ + ' tr')
+                .filter(function() { return $(this).children('.resource_name').html() == resources[i].name; })
+                .children('.resource_value')
+                .html(resources[i].value);
+        }
+
+        incrementTurn();
+        addPoints(action.points);
+    });
+
     $('button#next_turn').click(function() {
         var resources = new Array();
         var i = 0;
@@ -85,77 +113,6 @@ function populateResourceTable()
     }
 }
 
-/*
-Creates a resource object with the given name, value and organ.
-If the name is empty or the organ is not recognized, an exception is thrown (the value is not checked).
-*/
-function resource(name, value, organ)
-{
-    if (!name) {
-        //throw "no name";
-    }
-
-    this.name = name;
-    this.value = value;
-    this.organ = organ;
-
-    this.inBrain = function() {
-        return this.organ == BRAIN;
-    }
-
-    this.inMuscle = function() {
-        return this.organ == MUSCLE;
-    }
-
-    this.inLiver = function() {
-        return this.organ == LIVER;
-    }
-
-    this.inBody = function() {
-        return this.organ == BODY;
-    }
-
-    this.toString = function() {
-        return this.name + ": " + this.value + ", " + this.organ;
-    }
-}
-
-/*
-Gets the value of the resource in the given resource list with the given name and organ.
-This function performs a linear search on the given resources and returns the value of the first element which has matching (case sensitive) name and organ.
-*/
-function getResourceValue(name, organ, resources)
-{
-    for (var i = 0; i < resources.length; i++) {
-        if (resources[i].name == name && resources[i].organ == organ) {
-            return resources[i].value;
-        }
-    }
-    return null;
-}
-
-function setResourceValue(name, organ, resources, value)
-{
-    for (var i = 0; i < resources.length; i++) {
-        if (resources[i].name == name && resources[i].organ == organ) {
-            resources[i].value = value;
-            return true;
-        }
-    }
-    return false;
-}
-
-function changeResourceValue(name, organ, resources, change)
-{
-    for (var i = 0; i < resources.length; i++) {
-        if (resources[i].name == name && resources[i].organ == organ) {
-            resources[i].value += change;
-            return resources[i].value;
-        }
-    }
-    return false;
-}
-
 function setPoints(points)
 {
     $('p#points').attr('value', points);
@@ -198,4 +155,19 @@ function populateTabs()
             }
         });
     });
+}
+
+function getOrgan(id) {
+    if (typeof id == "string") {
+        id = parseInt(id);
+    }
+
+    switch(id)
+    {
+    case 1: return BODY;
+    case 2: return BRAIN;
+    case 3: return MUSCLE;
+    case 4: return LIVER;
+    default: throw "invalid organ id: " + id;
+    }
 }

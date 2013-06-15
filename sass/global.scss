@@ -1,6 +1,9 @@
+$background_color : #BBB;
+
 body
 {
     background-color: #BDBDBD;
+    font-family: Sans-serif;
 }
 
 div.main_column
@@ -17,7 +20,6 @@ div.main_column
 
     h2
     {
-        font-family: Sans-serif;
         padding-top: 30px;
     }
 
@@ -83,7 +85,6 @@ div#tab_holder
     }
 }
 
-
 div.tab_content
 {
     width: 100%;
@@ -93,28 +94,50 @@ div.tab_content
 
     div.action_content
     {
-        padding: 5px;
+        margin: 10px;
+        background-color: yellow;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+
+        p {
+            margin: 0px;
+            font-size: 14px;
+        }
 
         .action_title {
             padding: 2px;
-            font-size: 14px;
             font-weight: bold;
         }
 
         .action_info {
-            padding-left: 7px;
+            padding-left: 24px;
             padding-top: 1px;
             padding-bottom: 1px;
         }
 
-        .action_costs_holder {
-            display: inline-block;
-            width: 150px;
-        }
+        .action_resources_holder {
+            width: 300px;
+            margin-left: auto;
+            margin-right: auto;
 
-        .action_gains_holder {
-            display: inline-block;
-            width: 150px;
+            .action_costs_holder {
+                display: inline-block;
+                width: 144px;
+                padding: 3px;
+                vertical-align: top;
+                background-color: red;
+            }
+
+            .action_gains_holder {
+                display: inline-block;
+                width: 144px;
+                padding: 3px;
+                vertical-align: top;
+                background-color: green;
+            }
         }
     }
 }
