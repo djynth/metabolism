@@ -1,0 +1,279 @@
+/* line 1, ../sass/main.scss */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font-family: Sans-serif;
+}
+
+/* line 8, ../sass/main.scss */
+div.side_column {
+  position: absolute;
+  width: 17%;
+  height: 100%;
+  background-color: #505050;
+  overflow: auto;
+}
+/* line 15, ../sass/main.scss */
+div.side_column h3.body_title {
+  padding: 5px 10px;
+  margin: 0px;
+  margin-top: 3px;
+  color: rgba(14, 14, 14, 0.9);
+  font-size: 16px;
+}
+/* line 23, ../sass/main.scss */
+div.side_column div.tab_holder {
+  padding-left: 16px;
+  border-bottom: 1px solid #222222;
+}
+/* line 27, ../sass/main.scss */
+div.side_column div.tab_holder h3.section_title {
+  display: inline-block;
+  padding: 5px 10px 3px 10px;
+  margin: 2px;
+  margin-bottom: 0px;
+  font-size: 16px;
+  color: rgba(14, 14, 14, 0.9);
+  border: 1px solid #222222;
+  background-color: #5c5c5c;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  border-bottom: none;
+}
+/* line 40, ../sass/main.scss */
+div.side_column div.tab_holder h3.section_title:hover {
+  cursor: pointer;
+}
+/* line 45, ../sass/main.scss */
+div.side_column div.tab_holder h3.active {
+  background-color: none;
+}
+/* line 50, ../sass/main.scss */
+div.side_column div.action_holder {
+  padding: 6px;
+  padding-top: 3px;
+  height: 100%;
+}
+/* line 55, ../sass/main.scss */
+div.side_column div.action_holder div.action {
+  padding: 5px;
+  margin: 2px;
+  margin-bottom: 4px;
+  border-radius: 7px;
+  background-color: rgba(93, 93, 93, 0.82);
+  border: 1px solid rgba(73, 73, 73, 0.9);
+  font-size: 12px;
+}
+/* line 64, ../sass/main.scss */
+div.side_column div.action_holder div.action p {
+  margin: 0px;
+  color: #0c0c0c;
+}
+/* line 69, ../sass/main.scss */
+div.side_column div.action_holder div.action p.title {
+  display: inline;
+  margin-right: 8px;
+  font-weight: bold;
+}
+/* line 75, ../sass/main.scss */
+div.side_column div.action_holder div.action p.catabolic {
+  display: inline;
+}
+/* line 79, ../sass/main.scss */
+div.side_column div.action_holder div.action p.points {
+  display: inline;
+  float: right;
+}
+/* line 84, ../sass/main.scss */
+div.side_column div.action_holder div.action table.reaction {
+  width: 80%;
+  margin: 3px auto;
+  border-collapse: collapse;
+}
+/* line 89, ../sass/main.scss */
+div.side_column div.action_holder div.action table.reaction td {
+  width: 40%;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+/* line 95, ../sass/main.scss */
+div.side_column div.action_holder div.action table.reaction .reactant {
+  text-align: right;
+  padding-right: 3px;
+}
+/* line 100, ../sass/main.scss */
+div.side_column div.action_holder div.action table.reaction .product {
+  text-align: left;
+  padding-left: 3px;
+}
+/* line 105, ../sass/main.scss */
+div.side_column div.action_holder div.action table.reaction .header {
+  font-weight: bold;
+}
+/* line 109, ../sass/main.scss */
+div.side_column div.action_holder div.action table.reaction .lacking {
+  color: #6f0c0c;
+}
+/* line 114, ../sass/main.scss */
+div.side_column div.action_holder div.action p.lacking {
+  position: relative;
+  left: 2px;
+  bottom: 2px;
+}
+/* line 120, ../sass/main.scss */
+div.side_column div.action_holder div.action button.run_action {
+  position: relative;
+  left: 2px;
+  bottom: 2px;
+  box-shadow: inset 0px 1px 0px 0px #a8a8a8;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #757575), color-stop(1, #474747));
+  background: -moz-linear-gradient(center top, #757575 5%, #474747 100%);
+  background-color: #757575;
+  border-radius: 6px;
+  border: 1px solid #303030;
+  color: #ababab;
+  padding: 3px 15px;
+  text-shadow: 1px 1px 0px #616161;
+}
+/* line 135, ../sass/main.scss */
+div.side_column div.action_holder div.action button.run_action:hover {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, gray), color-stop(1, #474747));
+  background: -moz-linear-gradient(center top, #757575 5%, #474747 100%);
+}
+/* line 140, ../sass/main.scss */
+div.side_column div.action_holder div.action button.run_action:active {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #474747), color-stop(1, #757575));
+  background: -moz-linear-gradient(center top, #474747 5%, #757575 100%);
+  background-color: #474747;
+}
+/* line 149, ../sass/main.scss */
+div.side_column div#body {
+  height: 365px;
+}
+
+/* line 154, ../sass/main.scss */
+div#action_holder {
+  left: 0px;
+}
+
+/* line 158, ../sass/main.scss */
+div#resource_holder {
+  right: 0px;
+  border-left: 1px solid black;
+}
+/* line 162, ../sass/main.scss */
+div#resource_holder table.resource_data {
+  width: 80%;
+  margin: 5px auto;
+}
+/* line 166, ../sass/main.scss */
+div#resource_holder table.resource_data td {
+  width: 40%;
+}
+/* line 170, ../sass/main.scss */
+div#resource_holder table.resource_data td.name {
+  text-align: right;
+  padding-right: 4px;
+}
+/* line 175, ../sass/main.scss */
+div#resource_holder table.resource_data td.value {
+  text-align: left;
+  padding-left: 4px;
+}
+
+/* line 182, ../sass/main.scss */
+canvas#cell_canvas {
+  position: absolute;
+  left: 17%;
+  width: 66%;
+  height: 100%;
+  background-color: #53AAAD;
+  border-left: 1px solid black;
+}
+
+/* line 191, ../sass/main.scss */
+div.floating_visual {
+  position: absolute;
+  top: 30px;
+  width: 14%;
+  height: 225px;
+  border: 2px solid rgba(53, 53, 53, 0.7);
+  border-radius: 16px;
+  background-color: rgba(115, 115, 115, 0.4);
+}
+/* line 200, ../sass/main.scss */
+div.floating_visual canvas.visual_content {
+  position: absolute;
+  top: 15px;
+  left: 6%;
+  width: 88%;
+  height: 79%;
+}
+/* line 208, ../sass/main.scss */
+div.floating_visual p.visual_label {
+  position: absolute;
+  bottom: 4px;
+  left: 8px;
+  margin: 0px;
+  color: #282828;
+}
+
+/* line 217, ../sass/main.scss */
+div#action_visual {
+  left: 19%;
+}
+
+/* line 221, ../sass/main.scss */
+div#resource_visual {
+  right: 19%;
+}
+
+/* line 225, ../sass/main.scss */
+div#organ_visual {
+  left: 35%;
+}
+
+/* line 229, ../sass/main.scss */
+div#cell_visual {
+  right: 35%;
+}
+
+/* line 233, ../sass/main.scss */
+.bottom_info {
+  position: absolute;
+  bottom: 9px;
+  margin: 0px;
+  z-index: 1;
+  color: rgba(60, 60, 60, 0.85);
+}
+
+/* line 241, ../sass/main.scss */
+p#points {
+  left: 18%;
+}
+
+/* line 245, ../sass/main.scss */
+p#turns {
+  right: 18%;
+}
+
+/* line 249, ../sass/main.scss */
+div#notification {
+  position: absolute;
+  left: 25%;
+  bottom: 44px;
+  width: 50%;
+  height: 36px;
+  border: 1px solid black;
+}
+
+/* line 258, ../sass/main.scss */
+.hidden {
+  display: none;
+}
+
+/* line 262, ../sass/main.scss */
+.error {
+  color: red;
+}

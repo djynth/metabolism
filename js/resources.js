@@ -4,7 +4,7 @@
  * 
  * @type {Number}
  */
-const var NUM_RESOURCES = 23;
+var NUM_RESOURCES = 23;
 
 /**
  * Creates a new Resource with the given Parameters.
@@ -27,7 +27,6 @@ function Resource(abbr, name, full_name, value, organ)
     this.full_name = full_name;
     this.value = value;
     this.organ = organ;
-    this.global = global;
 
     /**
      * Determines whether this Resource is in the Brain organ.
@@ -72,7 +71,7 @@ function Resource(abbr, name, full_name, value, organ)
      * @return {Boolean} true if this Resource is in the Body, false otherwise
      */
     this.isGlobal = function() {
-        return inBody();
+        return this.inBody();
     }
 
     /**
@@ -111,9 +110,9 @@ function isResourceGlobal(resource)
     if (typeof resource == "object") {
         return resource.isGlobal();
     }
-    else if (typeof resource == "int") {
+    else if (typeof resource == "number") {
         try {
-            getResourceById(resource, BODY);    // if this succeeds, the resource must be global
+            getResourceById(resource, -1, BODY);    // if this succeeds, the resource must be global
             return true;
         } catch(err) {
             return false;
@@ -121,9 +120,16 @@ function isResourceGlobal(resource)
     }
 
     for (var i = 0; i < NUM_RESOURCES; i++) {
-        var res = getResourceById(i);
-        if (res.hasName(resource)) {
-            return res.isGlobal();
+        try {
+            var res = getResourceById(i, -1, BODY);
+            if (res.hasName(resource)) {
+                return res.isGlobal();
+            }
+        } catch(err) {
+            var res = getResourceById(i, -1, BRAIN);
+            if (res.hasName(resource)) {
+                return res.isGlobal();
+            }
         }
     }
 
@@ -212,19 +218,34 @@ function changeResourceValue(name, organ, resources, change)
     return -1;
 }
 
-/**
- * Returns the Resource assigned to the given ID and in the given organ.
- * The returned resource's value is its starting value, to give it a custom value use {@link #getResourceById(id, value, organ)}.
- * This is equivalent to calling {@code getResourceById(id, -1, organ)}.
- *
- * @param  {Number} id    the ID used to identify the resource, in the range 0 to NUM_RESOURCES-1
- * @param  {String} organ the name of the organ that the returned resource should be in
- *
- * @return {Object}       a Resource with the name and other data matching the given ID
- */
-function getResourceById(id, organ)
-{
-    return getResourceById(id, -1, organ);
+function getAbbreviation(resource) {
+    for (var i = 0; i < NUM_RESOURCES; i++) {
+        var res = getResourceById(i, -1, (isResourceGlobal(i) ? BODY : BRAIN));
+        if (res.hasName(resource)) {
+            return res.abbr;
+        }
+    }
+    return null;
+}
+
+function getCommonName(resource) {
+    for (var i = 0; i < NUM_RESOURCES; i++) {
+        var res = getResourceById(i, -1, (isResourceGlobal(i) ? BODY : BRAIN));
+        if (res.hasName(resource)) {
+            return res.name;
+        }
+    }
+    return null;
+}
+
+function getFullName(resource) {
+    for (var i = 0; i < NUM_RESOURCES; i++) {
+        var res = getResourceById(i, -1, (isResourceGlobal(i) ? BODY : BRAIN));
+        if (res.hasName(resource)) {
+            return res.full_name;
+        }
+    }
+    return null;
 }
 
 /**
@@ -281,14 +302,13 @@ function getResourceById(id, value, organ)
  */
 function getStartingResources()
 {
+    var organs = [BODY, BRAIN, MUSCLE, LIVER];
     var res = new Array();
     for (var i = 0; i < NUM_RESOURCES; i++) {
-        if (isResourceGlobal(i)) {
-            res.push(getResourceById(i, BODY));
-        } else {
-            res.push(getResourceById(i, BRAIN));
-            res.push(getResourceById(i, MUSCLE));
-            res.push(getResourceById(i, LIVER));
+        for (var j = 0; j < organs.length; j++) {
+            try {
+                res.push(getResourceById(i, -1, organs[j]));
+            } catch(err) { }
         }
     }
     return res;

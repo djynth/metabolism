@@ -2,54 +2,82 @@
 <html>
 <head>
 
-<link rel="stylesheet" type="text/css" href="css/global.css">
+<link rel="stylesheet" type="text/css" href="css/main.css">
 <script src="lib/jquery-1.10.1.min.js"></script>
-<script src="js/simulate.js"></script>
+<script src="lib/paper-min.js"></script>
+<script src="js/main.js"></script>
 <script src="js/resources.js"></script>
 <script src="js/actions.js"></script>
+<script type="text/paperscript" src="js/cells.js" canvas="cell_canvas"></script>
 
 <title>Metabolism Game</title>
 <meta name="description" content="Metabolism Game">
-<meta name="keywords" content="Metabolism">
+<meta name="keywords" content="Metabolism,Education,Game,Visualization">
 
 </head>
-
 <body>
 
-<div class="main_column" id="actions_column">
+<div class="side_column" id="action_holder">
+    <div class="action_holder" id="body">
+        <h3 class="body_title">Body</h3>
+    </div>
 
-<p class="header" id="turn" value="0"></p>
+    <div class="tab_holder">
+        <h3 class="section_title" id="brain">Brain</h3>
+        <h3 class="section_title" id="muscle">Muscle</h3>
+        <h3 class="section_title" id="liver">Liver</h3>
+    </div>
 
-<h2>Cellular Process Options</h2>
-
-<div id="actions_holder">
-
-<div id="tab_holder">
-<div class="tab_header" id="body" value="1">Body</div>
-<div class="tab_header" id="brain" value="2">Brain</div>
-<div class="tab_header" id="muscle" value="3">Muscle</div>
-<div class="tab_header" id="liver" value="4">Liver</div>
+    <div class="action_holder" id="brain"></div>
+    <div class="action_holder" id="muscle"></div>
+    <div class="action_holder" id="liver"></div>
 </div>
 
-<div class="tab_content hidden" id="body_content" value="1"></div>
-<div class="tab_content hidden" id="brain_content" value="2"></div>
-<div class="tab_content hidden" id="muscle_content" value="3"></div>
-<div class="tab_content hidden" id="liver_content" value="4"></div>
+<p class="bottom_info" id="points"></p>
+<p class="bottom_info" id="turns"></p>
 
+<canvas id="cell_canvas"></canvas>
+
+<div class="floating_visual" id="action_visual">
+    <canvas class="visual_content"></canvas>
+    <p class="visual_label">Action</p>
+</div>
+<div class="floating_visual" id="organ_visual">
+    <canvas class="visual_content"></canvas>
+    <p class="visual_label">Organ</p>
+</div>
+<div class="floating_visual" id="cell_visual">
+    <canvas class="visual_content"></canvas>
+    <p class="visual_label">Cell</p>
+</div>
+<div class="floating_visual" id="resource_visual">
+    <canvas class="visual_content"></canvas>
+    <p class="visual_label">Resource</p>
 </div>
 
-</div>
+<div class="hidden" id="notification"></div>
 
-<div class="main_column" id="resources_column">
+<div class="side_column" id="resource_holder">
+    <div class="resource_holder" id="body">
+        <h3 class="body_title">Body</h3>
+        <table class="resource_data" id="body"></table>
+    </div>
 
-<p class="header" id="points" value="0"></p>
+    <div class="tab_holder">
+        <h3 class="section_title" id="brain">Brain</h3>
+        <h3 class="section_title" id="muscle">Muscle</h3>
+        <h3 class="section_title" id="liver">Liver</h3>
+    </div>
 
-<h2>Resource Levels</h2>
-<table class="current_resources" id="body"  ><tr><td class="title">Body</td  ></tr></table>
-<table class="current_resources" id="brain" ><tr><td class="title">Brain</td ></tr></table>
-<table class="current_resources" id="muscle"><tr><td class="title">Muscle</td></tr></table>
-<table class="current_resources" id="liver" ><tr><td class="title">Liver</td ></tr></table>
-
+    <div class="resource_holder" id="brain">
+        <table class="resource_data" id="brain"></table>
+    </div>
+    <div class="resource_holder" id="muscle">
+        <table class="resource_data" id="muscle"></table>
+    </div>
+    <div class="resource_holder" id="liver">
+        <table class="resource_data" id="liver"></table>
+    </div>
 </div>
 
 </body>
