@@ -65,7 +65,9 @@ function Action(name, id, points, limit, organs, resources, catabolic)
         for (var i = 0; i < this.resources.length; i++) {
             var res = this.resources[i].res;
             var val = this.resources[i].val;
-            if (!isResourceLevelValid(res, changeResourceValue(res, isResourceGlobal(res) ? BODY : organ, resources, val))) {
+            if (isResourceLevelValid(res, changeResourceValue(res, isResourceGlobal(res) ? BODY : organ, resources, val))) {
+                onResourceChange(res, organ, val);
+            } else {
                 return res;
             }
         }

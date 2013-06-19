@@ -34,7 +34,7 @@ $(document).ready(function() {
         setPoints(points + action.points);
     });
 
-    $('h3.section_title').click(function() {
+    $('div.section_title').click(function() {
         selectOrgan($(this).attr('id'));
     });
 });
@@ -50,11 +50,15 @@ function setPoints(pts) {
 }
 
 function selectOrgan(organ) {
-    $('h3.section_title').each(function() {
+    $('div.section_title').each(function() {
         if ($(this).attr('id') == organ) {      // select this tab
+            $(this).addClass('active');
+            $(this).children('div.cover#' + $(this).attr('id')).show();
             $('div.action_holder#' + $(this).attr('id')).show();
             $('div.resource_holder#' + $(this).attr('id')).show();
         } else {                                // unselect this tab
+            $(this).removeClass('active');
+            $(this).children('div.cover#' + $(this).attr('id')).hide();
             $('div.action_holder#' + $(this).attr('id')).hide();
             $('div.resource_holder#' + $(this).attr('id')).hide();
         }
@@ -85,4 +89,23 @@ function populateResources() {
             '<td class="value">' + res.value + '</td>'+
             '</tr>');
     }
+}
+
+function onResourceChange(resource, organ, amount) {
+    var color = amount > 0 ? "72, 144, 229" : "232, 12, 15";
+    var elem = $('table.resource_data tr').filter(function() {
+        if($(this).parent().parent().attr('id') != organ) {
+            return false;
+        }
+        var isCorrectResource = false;
+        $(this).children('td.name').each(function() {
+            if ($(this).html() == resource) {
+                isCorrectResource = true;
+            }
+        });
+        return isCorrectResource;
+    });
+    elem.children().animate({ boxShadow : "0 0 5px 5px rgb("+color+")" }, 250, function() {
+        elem.children().animate({ boxShadow : "0 0 5px 5px rgba("+color+", 0)" }, 250);
+    });
 }

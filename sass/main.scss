@@ -21,36 +21,54 @@ div.side_column {
     }
 
     div.tab_holder {
-        padding-left: 16px;
+        padding-left: 8px;
         border-bottom: 1px solid rgb(34, 34, 34);
 
-        h3.section_title {
+        div.section_title {
             display: inline-block;
-            padding: 5px 10px 3px 10px;
+            width: 50px;
+            height: 20px;
+            padding: 5px 8px 3px 6px;
             margin: 2px;
             margin-bottom: 0px;
             font-size: 16px;
+            font-weight: bold;
             color: rgba(14, 14, 14, 0.9);
             border: 1px solid rgb(34, 34, 34);
             background-color: rgb(92, 92, 92);
             border-top-right-radius: 5px;
             border-top-left-radius:  5px;
             border-bottom: none;
+            text-align: center;
 
             &:hover {
                 cursor: pointer;
             }
+
+            div.cover {
+                background-color: inherit;
+                width: 50px;
+                padding: 1px 8px 1px 6px;
+                height: 1px;
+                position: relative;
+                bottom: -4px;
+                left: -6px;
+            }
         }
 
-        h3.active {
-            background-color: none;
+        div.active {
+            background-color: rgb(70, 70, 70);
         }
+    }
+
+    div.action_holder#body {
+        background-color: inherit;
     }
 
     div.action_holder {
         padding: 6px;
         padding-top: 3px;
-        height: 100%;
+        background-color: rgb(70, 70, 70);
 
         div.action {
             padding: 5px;
@@ -149,6 +167,17 @@ div.side_column {
     div#body {
         height: 365px;
     }
+
+    div.resource_holder#body {
+        background-color: inherit;
+    }
+
+    div.resource_holder {
+        padding: 6px;
+        padding-top: 3px;
+        background-color: rgb(70, 70, 70);
+        height: auto;
+    }
 }
 
 div#action_holder {
@@ -162,19 +191,33 @@ div#resource_holder {
     table.resource_data {
         width: 80%;
         margin: 5px auto;
+        border-collapse: separate;
+        border-spacing: 0px 7px;
+
+        tr {
+            margin-top: 5px;
+            box-shadow: 10px 10px 5px #888888;
+        }
 
         td {
             width: 40%;
+            padding-top: 3px;
+            padding-bottom: 1px;
+            background-color: rgba(97, 97, 97, 0.9);
         }
 
         td.name {
             text-align: right;
             padding-right: 4px;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
         }
 
         td.value {
             text-align: left;
             padding-left: 4px;
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
         }
     }
 }

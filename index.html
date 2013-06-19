@@ -4,11 +4,10 @@
 
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <script src="lib/jquery-1.10.1.min.js"></script>
-<script src="lib/paper-min.js"></script>
+<script src="lib/jquery.animate-shadow.js"></script>
 <script src="js/main.js"></script>
 <script src="js/resources.js"></script>
 <script src="js/actions.js"></script>
-<script type="text/paperscript" src="js/cells.js" canvas="cell_canvas"></script>
 
 <title>Metabolism Game</title>
 <meta name="description" content="Metabolism Game">
@@ -23,9 +22,9 @@
     </div>
 
     <div class="tab_holder">
-        <h3 class="section_title" id="brain">Brain</h3>
-        <h3 class="section_title" id="muscle">Muscle</h3>
-        <h3 class="section_title" id="liver">Liver</h3>
+        <div class="section_title" id="brain">Brain<div class="cover" id="brain"></div></div>
+        <div class="section_title" id="muscle">Muscle<div class="cover" id="muscle"></div></div>
+        <div class="section_title" id="liver">Liver<div class="cover" id="liver"></div></div>
     </div>
 
     <div class="action_holder" id="brain"></div>
@@ -64,9 +63,9 @@
     </div>
 
     <div class="tab_holder">
-        <h3 class="section_title" id="brain">Brain</h3>
-        <h3 class="section_title" id="muscle">Muscle</h3>
-        <h3 class="section_title" id="liver">Liver</h3>
+        <div class="section_title" id="brain">Brain<div class="cover" id="brain"></div></div>
+        <div class="section_title" id="muscle">Muscle<div class="cover" id="muscle"></div></div>
+        <div class="section_title" id="liver">Liver<div class="cover" id="liver"></div></div>
     </div>
 
     <div class="resource_holder" id="brain">
