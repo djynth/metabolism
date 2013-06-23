@@ -1,0 +1,83 @@
+@import "constants";
+
+div#action_holder {
+    left: 0px;
+
+    div.action_holder#body {
+        background-color: inherit;
+    }
+
+    div.action_holder {
+        padding: 6px;
+        padding-top: 3px;
+        background-color: rgb(70, 70, 70);
+
+        div.action {
+            padding: 5px;
+            margin: 2px;
+            margin-bottom: 4px;
+            border-radius: 7px;
+            background-color: rgba(93, 93, 93, 0.82);
+            border: 1px solid rgba(73, 73, 73, 0.9);
+            font-size: 12px;
+
+            p {
+                margin: 0px;
+                color: rgb(12, 12, 12);
+            }
+
+            p.title {
+                display: inline;
+                margin-right: 8px;
+                font-weight: bold;
+            }
+
+            p.catabolic {
+                display: inline;
+            }
+            
+            p.points {
+                display: inline;
+                float: right;
+            }
+
+            table.reaction {
+                width: 80%;
+                margin: 3px auto;
+                border-collapse: collapse;
+                color: black;
+
+                td {
+                    width: 40%;
+                    padding-top: 1px;
+                    padding-bottom: 1px;
+                    line-height: 12px;
+                }
+
+                .reactant {
+                    text-align: right;
+                    padding-right: 3px;
+                }
+
+                .product {
+                    text-align: left;
+                    padding-left: 3px;
+                }
+
+                .header {
+                    font-weight: bold;
+                }
+
+                .lacking {
+                    color: rgb(111, 12, 12);
+                }
+            }
+
+            p.lacking {
+                position: relative;
+                left: 2px;
+                bottom: 2px;
+            }
+        }
+    }
+}

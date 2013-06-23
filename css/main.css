@@ -21,13 +21,14 @@ div.side_column h3.body_title {
   margin-top: 3px;
   color: rgba(14, 14, 14, 0.9);
   font-size: 16px;
+  line-height: 16px;
 }
-/* line 23, ../sass/main.scss */
+/* line 24, ../sass/main.scss */
 div.side_column div.tab_holder {
   padding-left: 8px;
   border-bottom: 1px solid #222222;
 }
-/* line 27, ../sass/main.scss */
+/* line 28, ../sass/main.scss */
 div.side_column div.tab_holder div.section_title {
   display: inline-block;
   width: 50px;
@@ -45,11 +46,11 @@ div.side_column div.tab_holder div.section_title {
   border-bottom: none;
   text-align: center;
 }
-/* line 44, ../sass/main.scss */
+/* line 45, ../sass/main.scss */
 div.side_column div.tab_holder div.section_title:hover {
   cursor: pointer;
 }
-/* line 48, ../sass/main.scss */
+/* line 49, ../sass/main.scss */
 div.side_column div.tab_holder div.section_title div.cover {
   background-color: inherit;
   width: 50px;
@@ -59,173 +60,12 @@ div.side_column div.tab_holder div.section_title div.cover {
   bottom: -4px;
   left: -6px;
 }
-/* line 59, ../sass/main.scss */
+/* line 60, ../sass/main.scss */
 div.side_column div.tab_holder div.active {
   background-color: #464646;
 }
-/* line 64, ../sass/main.scss */
-div.side_column div.action_holder#body {
-  background-color: inherit;
-}
-/* line 68, ../sass/main.scss */
-div.side_column div.action_holder {
-  padding: 6px;
-  padding-top: 3px;
-  background-color: #464646;
-}
-/* line 73, ../sass/main.scss */
-div.side_column div.action_holder div.action {
-  padding: 5px;
-  margin: 2px;
-  margin-bottom: 4px;
-  border-radius: 7px;
-  background-color: rgba(93, 93, 93, 0.82);
-  border: 1px solid rgba(73, 73, 73, 0.9);
-  font-size: 12px;
-}
-/* line 82, ../sass/main.scss */
-div.side_column div.action_holder div.action p {
-  margin: 0px;
-  color: #0c0c0c;
-}
-/* line 87, ../sass/main.scss */
-div.side_column div.action_holder div.action p.title {
-  display: inline;
-  margin-right: 8px;
-  font-weight: bold;
-}
-/* line 93, ../sass/main.scss */
-div.side_column div.action_holder div.action p.catabolic {
-  display: inline;
-}
-/* line 97, ../sass/main.scss */
-div.side_column div.action_holder div.action p.points {
-  display: inline;
-  float: right;
-}
-/* line 102, ../sass/main.scss */
-div.side_column div.action_holder div.action table.reaction {
-  width: 80%;
-  margin: 3px auto;
-  border-collapse: collapse;
-}
-/* line 107, ../sass/main.scss */
-div.side_column div.action_holder div.action table.reaction td {
-  width: 40%;
-  padding-top: 1px;
-  padding-bottom: 1px;
-}
-/* line 113, ../sass/main.scss */
-div.side_column div.action_holder div.action table.reaction .reactant {
-  text-align: right;
-  padding-right: 3px;
-}
-/* line 118, ../sass/main.scss */
-div.side_column div.action_holder div.action table.reaction .product {
-  text-align: left;
-  padding-left: 3px;
-}
-/* line 123, ../sass/main.scss */
-div.side_column div.action_holder div.action table.reaction .header {
-  font-weight: bold;
-}
-/* line 127, ../sass/main.scss */
-div.side_column div.action_holder div.action table.reaction .lacking {
-  color: #6f0c0c;
-}
-/* line 132, ../sass/main.scss */
-div.side_column div.action_holder div.action p.lacking {
-  position: relative;
-  left: 2px;
-  bottom: 2px;
-}
-/* line 138, ../sass/main.scss */
-div.side_column div.action_holder div.action button.run_action {
-  position: relative;
-  left: 2px;
-  bottom: 2px;
-  box-shadow: inset 0px 1px 0px 0px #a8a8a8;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #757575), color-stop(1, #474747));
-  background: -moz-linear-gradient(center top, #757575 5%, #474747 100%);
-  background-color: #757575;
-  border-radius: 6px;
-  border: 1px solid #303030;
-  color: #ababab;
-  padding: 3px 15px;
-  text-shadow: 1px 1px 0px #616161;
-}
-/* line 153, ../sass/main.scss */
-div.side_column div.action_holder div.action button.run_action:hover {
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, gray), color-stop(1, #474747));
-  background: -moz-linear-gradient(center top, #757575 5%, #474747 100%);
-}
-/* line 158, ../sass/main.scss */
-div.side_column div.action_holder div.action button.run_action:active {
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #474747), color-stop(1, #757575));
-  background: -moz-linear-gradient(center top, #474747 5%, #757575 100%);
-  background-color: #474747;
-}
-/* line 167, ../sass/main.scss */
-div.side_column div#body {
-  height: 365px;
-}
-/* line 171, ../sass/main.scss */
-div.side_column div.resource_holder#body {
-  background-color: inherit;
-}
-/* line 175, ../sass/main.scss */
-div.side_column div.resource_holder {
-  padding: 6px;
-  padding-top: 3px;
-  background-color: #464646;
-  height: auto;
-}
 
-/* line 183, ../sass/main.scss */
-div#action_holder {
-  left: 0px;
-}
-
-/* line 187, ../sass/main.scss */
-div#resource_holder {
-  right: 0px;
-  border-left: 1px solid black;
-}
-/* line 191, ../sass/main.scss */
-div#resource_holder table.resource_data {
-  width: 80%;
-  margin: 5px auto;
-  border-collapse: separate;
-  border-spacing: 0px 7px;
-}
-/* line 197, ../sass/main.scss */
-div#resource_holder table.resource_data tr {
-  margin-top: 5px;
-  box-shadow: 10px 10px 5px #888888;
-}
-/* line 202, ../sass/main.scss */
-div#resource_holder table.resource_data td {
-  width: 40%;
-  padding-top: 3px;
-  padding-bottom: 1px;
-  background-color: rgba(97, 97, 97, 0.9);
-}
-/* line 209, ../sass/main.scss */
-div#resource_holder table.resource_data td.name {
-  text-align: right;
-  padding-right: 4px;
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
-}
-/* line 216, ../sass/main.scss */
-div#resource_holder table.resource_data td.value {
-  text-align: left;
-  padding-left: 4px;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-}
-
-/* line 225, ../sass/main.scss */
+/* line 66, ../sass/main.scss */
 canvas#cell_canvas {
   position: absolute;
   left: 17%;
@@ -235,7 +75,7 @@ canvas#cell_canvas {
   border-left: 1px solid black;
 }
 
-/* line 234, ../sass/main.scss */
+/* line 75, ../sass/main.scss */
 div.floating_visual {
   position: absolute;
   top: 30px;
@@ -245,7 +85,7 @@ div.floating_visual {
   border-radius: 16px;
   background-color: rgba(115, 115, 115, 0.4);
 }
-/* line 243, ../sass/main.scss */
+/* line 84, ../sass/main.scss */
 div.floating_visual canvas.visual_content {
   position: absolute;
   top: 15px;
@@ -253,7 +93,7 @@ div.floating_visual canvas.visual_content {
   width: 88%;
   height: 79%;
 }
-/* line 251, ../sass/main.scss */
+/* line 92, ../sass/main.scss */
 div.floating_visual p.visual_label {
   position: absolute;
   bottom: 4px;
@@ -262,27 +102,27 @@ div.floating_visual p.visual_label {
   color: #282828;
 }
 
-/* line 260, ../sass/main.scss */
+/* line 101, ../sass/main.scss */
 div#action_visual {
   left: 19%;
 }
 
-/* line 264, ../sass/main.scss */
+/* line 105, ../sass/main.scss */
 div#resource_visual {
   right: 19%;
 }
 
-/* line 268, ../sass/main.scss */
+/* line 109, ../sass/main.scss */
 div#organ_visual {
   left: 35%;
 }
 
-/* line 272, ../sass/main.scss */
+/* line 113, ../sass/main.scss */
 div#cell_visual {
   right: 35%;
 }
 
-/* line 276, ../sass/main.scss */
+/* line 117, ../sass/main.scss */
 .bottom_info {
   position: absolute;
   bottom: 9px;
@@ -291,17 +131,17 @@ div#cell_visual {
   color: rgba(60, 60, 60, 0.85);
 }
 
-/* line 284, ../sass/main.scss */
+/* line 125, ../sass/main.scss */
 p#points {
   left: 18%;
 }
 
-/* line 288, ../sass/main.scss */
+/* line 129, ../sass/main.scss */
 p#turns {
   right: 18%;
 }
 
-/* line 292, ../sass/main.scss */
+/* line 133, ../sass/main.scss */
 div#notification {
   position: absolute;
   left: 25%;
@@ -311,12 +151,12 @@ div#notification {
   border: 1px solid black;
 }
 
-/* line 301, ../sass/main.scss */
+/* line 142, ../sass/main.scss */
 .hidden {
   display: none;
 }
 
-/* line 305, ../sass/main.scss */
+/* line 146, ../sass/main.scss */
 .error {
   color: red;
 }

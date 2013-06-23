@@ -1,0 +1,50 @@
+/* line 3, ../sass/resources.scss */
+div#resource_holder {
+  right: 0px;
+  border-left: 1px solid black;
+}
+/* line 7, ../sass/resources.scss */
+div#resource_holder div.resource_holder#body {
+  background-color: inherit;
+}
+/* line 11, ../sass/resources.scss */
+div#resource_holder div.resource_holder {
+  padding: 6px;
+  padding-top: 3px;
+  background-color: #464646;
+  height: auto;
+}
+/* line 18, ../sass/resources.scss */
+div#resource_holder table.resource_data {
+  width: 80%;
+  margin: 5px auto;
+  border-collapse: separate;
+  border-spacing: 0px 7px;
+  color: black;
+}
+/* line 25, ../sass/resources.scss */
+div#resource_holder table.resource_data tr {
+  margin-top: 5px;
+  box-shadow: 10px 10px 5px #888888;
+}
+/* line 30, ../sass/resources.scss */
+div#resource_holder table.resource_data td {
+  width: 40%;
+  padding-top: 3px;
+  padding-bottom: 1px;
+  background-color: rgba(97, 97, 97, 0.9);
+}
+/* line 37, ../sass/resources.scss */
+div#resource_holder table.resource_data td.name {
+  text-align: right;
+  padding-right: 4px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+/* line 44, ../sass/resources.scss */
+div#resource_holder table.resource_data td.value {
+  text-align: left;
+  padding-left: 4px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}

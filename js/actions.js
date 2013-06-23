@@ -170,7 +170,7 @@ function Action(name, id, points, limit, organs, resources, catabolic)
         }
 
         s += '<p class="lacking">Not enough ' + lacking + '</p>';
-        s += '<button class="run_action">Run</button>';
+        s += '<button class="run_action btn btn-small btn-inverse">Run</button>';
 
         s += '</div>';
         return s;

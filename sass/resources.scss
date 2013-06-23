@@ -1,0 +1,51 @@
+@import "constants";
+
+div#resource_holder {
+    right: 0px;
+    border-left: 1px solid black;
+
+    div.resource_holder#body {
+        background-color: inherit;
+    }
+
+    div.resource_holder {
+        padding: 6px;
+        padding-top: 3px;
+        background-color: rgb(70, 70, 70);
+        height: auto;
+    }
+
+    table.resource_data {
+        width: 80%;
+        margin: 5px auto;
+        border-collapse: separate;
+        border-spacing: 0px 7px;
+        color: black;
+
+        tr {
+            margin-top: 5px;
+            box-shadow: 10px 10px 5px #888888;
+        }
+
+        td {
+            width: 40%;
+            padding-top: 3px;
+            padding-bottom: 1px;
+            background-color: rgba(97, 97, 97, 0.9);
+        }
+
+        td.name {
+            text-align: right;
+            padding-right: 4px;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+
+        td.value {
+            text-align: left;
+            padding-left: 4px;
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+    }
+}
