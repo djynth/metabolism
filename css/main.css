@@ -57,7 +57,7 @@ div.side_column div.tab_holder div.section_title div.cover {
   padding: 1px 8px 1px 6px;
   height: 1px;
   position: relative;
-  bottom: -4px;
+  bottom: -2px;
   left: -6px;
 }
 /* line 60, ../sass/main.scss */
