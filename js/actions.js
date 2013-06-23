@@ -65,8 +65,9 @@ function Action(name, id, points, limit, organs, resources, catabolic)
         for (var i = 0; i < this.resources.length; i++) {
             var res = this.resources[i].res;
             var val = this.resources[i].val;
-            if (isResourceLevelValid(res, changeResourceValue(res, isResourceGlobal(res) ? BODY : organ, resources, val))) {
-                onResourceChange(res, organ, val);
+            var actualOrgan = isResourceGlobal(res) ? BODY : organ;
+            if (isResourceLevelValid(res, changeResourceValue(res, actualOrgan, resources, val))) {
+                onResourceChange(res, actualOrgan, getResourceValue(res, actualOrgan, resources), val);
             } else {
                 return res;
             }
@@ -125,7 +126,6 @@ function Action(name, id, points, limit, organs, resources, catabolic)
 
             if (i < reactants.length) {
                 s += ' value="' + reactants[i].res + '"';
-                s += ' title="' + getCommonName(reactants[i].res) + '"';
             }
 
             s += '>';
@@ -136,10 +136,6 @@ function Action(name, id, points, limit, organs, resources, catabolic)
             s += '</td>';
 
             s += '<td class="product"';
-
-            if (i < products.length) {
-                s += ' title="' + getCommonName(products[i].res) + '"';
-            }
 
             s += '>';
             if (i < products.length) {
