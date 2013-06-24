@@ -22,12 +22,6 @@ $(document).ready(function() {
         var action = getAction(id);
         action.run(organ, resources);
 
-        for (i = 0; i < resources.length; i++) {
-            $('table.resource_data#' + resources[i].organ + ' tr')
-                .filter(function() { return resources[i].hasName($(this).children('.name').html()); })
-                .children('.value')
-                .html(resources[i].value);
-        }
         refreshActions(resources);
 
         nextTurn();
@@ -65,10 +59,6 @@ function selectOrgan(organ) {
     });
 }
 
-function notify(message) {
-
-}
-
 function populateActions() {
     var organs = [BODY, BRAIN, MUSCLE, LIVER];
     for (var i = 0; i < organs.length; i++) {
@@ -84,28 +74,34 @@ function populateResources() {
     for (var i = 0; i < resources.length; i++) {
         var res = resources[i];
 
-        $('table.resource_data#' + res.organ).append('<tr>'+
-            '<td class="name">' + res.abbr + '</td>'+
-            '<td class="value">' + res.value + '</td>'+
-            '</tr>');
+        $('div.resource_holder#' + res.organ).append('<div class="resource_data" title="' + res.name + '">' + 
+            '<div class="progress">' +
+            '<span class="resource_name">' + res.abbr + '</span>' +
+            '<span class="resource_value">' + res.value + '</span>' + 
+            '<div class="bar" style="width: ' + Math.min(100, 100*(res.value/res.max_value)) + '%;"></div>' + 
+            '</div></div>');
     }
+
+    $('.resource_data').tooltip({ delay: { show: 500, hide: 100 } });
 }
 
-function onResourceChange(resource, organ, amount) {
-    var color = amount > 0 ? "72, 144, 229" : "232, 12, 15";
-    var elem = $('table.resource_data tr').filter(function() {
-        if($(this).parent().parent().attr('id') != organ) {
+function onResourceChange(resource, organ, value, change) {
+    var color = change > 0 ? "72, 144, 229" : "232, 12, 15";
+    var elem = $('div.resource_data').filter(function() {
+        if($(this).parent().attr('id') != organ) {
             return false;
         }
         var isCorrectResource = false;
-        $(this).children('td.name').each(function() {
-            if ($(this).html() == resource) {
+        $(this).find('.resource_name').each(function() {
+            if (resource.hasName($(this).html())) {
                 isCorrectResource = true;
             }
         });
         return isCorrectResource;
     });
-    elem.children().animate({ boxShadow : "0 0 5px 5px rgb("+color+")" }, 250, function() {
-        elem.children().animate({ boxShadow : "0 0 5px 5px rgba("+color+", 0)" }, 250);
+    elem.animate({ boxShadow : "0 0 5px 5px rgb("+color+")" }, 250, function() {
+        elem.animate({ boxShadow : "0 0 5px 5px rgba("+color+", 0)" }, 250);
     });
+    elem.find('.resource_value').html(value);
+    elem.find('.bar').css('width', Math.min(100, 100*(value/resource.max_value)) + '%')
 }
