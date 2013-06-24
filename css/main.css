@@ -57,7 +57,7 @@ div.side_column div.tab_holder div.section_title div.cover {
   padding: 1px 8px 1px 6px;
   height: 1px;
   position: relative;
-  bottom: -4px;
+  bottom: -2px;
   left: -6px;
 }
 /* line 60, ../sass/main.scss */
@@ -142,21 +142,11 @@ p#turns {
 }
 
 /* line 133, ../sass/main.scss */
-div#notification {
-  position: absolute;
-  left: 25%;
-  bottom: 44px;
-  width: 50%;
-  height: 36px;
-  border: 1px solid black;
-}
-
-/* line 142, ../sass/main.scss */
 .hidden {
   display: none;
 }
 
-/* line 146, ../sass/main.scss */
+/* line 137, ../sass/main.scss */
 .error {
   color: red;
 }

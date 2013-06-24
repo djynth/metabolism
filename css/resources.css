@@ -11,40 +11,38 @@ div#resource_holder div.resource_holder#body {
 div#resource_holder div.resource_holder {
   padding: 6px;
   padding-top: 3px;
-  background-color: #464646;
+  background: #464646;
   height: auto;
 }
-/* line 18, ../sass/resources.scss */
-div#resource_holder table.resource_data {
+/* line 17, ../sass/resources.scss */
+div#resource_holder div.resource_holder div.resource_data {
   width: 80%;
-  margin: 5px auto;
-  border-collapse: separate;
-  border-spacing: 0px 7px;
-  color: black;
+  margin: 10px auto;
+  border-radius: 4px;
+  line-height: 14px;
+  height: 21px;
 }
-/* line 25, ../sass/resources.scss */
-div#resource_holder table.resource_data tr {
-  margin-top: 5px;
-  box-shadow: 10px 10px 5px #888888;
+/* line 24, ../sass/resources.scss */
+div#resource_holder div.resource_holder div.resource_data div.progress {
+  background-image: none;
+  background-color: rgba(97, 97, 97, 0.9);
+  height: 21px;
 }
 /* line 30, ../sass/resources.scss */
-div#resource_holder table.resource_data td {
-  width: 40%;
+div#resource_holder div.resource_holder div.resource_data span {
+  position: absolute;
+  width: 48%;
+  font-size: 14px;
   padding-top: 3px;
-  padding-bottom: 1px;
-  background-color: rgba(97, 97, 97, 0.9);
+  color: black;
 }
-/* line 37, ../sass/resources.scss */
-div#resource_holder table.resource_data td.name {
+/* line 38, ../sass/resources.scss */
+div#resource_holder div.resource_holder div.resource_data span.resource_name {
+  left: 0px;
   text-align: right;
-  padding-right: 4px;
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
 }
-/* line 44, ../sass/resources.scss */
-div#resource_holder table.resource_data td.value {
+/* line 43, ../sass/resources.scss */
+div#resource_holder div.resource_holder div.resource_data span.resource_value {
+  right: 0px;
   text-align: left;
-  padding-left: 4px;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
 }

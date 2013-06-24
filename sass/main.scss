@@ -52,7 +52,7 @@ div.side_column {
                 padding: 1px 8px 1px 6px;
                 height: 1px;
                 position: relative;
-                bottom: -4px;
+                bottom: -2px;
                 left: -6px;
             }
         }
@@ -128,15 +128,6 @@ p#points {
 
 p#turns {
     right: 18%
-}
-
-div#notification {
-    position:absolute;
-    left: 25%;
-    bottom: 44px;
-    width: 50%;
-    height: 36px;
-    border: 1px solid black;
 }
 
 .hidden {
