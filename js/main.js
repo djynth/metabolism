@@ -74,13 +74,15 @@ function populateResources() {
     for (var i = 0; i < resources.length; i++) {
         var res = resources[i];
 
-        $('div.resource_holder#' + res.organ).append('<div class="resource_data"><div class="progress">' +
+        $('div.resource_holder#' + res.organ).append('<div class="resource_data" title="' + res.name + '">' + 
+            '<div class="progress">' +
             '<span class="resource_name">' + res.abbr + '</span>' +
             '<span class="resource_value">' + res.value + '</span>' + 
-            //'<div class="bar" style="width: ' + Math.min(100, 100*(res.value/res.max_value)) + ';"></div>' + 
             '<div class="bar" style="width: ' + Math.min(100, 100*(res.value/res.max_value)) + '%;"></div>' + 
             '</div></div>');
     }
+
+    $('.resource_data').tooltip({ delay: { show: 500, hide: 100 } });
 }
 
 function onResourceChange(resource, organ, value, change) {
