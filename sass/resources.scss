@@ -11,33 +11,37 @@ div#resource_holder {
     div.resource_holder {
         padding: 6px;
         padding-top: 3px;
-        background-color: rgb(70, 70, 70);
+        background: rgb(70, 70, 70);
         height: auto;
 
         div.resource_data {
             width: 80%;
             margin: 10px auto;
-            padding-top: 3px;
-            padding-bottom: 1px;
-            color: black;
-            background-color: rgba(97, 97, 97, 0.9);
-            border-radius: 3px;
+            border-radius: 4px;            
             line-height: 14px;
-            height: 17px;
+            height: 21px;
 
-            p {
-                display: inline-block;
-                width: 45%;
-                font-size: 14px;
+            div.progress {
+                background-image: none;
+                background-color: rgba(97, 97, 97, 0.9);
+                height: 21px;
             }
 
-            p.resource_name {
-                float: left;
+            span {
+                position: absolute;
+                width: 48%;
+                font-size: 14px;
+                padding-top: 3px;
+                color: black;
+            }
+
+            span.resource_name {
+                left: 0px;
                 text-align: right;
             }
 
-            p.resource_value {
-                float: right;
+            span.resource_value {
+                right: 0px;
                 text-align: left;
             }
         }

@@ -67,7 +67,7 @@ function Action(name, id, points, limit, organs, resources, catabolic)
             var val = this.resources[i].val;
             var actualOrgan = isResourceGlobal(res) ? BODY : organ;
             if (isResourceLevelValid(res, changeResourceValue(res, actualOrgan, resources, val))) {
-                onResourceChange(res, actualOrgan, getResourceValue(res, actualOrgan, resources), val);
+                onResourceChange(getResourceByName(res), actualOrgan, getResourceValue(res, actualOrgan, resources), val);
             } else {
                 return res;
             }

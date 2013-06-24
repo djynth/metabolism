@@ -11,34 +11,38 @@ div#resource_holder div.resource_holder#body {
 div#resource_holder div.resource_holder {
   padding: 6px;
   padding-top: 3px;
-  background-color: #464646;
+  background: #464646;
   height: auto;
 }
 /* line 17, ../sass/resources.scss */
 div#resource_holder div.resource_holder div.resource_data {
   width: 80%;
   margin: 10px auto;
-  padding-top: 3px;
-  padding-bottom: 1px;
-  color: black;
-  background-color: rgba(97, 97, 97, 0.9);
-  border-radius: 3px;
+  border-radius: 4px;
   line-height: 14px;
-  height: 17px;
+  height: 21px;
 }
-/* line 28, ../sass/resources.scss */
-div#resource_holder div.resource_holder div.resource_data p {
-  display: inline-block;
-  width: 45%;
+/* line 24, ../sass/resources.scss */
+div#resource_holder div.resource_holder div.resource_data div.progress {
+  background-image: none;
+  background-color: rgba(97, 97, 97, 0.9);
+  height: 21px;
+}
+/* line 30, ../sass/resources.scss */
+div#resource_holder div.resource_holder div.resource_data span {
+  position: absolute;
+  width: 48%;
   font-size: 14px;
+  padding-top: 3px;
+  color: black;
 }
-/* line 34, ../sass/resources.scss */
-div#resource_holder div.resource_holder div.resource_data p.resource_name {
-  float: left;
+/* line 38, ../sass/resources.scss */
+div#resource_holder div.resource_holder div.resource_data span.resource_name {
+  left: 0px;
   text-align: right;
 }
-/* line 39, ../sass/resources.scss */
-div#resource_holder div.resource_holder div.resource_data p.resource_value {
-  float: right;
+/* line 43, ../sass/resources.scss */
+div#resource_holder div.resource_holder div.resource_data span.resource_value {
+  right: 0px;
   text-align: left;
 }

@@ -74,10 +74,12 @@ function populateResources() {
     for (var i = 0; i < resources.length; i++) {
         var res = resources[i];
 
-        $('div.resource_holder#' + res.organ).append('<div class="resource_data">' +
-            '<p class="resource_name">' + res.abbr + '</p>' +
-            '<p class="resource_value">' + res.value + '</p>' + 
-            '</div>');
+        $('div.resource_holder#' + res.organ).append('<div class="resource_data"><div class="progress">' +
+            '<span class="resource_name">' + res.abbr + '</span>' +
+            '<span class="resource_value">' + res.value + '</span>' + 
+            //'<div class="bar" style="width: ' + Math.min(100, 100*(res.value/res.max_value)) + ';"></div>' + 
+            '<div class="bar" style="width: ' + Math.min(100, 100*(res.value/res.max_value)) + '%;"></div>' + 
+            '</div></div>');
     }
 }
 
@@ -88,8 +90,8 @@ function onResourceChange(resource, organ, value, change) {
             return false;
         }
         var isCorrectResource = false;
-        $(this).children('p.resource_name').each(function() {
-            if ($(this).html() == resource) {
+        $(this).find('.resource_name').each(function() {
+            if (resource.hasName($(this).html())) {
                 isCorrectResource = true;
             }
         });
@@ -98,5 +100,6 @@ function onResourceChange(resource, organ, value, change) {
     elem.animate({ boxShadow : "0 0 5px 5px rgb("+color+")" }, 250, function() {
         elem.animate({ boxShadow : "0 0 5px 5px rgba("+color+", 0)" }, 250);
     });
-    elem.children('.resource_value').html(value);
+    elem.find('.resource_value').html(value);
+    elem.find('.bar').css('width', Math.min(100, 100*(value/resource.max_value)) + '%')
 }

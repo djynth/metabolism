@@ -16,7 +16,7 @@ var NUM_RESOURCES = 23;
  * @param {Number} value     the amount of this resource that is to be contained in the given organ
  * @param {String} organ     the name of the organ holding this resource, i.e. BODY, MUSCLE, LIVER, BRAIN
  */
-function Resource(abbr, name, full_name, value, organ)
+function Resource(abbr, name, full_name, value, max_value, organ)
 {
     if (!name) {
         throw "no name given to the resource";
@@ -26,6 +26,7 @@ function Resource(abbr, name, full_name, value, organ)
     this.name = name;
     this.full_name = full_name;
     this.value = value;
+    this.max_value = max_value;
     this.organ = organ;
 
     /**
@@ -219,30 +220,23 @@ function changeResourceValue(name, organ, resources, change)
 }
 
 function getAbbreviation(resource) {
-    for (var i = 0; i < NUM_RESOURCES; i++) {
-        var res = getResourceById(i, -1, (isResourceGlobal(i) ? BODY : BRAIN));
-        if (res.hasName(resource)) {
-            return res.abbr;
-        }
-    }
-    return null;
+    return getResourceByName(resource).abbr;
 }
 
 function getCommonName(resource) {
-    for (var i = 0; i < NUM_RESOURCES; i++) {
-        var res = getResourceById(i, -1, (isResourceGlobal(i) ? BODY : BRAIN));
-        if (res.hasName(resource)) {
-            return res.name;
-        }
-    }
-    return null;
+    return getResourceByName(resource).name;
 }
 
 function getFullName(resource) {
+    return getResourceByName(resource).full_name;
+}
+
+function getResourceByName(name)
+{
     for (var i = 0; i < NUM_RESOURCES; i++) {
         var res = getResourceById(i, -1, (isResourceGlobal(i) ? BODY : BRAIN));
-        if (res.hasName(resource)) {
-            return res.full_name;
+        if (res.hasName(name)) {
+            return res;
         }
     }
     return null;
@@ -266,31 +260,31 @@ function getResourceById(id, value, organ)
 
     switch(id)
     {
-    // Global Resources       Abbreviation     Common Name               Full (Scientific) Name                                                  Starting Value
-    case 0:  return new Resource("O2",         "Oxygen",                 "Oxygen",                                                value >= 0 ? value : 0,   organ);
-    case 1:  return new Resource("CO2",        "Carbon Dioxide",         "Carbon Dioxide",                                        value >= 0 ? value : 0,   organ);
-    case 2:  return new Resource("NH3",        "Ammonia",                "Ammonia",                                               value >= 0 ? value : 0,   organ);
-    case 3:  return new Resource("Glc",        "Glucose",                "Glucose",                                               value >= 0 ? value : 0,   organ);
-    case 4:  return new Resource("Ala",        "Alanine",                "Alanine",                                               value >= 0 ? value : 0,   organ);
-    case 5:  return new Resource("FA",         "Palmitate (Fatty Acid)", "Palmitate (Fatty Acid)",                                value >= 0 ? value : 0,   organ);
-    case 6:  return new Resource("Lact",       "Lactate",                "Lactate",                                               value >= 0 ? value : 0,   organ);
-    // Local Resources        Abbreviation     Common Name               Full (Scientific) Name                                                  Starting Value
-    case 7:  return new Resource("ADP",        "ADP",                    "Adenosine Diphosphate",                                 value >= 0 ? value : 200, organ);
-    case 8:  return new Resource("ATP",        "ATP",                    "Adenosine Triphosphate",                                value >= 0 ? value : 0,   organ);
-    case 9:  return new Resource("Pi",         "Pi",                     "Phosphate Group",                                       value >= 0 ? value : 200, organ);
-    case 10: return new Resource("NAD+",       "NAD+",                   "Nicotinamide Adenine Dinucleotide",                     value >= 0 ? value : 200, organ);
-    case 11: return new Resource("NADH",       "NADH",                   "[Reduced] Nicotinamide Adenine Dinucleotide",           value >= 0 ? value : 0,   organ);
-    case 12: return new Resource("FAD",        "FAD",                    "Flavin Adenine Dinucleotide",                           value >= 0 ? value : 100, organ);
-    case 13: return new Resource("FADH2",      "FADH2",                  "[Reduced] Flavin Adenine Dinucleotide",                 value >= 0 ? value : 0,   organ);
-    case 14: return new Resource("NADP+",      "NADP+",                  "Nicotinamide Adenine Dinucleotide Phosphate",           value >= 0 ? value : 100, organ);
-    case 15: return new Resource("NADPH",      "NADPH",                  "[Reduced] Nicotinamide Adenine Dinucleotide Phosphate", value >= 0 ? value : 0,   organ);
-    case 16: return new Resource("HSCoA",      "Coenzyme A",             "Coenzyme A",                                            value >= 0 ? value : 100, organ);
-    case 17: return new Resource("Protein",    "Protein",                "Protein",                                               value >= 0 ? value : 0,   organ);
-    case 18: return new Resource("RNA",        "RNA",                    "Ribonucleic Acid",                                      value >= 0 ? value : 0,   organ);
-    case 19: return new Resource("Gly",        "Glycogen",               "Glycogen",                                              value >= 0 ? value : 0,   organ);
-    case 20: return new Resource("Acetyl-CoA", "Acetyl-S-CoA",           "Acetyl Coenzyme A",                                     value >= 0 ? value : 0,   organ);
-    case 21: return new Resource("Pyr",        "Pyruvate",               "Pyruvate",                                              value >= 0 ? value : 0,   organ);
-    case 22: return new Resource("Rib",        "Ribose",                 "Ribose",                                                value >= 0 ? value : 0,   organ);
+    // Global Resources       Abbreviation     Common Name               Full (Scientific) Name                                           Starting Value  Max Value  Organ
+    case 0:  return new Resource("O2",         "Oxygen",                 "Oxygen",                                                value >= 0 ? value : 0,   100, organ);
+    case 1:  return new Resource("CO2",        "Carbon Dioxide",         "Carbon Dioxide",                                        value >= 0 ? value : 0,   100, organ);
+    case 2:  return new Resource("NH3",        "Ammonia",                "Ammonia",                                               value >= 0 ? value : 0,   50,  organ);
+    case 3:  return new Resource("Glc",        "Glucose",                "Glucose",                                               value >= 0 ? value : 0,   50,  organ);
+    case 4:  return new Resource("Ala",        "Alanine",                "Alanine",                                               value >= 0 ? value : 0,   50,  organ);
+    case 5:  return new Resource("FA",         "Palmitate (Fatty Acid)", "Palmitate (Fatty Acid)",                                value >= 0 ? value : 0,   50,  organ);
+    case 6:  return new Resource("Lact",       "Lactate",                "Lactate",                                               value >= 0 ? value : 0,   50,  organ);
+    // Local Resources        Abbreviation     Common Name               Full (Scientific) Name                                           Starting Value  Max Value  Organ
+    case 7:  return new Resource("ADP",        "ADP",                    "Adenosine Diphosphate",                                 value >= 0 ? value : 200, 200, organ);
+    case 8:  return new Resource("ATP",        "ATP",                    "Adenosine Triphosphate",                                value >= 0 ? value : 0,   200, organ);
+    case 9:  return new Resource("Pi",         "Pi",                     "Phosphate Group",                                       value >= 0 ? value : 200, 200, organ);
+    case 10: return new Resource("NAD+",       "NAD+",                   "Nicotinamide Adenine Dinucleotide",                     value >= 0 ? value : 200, 200, organ);
+    case 11: return new Resource("NADH",       "NADH",                   "[Reduced] Nicotinamide Adenine Dinucleotide",           value >= 0 ? value : 0,   200, organ);
+    case 12: return new Resource("FAD",        "FAD",                    "Flavin Adenine Dinucleotide",                           value >= 0 ? value : 100, 100, organ);
+    case 13: return new Resource("FADH2",      "FADH2",                  "[Reduced] Flavin Adenine Dinucleotide",                 value >= 0 ? value : 0,   100, organ);
+    case 14: return new Resource("NADP+",      "NADP+",                  "Nicotinamide Adenine Dinucleotide Phosphate",           value >= 0 ? value : 100, 100, organ);
+    case 15: return new Resource("NADPH",      "NADPH",                  "[Reduced] Nicotinamide Adenine Dinucleotide Phosphate", value >= 0 ? value : 0,   100, organ);
+    case 16: return new Resource("HSCoA",      "Coenzyme A",             "Coenzyme A",                                            value >= 0 ? value : 100, 100, organ);
+    case 17: return new Resource("Protein",    "Protein",                "Protein",                                               value >= 0 ? value : 0,   50,  organ);
+    case 18: return new Resource("RNA",        "RNA",                    "Ribonucleic Acid",                                      value >= 0 ? value : 0,   50,  organ);
+    case 19: return new Resource("Gly",        "Glycogen",               "Glycogen",                                              value >= 0 ? value : 0,   50,  organ);
+    case 20: return new Resource("Acetyl-CoA", "Acetyl-S-CoA",           "Acetyl Coenzyme A",                                     value >= 0 ? value : 0,   50,  organ);
+    case 21: return new Resource("Pyr",        "Pyruvate",               "Pyruvate",                                              value >= 0 ? value : 0,   50,  organ);
+    case 22: return new Resource("Rib",        "Ribose",                 "Ribose",                                                value >= 0 ? value : 0,   50,  organ);
     }
     throw "unknown resource id: " + id;
 }
