@@ -1,47 +1,51 @@
-@import "constants";
+@import "base";
 
-div#action_holder {
-    left: 0px;
+#pathway-holder {
+    left: 0;
 
-    div.action_holder#body {
-        background-color: inherit;
-    }
+    .pathway-holder {
+        padding: 10px 6px;
+        background-color: $activeTabBackground;
+        overflow: auto;
 
-    div.action_holder {
-        padding: 6px;
-        padding-top: 3px;
-        background-color: rgb(70, 70, 70);
-
-        div.action {
+        .pathway {
+            margin:  2px 2px 4px 2px;
             padding: 5px;
-            margin: 2px;
-            margin-bottom: 4px;
+            background-color: $elementBackground;
+            border: 1px solid $elementBorderColor;
             border-radius: 7px;
-            background-color: rgba(93, 93, 93, 0.82);
-            border: 1px solid rgba(73, 73, 73, 0.9);
-            font-size: 12px;
+            font-size:   $textFontSize;
+            line-height: $textFontSize;
+
+            &:first-child {
+                margin-top: 0px;
+            }
+
+            &:last-child {
+                margin-bottom: 0px;
+            }
 
             p {
                 margin: 0px;
-                color: rgb(12, 12, 12);
+                color: $textColor;
             }
 
-            p.title {
+            .title {
                 display: inline;
                 margin-right: 8px;
                 font-weight: bold;
             }
 
-            p.catabolic {
+            .catabolic {
                 display: inline;
             }
             
-            p.points {
+            .points {
                 display: inline;
                 float: right;
             }
 
-            table.reaction {
+            .reaction {
                 width: 80%;
                 margin: 3px auto;
                 border-collapse: collapse;
@@ -51,7 +55,6 @@ div#action_holder {
                     width: 40%;
                     padding-top: 1px;
                     padding-bottom: 1px;
-                    line-height: 12px;
                 }
 
                 .reactant {
@@ -73,13 +76,16 @@ div#action_holder {
                 }
             }
 
-            p.lacking {
+            .lacking {
                 position: relative;
-                left: 2px;
+                left:   2px;
                 bottom: 2px;
-                padding-top: 4px;
-                padding-bottom: 2px;
+                padding: 4px 0px 2px;
             }
         }
+    }
+
+    [value|=global] {
+        background-color: inherit;
     }
 }

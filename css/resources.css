@@ -1,48 +1,48 @@
 /* line 3, ../sass/resources.scss */
-div#resource_holder {
+#resource-holder {
   right: 0px;
-  border-left: 1px solid black;
+  border-left: 1px solid #222222;
 }
 /* line 7, ../sass/resources.scss */
-div#resource_holder div.resource_holder#body {
-  background-color: inherit;
-}
-/* line 11, ../sass/resources.scss */
-div#resource_holder div.resource_holder {
-  padding: 6px;
-  padding-top: 3px;
-  background: #464646;
+#resource-holder .resource-holder {
   height: auto;
+  padding: 3px 6px 6px 6px;
+  background: #5c5c5c;
 }
-/* line 17, ../sass/resources.scss */
-div#resource_holder div.resource_holder div.resource_data {
+/* line 12, ../sass/resources.scss */
+#resource-holder .resource-holder .resource-data {
   width: 80%;
+  height: 21px;
   margin: 10px auto;
   border-radius: 4px;
   line-height: 14px;
-  height: 21px;
 }
-/* line 24, ../sass/resources.scss */
-div#resource_holder div.resource_holder div.resource_data div.progress {
+/* line 19, ../sass/resources.scss */
+#resource-holder .resource-holder .resource-data .progress {
   background-image: none;
-  background-color: rgba(97, 97, 97, 0.9);
-  height: 21px;
+  background-color: rgba(70, 70, 70, 0.82);
+  border: 1px solid rgba(73, 73, 73, 0.9);
+  height: inherit;
 }
-/* line 30, ../sass/resources.scss */
-div#resource_holder div.resource_holder div.resource_data span {
+/* line 26, ../sass/resources.scss */
+#resource-holder .resource-holder .resource-data span {
   position: absolute;
   width: 48%;
   font-size: 14px;
   padding-top: 3px;
-  color: black;
+  color: #0e0e0e;
 }
-/* line 38, ../sass/resources.scss */
-div#resource_holder div.resource_holder div.resource_data span.resource_name {
+/* line 34, ../sass/resources.scss */
+#resource-holder .resource-holder .resource-data .resource-name {
   left: 0px;
   text-align: right;
 }
-/* line 43, ../sass/resources.scss */
-div#resource_holder div.resource_holder div.resource_data span.resource_value {
+/* line 39, ../sass/resources.scss */
+#resource-holder .resource-holder .resource-data .resource-value {
   right: 0px;
   text-align: left;
+}
+/* line 46, ../sass/resources.scss */
+#resource-holder [value|=global] {
+  background-color: inherit;
 }

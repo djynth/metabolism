@@ -1,30 +1,26 @@
-@import "constants";
+@import "base";
 
-div#resource_holder {
+#resource-holder {
     right: 0px;
-    border-left: 1px solid black;
+    border-left: 1px solid $borderColor;
 
-    div.resource_holder#body {
-        background-color: inherit;
-    }
-
-    div.resource_holder {
-        padding: 6px;
-        padding-top: 3px;
-        background: rgb(70, 70, 70);
+    .resource-holder {
         height: auto;
+        padding: 3px 6px 6px 6px;
+        background: $activeTabBackground;
 
-        div.resource_data {
-            width: 80%;
+        .resource-data {
+            width:  80%;
+            height: 21px;
             margin: 10px auto;
             border-radius: 4px;            
             line-height: 14px;
-            height: 21px;
 
-            div.progress {
+            .progress {
                 background-image: none;
-                background-color: rgba(97, 97, 97, 0.9);
-                height: 21px;
+                background-color: $elementBackground;
+                border: 1px solid $elementBorderColor;
+                height: inherit;
             }
 
             span {
@@ -32,18 +28,22 @@ div#resource_holder {
                 width: 48%;
                 font-size: 14px;
                 padding-top: 3px;
-                color: black;
+                color: $textColor;
             }
 
-            span.resource_name {
+            .resource-name {
                 left: 0px;
                 text-align: right;
             }
 
-            span.resource_value {
+            .resource-value {
                 right: 0px;
                 text-align: left;
             }
         }
+    }
+
+    [value|=global] {
+        background-color: inherit;
     }
 }
