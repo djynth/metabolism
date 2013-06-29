@@ -1,21 +1,19 @@
-var BRAIN  = "brain";       // a tag representing the brain organ
-var MUSCLE = "muscle";      // a tag representing the muscle organ
-var LIVER  = "liver";       // a tag representing the liver organ
-var GLOBAL = "global";      // a tag representing the global organ: pathways and resources that are not constrained to one specific area in the body
+var BRAIN  = "brain";
+var MUSCLE = "muscle";
+var LIVER  = "liver";
+var GLOBAL = "global";
 
-var TURNS = 50;             // the maximum numer of turns
-var turn = TURNS+1;         // the current turn (starts at TURNS and decreases)
-var points = 0;             // the current number of points accumulated
-var resources = [];         // an array holding the current resource states
-var pathways = [];          // an array holding all possible pathways
+var TURNS = 50;
+var turn = TURNS+1;
+var points = 0;
+var resources = [];
+var pathways = [];
 
 loadData();
 setPoints(points);
 nextTurn();
 
 $(document).ready(function() {
-    
-
     $(window).resize(function() { $('.scrollbar-content').each(function() { updateScrollbar($(this)); }); });
 
     $('.organ-title').click(function() {
@@ -23,13 +21,6 @@ $(document).ready(function() {
     });
 });
 
-/**
- * Updates the scrollbar held by the given element.
- * If the given element does not have a scrollbar, one is created for it, otherwise its height is updated.
- * Thus, this function should be called whenever the window is resized or the contents of a scrollbar holder are changed.
- * 
- * @param  {jQuery} elem the scrollbar container to be updated
- */
 function updateScrollbar(elem)
 {
     elem.css('height', ($(window).height() - elem.offset().top - parseInt(elem.css('padding-top')) - parseInt(elem.css('padding-bottom'))) + 'px');
@@ -46,32 +37,17 @@ function updateScrollbar(elem)
     }
 }
 
-/**
- * Moves to the next turn by decreasing the current turn by one and updating the turn counter element.
- *
- * @return {Number} the current turn
- */
 function nextTurn() {
     turn--;
     $('#turns').html(turn + '/' + TURNS + ' Turns Remaining');
     return turn;
 }
 
-/**
- * Sets the user's total score to the given value and updates the point counter element.
- * 
- * @param {Number} pts the user's point total
- */
 function setPoints(pts) {
     points = pts;
     $('#points').html(points + ' Points');
 }
 
-/**
- * Selects the given organ by highlighting its tab and showing its pathways and resources while hidding all other organs.
- * 
- * @param  {String} organ the organ to be shown to the user
- */
 function selectOrgan(organ) {
     $('.organ-title').each(function() {
         if ($(this).attr('value') == GLOBAL) {
@@ -91,10 +67,6 @@ function selectOrgan(organ) {
     });
 }
 
-/**
- * Populates the pathway sidebar with all pathways and refreshes them.
- * This function should only be called once to initialize the pathway sidebar.
- */
 function populatePathways() {
     var organs = [GLOBAL, BRAIN, MUSCLE, LIVER];
     for (var i = 0; i < organs.length; i++) {
@@ -106,9 +78,6 @@ function populatePathways() {
     refreshPathways();
 }
 
-/**
- * Populates the resource sidebar with the current resource levels.
- */
 function populateResources() {
     for (var i = 0; i < resources.length; i++) {
         var res = resources[i];
@@ -124,28 +93,10 @@ function populateResources() {
     $('.resource-data').tooltip({ delay: { show: 500, hide: 100 } });
 }
 
-/**
- * This function ought to be invoked whenver a resource level is modified by any means.
- * The resource value shown to the user is updated and the resource container is highlighted to show the user that the level has been modified.
- * 
- * @param  {Resource} resource the resource that has been changed
- * @param  {Number} change     the amount by which the given resource has changed
- *
- * TODO: use resource.value rather than a separate variable
- */
 function onResourceChange(resource, change) {
     var color = change > 0 ? "72, 144, 229" : "232, 12, 15";
     var elem = $('.resource-data').filter(function() {
-        if($(this).parent().attr('value') != resource.organ) {
-            return false;
-        }
-        var isCorrectResource = false;
-        $(this).find('.resource-name').each(function() {
-            if (resource.hasName($(this).html())) {
-                isCorrectResource = true;
-            }
-        });
-        return isCorrectResource;
+        return resource.hasName($(this).find('.resource-name').html()) && resource.organ == $(this).parents('.resource-holder').attr('value');
     });
     elem.animate({ boxShadow : "0 0 5px 5px rgb("+color+")" }, 250, function() {
         elem.animate({ boxShadow : "0 0 5px 5px rgba("+color+", 0)" }, 250);
@@ -184,7 +135,7 @@ function loadData()
             }
         }
     }).fail(function() {
-        alert('failed to load resources');          // TODO
+        alert('Error\nFailed to load resource data!');          // TODO
     }).always(function() {
             $.ajax({
             url: "../assets/pathways.txt",
@@ -215,7 +166,7 @@ function loadData()
                 pathways.push(new Pathway(d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]));
             }
         }).fail(function() {
-            alert('failed to load pathways');          // TODO
+            alert('Error\nFailed to load pathway data!');          // TODO
         }).always(function() {
             populateResources();
             populatePathways();
@@ -224,11 +175,8 @@ function loadData()
             $('.run-pathway').click(function() {
                 var id = $(this).parents('.pathway').attr('value');
                 var organ = $(this).parents('.pathway-holder').attr('value');
-                var pathway = getPathwayById(id);
-                pathway.run(organ);
+                getPathwayById(id).run(organ);
             });
         });
     });
-
-    
 }
