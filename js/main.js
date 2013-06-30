@@ -10,10 +10,11 @@ var resources = [];
 var pathways = [];
 
 loadData();
-setPoints(points);
-nextTurn();
 
 $(document).ready(function() {
+    setPoints(points);
+    nextTurn();
+
     $(window).resize(function() { $('.scrollbar-content').each(function() { updateScrollbar($(this)); }); });
 
     $('.organ-title').click(function() {
@@ -41,6 +42,10 @@ function nextTurn() {
     turn--;
     $('#turns').html(turn + '/' + TURNS + ' Turns Remaining');
     return turn;
+}
+
+function addPoints(pts) {
+    setPoints(points + pts);
 }
 
 function setPoints(pts) {

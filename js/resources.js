@@ -55,7 +55,7 @@ function changeResourceValue(name, organ, change)
 
     for (var i = 0; i < resources.length; i++) {
         if (resources[i].hasName(name) && resources[i].organ == organ) {
-            if (resources[i].value + change > 0) {
+            if (resources[i].value + change >= 0) {
                 resources[i].value += change;
                 return resources[i].value;
             } else {

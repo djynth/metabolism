@@ -24,6 +24,12 @@ function Pathway(id, name, points, limit, color, catabolic, organs, resources)
         }
 
         for (var i = 0; i < this.resources.length; i++) {
+            if (getResourceValue(this.resources[i].res, isResourceGlobal(this.resources[i].res) ? GLOBAL : organ) + this.resources[i].val < 0) {
+                return false;
+            }
+        }
+
+        for (var i = 0; i < this.resources.length; i++) {
             var res = this.resources[i].res;
             var val = this.resources[i].val;
             var actualOrgan = isResourceGlobal(res) ? GLOBAL : organ;
@@ -34,7 +40,9 @@ function Pathway(id, name, points, limit, color, catabolic, organs, resources)
         refreshPathways();
 
         nextTurn();
-        setPoints(points + this.points);
+        addPoints(this.points);
+
+        return true;
     }
 
     this.getReactants = function() {

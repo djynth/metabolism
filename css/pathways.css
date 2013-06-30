@@ -82,7 +82,7 @@
   position: relative;
   left: 2px;
   bottom: 2px;
-  padding: 4px 0px 2px;
+  padding: 10px 0px 4px;
 }
 /* line 88, ../sass/pathways.scss */
 #pathway-holder [value|=global] {
