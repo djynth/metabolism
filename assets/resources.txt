@@ -1,24 +1,24 @@
-#ID Abbreviation Common Name    Full (Scientific Name)                                Starting Value Max Value Global Color
-0   O2           Oxygen         Oxygen                                                0              100       true   #FF0000
-1   CO2          Carbon_Dioxide Carbon_Dioxide                                        0              100       true   #FF0000
-2   NH3          Ammonia        Ammonia                                               0              50        true   #FF0000
-3   Glc          Glucose        Glucose                                               0              50        true   #FF0000
-4   Ala          Alanine        Alanine                                               0              50        true   #FF0000
-5   FA           Palmitate      Palmitate_(Fatty_Acid)                                0              50        true   #FF0000
-6   Lact         Lactate        Lactate                                               0              50        true   #FF0000
-7   ADP          ADP            Adenosine_Diphosphate                                 200            200       false  #FF0000
-8   ATP          ATP            Adenosine_Triphosphate                                0              200       false  #FF0000
-9   Pi           Pi             Phosphate_Group                                       200            200       false  #FF0000
-10  NAD+         NAD+           Nicotinamide_Adenine_Dinucleotide                     200            200       false  #FF0000
-11  NADH         NADH           [Reduced]_Nicotinamide_Adenine_Dinucleotide           0              200       false  #FF0000
-12  FAD          FAD            Flavin_Adenine_Dinucleotide                           100            100       false  #FF0000
-13  FADH2        FADH2          [Reduced]_Flavin_Adenine_Dinucleotide                 0              100       false  #FF0000
-14  NADP+        NADP+          Nicotinamide_Adenine_Dinucleotide_Phosphate           100            100       false  #FF0000
-15  NADPH        NADPH          [Reduced]_Nicotinamide_Adenine_Dinucleotide_Phosphate 0              100       false  #FF0000
-16  HSCoA        Coenzyme_A     Coenzyme_A                                            100            100       false  #FF0000
-17  Protein      Protein        Protein                                               0              50        false  #FF0000
-18  RNA          RNA            Ribonucleic_Acid                                      0              50        false  #FF0000
-19  Gly          Glycogen       Glycogen                                              0              50        false  #FF0000
-20  Acetyl-CoA   Acetyl-S-CoA   Acetyl_Coenzyme_A                                     0              50        false  #FF0000
-21  Pyr          Pyruvate       Pyruvate                                              0              50        false  #FF0000
-22  Rib          Ribose         Ribose                                                0              50        false  #FF0000
+#ID Abbreviation Common Name    Full (Scientific Name)                                Starting Value Max Value Global Color   Image Filename
+0   O2           Oxygen         Oxygen                                                0              100       true   #FF0000 ../img/molecules/o2.png
+1   CO2          Carbon_Dioxide Carbon_Dioxide                                        0              100       true   #FF0000 ../img/molecules/co2.png
+2   NH3          Ammonia        Ammonia                                               0              50        true   #FF0000 ../img/molecules/nh3.png
+3   Glc          Glucose        Glucose                                               0              50        true   #FF0000 ../img/molecules/glucose.png
+4   Ala          Alanine        Alanine                                               0              50        true   #FF0000 ../img/molecules/alanine.png
+5   FA           Palmitate      Palmitate_(Fatty_Acid)                                0              50        true   #FF0000 ../img/molecules/palmitate.png
+6   Lact         Lactate        Lactate                                               0              50        true   #FF0000 ../img/molecules/lactate.png
+7   ADP          ADP            Adenosine_Diphosphate                                 200            200       false  #FF0000 ../img/molecules/adp.png
+8   ATP          ATP            Adenosine_Triphosphate                                0              200       false  #FF0000 ../img/molecules/atp.png
+9   Pi           Pi             Phosphate_Group                                       200            200       false  #FF0000 none
+10  NAD+         NAD+           Nicotinamide_Adenine_Dinucleotide                     200            200       false  #FF0000 ../img/molecules/nad.png
+11  NADH         NADH           [Reduced]_Nicotinamide_Adenine_Dinucleotide           0              200       false  #FF0000 ../img/molecules/nad.png
+12  FAD          FAD            Flavin_Adenine_Dinucleotide                           100            100       false  #FF0000 ../img/molecules/fad.png
+13  FADH2        FADH2          [Reduced]_Flavin_Adenine_Dinucleotide                 0              100       false  #FF0000 ../img/molecules/fad.png
+14  NADP+        NADP+          Nicotinamide_Adenine_Dinucleotide_Phosphate           100            100       false  #FF0000 ../img/molecules/nadp.png
+15  NADPH        NADPH          [Reduced]_Nicotinamide_Adenine_Dinucleotide_Phosphate 0              100       false  #FF0000 ../img/molecules/nadp.png
+16  HSCoA        Coenzyme_A     Coenzyme_A                                            100            100       false  #FF0000 ../img/molecules/coenzymea.png
+17  Protein      Protein        Protein                                               0              50        false  #FF0000 ../img/molecules/protein.png
+18  RNA          RNA            Ribonucleic_Acid                                      0              50        false  #FF0000 ../img/molecules/rna.png
+19  Gly          Glycogen       Glycogen                                              0              50        false  #FF0000 ../img/molecules/glycogen.png
+20  Acetyl-CoA   Acetyl-S-CoA   Acetyl_Coenzyme_A                                     0              50        false  #FF0000 ../img/molecules/acetyl-coa.png
+21  Pyr          Pyruvate       Pyruvate                                              0              50        false  #FF0000 ../img/molecules/pyruvate.png
+22  Rib          Ribose         Ribose                                                0              50        false  #FF0000 ../img/molecules/ribose.png

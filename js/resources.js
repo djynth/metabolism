@@ -1,4 +1,4 @@
-function Resource(id, abbr, name, full_name, value, max_value, organ, color)
+function Resource(id, abbr, name, full_name, value, max_value, organ, color, imageFilename)
 {
     this.id = id;
     this.abbr = abbr;
@@ -8,6 +8,7 @@ function Resource(id, abbr, name, full_name, value, max_value, organ, color)
     this.max_value = max_value;
     this.organ = organ;
     this.color = color;
+    this.imageFilename = imageFilename;
 
     this.hasName = function(name) {
         return this.name == name || this.abbr == name || this.full_name == name;

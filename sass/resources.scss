@@ -41,6 +41,10 @@
                 text-align: left;
             }
         }
+
+        .tooltip {
+            z-index: 10000;
+        }
     }
 
     [value|=global] {

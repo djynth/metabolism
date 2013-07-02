@@ -132,11 +132,11 @@ function loadData()
             d[4] = parseInt(d[4]);  // parse starting value
             d[5] = parseInt(d[5]);  // parse max value
             if (d[6] == 'true') {   // resource is global
-                resources.push(new Resource(d[0], d[1], d[2], d[3], d[4], d[5], GLOBAL, d[7]));
+                resources.push(new Resource(d[0], d[1], d[2], d[3], d[4], d[5], GLOBAL, d[7], d[8]));
             } else {                // resource is not global
-                resources.push(new Resource(d[0], d[1], d[2], d[3], d[4], d[5], BRAIN,  d[7]));
-                resources.push(new Resource(d[0], d[1], d[2], d[3], d[4], d[5], MUSCLE, d[7]));
-                resources.push(new Resource(d[0], d[1], d[2], d[3], d[4], d[5], LIVER,  d[7]));
+                resources.push(new Resource(d[0], d[1], d[2], d[3], d[4], d[5], BRAIN,  d[7], d[8]));
+                resources.push(new Resource(d[0], d[1], d[2], d[3], d[4], d[5], MUSCLE, d[7], d[8]));
+                resources.push(new Resource(d[0], d[1], d[2], d[3], d[4], d[5], LIVER,  d[7], d[8]));
             }
         }
     }).fail(function() {
@@ -217,6 +217,27 @@ function loadData()
                     updatePathwayButtons($(this).siblings('.pathway-run'));
                 }
             });
+
+            $('.resource-data').mouseenter(function() {
+                var resource = getResourceByName($(this).find('.resource-name').html());
+                if (resource.imageFilename != 'none') {
+                    $('#resource-visual').append('<img name="' + resource.name + '" src="' + resource.imageFilename + '" alt="' + resource.name + 
+                        '" class="image-content hidden">');
+
+                    setTimeout(function() {
+                        $('#resource-visual img[name="' + resource.name + '"]').fadeIn(250);
+                    }, 300);  
+                }
+            });
+
+            $('.resource-data').mouseleave(function() {
+                var resource = getResourceByName($(this).find('.resource-name').html());
+                if (resource.imageFilename != 'none') {
+                    $('#resource-visual img[name="' + resource.name + '"]').fadeOut(100, function() {
+                        $(this).remove();
+                    });
+                }
+            });            
         });
     });
 }
