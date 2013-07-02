@@ -204,11 +204,16 @@ function checkForLacking(pathway, organ) {
             }
             lackingList += '.';
             $(this).find('p.lacking').html(lackingList);
+
+            $(this).css('box-shadow', '0px 0px');
         } else {
             $(this).find('.run-holder').show();
             $(this).find('.lacking').hide();
             $(this).find('.pathway-run').attr('max-value', maxRuns);
+            
+            $(this).css('box-shadow', '0px 0px 5px 2px ' + pathway.color);
         }
+
         updatePathwayButtons($(this).find('.pathway-run'));
     });
 }

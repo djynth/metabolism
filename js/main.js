@@ -87,15 +87,13 @@ function populateResources() {
     for (var i = 0; i < resources.length; i++) {
         var res = resources[i];
 
-        $('.resource-holder[value="' + res.organ + '"]').append('<div class="resource-data" title="' + res.name + '">' + 
+        $('.resource-holder[value="' + res.organ + '"]').append('<div class="resource-data">' + 
             '<div class="progress">' +
             '<span class="resource-name">' + res.abbr + '</span>' +
             '<span class="resource-value">' + res.value + '</span>' + 
             '<div class="bar" style="width: ' + Math.min(100, 100*(res.value/res.max_value)) + '%;"></div>' + 
             '</div></div>');
     }
-
-    $('.resource-data').tooltip({ delay: { show: 500, hide: 100 } });
 }
 
 function onResourceChange(resource, change) {
@@ -113,7 +111,7 @@ function onResourceChange(resource, change) {
 function loadData()
 {
     $.ajax({
-        url: "../assets/resources.txt",
+        url: "../resources.txt",
         dataType: "text",
     }).done(function(data) {
         var lines = data.split('\n');
@@ -143,7 +141,7 @@ function loadData()
         alert('Error\nFailed to load resource data!');          // TODO
     }).always(function() {
             $.ajax({
-            url: "../assets/pathways.txt",
+            url: "../pathways.txt",
             dataType: "text",
         }).done(function(data) {
             var lines = data.split('\n');
@@ -169,6 +167,7 @@ function loadData()
                     d[7][j] = {res: e[0], val: parseInt(e[1])};
                 }
                 pathways.push(new Pathway(d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]));
+                console.log(d);
             }
         }).fail(function() {
             alert('Error\nFailed to load pathway data!');          // TODO

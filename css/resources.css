@@ -1,15 +1,15 @@
-/* line 3, ../sass/resources.scss */
+/* line 4, ../sass/resources.scss */
 #resource-holder {
   right: 0px;
   border-left: 1px solid #222222;
 }
-/* line 7, ../sass/resources.scss */
+/* line 8, ../sass/resources.scss */
 #resource-holder .resource-holder {
   height: auto;
   padding: 3px 6px 6px 6px;
   background: #5c5c5c;
 }
-/* line 12, ../sass/resources.scss */
+/* line 13, ../sass/resources.scss */
 #resource-holder .resource-holder .resource-data {
   width: 80%;
   height: 21px;
@@ -17,14 +17,14 @@
   border-radius: 4px;
   line-height: 14px;
 }
-/* line 19, ../sass/resources.scss */
+/* line 20, ../sass/resources.scss */
 #resource-holder .resource-holder .resource-data .progress {
   background-image: none;
   background-color: rgba(70, 70, 70, 0.82);
   border: 1px solid rgba(73, 73, 73, 0.9);
   height: inherit;
 }
-/* line 26, ../sass/resources.scss */
+/* line 27, ../sass/resources.scss */
 #resource-holder .resource-holder .resource-data span {
   position: absolute;
   width: 48%;
@@ -32,21 +32,21 @@
   padding-top: 3px;
   color: #0e0e0e;
 }
-/* line 34, ../sass/resources.scss */
+/* line 35, ../sass/resources.scss */
 #resource-holder .resource-holder .resource-data .resource-name {
   left: 0px;
   text-align: right;
 }
-/* line 39, ../sass/resources.scss */
+/* line 40, ../sass/resources.scss */
 #resource-holder .resource-holder .resource-data .resource-value {
   right: 0px;
   text-align: left;
 }
-/* line 45, ../sass/resources.scss */
+/* line 50, ../sass/resources.scss */
 #resource-holder .resource-holder .tooltip {
   z-index: 10000;
 }
-/* line 50, ../sass/resources.scss */
+/* line 55, ../sass/resources.scss */
 #resource-holder [value|=global] {
   background-color: inherit;
 }

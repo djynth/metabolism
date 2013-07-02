@@ -13,6 +13,7 @@
             padding: 5px;
             background-color: $elementBackground;
             border: 1px solid $elementBorderColor;
+            box-shadow: -3px -3px rgba(0, 0, 0, 0);
             border-radius: 7px;
             font-size:   $textFontSize;
             line-height: $textFontSize;
@@ -80,7 +81,7 @@
                 position: relative;
                 left:   2px;
                 bottom: 2px;
-                padding: 10px 0px 4px;
+                padding: 8px 0px 2px;
             }
 
             .pathway-run {
