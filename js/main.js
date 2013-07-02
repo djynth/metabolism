@@ -177,10 +177,72 @@ function loadData()
             populatePathways();
             selectOrgan(BRAIN);
 
-            $('.run-pathway').click(function() {
+            $('.pathway-run').click(function() {
                 var id = $(this).parents('.pathway').attr('value');
                 var organ = $(this).parents('.pathway-holder').attr('value');
-                getPathwayById(id).run(organ);
+                var times = $(this).attr('value');
+                var pathway = getPathwayById(id);
+                pathway.run(organ, times);
+
+                var maxRuns = pathway.getTotalMaxRuns(organ);
+                if (times > maxRuns) {
+                    $(this).attr('value', maxRuns);
+                    $(this).html('Run x' + maxRuns);
+                    $(this).siblings('.pathway-top').addClass('disabled');
+                    $(this).siblings('.pathway-plus').addClass('disabled');
+                }
+            });
+
+            $('.pathway-plus').click(function() {
+                if (!$(this).hasClass('disabled')) {
+                    var times = parseInt($(this).siblings('.pathway-run').attr('value')) + 1;
+                    $(this).siblings('.pathway-run').attr('value', times);
+                    $(this).siblings('.pathway-run').html('Run x' + times);
+                    if (times >= parseInt($(this).siblings('.pathway-run').attr('max-value'))) {
+                        $(this).addClass('disabled');
+                        $(this).siblings('.pathway-top').addClass('disabled');
+                    }
+                    $(this).siblings('.pathway-minus').removeClass('disabled');
+                    $(this).siblings('.pathway-bottom').removeClass('disabled');
+                }
+            });
+
+            $('.pathway-minus').click(function() {
+                if (!$(this).hasClass('disabled')) {
+                    var times = parseInt($(this).siblings('.pathway-run').attr('value')) - 1;
+                    $(this).siblings('.pathway-run').attr('value', times);
+                    $(this).siblings('.pathway-run').html('Run x' + times);
+                    if (times <= parseInt($(this).siblings('.pathway-run').attr('min-value'))) {
+                        $(this).addClass('disabled');
+                        $(this).siblings('.pathway-bottom').addClass('disabled');
+                    }
+                    $(this).siblings('.pathway-plus').removeClass('disabled');
+                    $(this).siblings('.pathway-top').removeClass('disabled');
+                }
+            });
+
+            $('.pathway-top').click(function() {
+                if (!$(this).hasClass('disabled')) {
+                    var times = parseInt($(this).siblings('.pathway-run').attr('max-value'));
+                    $(this).siblings('.pathway-run').attr('value', times);
+                    $(this).siblings('.pathway-run').html('Run x' + times);
+                    $(this).addClass('disabled');
+                    $(this).siblings('.pathway-plus').addClass('disabled');
+                    $(this).siblings('.pathway-minus').removeClass('disabled');
+                    $(this).siblings('.pathway-bottom').removeClass('disabled');
+                }
+            });
+
+            $('.pathway-bottom').click(function() {
+                if (!$(this).hasClass('disabled')) {
+                    var times = parseInt($(this).siblings('.pathway-run').attr('min-value'));
+                    $(this).siblings('.pathway-run').attr('value', times);
+                    $(this).siblings('.pathway-run').html('Run x' + times);
+                    $(this).addClass('disabled');
+                    $(this).siblings('.pathway-minus').addClass('disabled');
+                    $(this).siblings('.pathway-plus').removeClass('disabled');
+                    $(this).siblings('.pathway-top').removeClass('disabled');
+                }
             });
         });
     });

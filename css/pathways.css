@@ -84,7 +84,11 @@
   bottom: 2px;
   padding: 10px 0px 4px;
 }
-/* line 88, ../sass/pathways.scss */
+/* line 86, ../sass/pathways.scss */
+#pathway-holder .pathway-holder .pathway .pathway-run {
+  min-width: 60px;
+}
+/* line 92, ../sass/pathways.scss */
 #pathway-holder [value|=global] {
   background-color: inherit;
 }
