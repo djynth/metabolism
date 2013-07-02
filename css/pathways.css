@@ -79,17 +79,30 @@
   color: #6f0c0c;
 }
 /* line 80, ../sass/pathways.scss */
+#pathway-holder .pathway-holder .pathway .food-holder {
+  margin: 10px auto;
+  width: 198px;
+}
+/* line 84, ../sass/pathways.scss */
+#pathway-holder .pathway-holder .pathway .food-holder .btn-group {
+  margin: 2px 0px;
+}
+/* line 88, ../sass/pathways.scss */
+#pathway-holder .pathway-holder .pathway .food-holder .eat {
+  min-width: 90px;
+}
+/* line 93, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .lacking {
   position: relative;
   left: 2px;
   bottom: 2px;
   padding: 8px 0px 2px;
 }
-/* line 87, ../sass/pathways.scss */
+/* line 100, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .pathway-run {
   min-width: 60px;
 }
-/* line 93, ../sass/pathways.scss */
+/* line 106, ../sass/pathways.scss */
 #pathway-holder [value|=global] {
   background-color: inherit;
 }

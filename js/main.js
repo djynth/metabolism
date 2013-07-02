@@ -97,6 +97,9 @@ function populateResources() {
 }
 
 function onResourceChange(resource, change) {
+    if (change == 0) {
+        return;
+    }
     var color = change > 0 ? "72, 144, 229" : "232, 12, 15";
     var elem = $('.resource-data').filter(function() {
         return resource.hasName($(this).find('.resource-name').html()) && resource.organ == $(this).parents('.resource-holder').attr('value');
@@ -175,6 +178,8 @@ function loadData()
             populatePathways();
             selectOrgan(BRAIN);
 
+            updateEatButtons($('.food-holder'));
+
             $('.pathway-run').click(function() {
                 var id = $(this).parents('.pathway').attr('value');
                 var organ = $(this).parents('.pathway-holder').attr('value');
@@ -216,6 +221,45 @@ function loadData()
                 }
             });
 
+            $('.eat-run').click(function() {
+                var foodHolder = $(this).parent().siblings('.food-holder');
+                var glc = foodHolder.find('#glc').attr('value');
+                var ala = foodHolder.find('#ala').attr('value');
+                var fa  = foodHolder.find('#fa').attr('value');
+                var eatTemplate = getPathwayByName('Eat');
+                var eat = new Pathway(eatTemplate.id, eatTemplate.name, eatTemplate.points, eatTemplate.limit, eatTemplate.color,
+                    eatTemplate.catabolic, eatTemplate.organs, [{res:'Glc', val:glc}, {res:'Ala', val:ala}, {res:'FA', val:fa}]);
+                eat.run(GLOBAL, 1);
+            });
+
+            $('.eat-plus').click(function() {
+                if (!$(this).hasClass('disabled')) {
+                    $(this).siblings('.eat').attr('value', parseInt($(this).siblings('.eat').attr('value')) + 1);
+                    updateEatButtons($(this).parents('.food-holder'));
+                }
+            });
+
+            $('.eat-minus').click(function() {
+                if (!$(this).hasClass('disabled')) {
+                    $(this).siblings('.eat').attr('value', parseInt($(this).siblings('.eat').attr('value')) - 1);
+                    updateEatButtons($(this).parents('.food-holder'));
+                }
+            });
+
+            $('.eat-top').click(function() {
+                if (!$(this).hasClass('disabled')) {
+                    $(this).siblings('.eat').attr('value', -1);
+                    updateEatButtons($(this).parents('.food-holder'));
+                }
+            });
+
+            $('.eat-bottom').click(function() {
+                if (!$(this).hasClass('disabled')) {
+                    $(this).siblings('.eat').attr('value', 0);
+                    updateEatButtons($(this).parents('.food-holder'));
+                }
+            });
+
             $('.resource-data').mouseenter(function() {
                 var resource = getResourceByName($(this).find('.resource-name').html());
                 if (resource.imageFilename != 'none') {
@@ -246,7 +290,7 @@ function updatePathwayButtons(runButton)
     var organ = runButton.parents('.pathway-holder').attr('value');
     var times = runButton.attr('value');
     var pathway = getPathwayById(id);
-    if (pathway.limit) {
+    if (!pathway || pathway.limit) {
         return;
     }
     var maxRuns = pathway.getTotalMaxRuns(organ);
@@ -258,8 +302,8 @@ function updatePathwayButtons(runButton)
 
     if (times > maxRuns) {
         times = maxRuns;
-    } else if (times < 1) {
-        times = 1;
+    } else if (times < 0) {
+        times = 0;
     }
 
     runButton.attr('value', times);
@@ -280,4 +324,52 @@ function updatePathwayButtons(runButton)
         minus.removeClass('disabled');
         bottom.removeClass('disabled');
     }
+}
+
+function updateEatButtons(foodHolder)
+{
+    var glc = parseInt(foodHolder.find('.eat#glc').attr('value'));
+    var ala = parseInt(foodHolder.find('.eat#ala').attr('value'));
+    var fa  = parseInt(foodHolder.find('.eat#fa').attr('value'));
+
+    if (glc == -1) {
+        glc = EAT_MAX - ala - fa;
+        foodHolder.find('.eat#glc').attr('value', glc);
+    }
+    if (ala == -1) {
+        ala = EAT_MAX - glc - fa;
+        foodHolder.find('.eat#ala').attr('value', ala);
+    }
+    if (fa == -1) {
+        fa = EAT_MAX - glc - ala;
+        foodHolder.find('.eat#fa').attr('value', fa);
+    }
+
+    var full = glc + ala + fa >= EAT_MAX;
+    foodHolder.children('.btn-group').each(function() {
+        var name = $(this).children('.eat').attr('id');
+        var val = 0;
+        if (name == 'glc') { name = 'Glc'; val = glc; }
+        else if (name == 'ala') { name = 'Ala'; val = ala; }
+        else if (name == 'fa') { name = 'FA'; val = fa; }
+        var fullName = getResourceByName(name).name;
+        $(this).children('.eat').html(fullName + ' x' + val);
+
+        if (full) {
+            $(this).children('.eat-plus').addClass('disabled');
+            $(this).children('.eat-top').addClass('disabled');
+        } else {
+            $(this).children('.eat-plus').removeClass('disabled');
+            $(this).children('.eat-top').removeClass('disabled');
+        }
+        if (val <= 0) {
+            $(this).children('.eat-minus').addClass('disabled');
+            $(this).children('.eat-bottom').addClass('disabled');
+        } else {
+            $(this).children('.eat-minus').removeClass('disabled');
+            $(this).children('.eat-bottom').removeClass('disabled');
+        }
+    });
+
+    foodHolder.siblings('.run-holder').find('.eat-run').html('Run [' + (glc+ala+fa) + '/' + EAT_MAX + ']')
 }

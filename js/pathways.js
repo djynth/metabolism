@@ -1,3 +1,5 @@
+var EAT_MAX = 50;
+
 function Pathway(id, name, points, limit, color, catabolic, organs, resources)
 {
     this.id = id;
@@ -85,6 +87,10 @@ function Pathway(id, name, points, limit, color, catabolic, organs, resources)
         return max;
     }
 
+    this.isEat = function() {
+        return this.name == "Eat";
+    }
+
     this.toHTML = function(resources, organ) {
         var s = '';
         s += '<div class="pathway" value="' + this.id + '">';
@@ -93,33 +99,77 @@ function Pathway(id, name, points, limit, color, catabolic, organs, resources)
         s += '<p class="catabolic">(' + (this.catabolic ? 'Catabolic' : 'Anabolic') + ')</p>';
         s += '<p class="points">' + this.points + ' points</p>';
 
-        s += '<table class="reaction">';
-        s += '<tr><td class="reactant header">Reactants</td><td class="product header">Products</td></tr>';
-
         var reactants = this.getReactants();
         var products = this.getProducts();
 
-        for (var i = 0; i < Math.max(reactants.length, products.length); i++) {
-            s += '<tr>';
+        if (this.isEat()) {
+            var glc = 0;
+            var ala = 0;
+            var fa = 0;
 
-            s += '<td class="reactant"';
-            s += '>';
-            if (i < reactants.length) {
-                s += getResourceByName(reactants[i].res).name + '\t' + reactants[i].val;
+            for (var i = 0; i < this.resources.length; i++) {
+                if (getResourceByName('Glucose').hasName(this.resources[i].res)) {
+                    glc = this.resources[i].val;
+                } else if (getResourceByName('Alanine').hasName(this.resources[i].res)) {
+                    ala = this.resources[i].val;
+                } else {
+                    fa = this.resources[i].val;
+                }
             }
-            s += '</td>';
 
-            s += '<td class="product"';
-            s += '>';
-            if (i < products.length) {
-                s += products[i].val + '\t' + getResourceByName(products[i].res).name;
+            s += '<div class="food-holder">'
+
+            s += '<div class="btn-group">';
+            s += '<button class="btn btn-mini btn-inverse eat-bottom"><i class="icon-chevron-down icon-white"></i> </button>';
+            s += '<button class="btn btn-mini btn-inverse eat-minus"><i class="icon-minus icon-white"></i> </button>';
+            s += '<button class="btn btn-mini btn-inverse eat" id="glc" value="' + glc + '"> </button>';
+            s += '<button class="btn btn-mini btn-inverse eat-plus disabled"><i class="icon-plus icon-white"></i> </button>';
+            s += '<button class="btn btn-mini btn-inverse eat-top disabled"><i class="icon-chevron-up icon-white"></i> </button>';
+            s += '</div>';
+
+            s += '<div class="btn-group">';
+            s += '<button class="btn btn-mini btn-inverse eat-bottom"><i class="icon-chevron-down icon-white"></i> </button>';
+            s += '<button class="btn btn-mini btn-inverse eat-minus"><i class="icon-minus icon-white"></i> </button>';
+            s += '<button class="btn btn-mini btn-inverse eat" id="ala" value="' + ala + '"> </button>';
+            s += '<button class="btn btn-mini btn-inverse eat-plus disabled"><i class="icon-plus icon-white"></i> </button>';
+            s += '<button class="btn btn-mini btn-inverse eat-top disabled"><i class="icon-chevron-up icon-white"></i> </button>';
+            s += '</div>';
+
+            s += '<div class="btn-group">';
+            s += '<button class="btn btn-mini btn-inverse eat-bottom"><i class="icon-chevron-down icon-white"></i> </button>';
+            s += '<button class="btn btn-mini btn-inverse eat-minus"><i class="icon-minus icon-white"></i> </button>';
+            s += '<button class="btn btn-mini btn-inverse eat" id="fa" value="' + fa + '"> </button>';
+            s += '<button class="btn btn-mini btn-inverse eat-plus disabled"><i class="icon-plus icon-white"></i> </button>';
+            s += '<button class="btn btn-mini btn-inverse eat-top disabled"><i class="icon-chevron-up icon-white"></i> </button>';
+            s += '</div>';
+
+            s += '</div>';
+        } else {
+            s += '<table class="reaction">';
+            s += '<tr><td class="reactant header">Reactants</td><td class="product header">Products</td></tr>';
+
+            for (var i = 0; i < Math.max(reactants.length, products.length); i++) {
+                s += '<tr>';
+
+                s += '<td class="reactant"';
+                s += '>';
+                if (i < reactants.length) {
+                    s += getResourceByName(reactants[i].res).name + '\t' + reactants[i].val;
+                }
+                s += '</td>';
+
+                s += '<td class="product"';
+                s += '>';
+                if (i < products.length) {
+                    s += products[i].val + '\t' + getResourceByName(products[i].res).name;
+                }
+                s += '</td>';
+
+                s += '</tr>';
             }
-            s += '</td>';
 
-            s += '</tr>';
+            s += '</table>';
         }
-
-        s += '</table>';
 
         var actual_limit = this.limit;
         var lacking = null;
@@ -141,7 +191,7 @@ function Pathway(id, name, points, limit, color, catabolic, organs, resources)
         s += '<p class="lacking">Not enough ' + lacking + '</p>';
         s += '<div class="btn-group run-holder">';
         if (this.limit) {
-            s += '<button class="btn btn-mini btn-inverse pathway-run" value="1">Run</button>';
+            s += '<button class="btn btn-mini btn-inverse ' + (this.isEat() ? 'eat-run' : 'pathway-run') + '" value="1">Run</button>';
         } else {
             s += '<button class="btn btn-mini btn-inverse pathway-bottom disabled"><i class="icon-chevron-down icon-white"></i> </button>';
             s += '<button class="btn btn-mini btn-inverse pathway-minus disabled"><i class="icon-minus icon-white"></i> </button>';
