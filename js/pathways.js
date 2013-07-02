@@ -146,22 +146,36 @@ function Pathway(id, name, points, limit, color, catabolic, organs, resources)
             s += '</div>';
         } else {
             s += '<table class="reaction">';
-            s += '<tr><td class="reactant header">Reactants</td><td class="product header">Products</td></tr>';
 
             for (var i = 0; i < Math.max(reactants.length, products.length); i++) {
                 s += '<tr>';
 
                 s += '<td class="reactant"';
+                if (i < reactants.length) {
+                    s += ' value="' + reactants[i].res + '"';
+                }
                 s += '>';
+                if (i < reactants.length && isResourceGlobal(reactants[i].res)) {
+                    s += '<strong>';
+                }
                 if (i < reactants.length) {
                     s += getResourceByName(reactants[i].res).name + '\t' + reactants[i].val;
+                }
+                if (i < reactants.length && isResourceGlobal(reactants[i].res)) {
+                    s += '</strong>';
                 }
                 s += '</td>';
 
                 s += '<td class="product"';
                 s += '>';
+                if (i < products.length && isResourceGlobal(products[i].res)) {
+                    s += '<strong>';
+                }
                 if (i < products.length) {
                     s += products[i].val + '\t' + getResourceByName(products[i].res).name;
+                }
+                if (i < products.length && isResourceGlobal(products[i].res)) {
+                    s += '</strong>';
                 }
                 s += '</td>';
 
@@ -219,18 +233,14 @@ function checkForLacking(pathway, organ) {
     $('.pathway[value="' + pathway.id + '"]').each(function() {
         var lackingReactants = new Array();
         var reactants = pathway.getReactants();
-        var maxRuns = -1;
         for (var i = 0; i < reactants.length; i++) {
             var reactantLimit = pathway.getMaxRuns(reactants[i].res, Math.abs(reactants[i].val), organ);
-            if (maxRuns == -1 || reactantLimit < maxRuns) {
-                maxRuns = reactantLimit;
-            }
             var isLacking = reactantLimit <= 0;
             if (isLacking) {
-                $(this).find('.reactant').filter(function() { return $(this).attr('value') == reactants[i].res; }).addClass('lacking');
+                $(this).find('.reactant').filter(function() { return getResourceByName(reactants[i].res).hasName($(this).attr('value')); }).addClass('lacking');
                 lackingReactants.push(getResourceByName(reactants[i].res).name)
             } else {
-                $(this).find('.reactant').filter(function() { return $(this).attr('value') == reactants[i].res; }).removeClass('lacking');
+                $(this).find('.reactant').filter(function() { return getResourceByName(reactants[i].res).hasName($(this).attr('value')); }).removeClass('lacking');
             }
         }
 
@@ -252,7 +262,7 @@ function checkForLacking(pathway, organ) {
         } else {
             $(this).find('.run-holder').show();
             $(this).find('.lacking').hide();
-            $(this).find('.pathway-run').attr('max-value', maxRuns);
+            $(this).find('.pathway-run').attr('max-value', pathway.getTotalMaxRuns(organ));
             
             $(this).css('box-shadow', '0px 0px 5px 2px ' + pathway.color);
         }

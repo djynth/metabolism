@@ -313,8 +313,8 @@ function updatePathwayButtons(runButton)
 
     if (times > maxRuns) {
         times = maxRuns;
-    } else if (times < 0) {
-        times = 0;
+    } else if (times < 1) {
+        times = 1;
     }
 
     runButton.attr('value', times);
