@@ -103,23 +103,16 @@ function Pathway(id, name, points, limit, color, catabolic, organs, resources)
             s += '<tr>';
 
             s += '<td class="reactant"';
-
-            if (i < reactants.length) {
-                s += ' value="' + reactants[i].res + '"';
-            }
-
             s += '>';
-
             if (i < reactants.length) {
-                s += reactants[i].res + '\t' + reactants[i].val;
+                s += getResourceByName(reactants[i].res).name + '\t' + reactants[i].val;
             }
             s += '</td>';
 
             s += '<td class="product"';
-
             s += '>';
             if (i < products.length) {
-                s += products[i].val + '\t' + products[i].res;
+                s += products[i].val + '\t' + getResourceByName(products[i].res).name;
             }
             s += '</td>';
 

@@ -42,11 +42,11 @@
   right: 0px;
   text-align: left;
 }
-/* line 50, ../sass/resources.scss */
+/* line 46, ../sass/resources.scss */
 #resource-holder .resource-holder .tooltip {
   z-index: 10000;
 }
-/* line 55, ../sass/resources.scss */
+/* line 51, ../sass/resources.scss */
 #resource-holder [value|=global] {
   background-color: inherit;
 }

@@ -89,7 +89,7 @@ function populateResources() {
 
         $('.resource-holder[value="' + res.organ + '"]').append('<div class="resource-data">' + 
             '<div class="progress">' +
-            '<span class="resource-name">' + res.abbr + '</span>' +
+            '<span class="resource-name">' + res.name + '</span>' +
             '<span class="resource-value">' + res.value + '</span>' + 
             '<div class="bar" style="width: ' + Math.min(100, 100*(res.value/res.max_value)) + '%;"></div>' + 
             '</div></div>');
@@ -167,7 +167,6 @@ function loadData()
                     d[7][j] = {res: e[0], val: parseInt(e[1])};
                 }
                 pathways.push(new Pathway(d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]));
-                console.log(d);
             }
         }).fail(function() {
             alert('Error\nFailed to load pathway data!');          // TODO
