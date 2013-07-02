@@ -209,6 +209,7 @@ function checkForLacking(pathway, organ) {
             $(this).find('.lacking').hide();
             $(this).find('.pathway-run').attr('max-value', maxRuns);
         }
+        updatePathwayButtons($(this).find('.pathway-run'));
     });
 }
 

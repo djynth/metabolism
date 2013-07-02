@@ -181,29 +181,16 @@ function loadData()
                 var id = $(this).parents('.pathway').attr('value');
                 var organ = $(this).parents('.pathway-holder').attr('value');
                 var times = $(this).attr('value');
-                var pathway = getPathwayById(id);
-                pathway.run(organ, times);
+                getPathwayById(id).run(organ, times);
 
-                var maxRuns = pathway.getTotalMaxRuns(organ);
-                if (times > maxRuns) {
-                    $(this).attr('value', maxRuns);
-                    $(this).html('Run x' + maxRuns);
-                    $(this).siblings('.pathway-top').addClass('disabled');
-                    $(this).siblings('.pathway-plus').addClass('disabled');
-                }
+                updatePathwayButtons($(this));
             });
 
             $('.pathway-plus').click(function() {
                 if (!$(this).hasClass('disabled')) {
                     var times = parseInt($(this).siblings('.pathway-run').attr('value')) + 1;
                     $(this).siblings('.pathway-run').attr('value', times);
-                    $(this).siblings('.pathway-run').html('Run x' + times);
-                    if (times >= parseInt($(this).siblings('.pathway-run').attr('max-value'))) {
-                        $(this).addClass('disabled');
-                        $(this).siblings('.pathway-top').addClass('disabled');
-                    }
-                    $(this).siblings('.pathway-minus').removeClass('disabled');
-                    $(this).siblings('.pathway-bottom').removeClass('disabled');
+                    updatePathwayButtons($(this).siblings('.pathway-run'));
                 }
             });
 
@@ -211,13 +198,7 @@ function loadData()
                 if (!$(this).hasClass('disabled')) {
                     var times = parseInt($(this).siblings('.pathway-run').attr('value')) - 1;
                     $(this).siblings('.pathway-run').attr('value', times);
-                    $(this).siblings('.pathway-run').html('Run x' + times);
-                    if (times <= parseInt($(this).siblings('.pathway-run').attr('min-value'))) {
-                        $(this).addClass('disabled');
-                        $(this).siblings('.pathway-bottom').addClass('disabled');
-                    }
-                    $(this).siblings('.pathway-plus').removeClass('disabled');
-                    $(this).siblings('.pathway-top').removeClass('disabled');
+                    updatePathwayButtons($(this).siblings('.pathway-run'));
                 }
             });
 
@@ -225,11 +206,7 @@ function loadData()
                 if (!$(this).hasClass('disabled')) {
                     var times = parseInt($(this).siblings('.pathway-run').attr('max-value'));
                     $(this).siblings('.pathway-run').attr('value', times);
-                    $(this).siblings('.pathway-run').html('Run x' + times);
-                    $(this).addClass('disabled');
-                    $(this).siblings('.pathway-plus').addClass('disabled');
-                    $(this).siblings('.pathway-minus').removeClass('disabled');
-                    $(this).siblings('.pathway-bottom').removeClass('disabled');
+                    updatePathwayButtons($(this).siblings('.pathway-run'));
                 }
             });
 
@@ -237,13 +214,51 @@ function loadData()
                 if (!$(this).hasClass('disabled')) {
                     var times = parseInt($(this).siblings('.pathway-run').attr('min-value'));
                     $(this).siblings('.pathway-run').attr('value', times);
-                    $(this).siblings('.pathway-run').html('Run x' + times);
-                    $(this).addClass('disabled');
-                    $(this).siblings('.pathway-minus').addClass('disabled');
-                    $(this).siblings('.pathway-plus').removeClass('disabled');
-                    $(this).siblings('.pathway-top').removeClass('disabled');
+                    updatePathwayButtons($(this).siblings('.pathway-run'));
                 }
             });
         });
     });
+}
+
+function updatePathwayButtons(runButton)
+{
+    var id = runButton.parents('.pathway').attr('value');
+    var organ = runButton.parents('.pathway-holder').attr('value');
+    var times = runButton.attr('value');
+    var pathway = getPathwayById(id);
+    if (pathway.limit) {
+        return;
+    }
+    var maxRuns = pathway.getTotalMaxRuns(organ);
+    var plus   = runButton.siblings('.pathway-plus');
+    var minus  = runButton.siblings('.pathway-minus');
+    var top    = runButton.siblings('.pathway-top');
+    var bottom = runButton.siblings('.pathway-bottom');
+    runButton.attr('max-value', maxRuns);
+
+    if (times > maxRuns) {
+        times = maxRuns;
+    } else if (times < 1) {
+        times = 1;
+    }
+
+    runButton.attr('value', times);
+    runButton.html('Run x' + times);
+
+    if (times >= maxRuns) {
+        plus.addClass('disabled');
+        top.addClass('disabled');
+    } else {
+        plus.removeClass('disabled');
+        top.removeClass('disabled');
+    }
+
+    if (times <= 1) {
+        minus.addClass('disabled');
+        bottom.addClass('disabled');
+    } else {
+        minus.removeClass('disabled');
+        bottom.removeClass('disabled');
+    }
 }
