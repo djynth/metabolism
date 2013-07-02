@@ -223,13 +223,24 @@ function loadData()
 
             $('.eat-run').click(function() {
                 var foodHolder = $(this).parent().siblings('.food-holder');
-                var glc = foodHolder.find('#glc').attr('value');
-                var ala = foodHolder.find('#ala').attr('value');
-                var fa  = foodHolder.find('#fa').attr('value');
-                var eatTemplate = getPathwayByName('Eat');
-                var eat = new Pathway(eatTemplate.id, eatTemplate.name, eatTemplate.points, eatTemplate.limit, eatTemplate.color,
-                    eatTemplate.catabolic, eatTemplate.organs, [{res:'Glc', val:glc}, {res:'Ala', val:ala}, {res:'FA', val:fa}]);
-                eat.run(GLOBAL, 1);
+                var glc = parseInt(foodHolder.find('#glc').attr('value'));
+                var ala = parseInt(foodHolder.find('#ala').attr('value'));
+                var fa  = parseInt(foodHolder.find('#fa').attr('value'));
+
+                if (glc + ala + fa < EAT_MAX) {
+                    $('#modal-header').html('Are You Sure?');
+                    $('#modal-content').html('You are eating less than you could! Your total nutrient intake of ' + (glc+ala+fa) + ' is less than the maximum of ' + EAT_MAX);
+                    $('#modal-cancel').click(function() {
+                        $('.modal').modal('hide');
+                    });
+                    $('#modal-confirm').click(function() {
+                        $('.modal').modal('hide');
+                        eat(glc, ala, fa);
+                    });
+                    $('.modal').modal('show');
+                } else {
+                    eat(glc, ala, fa);
+                }
             });
 
             $('.eat-plus').click(function() {
@@ -372,4 +383,12 @@ function updateEatButtons(foodHolder)
     });
 
     foodHolder.siblings('.run-holder').find('.eat-run').html('Run [' + (glc+ala+fa) + '/' + EAT_MAX + ']')
+}
+
+function eat(glc, ala, fa)
+{
+    var eatTemplate = getPathwayByName('Eat');
+    var eat = new Pathway(eatTemplate.id, eatTemplate.name, eatTemplate.points, eatTemplate.limit, eatTemplate.color,
+        eatTemplate.catabolic, eatTemplate.organs, [{res:'Glc', val:glc}, {res:'Ala', val:ala}, {res:'FA', val:fa}]);
+    eat.run(GLOBAL, 1);
 }
