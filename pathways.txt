@@ -1,0 +1,26 @@
+#ID Name                                    Points  Limit  Color             Catabolic Organ(s)            Resources
+0   Breath_In                               0       true   rgba(0,255,0,0.3) true      global              O2:50
+1   Breath_Out                              0       true   rgba(0,255,0,0.3) true      global              CO2:-50
+2   Eat                                     0       true   rgba(0,255,0,0.3) true      global              Glc:20,Ala:10,FA:20
+3   Pump_Na+_and_K+_Ions                    50      false  rgba(0,255,0,0.3) false     brain               ADP:50,ATP:-50,Pi:50
+4   Muscle_Contraction                      50      false  rgba(0,255,0,0.3) false     muscle              ADP:50,ATP:-50,Pi:50
+5   Fatty_Acid_Synthesis                    7       false  rgba(0,255,0,0.3) false     liver               ADP:7,ATP:-7,Pi:7,NADP+:14,NADPH:-14,HSCoA:7,Acetyl-CoA:-8
+6   Lactate_to_Pyruvate                     0       false  rgba(0,255,0,0.3) false     liver               NAD+:-1,NADH:1,Pyr:1,Lact:-1
+7   Alanine_to_Pyruvate                     0       false  rgba(0,255,0,0.3) false     liver               NAD+:-1,NADH:1,NH3:1,Ala:-1,Pyr:1
+8   Gluconeogenesis                         6       false  rgba(0,255,0,0.3) false     liver               ADP:6,ATP:-6,Pi:6,NAD+:2,NADH:-2,Glc:1,Pyr:-2
+9   Glycogen_Synthesis                      2       false  rgba(0,255,0,0.3) false     liver,muscle        ADP:2,ATP:-2,Pi:2,Glc:-1,Gly:1
+10  RNA_Synthesis                           2       false  rgba(0,255,0,0.3) false     liver,muscle,brain  ADP:2,ATP:-2,Pi:2,Rib:-1,RNA:1
+11  Protein_Synthesis                       4       false  rgba(0,255,0,0.3) false     liver,muscle,brain  ADP:4,ATP:-4,Pi:4,Ala:-1,Protein:1
+
+12  Pyruvate_to_Lactate                     0       false  rgba(0,255,0,0.3) true      muscle              NAD+:1,NADH:-1,Pyr:-1,Lact:1
+13  Pyruvate_to_Alanine                     0       false  rgba(0,255,0,0.3) true      muscle              NAD+:1,NADH:-1,NH3:-1,Ala:1,Pyr:-1
+14  Urea_Cycle                              4       false  rgba(0,255,0,0.3) true      liver               ADP:4,ATP:-4,Pi:4,CO2:-1,NH3:-2
+15  Fatty_Acid_Degradation                  0       false  rgba(0,255,0,0.3) true      liver,muscle        NAD+:-7,NADH:7,FAD:-7,FADH2:7,HSCoA:-8,FA:-1,Acetyl-CoA:8
+16  Glycogen_Degradation_to_Release_Glucose 0       false  rgba(0,255,0,0.3) true      liver,muscle        Pi:-1,Glc:1,Gly:-1
+17  Glycolysis                              0       false  rgba(0,255,0,0.3) true      liver,muscle,brain  ADP:-2,ATP:2,Pi:-2,NAD+:-2,NADH:2,Glc:-1,Pyr:2
+18  Pyruvate_Dehydrogenase                  0       false  rgba(0,255,0,0.3) true      liver,muscle,brain  NAD+:-1,NADH:1,CO2:1,HSCoA:-1,Acetyl-CoA:1,Pyr:-1
+19  PPP_(oxid)                              0       false  rgba(0,255,0,0.3) true      liver,muscle,brain  NADP+:-2,NADPH:2,CO2:1,Glc:-1,Rib:1
+20  PPP_(non-oxid)_Reversible               0       false  rgba(0,255,0,0.3) true      liver,muscle,brain  Glc:5,Rib:-6
+21  Kreb's_Cycle                            0       false  rgba(0,255,0,0.3) true      liver,muscle,brain  ADP:-1,ATP:1,Pi:-1,NAD+:-3,NADH:3,FAD:-1,FADH2:1,HSCoA:1,CO2:2,Acetyl-CoA:-1
+22  Oxidative_Phosphorylation_FADH2         0       false  rgba(0,255,0,0.3) true      liver,muscle,brain  ADP:-3,ATP:3,Pi:-3,FAD:2,FADH2:-2,O2:-1
+23  Oxidative_Phosphorylation_NADH          0       false  rgba(0,255,0,0.3) true      liver,muscle,brain  ADP:-5,ATP:5,Pi:-5,NAD+:2,NADH:-2,O2:-1

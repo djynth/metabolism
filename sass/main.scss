@@ -1,133 +1,147 @@
+@import "base";
+
 html, body {
-    width: 100%;
+    width:  100%;
     height: 100%;
     margin: 0;
     font-family: Sans-serif;
 }
 
-div.side_column {
+.sidebar {
     position: absolute;
-    width: 17%;
+    width:  $sidebarWidth;
     height: 100%;
-    background-color: rgb(80, 80, 80);
-    overflow: auto;
+    max-height: 100%;
+    background-color: $sidebarBackground;
+    overflow: hidden;
 
-    h3.body_title {
+    .organ-title {
+        margin:  3px 0px 0px 0px;
         padding: 5px 10px;
-        margin: 0px;
-        margin-top: 3px;
-        color: rgba(14, 14, 14, 0.9);
-        font-size: 16px;
-        line-height: 16px;
+        color: $textColor;
+        font-size:   $headerFontSize;
+        line-height: $headerFontSize;
+        font-weight: bold;
     }
 
-    div.tab_holder {
+    .tab-holder {
         padding-left: 8px;
-        border-bottom: 1px solid rgb(34, 34, 34);
+        border-bottom: 1px solid $borderColor;
 
-        div.section_title {
+        .organ-title {
             display: inline-block;
-            width: 50px;
+            width:  64px;
             height: 20px;
-            padding: 5px 8px 3px 6px;
-            margin: 2px;
-            margin-bottom: 0px;
-            font-size: 16px;
-            font-weight: bold;
-            color: rgba(14, 14, 14, 0.9);
-            border: 1px solid rgb(34, 34, 34);
-            background-color: rgb(92, 92, 92);
+            margin:  2px 2px 0px 2px;
+            padding: 5px 0px 0px 0px;
+            background-color: $tabBackground;
+            border: 1px solid $borderColor;
+            border-bottom: none;
             border-top-right-radius: 5px;
             border-top-left-radius:  5px;
-            border-bottom: none;
             text-align: center;
 
             &:hover {
                 cursor: pointer;
             }
 
-            div.cover {
-                background-color: inherit;
-                width: 50px;
-                padding: 1px 8px 1px 6px;
-                height: 1px;
+            .cover {
                 position: relative;
-                bottom: -2px;
-                left: -6px;
+                bottom: -4px;
+                width:  100%;
+                height: 1px;
+                padding: 0;
+                background-color: inherit;
             }
         }
 
-        div.active {
-            background-color: rgb(70, 70, 70);
+        .active {
+            background-color: $activeTabBackground;
         }
+    }
+
+    .mCSB_container {
+        margin-right: 10px;
+    }
+
+    .mCSB_scrollTools {
+        width: 6px !important;
     }
 }
 
-canvas#cell_canvas {
+#cell-canvas {
     position: absolute;
-    left: 17%;
-    width: 66%;
+    left: $sidebarWidth;
+    width:  100% - 2*$sidebarWidth;
     height: 100%;
+    border-left: 1px solid $borderColor;
     background-color: #53AAAD;
-    border-left:  1px solid black;
 }
 
-div.floating_visual {
+.floating-visual {
     position: absolute;
     top: 30px;
-    width: 14%;
+    width:  $visualWidth;
     height: 225px;
-    border: 2px solid rgba(53, 53, 53, 0.7);
+    border: 2px solid $visualBorderColor;
     border-radius: 16px;
-    background-color: rgba(115, 115, 115, 0.4);
+    background-color: $visualBackground;
 
-    canvas.visual_content {
+    .visual-content {
         position: absolute;
-        top: 15px;
+        top:  15px;
         left: 6%;
-        width: 88%;
+        width:  88%;
         height: 79%;
     }
 
-    p.visual_label {
+    .image-content {
+        position: absolute;
+        margin-top: 10px;
+        margin-right: 5%;
+        margin-left: 5%;
+        width: 90%;
+    }
+
+    .visual-label {
         position: absolute;
         bottom: 4px;
-        left: 8px;
+        left:   8px;
         margin: 0px;
-        color: rgb(40, 40, 40);
+        color: $visualTextColor;
     }
 }
 
-div#action_visual {
-    left: 19%;
+#pathway-visual {
+    left: $sidebarWidth + $visualPadding;
 }
 
-div#resource_visual {
-    right: 19%;
+#resource-visual {
+    right: $sidebarWidth + $visualPadding;
 }
 
-div#organ_visual {
-    left: 35%;
+#organ-visual {
+    left: $sidebarWidth + $visualPadding + $visualWidth + $visualPadding;
 }
 
-div#cell_visual {
-    right: 35%;
+#cell-visual {
+    right: $sidebarWidth + $visualPadding + $visualWidth + $visualPadding;
 }
 
-.bottom_info {
+.bottom-info {
     position: absolute;
     bottom: 9px;
     margin: 0px;
     z-index: 1;
-    color: rgba(60, 60, 60, 0.85);
+    color: $visualTextColor;
 }
 
-p#points {
-    left: 18%;
+#points {
+    left: $sidebarWidth + $visualPadding;
 }
 
-p#turns {
-    right: 18%
+#turns {
+    right: $sidebarWidth + $visualPadding;
 }
 
 .hidden {

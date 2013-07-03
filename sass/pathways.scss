@@ -1,0 +1,109 @@
+@import "base";
+
+#pathway-holder {
+    left: 0;
+
+    .pathway-holder {
+        padding: 10px 6px;
+        background-color: $activeTabBackground;
+        overflow: auto;
+
+        .pathway {
+            margin:  2px 2px 4px 2px;
+            padding: 5px;
+            background-color: $elementBackground;
+            border: 1px solid $elementBorderColor;
+            box-shadow: -3px -3px rgba(0, 0, 0, 0);
+            border-radius: 7px;
+            font-size:   $textFontSize;
+            line-height: $textFontSize;
+
+            &:first-child {
+                margin-top: 0px;
+            }
+
+            &:last-child {
+                margin-bottom: 0px;
+            }
+
+            p {
+                margin: 0px;
+                color: $textColor;
+            }
+
+            .title {
+                display: inline;
+                margin-right: 8px;
+                font-weight: bold;
+            }
+
+            .catabolic {
+                display: inline;
+            }
+            
+            .points {
+                display: inline;
+                float: right;
+            }
+
+            .reaction {
+                width: 80%;
+                margin: 3px auto;
+                border-collapse: collapse;
+                color: black;
+
+                td {
+                    width: 40%;
+                    padding-top: 1px;
+                    padding-bottom: 1px;
+                }
+
+                .reactant {
+                    text-align: right;
+                    padding-right: 3px;
+                }
+
+                .product {
+                    text-align: left;
+                    padding-left: 3px;
+                }
+
+                .header {
+                    font-weight: bold;
+                }
+
+                .lacking {
+                    color: rgb(111, 12, 12);
+                }
+            }
+
+            .food-holder {
+                margin: 10px auto;
+                width: 198px;
+
+                .btn-group {
+                    margin: 2px 0px;
+                }
+
+                .eat {
+                    min-width: 90px;
+                }
+            }
+
+            .lacking {
+                position: relative;
+                left:   2px;
+                bottom: 2px;
+                padding: 8px 0px 2px;
+            }
+
+            .pathway-run {
+                min-width: 60px;
+            }
+        }
+    }
+
+    [value|=global] {
+        background-color: inherit;
+    }
+}
