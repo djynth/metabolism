@@ -221,6 +221,17 @@ function Pathway(id, name, points, limit, color, catabolic, organs, resources)
     }
 }
 
+function populatePathways() {
+    var organs = [GLOBAL, BRAIN, MUSCLE, LIVER];
+    for (var i = 0; i < organs.length; i++) {
+        var pathways = getPathways(organs[i]);
+        for (var j = 0; j < pathways.length; j++) {
+            $('.pathway-holder[value="' + organs[i] + '"]').append(pathways[j].toHTML(resources, organs[i]));
+        }
+    }
+    refreshPathways();
+}
+
 function refreshPathways() {
     for (var i = 0; i < pathways.length; i++) {
         for (var j = 0; j < pathways[i].organs.length; j++) {
@@ -300,4 +311,12 @@ function getPathwayByName(name) {
         }
     }
     return null;
+}
+
+function eat(glc, ala, fa)
+{
+    var eatTemplate = getPathwayByName('Eat');
+    var eat = new Pathway(eatTemplate.id, eatTemplate.name, eatTemplate.points, eatTemplate.limit, eatTemplate.color,
+        eatTemplate.catabolic, eatTemplate.organs, [{res:'Glc', val:glc}, {res:'Ala', val:ala}, {res:'FA', val:fa}]);
+    eat.run(GLOBAL, 1);
 }

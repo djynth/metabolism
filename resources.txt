@@ -8,7 +8,7 @@
 6   Lact         Lactate        Lactate                                               0              50        true   #FF0000 ../img/molecules/lactate.png
 7   ADP          ADP            Adenosine_Diphosphate                                 200            200       false  #FF0000 ../img/molecules/adp.png
 8   ATP          ATP            Adenosine_Triphosphate                                0              200       false  #FF0000 ../img/molecules/atp.png
-9   Pi           Pi             Phosphate_Group                                       200            200       false  #FF0000 none
+9   Pi           Pi             Phosphate_Group                                       200            200       false  #FF0000 ../img/molecules/po4.png
 10  NAD+         NAD+           Nicotinamide_Adenine_Dinucleotide                     200            200       false  #FF0000 ../img/molecules/nad.png
 11  NADH         NADH           [Reduced]_Nicotinamide_Adenine_Dinucleotide           0              200       false  #FF0000 ../img/molecules/nad.png
 12  FAD          FAD            Flavin_Adenine_Dinucleotide                           100            100       false  #FF0000 ../img/molecules/fad.png

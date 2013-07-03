@@ -188,30 +188,6 @@ function selectOrgan(organ) {
     });
 }
 
-function populatePathways() {
-    var organs = [GLOBAL, BRAIN, MUSCLE, LIVER];
-    for (var i = 0; i < organs.length; i++) {
-        var pathways = getPathways(organs[i]);
-        for (var j = 0; j < pathways.length; j++) {
-            $('.pathway-holder[value="' + organs[i] + '"]').append(pathways[j].toHTML(resources, organs[i]));
-        }
-    }
-    refreshPathways();
-}
-
-function populateResources() {
-    for (var i = 0; i < resources.length; i++) {
-        var res = resources[i];
-
-        $('.resource-holder[value="' + res.organ + '"]').append('<div class="resource-data">' + 
-            '<div class="progress">' +
-            '<span class="resource-name">' + res.name + '</span>' +
-            '<span class="resource-value">' + res.value + '</span>' + 
-            '<div class="bar" style="width: ' + Math.min(100, 100*(res.value/res.max_value)) + '%;"></div>' + 
-            '</div></div>');
-    }
-}
-
 function onResourceChange(resource, change) {
     if (change == 0) {
         return;
@@ -383,12 +359,4 @@ function updateEatButtons(foodHolder)
     });
 
     foodHolder.siblings('.run-holder').find('.eat-run').html('Run [' + (glc+ala+fa) + '/' + EAT_MAX + ']')
-}
-
-function eat(glc, ala, fa)
-{
-    var eatTemplate = getPathwayByName('Eat');
-    var eat = new Pathway(eatTemplate.id, eatTemplate.name, eatTemplate.points, eatTemplate.limit, eatTemplate.color,
-        eatTemplate.catabolic, eatTemplate.organs, [{res:'Glc', val:glc}, {res:'Ala', val:ala}, {res:'FA', val:fa}]);
-    eat.run(GLOBAL, 1);
 }

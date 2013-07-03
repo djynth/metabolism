@@ -90,3 +90,16 @@ function getResourceById(id, organ)
     }
     return null;
 }
+
+function populateResources() {
+    for (var i = 0; i < resources.length; i++) {
+        var res = resources[i];
+
+        $('.resource-holder[value="' + res.organ + '"]').append('<div class="resource-data">' + 
+            '<div class="progress">' +
+            '<span class="resource-name">' + res.name + '</span>' +
+            '<span class="resource-value">' + res.value + '</span>' + 
+            '<div class="bar" style="width: ' + Math.min(100, 100*(res.value/res.max_value)) + '%;"></div>' + 
+            '</div></div>');
+    }
+}
