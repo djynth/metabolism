@@ -36,7 +36,7 @@ function Pathway(id, name, points, limit, color, catabolic, organs, resources)
             var val = times*this.resources[i].val;
             var actualOrgan = isResourceGlobal(res) ? GLOBAL : organ;
             changeResourceValue(res, actualOrgan, val);
-            onResourceChange(getResourceByName(res, actualOrgan), val);
+            onResourceChange(getResource(res, actualOrgan), val);
         }
 
         refreshPathways();
@@ -108,9 +108,9 @@ function Pathway(id, name, points, limit, color, catabolic, organs, resources)
             var fa = 0;
 
             for (var i = 0; i < this.resources.length; i++) {
-                if (getResourceByName('Glucose').hasName(this.resources[i].res)) {
+                if (getResource('Glucose').hasName(this.resources[i].res)) {
                     glc = this.resources[i].val;
-                } else if (getResourceByName('Alanine').hasName(this.resources[i].res)) {
+                } else if (getResource('Alanine').hasName(this.resources[i].res)) {
                     ala = this.resources[i].val;
                 } else {
                     fa = this.resources[i].val;
@@ -159,7 +159,7 @@ function Pathway(id, name, points, limit, color, catabolic, organs, resources)
                     s += '<strong>';
                 }
                 if (i < reactants.length) {
-                    s += getResourceByName(reactants[i].res).name + '\t' + reactants[i].val;
+                    s += getResource(reactants[i].res).name + '\t' + reactants[i].val;
                 }
                 if (i < reactants.length && isResourceGlobal(reactants[i].res)) {
                     s += '</strong>';
@@ -172,7 +172,7 @@ function Pathway(id, name, points, limit, color, catabolic, organs, resources)
                     s += '<strong>';
                 }
                 if (i < products.length) {
-                    s += products[i].val + '\t' + getResourceByName(products[i].res).name;
+                    s += products[i].val + '\t' + getResource(products[i].res).name;
                 }
                 if (i < products.length && isResourceGlobal(products[i].res)) {
                     s += '</strong>';
@@ -249,10 +249,10 @@ function checkForLacking(pathway, organ) {
             var reactantLimit = pathway.getMaxRuns(reactants[i].res, Math.abs(reactants[i].val), organ);
             var isLacking = reactantLimit <= 0;
             if (isLacking) {
-                $(this).find('.reactant').filter(function() { return getResourceByName(reactants[i].res).hasName($(this).attr('value')); }).addClass('lacking');
-                lackingReactants.push(getResourceByName(reactants[i].res).name)
+                $(this).find('.reactant').filter(function() { return getResource(reactants[i].res).hasName($(this).attr('value')); }).addClass('lacking');
+                lackingReactants.push(getResource(reactants[i].res).name)
             } else {
-                $(this).find('.reactant').filter(function() { return getResourceByName(reactants[i].res).hasName($(this).attr('value')); }).removeClass('lacking');
+                $(this).find('.reactant').filter(function() { return getResource(reactants[i].res).hasName($(this).attr('value')); }).removeClass('lacking');
             }
         }
 

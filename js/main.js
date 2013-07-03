@@ -6,7 +6,6 @@ var GLOBAL = "global";
 var TURNS = 50;
 var turn = TURNS+1;
 var points = 0;
-var resources = [];
 var pathways = [];
 
 $(document).ready(function() {
@@ -117,7 +116,7 @@ $(document).ready(function() {
     });
 
     $('.resource-data').mouseenter(function() {
-        var resource = getResourceByName($(this).find('.resource-name').html());
+        var resource = getResource($(this).find('.resource-name').html());
         if (resource.imageFilename != 'none') {
             $('#resource-visual').append('<img name="' + resource.name + '" src="' + resource.imageFilename + '" alt="' + resource.name + 
                 '" class="image-content hidden">');
@@ -129,7 +128,7 @@ $(document).ready(function() {
     });
 
     $('.resource-data').mouseleave(function() {
-        var resource = getResourceByName($(this).find('.resource-name').html());
+        var resource = getResource($(this).find('.resource-name').html());
         if (resource.imageFilename != 'none') {
             $('#resource-visual img[name="' + resource.name + '"]').fadeOut(100, function() {
                 $(this).remove();
@@ -188,21 +187,6 @@ function selectOrgan(organ) {
             $('#cell-canvas').removeClass($(this).attr('value'));
         }
     });
-}
-
-function onResourceChange(resource, change) {
-    if (change == 0) {
-        return;
-    }
-    var color = change > 0 ? "72, 144, 229" : "232, 12, 15";
-    var elem = $('.resource-data').filter(function() {
-        return resource.hasName($(this).find('.resource-name').html()) && resource.organ == $(this).parents('.resource-holder').attr('value');
-    });
-    elem.animate({ boxShadow : "0 0 5px 5px rgb("+color+")" }, 250, function() {
-        elem.animate({ boxShadow : "0 0 5px 5px rgba("+color+", 0)" }, 250);
-    });
-    elem.find('.resource-value').html(resource.value);
-    elem.find('.bar').css('width', Math.min(100, 100*(resource.value/resource.max_value)) + '%')
 }
 
 function loadData()
@@ -341,7 +325,7 @@ function updateEatButtons(foodHolder)
         if (name == 'glc') { name = 'Glc'; val = glc; }
         else if (name == 'ala') { name = 'Ala'; val = ala; }
         else if (name == 'fa') { name = 'FA'; val = fa; }
-        var fullName = getResourceByName(name).name;
+        var fullName = getResource(name).name;
         $(this).children('.eat').html(fullName + ' x' + val);
 
         if (full) {
