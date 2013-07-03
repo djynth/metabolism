@@ -1,4 +1,4 @@
-/* line 1, ../sass/main.scss */
+/* line 3, ../sass/main.scss */
 html, body {
   width: 100%;
   height: 100%;
@@ -6,147 +6,159 @@ html, body {
   font-family: Sans-serif;
 }
 
-/* line 8, ../sass/main.scss */
-div.side_column {
+/* line 10, ../sass/main.scss */
+.sidebar {
   position: absolute;
-  width: 17%;
+  width: 19%;
   height: 100%;
+  max-height: 100%;
   background-color: #505050;
-  overflow: auto;
+  overflow: hidden;
 }
-/* line 15, ../sass/main.scss */
-div.side_column h3.body_title {
+/* line 18, ../sass/main.scss */
+.sidebar .organ-title {
+  margin: 3px 0px 0px 0px;
   padding: 5px 10px;
-  margin: 0px;
-  margin-top: 3px;
-  color: rgba(14, 14, 14, 0.9);
+  color: #0e0e0e;
   font-size: 16px;
   line-height: 16px;
+  font-weight: bold;
 }
-/* line 24, ../sass/main.scss */
-div.side_column div.tab_holder {
+/* line 27, ../sass/main.scss */
+.sidebar .tab-holder {
   padding-left: 8px;
   border-bottom: 1px solid #222222;
 }
-/* line 28, ../sass/main.scss */
-div.side_column div.tab_holder div.section_title {
+/* line 31, ../sass/main.scss */
+.sidebar .tab-holder .organ-title {
   display: inline-block;
-  width: 50px;
+  width: 64px;
   height: 20px;
-  padding: 5px 8px 3px 6px;
-  margin: 2px;
-  margin-bottom: 0px;
-  font-size: 16px;
-  font-weight: bold;
-  color: rgba(14, 14, 14, 0.9);
+  margin: 2px 2px 0px 2px;
+  padding: 5px 0px 0px 0px;
+  background-color: #464646;
   border: 1px solid #222222;
-  background-color: #5c5c5c;
+  border-bottom: none;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
-  border-bottom: none;
   text-align: center;
 }
-/* line 45, ../sass/main.scss */
-div.side_column div.tab_holder div.section_title:hover {
+/* line 44, ../sass/main.scss */
+.sidebar .tab-holder .organ-title:hover {
   cursor: pointer;
 }
-/* line 49, ../sass/main.scss */
-div.side_column div.tab_holder div.section_title div.cover {
-  background-color: inherit;
-  width: 50px;
-  padding: 1px 8px 1px 6px;
-  height: 1px;
+/* line 48, ../sass/main.scss */
+.sidebar .tab-holder .organ-title .cover {
   position: relative;
-  bottom: -2px;
-  left: -6px;
+  bottom: -4px;
+  width: 100%;
+  height: 1px;
+  padding: 0;
+  background-color: inherit;
 }
-/* line 60, ../sass/main.scss */
-div.side_column div.tab_holder div.active {
-  background-color: #464646;
+/* line 58, ../sass/main.scss */
+.sidebar .tab-holder .active {
+  background-color: #5c5c5c;
+}
+/* line 63, ../sass/main.scss */
+.sidebar .mCSB_container {
+  margin-right: 10px;
+}
+/* line 67, ../sass/main.scss */
+.sidebar .mCSB_scrollTools {
+  width: 6px !important;
 }
 
-/* line 66, ../sass/main.scss */
-canvas#cell_canvas {
+/* line 72, ../sass/main.scss */
+#cell-canvas {
   position: absolute;
-  left: 17%;
-  width: 66%;
+  left: 19%;
+  width: 62%;
   height: 100%;
+  border-left: 1px solid #222222;
   background-color: #53AAAD;
-  border-left: 1px solid black;
 }
 
-/* line 75, ../sass/main.scss */
-div.floating_visual {
+/* line 81, ../sass/main.scss */
+.floating-visual {
   position: absolute;
   top: 30px;
-  width: 14%;
+  width: 13%;
   height: 225px;
   border: 2px solid rgba(53, 53, 53, 0.7);
   border-radius: 16px;
   background-color: rgba(115, 115, 115, 0.4);
 }
-/* line 84, ../sass/main.scss */
-div.floating_visual canvas.visual_content {
+/* line 90, ../sass/main.scss */
+.floating-visual .visual-content {
   position: absolute;
   top: 15px;
   left: 6%;
   width: 88%;
   height: 79%;
 }
-/* line 92, ../sass/main.scss */
-div.floating_visual p.visual_label {
+/* line 98, ../sass/main.scss */
+.floating-visual .image-content {
+  position: absolute;
+  margin-top: 10px;
+  margin-right: 5%;
+  margin-left: 5%;
+  width: 90%;
+}
+/* line 106, ../sass/main.scss */
+.floating-visual .visual-label {
   position: absolute;
   bottom: 4px;
   left: 8px;
   margin: 0px;
-  color: #282828;
+  color: rgba(38, 38, 38, 0.9);
 }
 
-/* line 101, ../sass/main.scss */
-div#action_visual {
-  left: 19%;
+/* line 115, ../sass/main.scss */
+#pathway-visual {
+  left: 21%;
 }
 
-/* line 105, ../sass/main.scss */
-div#resource_visual {
-  right: 19%;
+/* line 119, ../sass/main.scss */
+#resource-visual {
+  right: 21%;
 }
 
-/* line 109, ../sass/main.scss */
-div#organ_visual {
-  left: 35%;
+/* line 123, ../sass/main.scss */
+#organ-visual {
+  left: 36%;
 }
 
-/* line 113, ../sass/main.scss */
-div#cell_visual {
-  right: 35%;
+/* line 127, ../sass/main.scss */
+#cell-visual {
+  right: 36%;
 }
 
-/* line 117, ../sass/main.scss */
-.bottom_info {
+/* line 131, ../sass/main.scss */
+.bottom-info {
   position: absolute;
   bottom: 9px;
   margin: 0px;
   z-index: 1;
-  color: rgba(60, 60, 60, 0.85);
+  color: rgba(38, 38, 38, 0.9);
 }
 
-/* line 125, ../sass/main.scss */
-p#points {
-  left: 18%;
+/* line 139, ../sass/main.scss */
+#points {
+  left: 21%;
 }
 
-/* line 129, ../sass/main.scss */
-p#turns {
-  right: 18%;
+/* line 143, ../sass/main.scss */
+#turns {
+  right: 21%;
 }
 
-/* line 133, ../sass/main.scss */
+/* line 147, ../sass/main.scss */
 .hidden {
   display: none;
 }
 
-/* line 137, ../sass/main.scss */
+/* line 151, ../sass/main.scss */
 .error {
   color: red;
 }

@@ -3,15 +3,18 @@
 <head>
 
 <link rel="stylesheet" type="text/css" href="css/main.css">
-<link rel="stylesheet" type="text/css" href="css/actions.css">
+<link rel="stylesheet" type="text/css" href="css/pathways.css">
 <link rel="stylesheet" type="text/css" href="css/resources.css">
 <link rel="stylesheet" tyle="text/css" href="lib/bootstrap.min.css">
+<link rel="stylesheet" tyle="text/css" href="lib/jquery.mCustomScrollbar.css">
 <script src="lib/jquery-1.10.1.min.js"></script>
+<script src="lib/jquery.animate-colors-min.js"></script>
 <script src="lib/jquery.animate-shadow.js"></script>
+<script src="lib/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="lib/bootstrap.min.js"></script>
 <script src="js/main.js"></script>
 <script src="js/resources.js"></script>
-<script src="js/actions.js"></script>
+<script src="js/pathways.js"></script>
 
 <title>Metabolism Game</title>
 <meta name="description" content="Metabolism Game">
@@ -20,59 +23,71 @@
 </head>
 <body>
 
-<div class="side_column" id="action_holder">
-    <div class="action_holder" id="body">
-        <h3 class="body_title">Body</h3>
+<div class="sidebar" id="pathway-holder">
+    <h3 class="organ-title" value="global">Cellular Pathways</h3>
+
+    <div class="pathway-holder" value="global"></div>
+
+    <div class="tab-holder">
+        <div class="organ-title" value="brain" >Brain<div  class="cover"></div></div>
+        <div class="organ-title" value="muscle">Muscle<div class="cover"></div></div>
+        <div class="organ-title" value="liver" >Liver<div  class="cover"></div></div>
     </div>
 
-    <div class="tab_holder">
-        <div class="section_title" id="brain">Brain<div class="cover" id="brain"></div></div>
-        <div class="section_title" id="muscle">Muscle<div class="cover" id="muscle"></div></div>
-        <div class="section_title" id="liver">Liver<div class="cover" id="liver"></div></div>
+    <div class="pathway-holder scrollbar-content" value="brain" ></div>
+    <div class="pathway-holder scrollbar-content" value="muscle"></div>
+    <div class="pathway-holder scrollbar-content" value="liver" ></div>
+</div>
+
+<p class="bottom-info" id="points"></p>
+<p class="bottom-info" id="turns" ></p>
+
+<canvas id="cell-canvas"></canvas>
+
+<div class="floating-visual" id="pathway-visual">
+    <canvas class="visual-content"></canvas>
+    <p class="visual-label">Pathway</p>
+</div>
+<div class="floating-visual" id="organ-visual">
+    <canvas class="visual-content"></canvas>
+    <p class="visual-label">Organ</p>
+</div>
+<div class="floating-visual" id="cell-visual">
+    <canvas class="visual-content"></canvas>
+    <p class="visual-label">Cell</p>
+</div>
+<div class="floating-visual" id="resource-visual">
+    <p class="visual-label">Resource</p>
+</div>
+
+<div class="sidebar" id="resource-holder">
+    <h3 class="organ-title" value="global">Available Everywhere</h3>
+
+    <div class="resource-holder" value="global"></div>
+
+    <div class="tab-holder">
+        <div class="organ-title" value="brain" >Brain<div  class="cover"></div></div>
+        <div class="organ-title" value="muscle">Muscle<div class="cover"></div></div>
+        <div class="organ-title" value="liver" >Liver<div  class="cover"></div></div>
     </div>
 
-    <div class="action_holder" id="brain"></div>
-    <div class="action_holder" id="muscle"></div>
-    <div class="action_holder" id="liver"></div>
+    <div class="resource-holder scrollbar-content" value="brain" ></div>
+    <div class="resource-holder scrollbar-content" value="muscle"></div>
+    <div class="resource-holder scrollbar-content" value="liver" ></div>
 </div>
 
-<p class="bottom_info" id="points"></p>
-<p class="bottom_info" id="turns"></p>
-
-<canvas id="cell_canvas"></canvas>
-
-<div class="floating_visual" id="action_visual">
-    <canvas class="visual_content"></canvas>
-    <p class="visual_label">Action</p>
-</div>
-<div class="floating_visual" id="organ_visual">
-    <canvas class="visual_content"></canvas>
-    <p class="visual_label">Organ</p>
-</div>
-<div class="floating_visual" id="cell_visual">
-    <canvas class="visual_content"></canvas>
-    <p class="visual_label">Cell</p>
-</div>
-<div class="floating_visual" id="resource_visual">
-    <canvas class="visual_content"></canvas>
-    <p class="visual_label">Resource</p>
-</div>
-
-<div class="side_column" id="resource_holder">
-    <div class="resource_holder" id="body">
-        <h3 class="body_title">Body</h3>
-        <table class="resource_data" id="body"></table>
-    </div>
-
-    <div class="tab_holder">
-        <div class="section_title" id="brain">Brain<div class="cover" id="brain"></div></div>
-        <div class="section_title" id="muscle">Muscle<div class="cover" id="muscle"></div></div>
-        <div class="section_title" id="liver">Liver<div class="cover" id="liver"></div></div>
-    </div>
-
-    <div class="resource_holder" id="brain"></div>
-    <div class="resource_holder" id="muscle"></div>
-    <div class="resource_holder" id="liver"></div>
+<div class="modal hide fade">
+      <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3 id="modal-header">Modal header</h3>
+      </div>
+      <div class="modal-body">
+            <p id="modal-content">One fine body…</p>
+      </div>
+      <div class="modal-footer">
+            <a class="btn" id="modal-cancel">Cancel</a>
+            <a class="btn btn-primary" id="modal-confirm">Confirm</a>
+      </div>
 </div>
 
 </body>
