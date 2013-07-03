@@ -82,10 +82,24 @@ html, body {
   width: 62%;
   height: 100%;
   border-left: 1px solid #222222;
-  background-color: #53AAAD;
 }
 
-/* line 87, ../sass/main.scss */
+/* line 86, ../sass/main.scss */
+.brain {
+  background-color: #d5b8d9;
+}
+
+/* line 90, ../sass/main.scss */
+.muscle {
+  background-color: #daa399;
+}
+
+/* line 94, ../sass/main.scss */
+.liver {
+  background-color: #b8e3b5;
+}
+
+/* line 98, ../sass/main.scss */
 .floating-visual {
   position: absolute;
   top: 30px;
@@ -95,7 +109,7 @@ html, body {
   border-radius: 16px;
   background-color: rgba(115, 115, 115, 0.4);
 }
-/* line 96, ../sass/main.scss */
+/* line 107, ../sass/main.scss */
 .floating-visual .visual-content {
   position: absolute;
   top: 15px;
@@ -103,7 +117,7 @@ html, body {
   width: 88%;
   height: 79%;
 }
-/* line 104, ../sass/main.scss */
+/* line 115, ../sass/main.scss */
 .floating-visual .image-content {
   position: absolute;
   margin-top: 10px;
@@ -111,7 +125,7 @@ html, body {
   margin-left: 5%;
   width: 90%;
 }
-/* line 112, ../sass/main.scss */
+/* line 123, ../sass/main.scss */
 .floating-visual .visual-label {
   position: absolute;
   bottom: 4px;
@@ -120,27 +134,27 @@ html, body {
   color: rgba(38, 38, 38, 0.9);
 }
 
-/* line 121, ../sass/main.scss */
+/* line 132, ../sass/main.scss */
 #pathway-visual {
   left: 21%;
 }
 
-/* line 125, ../sass/main.scss */
+/* line 136, ../sass/main.scss */
 #resource-visual {
   right: 21%;
 }
 
-/* line 129, ../sass/main.scss */
+/* line 140, ../sass/main.scss */
 #organ-visual {
   left: 36%;
 }
 
-/* line 133, ../sass/main.scss */
+/* line 144, ../sass/main.scss */
 #cell-visual {
   right: 36%;
 }
 
-/* line 137, ../sass/main.scss */
+/* line 148, ../sass/main.scss */
 .bottom-info {
   position: absolute;
   bottom: 9px;
@@ -149,22 +163,22 @@ html, body {
   color: rgba(38, 38, 38, 0.9);
 }
 
-/* line 145, ../sass/main.scss */
+/* line 156, ../sass/main.scss */
 #points {
   left: 21%;
 }
 
-/* line 149, ../sass/main.scss */
+/* line 160, ../sass/main.scss */
 #turns {
   right: 21%;
 }
 
-/* line 153, ../sass/main.scss */
+/* line 164, ../sass/main.scss */
 .hidden {
   display: none;
 }
 
-/* line 157, ../sass/main.scss */
+/* line 168, ../sass/main.scss */
 .error {
   color: red;
 }

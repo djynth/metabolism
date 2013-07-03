@@ -81,7 +81,18 @@ html, body {
     width:  100% - 2*$sidebarWidth;
     height: 100%;
     border-left: 1px solid $borderColor;
-    background-color: #53AAAD;
+}
+
+.brain {
+    background-color: $brainColor;
+}
+
+.muscle {
+    background-color: $muscleColor;
+}
+
+.liver {
+    background-color: $liverColor;
 }
 
 .floating-visual {

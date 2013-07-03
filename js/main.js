@@ -179,11 +179,13 @@ function selectOrgan(organ) {
             $(this).children('.cover').show();
             updateScrollbar($('.pathway-holder[value="'  + $(this).attr('value') + '"]').show());
             updateScrollbar($('.resource-holder[value="' + $(this).attr('value') + '"]').show());
+            $('#cell-canvas').addClass(organ);
         } else {                                    // unselect this tab
             $(this).removeClass('active');
             $(this).children('.cover').hide();
             $('.pathway-holder[value="'  + $(this).attr('value') + '"]').hide();
             $('.resource-holder[value="' + $(this).attr('value') + '"]').hide();
+            $('#cell-canvas').removeClass($(this).attr('value'));
         }
     });
 }
