@@ -227,6 +227,7 @@ function refreshPathways() {
             checkForLacking(pathways[i], pathways[i].organs[j]);
         }
     }
+    updateEatButtons($('.food-holder'));
 }
 
 function checkForLacking(pathway, organ) {

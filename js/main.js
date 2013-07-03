@@ -9,16 +9,132 @@ var points = 0;
 var resources = [];
 var pathways = [];
 
-loadData();
-
 $(document).ready(function() {
+    loadData();
+
     setPoints(points);
     nextTurn();
+
+    populateResources();
+    populatePathways();
+    selectOrgan(BRAIN);
 
     $(window).resize(function() { $('.scrollbar-content').each(function() { updateScrollbar($(this)); }); });
 
     $('.organ-title').click(function() {
         selectOrgan($(this).attr('value'));
+    });
+
+    $('.pathway-run').click(function() {
+        var id = $(this).parents('.pathway').attr('value');
+        var organ = $(this).parents('.pathway-holder').attr('value');
+        var times = $(this).attr('value');
+        getPathwayById(id).run(organ, times);
+
+        updatePathwayButtons($(this));
+    });
+
+    $('.pathway-plus').click(function() {
+        if (!$(this).hasClass('disabled')) {
+            var times = parseInt($(this).siblings('.pathway-run').attr('value')) + 1;
+            $(this).siblings('.pathway-run').attr('value', times);
+            updatePathwayButtons($(this).siblings('.pathway-run'));
+        }
+    });
+
+    $('.pathway-minus').click(function() {
+        if (!$(this).hasClass('disabled')) {
+            var times = parseInt($(this).siblings('.pathway-run').attr('value')) - 1;
+            $(this).siblings('.pathway-run').attr('value', times);
+            updatePathwayButtons($(this).siblings('.pathway-run'));
+        }
+    });
+
+    $('.pathway-top').click(function() {
+        if (!$(this).hasClass('disabled')) {
+            var times = parseInt($(this).siblings('.pathway-run').attr('max-value'));
+            $(this).siblings('.pathway-run').attr('value', times);
+            updatePathwayButtons($(this).siblings('.pathway-run'));
+        }
+    });
+
+    $('.pathway-bottom').click(function() {
+        if (!$(this).hasClass('disabled')) {
+            var times = parseInt($(this).siblings('.pathway-run').attr('min-value'));
+            $(this).siblings('.pathway-run').attr('value', times);
+            updatePathwayButtons($(this).siblings('.pathway-run'));
+        }
+    });
+
+    $('.eat-run').click(function() {
+        var foodHolder = $(this).parent().siblings('.food-holder');
+        var glc = parseInt(foodHolder.find('#glc').attr('value'));
+        var ala = parseInt(foodHolder.find('#ala').attr('value'));
+        var fa  = parseInt(foodHolder.find('#fa').attr('value'));
+
+        if (glc + ala + fa < EAT_MAX) {
+            $('#modal-header').html('Are You Sure?');
+            $('#modal-content').html('You are eating less than you could! Your total nutrient intake of ' + (glc+ala+fa) + ' is less than the maximum of ' + EAT_MAX);
+            $('#modal-cancel').click(function() {
+                $('.modal').modal('hide');
+            });
+            $('#modal-confirm').click(function() {
+                $('.modal').modal('hide');
+                eat(glc, ala, fa);
+            });
+            $('.modal').modal('show');
+        } else {
+            eat(glc, ala, fa);
+        }
+    });
+
+    $('.eat-plus').click(function() {
+        if (!$(this).hasClass('disabled')) {
+            $(this).siblings('.eat').attr('value', parseInt($(this).siblings('.eat').attr('value')) + 1);
+            updateEatButtons($(this).parents('.food-holder'));
+        }
+    });
+
+    $('.eat-minus').click(function() {
+        if (!$(this).hasClass('disabled')) {
+            $(this).siblings('.eat').attr('value', parseInt($(this).siblings('.eat').attr('value')) - 1);
+            updateEatButtons($(this).parents('.food-holder'));
+        }
+    });
+
+    $('.eat-top').click(function() {
+        if (!$(this).hasClass('disabled')) {
+            $(this).siblings('.eat').attr('value', -1);
+            updateEatButtons($(this).parents('.food-holder'));
+        }
+    });
+
+    $('.eat-bottom').click(function() {
+        if (!$(this).hasClass('disabled')) {
+            $(this).siblings('.eat').attr('value', 0);
+            updateEatButtons($(this).parents('.food-holder'));
+        }
+    });
+
+    $('.resource-data').mouseenter(function() {
+        var resource = getResourceByName($(this).find('.resource-name').html());
+        if (resource.imageFilename != 'none') {
+            $('#resource-visual').append('<img name="' + resource.name + '" src="' + resource.imageFilename + '" alt="' + resource.name + 
+                '" class="image-content hidden">');
+
+            setTimeout(function() {
+                $('#resource-visual img[name="' + resource.name + '"]').fadeIn(250);
+            }, 300);  
+        }
+    });
+
+    $('.resource-data').mouseleave(function() {
+        var resource = getResourceByName($(this).find('.resource-name').html());
+        if (resource.imageFilename != 'none') {
+            $('#resource-visual img[name="' + resource.name + '"]').fadeOut(100, function() {
+                $(this).remove();
+            });
+        }
     });
 });
 
@@ -116,6 +232,7 @@ function loadData()
     $.ajax({
         url: "../resources.txt",
         dataType: "text",
+        async: false,
     }).done(function(data) {
         var lines = data.split('\n');
         for (var i = 0; i < lines.length; i++) {
@@ -142,156 +259,39 @@ function loadData()
         }
     }).fail(function() {
         alert('Error\nFailed to load resource data!');          // TODO
-    }).always(function() {
-            $.ajax({
-            url: "../pathways.txt",
-            dataType: "text",
-        }).done(function(data) {
-            var lines = data.split('\n');
-            for (var i = 0; i < lines.length; i++) {
-                var line = lines[i].trim();
-                if (!line || line.charAt(0) == '#') {
-                    continue;
-                }
-                var d = line.split(/\s{1,}/);
-                
-                for (var j = 0; j < d.length; j++) {
-                    d[j] = d[j].replace(/_/g, ' ');
-                }
-
-                d[0] = parseInt(d[0]);  // parse ID
-                d[2] = parseInt(d[2]);  // parse points
-                d[3] = d[3] == 'true';  // parse limit
-                d[5] = d[5] == 'true';  // parse catabolic
-                d[6] = d[6].split(','); // parse organs
-                d[7] = d[7].split(',');
-                for (var j = 0; j < d[7].length; j++) {
-                    e = d[7][j].split(':');
-                    d[7][j] = {res: e[0], val: parseInt(e[1])};
-                }
-                pathways.push(new Pathway(d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]));
+    });
+            
+    $.ajax({
+        url: "../pathways.txt",
+        dataType: "text",
+        async: false,
+    }).done(function(data) {
+        var lines = data.split('\n');
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i].trim();
+            if (!line || line.charAt(0) == '#') {
+                continue;
             }
-        }).fail(function() {
-            alert('Error\nFailed to load pathway data!');          // TODO
-        }).always(function() {
-            populateResources();
-            populatePathways();
-            selectOrgan(BRAIN);
+            var d = line.split(/\s{1,}/);
+            
+            for (var j = 0; j < d.length; j++) {
+                d[j] = d[j].replace(/_/g, ' ');
+            }
 
-            updateEatButtons($('.food-holder'));
-
-            $('.pathway-run').click(function() {
-                var id = $(this).parents('.pathway').attr('value');
-                var organ = $(this).parents('.pathway-holder').attr('value');
-                var times = $(this).attr('value');
-                getPathwayById(id).run(organ, times);
-
-                updatePathwayButtons($(this));
-            });
-
-            $('.pathway-plus').click(function() {
-                if (!$(this).hasClass('disabled')) {
-                    var times = parseInt($(this).siblings('.pathway-run').attr('value')) + 1;
-                    $(this).siblings('.pathway-run').attr('value', times);
-                    updatePathwayButtons($(this).siblings('.pathway-run'));
-                }
-            });
-
-            $('.pathway-minus').click(function() {
-                if (!$(this).hasClass('disabled')) {
-                    var times = parseInt($(this).siblings('.pathway-run').attr('value')) - 1;
-                    $(this).siblings('.pathway-run').attr('value', times);
-                    updatePathwayButtons($(this).siblings('.pathway-run'));
-                }
-            });
-
-            $('.pathway-top').click(function() {
-                if (!$(this).hasClass('disabled')) {
-                    var times = parseInt($(this).siblings('.pathway-run').attr('max-value'));
-                    $(this).siblings('.pathway-run').attr('value', times);
-                    updatePathwayButtons($(this).siblings('.pathway-run'));
-                }
-            });
-
-            $('.pathway-bottom').click(function() {
-                if (!$(this).hasClass('disabled')) {
-                    var times = parseInt($(this).siblings('.pathway-run').attr('min-value'));
-                    $(this).siblings('.pathway-run').attr('value', times);
-                    updatePathwayButtons($(this).siblings('.pathway-run'));
-                }
-            });
-
-            $('.eat-run').click(function() {
-                var foodHolder = $(this).parent().siblings('.food-holder');
-                var glc = parseInt(foodHolder.find('#glc').attr('value'));
-                var ala = parseInt(foodHolder.find('#ala').attr('value'));
-                var fa  = parseInt(foodHolder.find('#fa').attr('value'));
-
-                if (glc + ala + fa < EAT_MAX) {
-                    $('#modal-header').html('Are You Sure?');
-                    $('#modal-content').html('You are eating less than you could! Your total nutrient intake of ' + (glc+ala+fa) + ' is less than the maximum of ' + EAT_MAX);
-                    $('#modal-cancel').click(function() {
-                        $('.modal').modal('hide');
-                    });
-                    $('#modal-confirm').click(function() {
-                        $('.modal').modal('hide');
-                        eat(glc, ala, fa);
-                    });
-                    $('.modal').modal('show');
-                } else {
-                    eat(glc, ala, fa);
-                }
-            });
-
-            $('.eat-plus').click(function() {
-                if (!$(this).hasClass('disabled')) {
-                    $(this).siblings('.eat').attr('value', parseInt($(this).siblings('.eat').attr('value')) + 1);
-                    updateEatButtons($(this).parents('.food-holder'));
-                }
-            });
-
-            $('.eat-minus').click(function() {
-                if (!$(this).hasClass('disabled')) {
-                    $(this).siblings('.eat').attr('value', parseInt($(this).siblings('.eat').attr('value')) - 1);
-                    updateEatButtons($(this).parents('.food-holder'));
-                }
-            });
-
-            $('.eat-top').click(function() {
-                if (!$(this).hasClass('disabled')) {
-                    $(this).siblings('.eat').attr('value', -1);
-                    updateEatButtons($(this).parents('.food-holder'));
-                }
-            });
-
-            $('.eat-bottom').click(function() {
-                if (!$(this).hasClass('disabled')) {
-                    $(this).siblings('.eat').attr('value', 0);
-                    updateEatButtons($(this).parents('.food-holder'));
-                }
-            });
-
-            $('.resource-data').mouseenter(function() {
-                var resource = getResourceByName($(this).find('.resource-name').html());
-                if (resource.imageFilename != 'none') {
-                    $('#resource-visual').append('<img name="' + resource.name + '" src="' + resource.imageFilename + '" alt="' + resource.name + 
-                        '" class="image-content hidden">');
-
-                    setTimeout(function() {
-                        $('#resource-visual img[name="' + resource.name + '"]').fadeIn(250);
-                    }, 300);  
-                }
-            });
-
-            $('.resource-data').mouseleave(function() {
-                var resource = getResourceByName($(this).find('.resource-name').html());
-                if (resource.imageFilename != 'none') {
-                    $('#resource-visual img[name="' + resource.name + '"]').fadeOut(100, function() {
-                        $(this).remove();
-                    });
-                }
-            });            
-        });
+            d[0] = parseInt(d[0]);  // parse ID
+            d[2] = parseInt(d[2]);  // parse points
+            d[3] = d[3] == 'true';  // parse limit
+            d[5] = d[5] == 'true';  // parse catabolic
+            d[6] = d[6].split(','); // parse organs
+            d[7] = d[7].split(',');
+            for (var j = 0; j < d[7].length; j++) {
+                e = d[7][j].split(':');
+                d[7][j] = {res: e[0], val: parseInt(e[1])};
+            }
+            pathways.push(new Pathway(d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]));
+        }
+    }).fail(function() {
+        alert('Error\nFailed to load pathway data!');          // TODO
     });
 }
 
