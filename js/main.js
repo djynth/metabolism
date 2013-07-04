@@ -6,7 +6,6 @@ var GLOBAL = "global";
 var TURNS = 50;
 var turn = TURNS+1;
 var points = 0;
-var pathways = [];
 
 $(document).ready(function() {
     loadData();
@@ -28,7 +27,7 @@ $(document).ready(function() {
         var id = $(this).parents('.pathway').attr('value');
         var organ = $(this).parents('.pathway-holder').attr('value');
         var times = $(this).attr('value');
-        getPathwayById(id).run(organ, times);
+        getPathway(id).run(organ, times);
 
         updatePathwayButtons($(this));
     });
@@ -255,94 +254,4 @@ function loadData()
     }).fail(function() {
         alert('Error\nFailed to load pathway data!');          // TODO
     });
-}
-
-function updatePathwayButtons(runButton)
-{
-    var id = runButton.parents('.pathway').attr('value');
-    var organ = runButton.parents('.pathway-holder').attr('value');
-    var times = runButton.attr('value');
-    var pathway = getPathwayById(id);
-    if (!pathway || pathway.limit) {
-        return;
-    }
-    var maxRuns = pathway.getTotalMaxRuns(organ);
-    var plus   = runButton.siblings('.pathway-plus');
-    var minus  = runButton.siblings('.pathway-minus');
-    var top    = runButton.siblings('.pathway-top');
-    var bottom = runButton.siblings('.pathway-bottom');
-    runButton.attr('max-value', maxRuns);
-
-    if (times > maxRuns) {
-        times = maxRuns;
-    } else if (times < 1) {
-        times = 1;
-    }
-
-    runButton.attr('value', times);
-    runButton.html('Run x' + times);
-
-    if (times >= maxRuns) {
-        plus.addClass('disabled');
-        top.addClass('disabled');
-    } else {
-        plus.removeClass('disabled');
-        top.removeClass('disabled');
-    }
-
-    if (times <= 1) {
-        minus.addClass('disabled');
-        bottom.addClass('disabled');
-    } else {
-        minus.removeClass('disabled');
-        bottom.removeClass('disabled');
-    }
-}
-
-function updateEatButtons(foodHolder)
-{
-    var glc = parseInt(foodHolder.find('.eat#glc').attr('value'));
-    var ala = parseInt(foodHolder.find('.eat#ala').attr('value'));
-    var fa  = parseInt(foodHolder.find('.eat#fa').attr('value'));
-
-    if (glc == -1) {
-        glc = EAT_MAX - ala - fa;
-        foodHolder.find('.eat#glc').attr('value', glc);
-    }
-    if (ala == -1) {
-        ala = EAT_MAX - glc - fa;
-        foodHolder.find('.eat#ala').attr('value', ala);
-    }
-    if (fa == -1) {
-        fa = EAT_MAX - glc - ala;
-        foodHolder.find('.eat#fa').attr('value', fa);
-    }
-
-    var full = glc + ala + fa >= EAT_MAX;
-    foodHolder.children('.btn-group').each(function() {
-        var name = $(this).children('.eat').attr('id');
-        var val = 0;
-        if (name == 'glc') { name = 'Glc'; val = glc; }
-        else if (name == 'ala') { name = 'Ala'; val = ala; }
-        else if (name == 'fa') { name = 'FA'; val = fa; }
-        var fullName = getResource(name).name;
-        $(this).children('.eat').html(fullName + ' x' + val);
-
-        if (full) {
-            $(this).children('.eat-plus').addClass('disabled');
-            $(this).children('.eat-top').addClass('disabled');
-        } else {
-            $(this).children('.eat-plus').removeClass('disabled');
-            $(this).children('.eat-top').removeClass('disabled');
-        }
-        if (val <= 0) {
-            $(this).children('.eat-minus').addClass('disabled');
-            $(this).children('.eat-bottom').addClass('disabled');
-        } else {
-            $(this).children('.eat-minus').removeClass('disabled');
-            $(this).children('.eat-bottom').removeClass('disabled');
-        }
-    });
-
-    foodHolder.siblings('.run-holder').find('.eat-run').html('Run [' + (glc+ala+fa) + '/' + EAT_MAX + ']')
 }
