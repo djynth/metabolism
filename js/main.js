@@ -1,14 +1,44 @@
+/**
+ * Represents the brain organ.
+ * @type {string}
+ */
 var BRAIN  = "brain";
+/**
+ * Represents the muscle organ.
+ * @type {string}
+ */
 var MUSCLE = "muscle";
+/**
+ * Represents the liver organ.
+ * @type {string}
+ */
 var LIVER  = "liver";
+/**
+ * Represents the global organ, which contains Pathways that are not associated with any particular organ and Resources
+ *     that are available to any organ.
+ * @type {string}
+ */
 var GLOBAL = "global";
 
+/**
+ * The maximum number of turns that can be taken in a single game.
+ * @type {number}
+ */
 var TURNS = 50;
+/**
+ * The current turn, beginning at {@code TURNS}+1 and counting towards 0.
+ * @type {[type]}
+ */
 var turn = TURNS+1;
+/**
+ * The current number of points earned by running Pathways.
+ * @type {number}
+ */
 var points = 0;
 
 $(document).ready(function() {
-    loadData();
+    loadPathwayData();
+    loadResourceData();
 
     setPoints(points);
     nextTurn();
@@ -72,7 +102,8 @@ $(document).ready(function() {
 
         if (glc + ala + fa < EAT_MAX) {
             $('#modal-header').html('Are You Sure?');
-            $('#modal-content').html('You are eating less than you could! Your total nutrient intake of ' + (glc+ala+fa) + ' is less than the maximum of ' + EAT_MAX);
+            $('#modal-content').html('You are eating less than you could! Your total nutrient intake of ' + 
+                (glc+ala+fa) + ' is less than the maximum of ' + EAT_MAX);
             $('#modal-cancel').click(function() {
                 $('.modal').modal('hide');
             });
@@ -136,6 +167,13 @@ $(document).ready(function() {
     });
 });
 
+/**
+ * Updates the scrollbar in the given element.
+ * This function should be invoked whenever the content in a scrollbar changes height or the window size changes.
+ * 
+ * @param {jQuery} elem The element containing the content encompassed by the scrollbar; that is, the scrollbar's
+ *                      holder.
+ */
 function updateScrollbar(elem)
 {
     elem.css('height', ($(window).height() - elem.offset().top - parseInt(elem.css('padding-top')) - parseInt(elem.css('padding-bottom'))) + 'px');
@@ -152,21 +190,42 @@ function updateScrollbar(elem)
     }
 }
 
+/**
+ * Moves to the next turn and updates the turn counter element.
+ * 
+ * @return {number} Returns the current turn.
+ */
 function nextTurn() {
     turn--;
     $('#turns').html(turn + '/' + TURNS + ' Turns Remaining');
     return turn;
 }
 
+/**
+ * Adds the given number of points to the point counter and updates the points counter element.
+ * @param {number} pts The number of points to be added.
+ * @return {number} The total number of points after the addition.
+ */
 function addPoints(pts) {
-    setPoints(points + pts);
+    return setPoints(points + pts);
 }
 
+/**
+ * Sets the number of points to the given value and update the counter element.
+ * @param {number} pts The new point total.
+ * @return {number} The new points total.
+ */
 function setPoints(pts) {
     points = pts;
     $('#points').html(points + ' Points');
+    return points;
 }
 
+/**
+ * Selects the given organ.
+ * 
+ * @param {string} organ The name of the organ to be selected.
+ */
 function selectOrgan(organ) {
     $('.organ-title').each(function() {
         if ($(this).attr('value') == GLOBAL) {
@@ -185,73 +244,5 @@ function selectOrgan(organ) {
             $('.resource-holder[value="' + $(this).attr('value') + '"]').hide();
             $('#cell-canvas').removeClass($(this).attr('value'));
         }
-    });
-}
-
-function loadData()
-{
-    $.ajax({
-        url: "../resources.txt",
-        dataType: "text",
-        async: false,
-    }).done(function(data) {
-        var lines = data.split('\n');
-        for (var i = 0; i < lines.length; i++) {
-            var line = lines[i].trim();
-            if (!line || line.charAt(0) == '#') {
-                continue;
-            }
-            var d = line.split(/\s{1,}/);
-            
-            for (var j = 0; j < d.length; j++) {
-                d[j] = d[j].replace(/_/g, ' ');
-            }
-
-            d[0] = parseInt(d[0]);  // parse ID
-            d[4] = parseInt(d[4]);  // parse starting value
-            d[5] = parseInt(d[5]);  // parse max value
-            if (d[6] == 'true') {   // resource is global
-                resources.push(new Resource(d[0], d[1], d[2], d[3], d[4], d[5], GLOBAL, d[7], d[8]));
-            } else {                // resource is not global
-                resources.push(new Resource(d[0], d[1], d[2], d[3], d[4], d[5], BRAIN,  d[7], d[8]));
-                resources.push(new Resource(d[0], d[1], d[2], d[3], d[4], d[5], MUSCLE, d[7], d[8]));
-                resources.push(new Resource(d[0], d[1], d[2], d[3], d[4], d[5], LIVER,  d[7], d[8]));
-            }
-        }
-    }).fail(function() {
-        alert('Error\nFailed to load resource data!');          // TODO
-    });
-            
-    $.ajax({
-        url: "../pathways.txt",
-        dataType: "text",
-        async: false,
-    }).done(function(data) {
-        var lines = data.split('\n');
-        for (var i = 0; i < lines.length; i++) {
-            var line = lines[i].trim();
-            if (!line || line.charAt(0) == '#') {
-                continue;
-            }
-            var d = line.split(/\s{1,}/);
-            
-            for (var j = 0; j < d.length; j++) {
-                d[j] = d[j].replace(/_/g, ' ');
-            }
-
-            d[0] = parseInt(d[0]);  // parse ID
-            d[2] = parseInt(d[2]);  // parse points
-            d[3] = d[3] == 'true';  // parse limit
-            d[5] = d[5] == 'true';  // parse catabolic
-            d[6] = d[6].split(','); // parse organs
-            d[7] = d[7].split(',');
-            for (var j = 0; j < d[7].length; j++) {
-                e = d[7][j].split(':');
-                d[7][j] = {res: e[0], val: parseInt(e[1])};
-            }
-            pathways.push(new Pathway(d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]));
-        }
-    }).fail(function() {
-        alert('Error\nFailed to load pathway data!');          // TODO
     });
 }

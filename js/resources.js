@@ -207,3 +207,42 @@ function onResourceChange(resource, change) {
     elem.find('.resource-value').html(resource.value);
     elem.find('.bar').css('width', Math.min(100, 100*(resource.value/resource.max_value)) + '%')
 }
+
+/**
+ * Loads the Resource data from the resource data file via a synchronous AJAX call.
+ * Thus, this function does not return until the data has been loaded into the {@code resources} array.
+ */
+function loadResourceData()
+{
+    $.ajax({
+        url: "../resources.txt",
+        dataType: "text",
+        async: false,
+    }).done(function(data) {
+        var lines = data.split('\n');
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i].trim();
+            if (!line || line.charAt(0) == '#') {
+                continue;
+            }
+            var d = line.split(/\s{1,}/);
+            
+            for (var j = 0; j < d.length; j++) {
+                d[j] = d[j].replace(/_/g, ' ');
+            }
+
+            d[0] = parseInt(d[0]);  // parse ID
+            d[4] = parseInt(d[4]);  // parse starting value
+            d[5] = parseInt(d[5]);  // parse max value
+            if (d[6] == 'true') {   // resource is global
+                resources.push(new Resource(d[0], d[1], d[2], d[3], d[4], d[5], GLOBAL, d[7], d[8]));
+            } else {                // resource is not global
+                resources.push(new Resource(d[0], d[1], d[2], d[3], d[4], d[5], BRAIN,  d[7], d[8]));
+                resources.push(new Resource(d[0], d[1], d[2], d[3], d[4], d[5], MUSCLE, d[7], d[8]));
+                resources.push(new Resource(d[0], d[1], d[2], d[3], d[4], d[5], LIVER,  d[7], d[8]));
+            }
+        }
+    }).fail(function() {
+        alert('Error\nFailed to load resource data!');
+    });
+}

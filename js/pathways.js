@@ -524,3 +524,43 @@ function eat(glc, ala, fa)
         eatTemplate.catabolic, eatTemplate.organs, [{res:'Glc', val:glc}, {res:'Ala', val:ala}, {res:'FA', val:fa}]);
     eat.run(GLOBAL, 1);
 }
+
+/**
+ * Loads the Pathway data from the pathway data file via a synchronous AJAX call.
+ * Thus, this function does not return until the data has been loaded into the {@code pathways} array.
+ */
+function loadPathwayData()
+{
+    $.ajax({
+        url: "../pathways.txt",
+        dataType: "text",
+        async: false,
+    }).done(function(data) {
+        var lines = data.split('\n');
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i].trim();
+            if (!line || line.charAt(0) == '#') {
+                continue;
+            }
+            var d = line.split(/\s{1,}/);
+            
+            for (var j = 0; j < d.length; j++) {
+                d[j] = d[j].replace(/_/g, ' ');
+            }
+
+            d[0] = parseInt(d[0]);  // parse ID
+            d[2] = parseInt(d[2]);  // parse points
+            d[3] = d[3] == 'true';  // parse limit
+            d[5] = d[5] == 'true';  // parse catabolic
+            d[6] = d[6].split(','); // parse organs
+            d[7] = d[7].split(',');
+            for (var j = 0; j < d[7].length; j++) {
+                e = d[7][j].split(':');
+                d[7][j] = {res: e[0], val: parseInt(e[1])};
+            }
+            pathways.push(new Pathway(d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]));
+        }
+    }).fail(function() {
+        alert('Error\nFailed to load pathway data!');
+    });
+}
