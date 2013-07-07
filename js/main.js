@@ -36,6 +36,34 @@ var turn = TURNS+1;
  */
 var points = 0;
 
+/**
+ * The normal blood pH.
+ * @type {number}
+ */
+var NORMAL_PH  = 7.4;
+/**
+ * The lowest possible blood pH value; if the pH drops below this level, the player immediately dies.
+ * @type {number}
+ */
+var MINIMUM_PH = 6.5;
+/**
+ * The current blood pH level, on the standard scale of 1-14.
+ * The pH is affected by the CO2 levels, with the follow scaling:
+ * <pre>
+ * pH = NORMAL_PH - CO2*(4/1000)
+ * </pre>
+ * such that at 0 CO2 the pH is {@code NORMAL_PH}, and at 50 CO2 the pH is <code>NORMAL_PH - 0.2</code>.
+ * When the pH drops below 7.2, only a fraction of the globally available resources are useable in the organs, with the
+ *     following scaling:
+ * <pre>
+ * %useable = max(0, min(100, (7.2-pH)*250))
+ * </pre>
+ * such that the percentage of resources available drops to half when the pH is at 7.
+ * Additionally, if the pH is below {@code MINIMUM_PH}, the player immediately dies.
+ * @type {number}
+ */
+var ph = NORMAL_PH;
+
 $(document).ready(function() {
     loadPathwayData();
     loadResourceData();
@@ -46,6 +74,8 @@ $(document).ready(function() {
     populateResources();
     populatePathways();
     selectOrgan(BRAIN);
+
+    populatePh();
 
     $(window).resize(function() { $('.scrollbar-content').each(function() { updateScrollbar($(this)); }); });
 
@@ -195,7 +225,8 @@ function updateScrollbar(elem)
  * 
  * @return {number} Returns the current turn.
  */
-function nextTurn() {
+function nextTurn()
+{
     turn--;
     $('#turns').html(turn + '/' + TURNS + ' Turns Remaining');
     return turn;
@@ -206,7 +237,8 @@ function nextTurn() {
  * @param {number} pts The number of points to be added.
  * @return {number} The total number of points after the addition.
  */
-function addPoints(pts) {
+function addPoints(pts)
+{
     return setPoints(points + pts);
 }
 
@@ -215,7 +247,8 @@ function addPoints(pts) {
  * @param {number} pts The new point total.
  * @return {number} The new points total.
  */
-function setPoints(pts) {
+function setPoints(pts)
+{
     points = pts;
     $('#points').html(points + ' Points');
     return points;
@@ -226,7 +259,8 @@ function setPoints(pts) {
  * 
  * @param {string} organ The name of the organ to be selected.
  */
-function selectOrgan(organ) {
+function selectOrgan(organ)
+{
     $('.organ-title').each(function() {
         if ($(this).attr('value') == GLOBAL) {
             return;
@@ -245,4 +279,42 @@ function selectOrgan(organ) {
             $('#cell-canvas').removeClass($(this).attr('value'));
         }
     });
+}
+
+function populatePh()
+{
+    $('#ph-holder')
+        .append($('<div>')
+            .addClass('progress')
+            .append($('<span>')
+                .addClass('resource-name')
+                .html('pH')
+            ).append($('<span>')
+                .addClass('resource-value')
+            ).append($('<div>')
+                .addClass('bar')
+            )
+        );
+    updatePh();
+}
+
+function updatePh()
+{
+    ph = NORMAL_PH - getResource('CO2', GLOBAL).value * (4/1000);
+
+    if (ph <= 6) {
+        window.location.href = "death.html";
+    }
+
+    $('#ph-holder').find('.bar').css('width', Math.min(100, 100*((ph-6)/2)) + '%');
+    $('#ph-holder').find('.resource-value').html(ph.toFixed(2));
+    refreshPathways();
+}
+
+function getAmountGloballyUseable()
+{
+    if (ph >= 7.2) {
+        return 1;
+    }
+    return Math.max(0, Math.min(100, (7.2 - ph)*250))/100;
 }

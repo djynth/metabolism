@@ -1,50 +1,50 @@
 /* line 4, ../sass/resources.scss */
-#resource-holder {
-  right: 0px;
-  border-left: 1px solid #222222;
-}
-/* line 8, ../sass/resources.scss */
-#resource-holder .resource-holder {
-  height: auto;
-  padding: 3px 6px 6px 6px;
-  background: #5c5c5c;
-}
-/* line 13, ../sass/resources.scss */
-#resource-holder .resource-holder .resource-data {
-  width: 80%;
+.resource-bar {
   height: 21px;
-  margin: 10px auto;
   border-radius: 4px;
   line-height: 14px;
 }
-/* line 20, ../sass/resources.scss */
-#resource-holder .resource-holder .resource-data .progress {
+/* line 9, ../sass/resources.scss */
+.resource-bar .progress {
   background-image: none;
   background-color: rgba(70, 70, 70, 0.82);
   border: 1px solid rgba(63, 63, 63, 0.9);
   height: inherit;
 }
-/* line 27, ../sass/resources.scss */
-#resource-holder .resource-holder .resource-data span {
+/* line 16, ../sass/resources.scss */
+.resource-bar span {
   position: absolute;
   width: 48%;
   font-size: 14px;
   padding-top: 3px;
   color: #060606;
 }
-/* line 35, ../sass/resources.scss */
-#resource-holder .resource-holder .resource-data .resource-name {
+/* line 24, ../sass/resources.scss */
+.resource-bar .resource-name {
   left: 0px;
   text-align: right;
 }
-/* line 40, ../sass/resources.scss */
-#resource-holder .resource-holder .resource-data .resource-value {
+/* line 29, ../sass/resources.scss */
+.resource-bar .resource-value {
   right: 0px;
   text-align: left;
 }
-/* line 46, ../sass/resources.scss */
-#resource-holder .resource-holder .tooltip {
-  z-index: 10000;
+
+/* line 36, ../sass/resources.scss */
+#resource-holder {
+  right: 0px;
+  border-left: 1px solid #222222;
+}
+/* line 40, ../sass/resources.scss */
+#resource-holder .resource-holder {
+  height: auto;
+  padding: 3px 6px 0px 6px;
+  background: #5c5c5c;
+}
+/* line 45, ../sass/resources.scss */
+#resource-holder .resource-holder .resource-data {
+  width: 80%;
+  margin: 10px auto;
 }
 /* line 51, ../sass/resources.scss */
 #resource-holder [value|=global] {

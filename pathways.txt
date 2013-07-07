@@ -1,7 +1,7 @@
 #ID Name                                    Points  Limit  Color             Catabolic Organ(s)            Resources
 0   Breathe_In                              0       true   rgba(0,255,0,0.3) true      global              O2:50
 1   Breathe_Out                             0       true   rgba(0,255,0,0.3) true      global              CO2:-50
-2   Eat                                     0       true   rgba(0,255,0,0.3) true      global              Glc:20,Ala:10,FA:20
+2   Eat                                     0       true   rgba(0,255,0,0.3) true      global              Glc:30,Ala:10,FA:10
 3   Pump_Na+_and_K+_Ions                    50      false  rgba(0,255,0,0.3) false     brain               ADP:50,ATP:-50,Pi:50
 4   Muscle_Contraction                      50      false  rgba(0,255,0,0.3) false     muscle              ADP:50,ATP:-50,Pi:50
 5   Fatty_Acid_Synthesis                    7       false  rgba(0,255,0,0.3) false     liver               ADP:7,ATP:-7,Pi:7,NADP+:14,NADPH:-14,HSCoA:7,Acetyl-CoA:-8
