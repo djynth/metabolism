@@ -71,11 +71,10 @@ $(document).ready(function() {
     setPoints(points);
     nextTurn();
 
+    populatePh();
     populateResources();
     populatePathways();
     selectOrgan(BRAIN);
-
-    populatePh();
 
     $(window).resize(function() { $('.scrollbar-content').each(function() { updateScrollbar($(this)); }); });
 
@@ -281,6 +280,10 @@ function selectOrgan(organ)
     });
 }
 
+/**
+ * Populates the pH counter.
+ * This function should be called once, upon initialization.
+ */
 function populatePh()
 {
     $('#ph-holder')
@@ -298,6 +301,10 @@ function populatePh()
     updatePh();
 }
 
+/**
+ * Updates the blood pH level and its on-screen counter.
+ * This function should be called whenever the resources are modified, particularly if the level of CO2 is changed.
+ */
 function updatePh()
 {
     ph = NORMAL_PH - getResource('CO2', GLOBAL).value * (4/1000);
@@ -308,9 +315,13 @@ function updatePh()
 
     $('#ph-holder').find('.bar').css('width', Math.min(100, 100*((ph-6)/2)) + '%');
     $('#ph-holder').find('.resource-value').html(ph.toFixed(2));
-    refreshPathways();
 }
 
+/**
+ * Returns the percentage of globally available resources that are available for use, based on the current pH level.
+ * 
+ * @return {number} The amount of resources available through the bloodstream, as a percentage in the range [0,1].
+ */
 function getAmountGloballyUseable()
 {
     if (ph >= 7.2) {

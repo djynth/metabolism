@@ -1,6 +1,6 @@
 #ID Abbreviation Common Name    Full (Scientific Name)                                Starting Value Max Value Global Color   Image Filename
 0   O2           Oxygen         Oxygen                                                0              100       true   #FF0000 ../img/molecules/o2.png
-1   CO2          Carbon_Dioxide Carbon_Dioxide                                        100              100       true   #FF0000 ../img/molecules/co2.png
+1   CO2          Carbon_Dioxide Carbon_Dioxide                                        0              100       true   #FF0000 ../img/molecules/co2.png
 2   NH3          Ammonia        Ammonia                                               0              50        true   #FF0000 ../img/molecules/nh3.png
 3   Glc          Glucose        Glucose                                               0              50        true   #FF0000 ../img/molecules/glucose.png
 4   Ala          Alanine        Alanine                                               0              50        true   #FF0000 ../img/molecules/alanine.png
