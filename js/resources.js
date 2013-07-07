@@ -52,6 +52,13 @@ function Resource(id, abbr, name, full_name, value, max_value, organ, color, ima
         return this.name == name || this.abbr == name || this.full_name == name;
     }
 
+    this.getAvailable = function() {
+        if (this.organ == GLOBAL) {
+            return this.value*getAmountGloballyUseable();
+        }
+        return this.value;
+    }
+
     /**
      * Flattens this Resource into an HTML element and returns it.
      * 
@@ -59,7 +66,7 @@ function Resource(id, abbr, name, full_name, value, max_value, organ, color, ima
      */
     this.toHTML = function() {
         return $('<div>')
-            .addClass('resource-data')
+            .addClass('resource-data resource-bar')
             .append($('<div>')
                 .addClass('progress')
                 .append($('<span>')
@@ -94,63 +101,6 @@ function isResourceGlobal(resource)
         }
     }
     return false;
-}
-
-/**
- * Returns the current value of the Resource with the given name in the given organ.
- * 
- * @param {string|number} resource Any name of the Resource whose value is to be found or the Resource's ID.
- * @param {string|null} organ The organ in which the Resource must be located, or null to allow any organ.
- * @return {number} The current value of the matched Resource, or -1 if it is not found.
- */
-function getResourceValue(resource, organ)
-{
-    for (var i = 0; i < resources.length; i++) {
-        if ((resources[i].hasName(resource) || resources[i].id == resource) && 
-            (!organ || (organ && resources[i].organ == organ))) {
-            return resources[i].value;
-        }
-    }
-    return -1;
-}
-
-/**
- * Sets the value of the Resource matching the given resource name, id, and/or organ.
- * 
- * @param {string|number} resource Any name of the Resource whose value is to be set or the Resource's ID.
- * @param {string|null} organ The organ in which the modified Resource must be located. or null to allow any organ.
- * @param {number} value The new value for the matched resource.
- * @return {number} The new value of the matched resource, -1 if no Resource can be found, or -2 if the value is
- *                  invalid.
- */
-function setResourceValue(resource, organ, value)
-{
-    return changeResourceValue(resource, organ, value - getResourceValue(name, organ));
-}
-
-/**
- * Modifies the value of the Resource matching the given resource name, id, and/or organ.
- * 
- * @param {string|number} resource Any name of the Resource whose value is to be set or the Resource's ID.
- * @param {string|null} organ The organ in which the modified Resource must be located. or null to allow any organ.
- * @param {number} change The amount by which to change the value.
- * @return {number} The new value of the modified Resource, -1 if no Resource can be found, or -2 if the new value
- *                  would be invalid.
- */
-function changeResourceValue(resource, organ, change)
-{
-    for (var i = 0; i < resources.length; i++) {
-        if ((resources[i].hasName(resource) || resources[i].id == resource) && 
-            (!organ || (organ && resources[i].organ == organ))) {
-            if (resources[i].value + change >= 0) {
-                resources[i].value += change;
-                return resources[i].value;
-            } else {
-                return -2;
-            }
-        }
-    }
-    return -1;
 }
 
 /**
