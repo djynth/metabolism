@@ -92,9 +92,9 @@ html, body {
 
 .floating-visual {
     position: absolute;
-    top: 30px;
+    top: $visualTop;
     width:  $visualWidth;
-    height: 225px;
+    height: $visualHeight;
     border: 2px solid $visualBorderColor;
     border-radius: 16px;
     background-color: $visualBackground;
@@ -138,6 +138,14 @@ html, body {
 
 #cell-visual {
     right: $sidebarWidth + $visualPadding + $visualWidth + $visualPadding;
+}
+
+#ph-holder {
+    position: absolute;
+    top: $visualTop + $visualHeight + 25px;
+    right: $sidebarWidth + $visualPadding;
+    width: $visualWidth;
+    padding: 2px;
 }
 
 .bottom-info {

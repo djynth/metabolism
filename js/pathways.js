@@ -127,7 +127,7 @@ function Pathway(id, name, points, limit, color, catabolic, organs, resources)
                 return -1;
             }
             var actualOrgan = isResourceGlobal(resource) ? GLOBAL : organ;
-            return Math.floor(getResourceValue(resource, actualOrgan)/Math.abs(value));
+            return Math.floor(getResource(resource, actualOrgan).getAvailable()/Math.abs(value));
         }
     }
 
@@ -148,8 +148,8 @@ function Pathway(id, name, points, limit, color, catabolic, organs, resources)
         }
 
         for (var i = 0; i < this.resources.length; i++) {
-            if (getResourceValue(this.resources[i].res, isResourceGlobal(this.resources[i].res) ? GLOBAL : organ) + 
-                times*this.resources[i].val < 0) {
+            var actualOrgan = isResourceGlobal(this.resources[i].res) ? GLOBAL : organ;
+            if (getResource(this.resources[i].res, actualOrgan).getAvailable() + times*this.resources[i].val < 0) {
                 return false;
             }
         }
@@ -157,11 +157,12 @@ function Pathway(id, name, points, limit, color, catabolic, organs, resources)
         for (var i = 0; i < this.resources.length; i++) {
             var res = this.resources[i].res;
             var val = times*this.resources[i].val;
-            var actualOrgan = isResourceGlobal(res) ? GLOBAL : organ;
-            changeResourceValue(res, actualOrgan, val);
-            onResourceChange(getResource(res, actualOrgan), val);
+            var resource = getResource(res, isResourceGlobal(res) ? GLOBAL : organ);
+            resource.value += val;
+            onResourceChange(resource, val);
         }
 
+        updatePh();
         refreshPathways();
 
         nextTurn();

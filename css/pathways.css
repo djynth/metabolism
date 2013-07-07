@@ -10,7 +10,7 @@
 }
 /* line 11, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway {
-  margin: 2px 2px 4px 2px;
+  margin: 8px 4px 8px 4px;
   padding: 5px;
   background-color: rgba(70, 70, 70, 0.82);
   border: 1px solid rgba(63, 63, 63, 0.9);

@@ -151,6 +151,15 @@ html, body {
 }
 
 /* line 143, ../sass/main.scss */
+#ph-holder {
+  position: absolute;
+  top: 280px;
+  right: 21%;
+  width: 13%;
+  padding: 2px;
+}
+
+/* line 151, ../sass/main.scss */
 .bottom-info {
   position: absolute;
   bottom: 9px;
@@ -159,22 +168,22 @@ html, body {
   color: rgba(38, 38, 38, 0.9);
 }
 
-/* line 151, ../sass/main.scss */
+/* line 159, ../sass/main.scss */
 #points {
   left: 21%;
 }
 
-/* line 155, ../sass/main.scss */
+/* line 163, ../sass/main.scss */
 #turns {
   right: 21%;
 }
 
-/* line 159, ../sass/main.scss */
+/* line 167, ../sass/main.scss */
 .hidden {
   display: none;
 }
 
-/* line 163, ../sass/main.scss */
+/* line 171, ../sass/main.scss */
 .error {
   color: red;
 }

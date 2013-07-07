@@ -1,50 +1,50 @@
 @import "base";
 @import "compass";
 
+.resource-bar {
+    height: 21px;
+    border-radius: 4px;            
+    line-height: 14px;
+
+    .progress {
+        background-image: none;
+        background-color: $elementBackground;
+        border: 1px solid $elementBorderColor;
+        height: inherit;
+    }
+
+    span {
+        position: absolute;
+        width: 48%;
+        font-size: 14px;
+        padding-top: 3px;
+        color: $textColor;
+    }
+
+    .resource-name {
+        left: 0px;
+        text-align: right;
+    }
+
+    .resource-value {
+        right: 0px;
+        text-align: left;
+    }
+
+}
+
 #resource-holder {
     right: 0px;
     border-left: 1px solid $borderColor;
 
     .resource-holder {
         height: auto;
-        padding: 3px 6px 6px 6px;
+        padding: 3px 6px 0px 6px;
         background: $activeTabBackground;
 
         .resource-data {
             width:  80%;
-            height: 21px;
             margin: 10px auto;
-            border-radius: 4px;            
-            line-height: 14px;
-
-            .progress {
-                background-image: none;
-                background-color: $elementBackground;
-                border: 1px solid $elementBorderColor;
-                height: inherit;
-            }
-
-            span {
-                position: absolute;
-                width: 48%;
-                font-size: 14px;
-                padding-top: 3px;
-                color: $textColor;
-            }
-
-            .resource-name {
-                left: 0px;
-                text-align: right;
-            }
-
-            .resource-value {
-                right: 0px;
-                text-align: left;
-            }
-        }
-
-        .tooltip {
-            z-index: 10000;
         }
     }
 
