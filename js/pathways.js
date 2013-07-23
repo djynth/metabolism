@@ -200,17 +200,11 @@ function updateEatButtons()
         if (eat.attr('value') == -1) {
             eat.attr('value', EAT_MAX - total);
             total = EAT_MAX;
+            full = true;
         }
 
         eat.html(eat.attr('full-name') + ' x' + eat.attr('value'));
 
-        if (full) {
-            $(this).find('.eat-plus').addClass('disabled').attr('disabled', 'disabled');
-            $(this).find('.eat-top').addClass('disabled').attr('disabled', 'disabled');
-        } else {
-            $(this).find('.eat-plus').removeClass('disabled').removeAttr('disabled');
-            $(this).find('.eat-top').removeClass('disabled').removeAttr('disabled');
-        }
         if (eat.attr('value') <= 0) {
             $(this).find('.eat-minus').addClass('disabled').attr('disabled', 'disabled');
             $(this).find('.eat-bottom').addClass('disabled').attr('disabled', 'disabled');
@@ -219,6 +213,14 @@ function updateEatButtons()
             $(this).find('.eat-bottom').removeClass('disabled').removeAttr('disabled');
         }
     });
+
+    if (full) {
+        foodHolder.find('.eat-plus').addClass('disabled').attr('disabled', 'disabled');
+        foodHolder.find('.eat-top').addClass('disabled').attr('disabled', 'disabled');
+    } else {
+        foodHolder.find('.eat-plus').removeClass('disabled').removeAttr('disabled');
+        foodHolder.find('.eat-top').removeClass('disabled').removeAttr('disabled');
+    }
 
     foodHolder.siblings('.run-holder').find('.eat-run').html('Run [' + total + '/' + EAT_MAX + ']')
 }
