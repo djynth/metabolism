@@ -114,6 +114,8 @@ function refreshPathways()
         } else {
             $(this).find('.run-holder').show();
             $(this).find('.lacking').hide();
+
+            $(this).css('box-shadow', '0px 0px 7px #' + $(this).attr('color'));
         }
 
         updatePathwayButtons($(this), organ);

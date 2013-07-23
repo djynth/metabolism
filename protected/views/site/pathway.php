@@ -1,4 +1,4 @@
-<div class="pathway" value="<?= $pathway->id ?>" <?= $pathway->limit ? ' limit="limit"' : '' ?>>
+<div class="pathway" value="<?= $pathway->id ?>" <?= $pathway->limit ? ' limit="limit"' : '' ?> color="<?= $pathway->color ?>">
     <p class="title"><?= $pathway->name ?></p>
     <?php if (!$pathway->isGlobal()): ?>
         <p class="catabolic"><?= $pathway->catabolic ? 'Catabolic' : 'Anabolic' ?></p>
