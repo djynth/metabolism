@@ -1,3 +1,82 @@
+$(document).ready(function() {
+    $('.pathway-run').click(function() {
+        var id = parseInt($(this).parents('.pathway').attr('value'));
+        var organ = parseInt($(this).parents('.pathway-holder').attr('value'));
+        var times = parseInt($(this).attr('value'));
+        runPathway(id, times, organ);
+    });
+
+    $('.pathway-plus').click(function() {
+        $(this).siblings('.pathway-run').attr('value', parseInt($(this).siblings('.pathway-run').attr('value')) + 1);
+        updatePathwayButtons($(this).parents('.pathway'));
+    });
+
+    $('.pathway-minus').click(function() {
+        $(this).siblings('.pathway-run').attr('value', parseInt($(this).siblings('.pathway-run').attr('value')) - 1);
+        updatePathwayButtons($(this).parents('.pathway'));
+    });
+
+    $('.pathway-top').click(function() {
+        $(this).siblings('.pathway-run').attr('value', -1);
+        updatePathwayButtons($(this).parents('.pathway'));
+    });
+
+    $('.pathway-bottom').click(function() {
+        $(this).siblings('.pathway-run').attr('value', 1);
+        updatePathwayButtons($(this).parents('.pathway'));
+    });
+
+    $('.eat-run').click(function() {
+        var foodHolder = $('.food-holder');
+        var total = 0;
+        var nutrients = new Array();
+        foodHolder.find('.eat').each(function() {
+            total += Math.max(0, parseInt($(this).attr('value')));
+            nutrients[parseInt($(this).attr('id'))] = parseInt($(this).attr('value'));
+        });
+        var eatMax = parseInt(foodHolder.attr('eat-max'));
+
+        if (total < eatMax) {
+            $('#modal-header').html('Are You Sure?');
+            $('#modal-content').html('You are eating less than you could! Your total nutrient intake of ' + 
+                total + ' is less than the maximum of ' + eatMax);
+            $('#modal-cancel').html('Cancel');
+            $('#modal-confirm').html('Confirm');
+            $('#modal-cancel').click(function() {
+                $('.modal').modal('hide');
+            });
+            $('#modal-confirm').click(function() {
+                $(this).unbind('click');
+                $('.modal').modal('hide');
+                eat(nutrients);
+            });
+            $('.modal').modal('show');
+        } else {
+            eat(nutrients);
+        }
+    });
+
+    $('.eat-plus').click(function() {
+        $(this).siblings('.eat').attr('value', parseInt($(this).siblings('.eat').attr('value')) + 1);
+        updateEatButtons($(this).parents('.food-holder'));
+    });
+
+    $('.eat-minus').click(function() {
+        $(this).siblings('.eat').attr('value', parseInt($(this).siblings('.eat').attr('value')) - 1);
+        updateEatButtons($(this).parents('.food-holder'));
+    });
+
+    $('.eat-top').click(function() {
+        $(this).siblings('.eat').attr('value', -1);
+        updateEatButtons($(this).parents('.food-holder'));
+    });
+
+    $('.eat-bottom').click(function() {
+        $(this).siblings('.eat').attr('value', 0);
+        updateEatButtons($(this).parents('.food-holder'));
+    });
+});
+
 function refreshPathways()
 {
     $('.pathway').each(function() {
@@ -116,7 +195,7 @@ function updateEatButtons()
     foodHolder.children('.btn-group').each(function() {
         var eat = $(this).find('.eat');
 
-        if (eat.attr('value') == -1) { // signal to maximize it
+        if (eat.attr('value') == -1) {
             eat.attr('value', EAT_MAX - total);
             total = EAT_MAX;
         }
@@ -185,15 +264,15 @@ function onPathwaySuccess(data)
     if (data.success) {
         setTurn(data.turn, data.max_turns);
         setPoints(data.points);
-        updateResources(data.resources);
-        updatePh(data.ph);
+        refreshResources(data.resources);
+        setPh(data.ph);
     } else {
-        notify('Unable to run ' + data.pathway_name + '.', 'warning', 5000);
+        notify('Unable to run ' + data.pathway_name + '.', 'warning');
     }
 }
 
 function onPathwayError(xhr, error)
 {
-    notify('Internal error: ' + error, 'error', 5000);
+    notify('Internal error: ' + error, 'error');
     console.log(xhr);
 }

@@ -1,7 +1,30 @@
 var COLOR_INCREASE = "72,144,229";
 var COLOR_DECREASE = "232,12,15";
 
-function updateResources(resources)
+$(document).ready(function() {
+    refreshResources();
+
+    $('.resource-data').mouseenter(function() {
+        var resource = $(this).attr('value');
+
+        $('#resource-visual').append('<img name="' + resource + '" src="' + baseUrl + 'img/molecules/' + resource + '"'
+            + 'alt="' + resource + '" class="image-content hidden">');
+
+        setTimeout(function() {
+            $('#resource-visual img[name="' + resource + '"]').fadeIn(250);
+        }, 300);
+    });
+
+    $('.resource-data').mouseleave(function() {
+        var resource = $(this).attr('value');
+
+        $('#resource-visual img[name="' + resource + '"]').fadeOut(100, function() {
+            $(this).remove();
+        });
+    });
+});
+
+function refreshResources(resources)
 {
     if (typeof resources === 'undefined') {
         $('.resource-holder .resource-data').each(function() {

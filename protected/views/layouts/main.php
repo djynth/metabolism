@@ -16,6 +16,7 @@
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/main.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/resources.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/pathways.js"></script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/organs.js"></script>
 
 <script>
 var baseUrl = "<?= Yii::app()->request->baseUrl ?>";
