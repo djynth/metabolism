@@ -1,26 +1,56 @@
 $(document).ready(function() {
-    $(window).resize(function() { updateScrollbars(); });
+    $(window).resize(function() { updateScrollbars(true); });
 
     $('#alert-close').click(function() {
         notify(false);
     });
 });
 
-function updateScrollbars()
+function initScrollbars()
 {
     $('.scrollbar-content').each(function() {
-        $(this).css('height', $(window).height() - $(this).offset().top - ($(this).innerHeight() - $(this).height()));
+        $(this).mCustomScrollbar({
+            autoHideScrollbar: true,
+            scrollInertia: 350,
+            theme: "dark",
+        });
+    });
+}
 
-        if ($(this).attr('scrollbar') != 'true') {
-            $(this).mCustomScrollbar({
-                autoHideScrollbar: true,
-                scrollInertia: 350,
-                theme: "dark",
-            });
-            $(this).attr('scrollbar', 'true')
-        } else {
-            $(this).mCustomScrollbar('update');
+function getPathwayContentHeight()
+{
+    var h = $(window).height() - $('#pathway-holder').find('.accordian-header').first().offset().top;
+    $('#pathway-holder .accordian-header').each(function() {
+        h -= $(this).outerHeight();
+    });
+    return h;
+}
+
+function getResourceContentHeight()
+{
+    var h = $(window).height() - $('#resource-holder').find('.accordian-header').first().offset().top;
+    $('#resource-holder .accordian-header').each(function() {
+        h -= $(this).outerHeight();
+    });
+    return h;
+}
+
+function updateScrollbars(updateHeight)
+{
+    $('.scrollbar-content').each(function() {
+        if (updateHeight) {
+            if ($(this).hasClass('active')) {
+                    if ($(this).hasClass('pathway-holder')) {
+                    $(this).css('height', getPathwayContentHeight());
+                } else {
+                    $(this).css('height', getResourceContentHeight());
+                }
+            } else {
+                $(this).css('height', 0);
+            }
         }
+        
+        $(this).mCustomScrollbar('update');
     });
 }
 

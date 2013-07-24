@@ -34,6 +34,8 @@ function refreshResources(resources)
                 parseInt($(this).find('.resource-value').html())
             );
         });
+        refreshPathways();
+        initScrollbars();
     } else {
         for (var resource in resources) {
             for (var organ in resources[resource]) {
@@ -41,8 +43,8 @@ function refreshResources(resources)
                 onResourceChange(resource, organ, value);
             }
         }
+        refreshPathways();
     }
-    refreshPathways();
 }
 
 function onResourceChange(resource, organ, value)

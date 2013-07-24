@@ -35,17 +35,8 @@
   right: 0px;
   border-left: 1px solid #222222;
 }
-/* line 40, ../sass/resources.scss */
-#resource-holder .resource-holder {
-  padding: 3px 6px 0px 6px;
-  background: #5c5c5c;
-}
-/* line 44, ../sass/resources.scss */
+/* line 41, ../sass/resources.scss */
 #resource-holder .resource-holder .resource-data {
   width: 80%;
   margin: 10px auto;
-}
-/* line 50, ../sass/resources.scss */
-#resource-holder .global {
-  background-color: inherit;
 }

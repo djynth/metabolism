@@ -38,16 +38,9 @@
     border-left: 1px solid $borderColor;
 
     .resource-holder {
-        padding: 3px 6px 0px 6px;
-        background: $activeTabBackground;
-
         .resource-data {
             width:  80%;
             margin: 10px auto;
         }
-    }
-
-    .global {
-        background-color: inherit;
     }
 }
