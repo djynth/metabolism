@@ -2,13 +2,7 @@
 #pathway-holder {
   left: 0;
 }
-/* line 6, ../sass/pathways.scss */
-#pathway-holder .pathway-holder {
-  padding: 10px 6px;
-  background-color: #5c5c5c;
-  overflow: auto;
-}
-/* line 11, ../sass/pathways.scss */
+/* line 7, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway {
   margin: 8px 4px 8px 4px;
   padding: 5px;
@@ -19,94 +13,82 @@
   font-size: 12px;
   line-height: 12px;
 }
-/* line 21, ../sass/pathways.scss */
-#pathway-holder .pathway-holder .pathway:first-child {
-  margin-top: 0px;
-}
-/* line 25, ../sass/pathways.scss */
-#pathway-holder .pathway-holder .pathway:last-child {
-  margin-bottom: 0px;
-}
-/* line 29, ../sass/pathways.scss */
+/* line 17, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway p {
   margin: 0px;
   color: #060606;
 }
-/* line 34, ../sass/pathways.scss */
+/* line 22, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .title {
   display: inline;
   margin-right: 8px;
   font-weight: bold;
 }
-/* line 40, ../sass/pathways.scss */
+/* line 28, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .catabolic {
   display: inline;
 }
-/* line 44, ../sass/pathways.scss */
+/* line 32, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .points {
   display: inline;
   float: right;
 }
-/* line 49, ../sass/pathways.scss */
+/* line 37, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .reaction {
   width: 80%;
   margin: 3px auto;
   border-collapse: collapse;
   color: black;
 }
-/* line 55, ../sass/pathways.scss */
+/* line 43, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .reaction td {
   width: 40%;
   padding-top: 1px;
   padding-bottom: 1px;
 }
-/* line 61, ../sass/pathways.scss */
+/* line 49, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .reaction .reactant {
   text-align: right;
   padding-right: 3px;
 }
-/* line 66, ../sass/pathways.scss */
+/* line 54, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .reaction .product {
   text-align: left;
   padding-left: 3px;
 }
-/* line 71, ../sass/pathways.scss */
+/* line 59, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .reaction .header {
   font-weight: bold;
 }
-/* line 75, ../sass/pathways.scss */
+/* line 63, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .reaction .lacking {
   color: #6f0c0c;
 }
-/* line 79, ../sass/pathways.scss */
+/* line 67, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .reaction .global {
   font-weight: bold;
 }
-/* line 84, ../sass/pathways.scss */
+/* line 72, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .food-holder {
   margin: 10px auto;
   width: 198px;
 }
-/* line 88, ../sass/pathways.scss */
+/* line 76, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .food-holder .btn-group {
   margin: 2px 0px;
 }
-/* line 92, ../sass/pathways.scss */
+/* line 80, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .food-holder .eat {
   min-width: 90px;
 }
-/* line 97, ../sass/pathways.scss */
+/* line 85, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .lacking {
   position: relative;
   left: 2px;
   bottom: 2px;
   padding: 8px 0px 2px;
 }
-/* line 104, ../sass/pathways.scss */
+/* line 92, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway .pathway-run {
   min-width: 60px;
-}
-/* line 110, ../sass/pathways.scss */
-#pathway-holder .global {
-  background-color: inherit;
 }

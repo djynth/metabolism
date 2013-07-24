@@ -25,40 +25,23 @@ html, body {
         font-weight: bold;
     }
 
-    .tab-holder {
-        padding-left: 8px;
-        border-bottom: 1px solid $borderColor;
+    .global {
+        background: inherit;
+        padding: 5px 6px 10px;
+    }
 
-        .organ-title {
-            display: inline-block;
-            width:  64px;
-            height: 20px;
-            margin:  2px 2px 0px 2px;
-            padding: 5px 0px 0px 0px;
-            background-color: $tabBackground;
-            border: 1px solid $borderColor;
-            border-bottom: none;
-            border-top-right-radius: 5px;
-            border-top-left-radius:  5px;
-            text-align: center;
+    .accordian-header {
+        background-color: $accordianHeaderBackground;
+        color: $accordianHeaderTextColor;
+        text-shadow: 1px 1px $textColor;
+        border-top:    1px solid $accordianHeaderBorderColor;
+        border-bottom: 1px solid $accordianHeaderBorderColor;
+        padding-left: 10px;
+    }
 
-            &:hover {
-                cursor: pointer;
-            }
-
-            .cover {
-                position: relative;
-                bottom: -4px;
-                width:  100%;
-                height: 1px;
-                padding: 0;
-                background-color: inherit;
-            }
-        }
-
-        .active {
-            background-color: $activeTabBackground;
-        }
+    .accordian-content {
+        padding: 0px 6px;
+        background: $accordianContentBackground;
     }
 
     .mCSB_container {
@@ -67,6 +50,8 @@ html, body {
 
     .mCSB_scrollTools {
         width: 6px !important;
+        height: 95% !important;
+        margin-top: 5%;
     }
 }
 
@@ -76,18 +61,6 @@ html, body {
     width:  100% - 2*$sidebarWidth;
     height: 100%;
     border-left: 1px solid $borderColor;
-}
-
-.brain {
-    background-color: $brainColor;
-}
-
-.muscle {
-    background-color: $muscleColor;
-}
-
-.liver {
-    background-color: $liverColor;
 }
 
 .floating-visual {
