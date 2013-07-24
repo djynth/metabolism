@@ -2,3 +2,4 @@ config.rb
 .sass-cache
 img/molecules/pdf/
 push.sh
+protected/runtime/
