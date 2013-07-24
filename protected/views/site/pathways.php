@@ -14,14 +14,9 @@ $global = Organ::getGlobal();
     ?>
 </div>
 
-<div class="tab-holder">
-    <?php foreach ($organs as $organ): ?>
-        <div class="organ-title" value="<?= $organ->id ?>"><?= $organ->name ?><div class="cover"></div></div>
-    <?php endforeach ?>
-</div>
-
 <?php foreach($organs as $organ): ?>
-    <div class="pathway-holder scrollbar-content" value="<?= $organ->id ?>">
+    <div class="accordian-header" value="<?= $organ->id ?>"><?= $organ->name ?></div>
+    <div class="accordian-content pathway-holder scrollbar-content" value="<?= $organ->id ?>">
         <?php
         $pathways = $organ->pathways;
         foreach ($pathways as $pathway) {

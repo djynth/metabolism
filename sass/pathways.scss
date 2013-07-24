@@ -4,10 +4,6 @@
     left: 0;
 
     .pathway-holder {
-        padding: 10px 6px;
-        background-color: $activeTabBackground;
-        overflow: auto;
-
         .pathway {
             margin:  8px 4px 8px 4px;
             padding: 5px;
@@ -17,14 +13,6 @@
             border-radius: 7px;
             font-size:   $textFontSize;
             line-height: $textFontSize;
-
-            &:first-child {
-                margin-top: 0px;
-            }
-
-            &:last-child {
-                margin-bottom: 0px;
-            }
 
             p {
                 margin: 0px;
@@ -105,9 +93,5 @@
                 min-width: 60px;
             }
         }
-    }
-
-    .global {
-        background-color: inherit;
     }
 }
