@@ -37,16 +37,15 @@
 }
 /* line 40, ../sass/resources.scss */
 #resource-holder .resource-holder {
-  height: auto;
   padding: 3px 6px 0px 6px;
   background: #5c5c5c;
 }
-/* line 45, ../sass/resources.scss */
+/* line 44, ../sass/resources.scss */
 #resource-holder .resource-holder .resource-data {
   width: 80%;
   margin: 10px auto;
 }
-/* line 51, ../sass/resources.scss */
-#resource-holder [value|=global] {
+/* line 50, ../sass/resources.scss */
+#resource-holder .global {
   background-color: inherit;
 }
