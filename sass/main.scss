@@ -150,9 +150,9 @@ html, body {
 
 .bottom-info {
     position: absolute;
-    bottom: 9px;
-    margin: 0px;
     z-index: 1;
+    bottom: $bottomPadding;
+    margin: 0px;
     color: $visualTextColor;
 }
 
@@ -162,6 +162,22 @@ html, body {
 
 #turns {
     right: $sidebarWidth + $visualPadding;
+}
+
+#notification-holder {
+    position: absolute;
+    width: 40%;
+    left: 30%;
+    bottom: $bottomPadding;
+
+    #notification {
+        display: none;
+        margin-bottom: 0px;
+
+        #alert-message {
+            min-height: 20px;
+        }
+    }
 }
 
 .hidden {

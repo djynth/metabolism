@@ -38,7 +38,6 @@
     border-left: 1px solid $borderColor;
 
     .resource-holder {
-        height: auto;
         padding: 3px 6px 0px 6px;
         background: $activeTabBackground;
 
@@ -48,7 +47,7 @@
         }
     }
 
-    [value|=global] {
+    .global {
         background-color: inherit;
     }
 }

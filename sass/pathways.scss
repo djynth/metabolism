@@ -75,6 +75,10 @@
                 .lacking {
                     color: rgb(111, 12, 12);
                 }
+
+                .global {
+                    font-weight: bold;
+                }
             }
 
             .food-holder {
@@ -103,7 +107,7 @@
         }
     }
 
-    [value|=global] {
+    .global {
         background-color: inherit;
     }
 }
