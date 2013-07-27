@@ -8,7 +8,7 @@ $global = Organ::getGlobal();
 </div>
 
 <div class="header-text">
-    <?= $global->name ?>
+    <p><?= $global->name ?></p>
     <i class="icon-info-sign icon-white organ-info"></i>
 </div>
 

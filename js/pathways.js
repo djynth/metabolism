@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    resizeFilter(true);
+
+    $(window).resize(resizeFilter);
+
     $('.pathway-run').click(function() {
         var id = parseInt($(this).parents('.pathway').attr('value'));
         var organ = parseInt($(this).parents('.pathway-holder').attr('value'));
@@ -75,7 +79,41 @@ $(document).ready(function() {
         $(this).siblings('.eat').attr('value', 0);
         updateEatButtons($(this).parents('.food-holder'));
     });
+
+    $('#pathway-filter-icon').click(function() {
+        $('#pathway-filter').slideToggle(function() {
+            updateScrollbars(true);
+        });
+    });
 });
+
+function resizeFilter(hide)
+{
+    $('#filter-row-search input').each(function() {
+        var w = $(this).parent().outerWidth();
+        $(this).siblings().each(function() {
+            w -= $(this).outerWidth();
+        });
+        $(this).outerWidth(w);
+    });
+
+    $('#filter-row-reaction').each(function() {
+        var rowWidth = $(this).width();
+        console.log(rowWidth);
+
+        $(this).find('input').each(function() {
+            var w = rowWidth/2;
+            $(this).siblings().each(function() {
+                w -= $(this).outerWidth();
+            });
+            $(this).outerWidth(w-2);
+        });
+    });
+
+    if (hide) {
+        $('#pathway-filter').hide();
+    }
+}
 
 function refreshPathways()
 {

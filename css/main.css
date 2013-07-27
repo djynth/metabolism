@@ -10,24 +10,42 @@ html, body {
 }
 
 /* line 12, ../sass/main.scss */
+.input-dark {
+  border-color: #121212;
+}
+/* line 15, ../sass/main.scss */
+.input-dark .add-on {
+  border-color: inherit !important;
+  background: #323232 !important;
+}
+/* line 20, ../sass/main.scss */
+.input-dark input {
+  border-color: inherit !important;
+  background: #222222 !important;
+}
+
+/* line 26, ../sass/main.scss */
 .header-text {
   position: relative;
   background-color: #323232;
   color: #afafaf;
   text-shadow: 1px 1px #060606;
   border-bottom: 1px solid #232323;
-  padding-left: 10px;
-  margin: 0;
 }
-/* line 21, ../sass/main.scss */
+/* line 33, ../sass/main.scss */
 .header-text .organ-info {
   position: absolute;
   right: 10px;
   top: 2px;
   cursor: pointer;
 }
+/* line 40, ../sass/main.scss */
+.header-text p {
+  padding-left: 10px;
+  margin: 0;
+}
 
-/* line 29, ../sass/main.scss */
+/* line 46, ../sass/main.scss */
 .sidebar {
   position: absolute;
   width: 19%;
@@ -35,61 +53,95 @@ html, body {
   background-color: #505050;
   overflow: hidden;
 }
-/* line 36, ../sass/main.scss */
+/* line 53, ../sass/main.scss */
 .sidebar .sidebar-title {
   font-size: 1.3em;
   line-height: 1.5em;
 }
-/* line 40, ../sass/main.scss */
+/* line 57, ../sass/main.scss */
 .sidebar .sidebar-title p {
   margin: 0;
 }
-/* line 44, ../sass/main.scss */
-.sidebar .sidebar-title #filter-pathways {
+/* line 61, ../sass/main.scss */
+.sidebar .sidebar-title #pathway-filter-icon {
   position: absolute;
   right: 10px;
   top: 7px;
   margin: 0;
 }
-/* line 50, ../sass/main.scss */
-.sidebar .sidebar-title #filter-pathways:hover {
+/* line 67, ../sass/main.scss */
+.sidebar .sidebar-title #pathway-filter-icon:hover {
   cursor: pointer;
 }
-/* line 56, ../sass/main.scss */
+/* line 73, ../sass/main.scss */
 .sidebar .global {
   background: inherit;
   padding: 5px 6px 10px;
 }
-/* line 61, ../sass/main.scss */
+/* line 78, ../sass/main.scss */
 .sidebar .accordian-header {
   border-top: 1px solid #232323;
 }
-/* line 64, ../sass/main.scss */
+/* line 81, ../sass/main.scss */
 .sidebar .accordian-header .accordian-title {
   display: inline-block;
   margin: 0;
 }
-/* line 68, ../sass/main.scss */
+/* line 85, ../sass/main.scss */
 .sidebar .accordian-header .accordian-title:hover {
   cursor: pointer;
 }
-/* line 74, ../sass/main.scss */
+/* line 91, ../sass/main.scss */
 .sidebar .accordian-content {
   padding: 0px 6px;
   background: #5c5c5c;
 }
-/* line 79, ../sass/main.scss */
+/* line 96, ../sass/main.scss */
 .sidebar .mCSB_container {
   margin-right: 10px;
 }
-/* line 83, ../sass/main.scss */
+/* line 100, ../sass/main.scss */
 .sidebar .mCSB_scrollTools {
   width: 6px !important;
   height: 95% !important;
   margin-top: 5%;
 }
 
-/* line 90, ../sass/main.scss */
+/* line 107, ../sass/main.scss */
+#pathway-filter {
+  width: 100%;
+}
+/* line 111, ../sass/main.scss */
+#pathway-filter .filter-row {
+  width: 90%;
+  margin: 5px auto;
+}
+/* line 115, ../sass/main.scss */
+#pathway-filter .filter-row .input-prepend {
+  margin: 0;
+}
+/* line 119, ../sass/main.scss */
+#pathway-filter .filter-row table {
+  width: 100%;
+}
+/* line 125, ../sass/main.scss */
+#pathway-filter #filter-row-search .input-prepend {
+  width: 100%;
+}
+/* line 131, ../sass/main.scss */
+#pathway-filter #filter-row-buttons .btn-group {
+  width: 100%;
+}
+/* line 134, ../sass/main.scss */
+#pathway-filter #filter-row-buttons .btn-group button {
+  width: 50%;
+}
+/* line 141, ../sass/main.scss */
+#pathway-filter #filter-row-reaction .input-prepend {
+  display: inline-block;
+}
+
+/* line 147, ../sass/main.scss */
 #cell-canvas {
   position: absolute;
   left: 19%;
@@ -98,7 +150,7 @@ html, body {
   border-left: 1px solid #222222;
 }
 
-/* line 98, ../sass/main.scss */
+/* line 155, ../sass/main.scss */
 .floating-visual {
   position: absolute;
   top: 30px;
@@ -108,7 +160,7 @@ html, body {
   border-radius: 16px;
   background-color: rgba(115, 115, 115, 0.4);
 }
-/* line 107, ../sass/main.scss */
+/* line 164, ../sass/main.scss */
 .floating-visual .visual-content {
   position: absolute;
   top: 15px;
@@ -116,7 +168,7 @@ html, body {
   width: 88%;
   height: 79%;
 }
-/* line 115, ../sass/main.scss */
+/* line 172, ../sass/main.scss */
 .floating-visual .image-content {
   position: absolute;
   margin-top: 10px;
@@ -124,7 +176,7 @@ html, body {
   margin-left: 5%;
   width: 90%;
 }
-/* line 123, ../sass/main.scss */
+/* line 180, ../sass/main.scss */
 .floating-visual .visual-label {
   position: absolute;
   bottom: 4px;
@@ -133,27 +185,27 @@ html, body {
   color: rgba(38, 38, 38, 0.9);
 }
 
-/* line 132, ../sass/main.scss */
+/* line 189, ../sass/main.scss */
 #pathway-visual {
   left: 21%;
 }
 
-/* line 136, ../sass/main.scss */
+/* line 193, ../sass/main.scss */
 #resource-visual {
   right: 21%;
 }
 
-/* line 140, ../sass/main.scss */
+/* line 197, ../sass/main.scss */
 #organ-visual {
   left: 36%;
 }
 
-/* line 144, ../sass/main.scss */
+/* line 201, ../sass/main.scss */
 #cell-visual {
   right: 36%;
 }
 
-/* line 148, ../sass/main.scss */
+/* line 205, ../sass/main.scss */
 #ph-holder {
   position: absolute;
   top: 280px;
@@ -162,7 +214,7 @@ html, body {
   padding: 2px;
 }
 
-/* line 156, ../sass/main.scss */
+/* line 213, ../sass/main.scss */
 .bottom-info {
   position: absolute;
   z-index: 1;
@@ -171,39 +223,39 @@ html, body {
   color: rgba(38, 38, 38, 0.9);
 }
 
-/* line 164, ../sass/main.scss */
+/* line 221, ../sass/main.scss */
 #points {
   left: 21%;
 }
 
-/* line 168, ../sass/main.scss */
+/* line 225, ../sass/main.scss */
 #turns {
   right: 21%;
 }
 
-/* line 172, ../sass/main.scss */
+/* line 229, ../sass/main.scss */
 #notification-holder {
   position: absolute;
   width: 40%;
   left: 30%;
   bottom: 9px;
 }
-/* line 178, ../sass/main.scss */
+/* line 235, ../sass/main.scss */
 #notification-holder #notification {
   display: none;
   margin-bottom: 0px;
 }
-/* line 182, ../sass/main.scss */
+/* line 239, ../sass/main.scss */
 #notification-holder #notification #alert-message {
   min-height: 20px;
 }
 
-/* line 188, ../sass/main.scss */
+/* line 245, ../sass/main.scss */
 .hidden {
   display: none;
 }
 
-/* line 192, ../sass/main.scss */
+/* line 249, ../sass/main.scss */
 .error {
   color: red;
 }

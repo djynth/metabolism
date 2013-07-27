@@ -9,20 +9,37 @@ html, body {
     @include user-select(none);
 }
 
+.input-dark {
+    border-color: rgb(18, 18, 18);
+
+    .add-on {
+        border-color: inherit !important;
+        background: rgb(50, 50, 50) !important;
+    }
+
+    input {
+        border-color: inherit !important;
+        background: rgb(34, 34, 34) !important;
+    }
+}
+
 .header-text {
     position: relative;
     background-color: $accordianHeaderBackground;
     color: $accordianHeaderTextColor;
     text-shadow: 1px 1px $textColor;
     border-bottom: 1px solid $accordianHeaderBorderColor;
-    padding-left: 10px;
-    margin: 0;
 
     .organ-info {
         position: absolute;
         right: 10px;
         top: 2px;
         cursor: pointer;
+    }
+
+    p {
+        padding-left: 10px;
+        margin: 0;
     }
 }
 
@@ -41,7 +58,7 @@ html, body {
             margin: 0;
         }
 
-        #filter-pathways {
+        #pathway-filter-icon {
             position: absolute;
             right: 10px;
             top: 7px;
@@ -84,6 +101,46 @@ html, body {
         width: 6px !important;
         height: 95% !important;
         margin-top: 5%;
+    }
+}
+
+#pathway-filter {
+    //display: none;
+    width: 100%;
+
+    .filter-row {
+        width: 90%;
+        margin: 5px auto;
+
+        .input-prepend {
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+        }
+    }
+
+    #filter-row-search {
+        .input-prepend {
+            width: 100%;
+        }
+    }
+
+    #filter-row-buttons {
+        .btn-group {
+            width: 100%;
+
+            button {
+                width: 50%;
+            }
+        }
+    }
+
+    #filter-row-reaction {
+        .input-prepend {
+            display: inline-block;
+        }
     }
 }
 
