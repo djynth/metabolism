@@ -9,6 +9,15 @@ html, body {
     @include user-select(none);
 }
 
+.header-text {
+    background-color: $accordianHeaderBackground;
+    color: $accordianHeaderTextColor;
+    text-shadow: 1px 1px $textColor;
+    border-bottom: 1px solid $accordianHeaderBorderColor;
+    padding-left: 10px;
+    margin: 0;
+}
+
 .sidebar {
     position: absolute;
     width:  $sidebarWidth;
@@ -16,13 +25,24 @@ html, body {
     background-color: $sidebarBackground;
     overflow: hidden;
 
-    .organ-title {
-        margin:  3px 0px 0px 0px;
-        padding: 5px 10px;
-        color: $textColor;
-        font-size:   $headerFontSize;
-        line-height: $headerFontSize;
-        font-weight: bold;
+    .sidebar-title {
+        font-size: 1.3em;
+        line-height: 1.5em;
+
+        p {
+            margin: 0;
+        }
+
+        #filter-pathways {
+            position: absolute;
+            right: 10px;
+            top: 7px;
+            margin: 0;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
     }
 
     .global {
@@ -31,12 +51,16 @@ html, body {
     }
 
     .accordian-header {
-        background-color: $accordianHeaderBackground;
-        color: $accordianHeaderTextColor;
-        text-shadow: 1px 1px $textColor;
         border-top:    1px solid $accordianHeaderBorderColor;
-        border-bottom: 1px solid $accordianHeaderBorderColor;
-        padding-left: 10px;
+
+        .accordian-title {
+            display: inline-block;
+            margin: 0;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
     }
 
     .accordian-content {

@@ -10,6 +10,16 @@ html, body {
 }
 
 /* line 12, ../sass/main.scss */
+.header-text {
+  background-color: #323232;
+  color: #afafaf;
+  text-shadow: 1px 1px #060606;
+  border-bottom: 1px solid #232323;
+  padding-left: 10px;
+  margin: 0;
+}
+
+/* line 21, ../sass/main.scss */
 .sidebar {
   position: absolute;
   width: 19%;
@@ -17,46 +27,61 @@ html, body {
   background-color: #505050;
   overflow: hidden;
 }
-/* line 19, ../sass/main.scss */
-.sidebar .organ-title {
-  margin: 3px 0px 0px 0px;
-  padding: 5px 10px;
-  color: #060606;
-  font-size: 16px;
-  line-height: 16px;
-  font-weight: bold;
-}
 /* line 28, ../sass/main.scss */
+.sidebar .sidebar-title {
+  font-size: 1.3em;
+  line-height: 1.5em;
+}
+/* line 32, ../sass/main.scss */
+.sidebar .sidebar-title p {
+  margin: 0;
+}
+/* line 36, ../sass/main.scss */
+.sidebar .sidebar-title #filter-pathways {
+  position: absolute;
+  right: 10px;
+  top: 7px;
+  margin: 0;
+}
+/* line 42, ../sass/main.scss */
+.sidebar .sidebar-title #filter-pathways:hover {
+  cursor: pointer;
+}
+/* line 48, ../sass/main.scss */
 .sidebar .global {
   background: inherit;
   padding: 5px 6px 10px;
 }
-/* line 33, ../sass/main.scss */
+/* line 53, ../sass/main.scss */
 .sidebar .accordian-header {
-  background-color: #323232;
-  color: #afafaf;
-  text-shadow: 1px 1px #060606;
   border-top: 1px solid #232323;
-  border-bottom: 1px solid #232323;
-  padding-left: 10px;
 }
-/* line 42, ../sass/main.scss */
+/* line 56, ../sass/main.scss */
+.sidebar .accordian-header .accordian-title {
+  display: inline-block;
+  margin: 0;
+}
+/* line 60, ../sass/main.scss */
+.sidebar .accordian-header .accordian-title:hover {
+  cursor: pointer;
+}
+/* line 66, ../sass/main.scss */
 .sidebar .accordian-content {
   padding: 0px 6px;
   background: #5c5c5c;
 }
-/* line 47, ../sass/main.scss */
+/* line 71, ../sass/main.scss */
 .sidebar .mCSB_container {
   margin-right: 10px;
 }
-/* line 51, ../sass/main.scss */
+/* line 75, ../sass/main.scss */
 .sidebar .mCSB_scrollTools {
   width: 6px !important;
   height: 95% !important;
   margin-top: 5%;
 }
 
-/* line 58, ../sass/main.scss */
+/* line 82, ../sass/main.scss */
 #cell-canvas {
   position: absolute;
   left: 19%;
@@ -65,7 +90,7 @@ html, body {
   border-left: 1px solid #222222;
 }
 
-/* line 66, ../sass/main.scss */
+/* line 90, ../sass/main.scss */
 .floating-visual {
   position: absolute;
   top: 30px;
@@ -75,7 +100,7 @@ html, body {
   border-radius: 16px;
   background-color: rgba(115, 115, 115, 0.4);
 }
-/* line 75, ../sass/main.scss */
+/* line 99, ../sass/main.scss */
 .floating-visual .visual-content {
   position: absolute;
   top: 15px;
@@ -83,7 +108,7 @@ html, body {
   width: 88%;
   height: 79%;
 }
-/* line 83, ../sass/main.scss */
+/* line 107, ../sass/main.scss */
 .floating-visual .image-content {
   position: absolute;
   margin-top: 10px;
@@ -91,7 +116,7 @@ html, body {
   margin-left: 5%;
   width: 90%;
 }
-/* line 91, ../sass/main.scss */
+/* line 115, ../sass/main.scss */
 .floating-visual .visual-label {
   position: absolute;
   bottom: 4px;
@@ -100,27 +125,27 @@ html, body {
   color: rgba(38, 38, 38, 0.9);
 }
 
-/* line 100, ../sass/main.scss */
+/* line 124, ../sass/main.scss */
 #pathway-visual {
   left: 21%;
 }
 
-/* line 104, ../sass/main.scss */
+/* line 128, ../sass/main.scss */
 #resource-visual {
   right: 21%;
 }
 
-/* line 108, ../sass/main.scss */
+/* line 132, ../sass/main.scss */
 #organ-visual {
   left: 36%;
 }
 
-/* line 112, ../sass/main.scss */
+/* line 136, ../sass/main.scss */
 #cell-visual {
   right: 36%;
 }
 
-/* line 116, ../sass/main.scss */
+/* line 140, ../sass/main.scss */
 #ph-holder {
   position: absolute;
   top: 280px;
@@ -129,7 +154,7 @@ html, body {
   padding: 2px;
 }
 
-/* line 124, ../sass/main.scss */
+/* line 148, ../sass/main.scss */
 .bottom-info {
   position: absolute;
   z-index: 1;
@@ -138,39 +163,39 @@ html, body {
   color: rgba(38, 38, 38, 0.9);
 }
 
-/* line 132, ../sass/main.scss */
+/* line 156, ../sass/main.scss */
 #points {
   left: 21%;
 }
 
-/* line 136, ../sass/main.scss */
+/* line 160, ../sass/main.scss */
 #turns {
   right: 21%;
 }
 
-/* line 140, ../sass/main.scss */
+/* line 164, ../sass/main.scss */
 #notification-holder {
   position: absolute;
   width: 40%;
   left: 30%;
   bottom: 9px;
 }
-/* line 146, ../sass/main.scss */
+/* line 170, ../sass/main.scss */
 #notification-holder #notification {
   display: none;
   margin-bottom: 0px;
 }
-/* line 150, ../sass/main.scss */
+/* line 174, ../sass/main.scss */
 #notification-holder #notification #alert-message {
   min-height: 20px;
 }
 
-/* line 156, ../sass/main.scss */
+/* line 180, ../sass/main.scss */
 .hidden {
   display: none;
 }
 
-/* line 160, ../sass/main.scss */
+/* line 184, ../sass/main.scss */
 .error {
   color: red;
 }

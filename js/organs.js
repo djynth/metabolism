@@ -5,8 +5,11 @@ var ORGAN_TRANSITION = ORGAN_FADE_OUT + ORGAN_FADE_IN;
 $(document).ready(function() {
     selectOrgan(parseInt($('.accordian-header').first().attr('value')), true);
 
-    $('.accordian-header').click(function() {
-        selectOrgan($(this).attr('value'));
+    $('.accordian-title').click(function() {
+        var header = $(this).parents('.accordian-header');
+        if (!header.hasClass('active')) {
+            selectOrgan(header.attr('value'));
+        }
     });
 });
 
@@ -51,6 +54,21 @@ function selectOrgan(organ, firstTime)
             }
         }
     });
+
+    $('.accordian-header').each(function() {
+        if ($(this).attr('value') == organ) {
+            $(this).addClass('active');
+            $(this).find('.filter-icon-holder').addClass('active').click(function() {
+                var organ = $(this).parents('.accordian-header').attr('value');
+                $(this).parents('.accordian-header').siblings('.filter[value="' + organ + '"]').slideToggle();
+            });
+        } else {
+            $(this).removeClass('active');
+            $(this).find('.filter-icon-holder').removeClass('active').unbind('click');
+        }
+    });
+
+    $('.filter').slideUp();
 
     $.ajax({
         url: 'index.php?r=site/organColor',

@@ -3,8 +3,12 @@ $organs = Organ::getNotGlobal();
 $global = Organ::getGlobal();
 ?>
 
-<h3 class="organ-title global-title">Cellular Pathways</h3>
+<div class="sidebar-title header-text">
+    <p>Cellular Pathways</p>
+    <i id="filter-pathways" class="icon-cog icon-white"></i>
+</div>
 
+<div class="header-text"><?= $global->name ?></div>
 <div class="pathway-holder global" value="<?= $global->id ?>">
     <?php
     $pathways = $global->pathways;
@@ -15,7 +19,10 @@ $global = Organ::getGlobal();
 </div>
 
 <?php foreach($organs as $organ): ?>
-    <div class="accordian-header" value="<?= $organ->id ?>"><?= $organ->name ?></div>
+    <div class="accordian-header header-text" value="<?= $organ->id ?>">
+        <p class="accordian-title"><?= $organ->name ?></p>
+    </div>
+
     <div class="accordian-content pathway-holder scrollbar-content" value="<?= $organ->id ?>">
         <?php
         $pathways = $organ->pathways;
