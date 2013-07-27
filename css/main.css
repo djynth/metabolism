@@ -133,7 +133,7 @@ html, body {
   width: 100%;
 }
 /* line 134, ../sass/main.scss */
-#pathway-filter #filter-row-buttons .btn-group button {
+#pathway-filter #filter-row-buttons .btn-group input {
   width: 50%;
 }
 /* line 141, ../sass/main.scss */

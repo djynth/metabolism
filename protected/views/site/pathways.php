@@ -11,7 +11,7 @@ $global = Organ::getGlobal();
         <div id="filter-row-search" class="filter-row">
             <div class="input-dark input-prepend">
                 <span class="add-on"><i class="icon-search icon-white"></i></span>
-                <input type="text" placeholder="Filter By Name">
+                <input type="text" placeholder="Filter By Name" id="filter-name">
             </div>
         </div>
         
@@ -19,15 +19,15 @@ $global = Organ::getGlobal();
             <table>
                 <td>
                     <div class="btn-group" data-toggle="buttons-checkbox">
-                        <button class="btn btn-small btn-inverse active">Available</button>
-                        <button class="btn btn-small btn-inverse active">Unavailable</button>
+                        <input type="button" class="btn btn-small btn-inverse active" id="filter-available" value="Available">
+                        <input type="button" class="btn btn-small btn-inverse active" id="filter-unavailable" value="Unavailable">
                     </div>
                 </td>
                 
                 <td>
                     <div class="btn-group" data-toggle="buttons-checkbox">
-                        <button class="btn btn-small btn-inverse active">Catabolic</button>
-                        <button class="btn btn-small btn-inverse active">Anabolic</button>
+                        <input type="button" class="btn btn-small btn-inverse active" id="filter-catabolic" value="Catabolic">
+                        <input type="button" class="btn btn-small btn-inverse active" id="filter-anabolic" value="Anabolic">
                     </div>
                 </td>
             </table>
@@ -36,12 +36,12 @@ $global = Organ::getGlobal();
         <div id="filter-row-reaction" class="filter-row">
                 <div class="input-dark input-prepend">
                     <span class="add-on"><i class="icon-search icon-white"></i></span>
-                    <input type="text" placeholder="Reactant">
+                    <input type="text" placeholder="Reactant" id="filter-reactant">
                 </div>
 
                 <div class="input-dark input-prepend">
                     <span class="add-on"><i class="icon-search icon-white"></i></span>
-                    <input type="text" placeholder="Product">
+                    <input type="text" placeholder="Product" id="filter-product">
                 </div>
         </div>
     </div>
