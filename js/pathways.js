@@ -336,6 +336,9 @@ function onFilterChange()
     var reactant        = $('#filter-reactant').val();
     var product         = $('#filter-product').val();
 
+    if (name) {
+        name = new RegExp(name);
+    }
     if (!showAvailable && !showUnavailable) {
         showAvailable = true;
         showUnavailable = true;
@@ -352,7 +355,7 @@ function onFilterChange()
         var pathwayAvailable = $(this).attr('available') === 'true';
         var pathwayCatabolic = $(this).attr('catabolic') === 'true';
 
-        if ((name && pathwayName.indexOf(name) == -1) || 
+        if ((name && !name.test(pathwayName)) || 
             (showAvailable && !showUnavailable && !pathwayAvailable) ||
             (!showAvailable && showUnavailable && pathwayAvailable)  || 
             (showCatabolic && !showAnabolic && !pathwayCatabolic) ||
