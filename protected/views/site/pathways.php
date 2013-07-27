@@ -8,7 +8,11 @@ $global = Organ::getGlobal();
     <i id="filter-pathways" class="icon-cog icon-white"></i>
 </div>
 
-<div class="header-text"><?= $global->name ?></div>
+<div class="header-text">
+    <?= $global->name ?>
+    <i class="icon-info-sign icon-white organ-info"></i>
+</div>
+
 <div class="pathway-holder global" value="<?= $global->id ?>">
     <?php
     $pathways = $global->pathways;
@@ -21,6 +25,7 @@ $global = Organ::getGlobal();
 <?php foreach($organs as $organ): ?>
     <div class="accordian-header header-text" value="<?= $organ->id ?>">
         <p class="accordian-title"><?= $organ->name ?></p>
+        <i class="icon-info-sign icon-white organ-info"></i>
     </div>
 
     <div class="accordian-content pathway-holder scrollbar-content" value="<?= $organ->id ?>">

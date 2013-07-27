@@ -10,12 +10,20 @@ html, body {
 }
 
 .header-text {
+    position: relative;
     background-color: $accordianHeaderBackground;
     color: $accordianHeaderTextColor;
     text-shadow: 1px 1px $textColor;
     border-bottom: 1px solid $accordianHeaderBorderColor;
     padding-left: 10px;
     margin: 0;
+
+    .organ-info {
+        position: absolute;
+        right: 10px;
+        top: 2px;
+        cursor: pointer;
+    }
 }
 
 .sidebar {
