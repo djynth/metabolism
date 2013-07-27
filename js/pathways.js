@@ -337,7 +337,7 @@ function onFilterChange()
     var product         = $('#filter-product').val();
 
     if (name) {
-        name = new RegExp(name);
+        name = new RegExp(name, 'i');
     }
     if (!showAvailable && !showUnavailable) {
         showAvailable = true;
