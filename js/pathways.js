@@ -110,7 +110,6 @@ function resizeFilter(hide)
 
     $('#filter-row-reaction').each(function() {
         var rowWidth = $(this).width();
-        console.log(rowWidth);
 
         $(this).find('input').each(function() {
             var w = rowWidth/2;
