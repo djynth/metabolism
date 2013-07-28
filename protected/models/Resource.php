@@ -35,7 +35,13 @@ class Resource extends CActiveRecord
 
     public function hasName($name)
     {
-        return $this->abbr == $name || $this->name == $name || $this->full_name = $name;
+        return $this->abbr == $name || $this->name == $name || $this->full_name == $name;
+    }
+
+    public function matchesName($name)
+    {
+        $pattern = '/' . $name . '/i';
+        return preg_match($pattern, $this->abbr) || preg_match($pattern, $this->name) || preg_match($pattern, $this->full_name);
     }
 
     public function getOrgans()
@@ -64,7 +70,6 @@ class Resource extends CActiveRecord
         } else {
             return self::getAmounts()[intval($this->id)][intval($organ->id)];
         }
-        
     }
 
     public function setAmount($organ, $amount)
