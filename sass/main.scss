@@ -72,7 +72,7 @@ html, body {
 
     .global {
         background: inherit;
-        padding: 5px 6px 10px;
+        padding: 0px 6px;
     }
 
     .accordian-header {
@@ -105,8 +105,8 @@ html, body {
 }
 
 #pathway-filter {
-    //display: none;
     width: 100%;
+    padding-bottom: 6px;
 
     .filter-row {
         width: 90%;
@@ -128,11 +128,30 @@ html, body {
     }
 
     #filter-row-buttons {
-        .btn-group {
-            width: 100%;
+        table {
+            table-layout: fixed;
 
-            input {
+            td {
                 width: 50%;
+                padding: 0 2px;
+
+                &:first-child {
+                    padding-left: 0;
+                }
+
+                &:last-child {
+                    padding-right: 0;
+                }
+
+                .btn-group {
+                    width: 100%;
+
+                    input {
+                        width: 50%;
+                        font-size: 12px;
+                        height: 25px;
+                    }
+                }
             }
         }
     }

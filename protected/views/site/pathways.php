@@ -19,15 +19,15 @@ $global = Organ::getGlobal();
             <table>
                 <td>
                     <div class="btn-group" data-toggle="buttons-checkbox">
-                        <input type="button" class="btn btn-small btn-inverse active" id="filter-available" value="Available">
-                        <input type="button" class="btn btn-small btn-inverse active" id="filter-unavailable" value="Unavailable">
+                        <input type="button" class="btn btn-mini btn-inverse" id="filter-available" value="Available">
+                        <input type="button" class="btn btn-mini btn-inverse" id="filter-unavailable" value="Unavailable">
                     </div>
                 </td>
                 
                 <td>
                     <div class="btn-group" data-toggle="buttons-checkbox">
-                        <input type="button" class="btn btn-small btn-inverse active" id="filter-catabolic" value="Catabolic">
-                        <input type="button" class="btn btn-small btn-inverse active" id="filter-anabolic" value="Anabolic">
+                        <input type="button" class="btn btn-mini btn-inverse" id="filter-catabolic" value="Catabolic">
+                        <input type="button" class="btn btn-mini btn-inverse" id="filter-anabolic" value="Anabolic">
                     </div>
                 </td>
             </table>

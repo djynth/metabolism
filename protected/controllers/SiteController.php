@@ -80,4 +80,50 @@ class SiteController extends Controller
             ));
         }
     }
+
+    public function actionProducts()
+    {
+        if (isset($_POST) && count($_POST) > 0) {
+            $pathway = Pathway::model()->findByAttributes(array('id' => $_POST['pathway']));
+            $resource = $_POST['product'];
+
+            $pathwayProducts = $pathway->getProducts();
+
+            $match = false;
+            foreach ($pathwayProducts as $pathwayProduct) {
+                if (intval($resource) == intval($pathwayProduct->resource_id) || 
+                    Resource::model()->findByAttributes(array('id' => $pathwayProduct->resource_id))->matchesName($resource)) {
+                    $match = true;
+                    break;
+                }
+            }
+
+            echo CJavaScript::jsonEncode(array(
+                'match' => $match
+            ));
+        }
+    }
+
+    public function actionReactants()
+    {
+        if (isset($_POST) && count($_POST) > 0) {
+            $pathway = Pathway::model()->findByAttributes(array('id' => $_POST['pathway']));
+            $resource = $_POST['reactant'];
+
+            $pathwayProducts = $pathway->getReactants();
+
+            $match = false;
+            foreach ($pathwayProducts as $pathwayProduct) {
+                if (intval($resource) === intval($pathwayProduct->resource_id) || 
+                    Resource::model()->findByAttributes(array('id' => $pathwayProduct->resource_id))->matchesName($resource)) {
+                    $match = true;
+                    break;
+                }
+            }
+
+            echo CJavaScript::jsonEncode(array(
+                'match' => $match
+            ));
+        }
+    }
 }

@@ -92,7 +92,7 @@ class Pathway extends CActiveRecord
         $resources = $this->resources;
         $reactants = array();
         foreach ($resources as $resource) {
-            if ($resource->value < 0) {
+            if (intval($resource->value) < 0) {
                 $reactants[] = $resource;
             }
         }
@@ -104,7 +104,7 @@ class Pathway extends CActiveRecord
         $resources = $this->resources;
         $products = array();
         foreach ($resources as $resource) {
-            if ($resource->value > 0) {
+            if (intval($resource->value) > 0) {
                 $products[] = $resource;
             }
         }

@@ -355,11 +355,49 @@ function onFilterChange()
         var pathwayAvailable = $(this).attr('available') === 'true';
         var pathwayCatabolic = $(this).attr('catabolic') === 'true';
 
+        var matchesReactant = true;
+        var matchesProduct = true;
+
+        if (reactant) {
+            $.ajax({
+                url: 'index.php?r=site/reactants',
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                data: {
+                    pathway: $(this).attr('value'),
+                    reactant: reactant
+                },
+                success: function(data) {
+                    console.log(data.match);
+                    matchesReactant = data.match;
+                }
+            });
+        }
+        if (product) {
+            $.ajax({
+                url: 'index.php?r=site/products',
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                data: {
+                    pathway: $(this).attr('value'),
+                    product: product
+                },
+                success: function(data) {
+                    matchesProduct = data.match;
+                }
+            });
+        }
+
+        console.log('done: ' + matchesReactant);
+
         if ((name && !name.test(pathwayName)) || 
             (showAvailable && !showUnavailable && !pathwayAvailable) ||
             (!showAvailable && showUnavailable && pathwayAvailable)  || 
             (showCatabolic && !showAnabolic && !pathwayCatabolic) ||
-            (!showCatabolic && showAnabolic && pathwayCatabolic))
+            (!showCatabolic && showAnabolic && pathwayCatabolic) ||
+            !matchesReactant || !matchesProduct)
         {
             $(this).attr('filter', 'false');
         }
