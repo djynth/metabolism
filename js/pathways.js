@@ -3,6 +3,12 @@ $(document).ready(function() {
 
     $(window).resize(function() { resizeFilter(false); });
 
+    $('.pathway').hover(function() {
+        visualizePathway($(this).attr('value'), true);
+    }, function() {
+        visualizePathway($(this).attr('value'), false);
+    });
+
     $('.pathway-run').click(function() {
         var id = parseInt($(this).parents('.pathway').attr('value'));
         var organ = parseInt($(this).parents('.pathway-holder').attr('value'));
@@ -418,4 +424,30 @@ function onFilterChange()
     }).promise().done(function() {
         updateScrollbars(true);
     });
+}
+
+function visualizePathway(pathway, show)
+{
+    if (show) {
+        var visualization = $('<p>')
+            .attr('name', pathway)
+            .html('test')
+            .css('display', 'none');
+
+        $('#pathway-visual').append(visualization);
+
+        setTimeout(function() {
+            visualization.fadeIn(300);
+
+            if ($('#pathway-visual p[name="' + pathway + '"]').length > 0) {
+                $('#pathway-visual .visual-label').text($('.pathway[value="' + pathway + '"] .title').text());
+            }
+        }, 350);
+    } else {
+        $('#pathway-visual p[name="' + pathway + '"]').fadeOut(150, function() {
+            $(this).remove();
+
+            $('#pathway-visual .visual-label').text('Pathway');
+        });
+    }
 }
