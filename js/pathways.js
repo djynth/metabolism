@@ -96,6 +96,12 @@ $(document).ready(function() {
         $('#filter-available, #filter-unavailable, #filter-catabolic, #filter-anabolic').removeClass('active');
         onFilterChange();
     });
+
+    $('.reactant, .product').hover(function() {
+        visualizeResource($(this).attr('res-id'), true);
+    }, function() {
+        visualizeResource($(this).attr('res-id'), false);
+    });
 });
 
 function resizeFilter(hide)
