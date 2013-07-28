@@ -463,7 +463,7 @@ function visualizePathway(pathway, show)
         setTimeout(function() {
             visualization.fadeIn(300);
 
-            if ($('#pathway-visual p[name="' + pathway + '"]').length > 0) {
+            if ($('#pathway-visual div[name="' + pathway + '"]').length > 0) {
                 $('#pathway-visual .visual-label').text($('.pathway[value="' + pathway + '"] .title').first().text());
             }
         }, 350);
@@ -497,7 +497,7 @@ function updatePathwayVisualization(pathway)
     });
     products = products.trim();
 
-    $('#pathway-visual').find('.reaction-multiplier').text('(x' + multiplier + ')');
-    $('#pathway-visual').find('.reactants').html(reactants);
-    $('#pathway-visual').find('.products').html(products);
+    $('#pathway-visual .visual-content[name="' + pathway + '"]').find('.reaction-multiplier').text('(x' + multiplier + ')');
+    $('#pathway-visual .visual-content[name="' + pathway + '"]').find('.reactants').html(reactants);
+    $('#pathway-visual .visual-content[name="' + pathway + '"]').find('.products').html(products);
 }
