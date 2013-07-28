@@ -1,6 +1,6 @@
 <div id="header">
-    <p id="points">0 Points</p>
-    <p id="turns" >50/50 Turns</p>
+    <p id="points"></p>
+    <p id="turns" ></p>
 
     <div id="account">
         <p class="login-text">Not logged in</p>

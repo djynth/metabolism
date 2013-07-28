@@ -56,7 +56,7 @@ html, body {
 }
 /* line 54, ../sass/main.scss */
 .sidebar .sidebar-title {
-  height: 28px;
+  min-height: 28px;
 }
 /* line 57, ../sass/main.scss */
 .sidebar .sidebar-title p {

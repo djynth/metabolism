@@ -52,7 +52,7 @@ html, body {
     z-index: 10;
 
     .sidebar-title {
-        height: $headerHeight;
+        min-height: $headerHeight;
 
         p {
             margin: 0;
