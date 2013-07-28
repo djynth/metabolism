@@ -87,19 +87,8 @@ class SiteController extends Controller
             $pathway = Pathway::model()->findByAttributes(array('id' => $_POST['pathway']));
             $resource = $_POST['product'];
 
-            $pathwayProducts = $pathway->getProducts();
-
-            $match = false;
-            foreach ($pathwayProducts as $pathwayProduct) {
-                if (intval($resource) == intval($pathwayProduct->resource_id) || 
-                    Resource::model()->findByAttributes(array('id' => $pathwayProduct->resource_id))->matchesName($resource)) {
-                    $match = true;
-                    break;
-                }
-            }
-
             echo CJavaScript::jsonEncode(array(
-                'match' => $match
+                'match' => self::resourceMatch($pathway->getProducts(), $resource)
             ));
         }
     }
@@ -110,20 +99,21 @@ class SiteController extends Controller
             $pathway = Pathway::model()->findByAttributes(array('id' => $_POST['pathway']));
             $resource = $_POST['reactant'];
 
-            $pathwayProducts = $pathway->getReactants();
-
-            $match = false;
-            foreach ($pathwayProducts as $pathwayProduct) {
-                if (intval($resource) === intval($pathwayProduct->resource_id) || 
-                    Resource::model()->findByAttributes(array('id' => $pathwayProduct->resource_id))->matchesName($resource)) {
-                    $match = true;
-                    break;
-                }
-            }
-
             echo CJavaScript::jsonEncode(array(
-                'match' => $match
+                'match' => self::resourceMatch($pathway->getReactants(), $resource)
             ));
         }
+    }
+
+    private static function resourceMatch($resources, $key)
+    {
+        foreach ($resources as $resource) {
+            if (intval($key) === intval($resource->resource_id) || 
+                Resource::model()->findByAttributes(array('id' => $resource->resource_id))->matchesName($key))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

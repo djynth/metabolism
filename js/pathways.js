@@ -375,7 +375,6 @@ function onFilterChange()
                     reactant: reactant
                 },
                 success: function(data) {
-                    console.log(data.match);
                     matchesReactant = data.match;
                 }
             });
@@ -395,8 +394,6 @@ function onFilterChange()
                 }
             });
         }
-
-        console.log('done: ' + matchesReactant);
 
         if ((name && !name.test(pathwayName)) || 
             (showAvailable && !showUnavailable && !pathwayAvailable) ||
