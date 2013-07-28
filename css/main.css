@@ -52,81 +52,123 @@ html, body {
   height: 100%;
   background-color: #505050;
   overflow: hidden;
+  z-index: 10;
 }
-/* line 53, ../sass/main.scss */
+/* line 54, ../sass/main.scss */
 .sidebar .sidebar-title {
-  font-size: 1.3em;
-  line-height: 1.5em;
+  height: 28px;
 }
 /* line 57, ../sass/main.scss */
 .sidebar .sidebar-title p {
   margin: 0;
+  padding-top: 6px;
+  font-size: 18px;
 }
-/* line 61, ../sass/main.scss */
+/* line 63, ../sass/main.scss */
 .sidebar .sidebar-title #pathway-filter-icon {
   position: absolute;
   right: 10px;
   top: 7px;
   margin: 0;
 }
-/* line 67, ../sass/main.scss */
+/* line 69, ../sass/main.scss */
 .sidebar .sidebar-title #pathway-filter-icon:hover {
   cursor: pointer;
 }
-/* line 73, ../sass/main.scss */
+/* line 75, ../sass/main.scss */
 .sidebar .global {
   background: inherit;
   padding: 0px 6px;
 }
-/* line 78, ../sass/main.scss */
+/* line 80, ../sass/main.scss */
 .sidebar .accordian-header {
   border-top: 1px solid #232323;
 }
-/* line 81, ../sass/main.scss */
+/* line 83, ../sass/main.scss */
 .sidebar .accordian-header .accordian-title {
   display: inline-block;
   margin: 0;
 }
-/* line 85, ../sass/main.scss */
+/* line 87, ../sass/main.scss */
 .sidebar .accordian-header .accordian-title:hover {
   cursor: pointer;
 }
-/* line 91, ../sass/main.scss */
+/* line 93, ../sass/main.scss */
 .sidebar .accordian-content {
   padding: 0px 6px;
   background: #5c5c5c;
 }
-/* line 96, ../sass/main.scss */
+/* line 98, ../sass/main.scss */
 .sidebar .mCSB_container {
   margin-right: 10px;
 }
-/* line 100, ../sass/main.scss */
+/* line 102, ../sass/main.scss */
 .sidebar .mCSB_scrollTools {
   width: 6px !important;
   height: 95% !important;
   margin-top: 5%;
 }
 
-/* line 107, ../sass/main.scss */
+/* line 109, ../sass/main.scss */
+#header {
+  position: absolute;
+  left: 19%;
+  width: 62%;
+  height: 28px;
+  background-color: #323232;
+  border-bottom: 1px solid #232323;
+  z-index: 5;
+}
+/* line 118, ../sass/main.scss */
+#header p {
+  display: inline-block;
+  margin: 4px 5px 0px;
+  color: #afafaf;
+  text-shadow: 1px 1px #060606;
+}
+/* line 125, ../sass/main.scss */
+#header #account {
+  float: right;
+  width: 200px;
+  height: 100%;
+  border-left: 1px solid #222222;
+  padding-right: 25px;
+}
+/* line 132, ../sass/main.scss */
+#header #account .icon-user {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  margin: 0;
+}
+/* line 138, ../sass/main.scss */
+#header #account .icon-user:hover {
+  cursor: pointer;
+}
+/* line 143, ../sass/main.scss */
+#header #account .dropdown-menu {
+  margin-right: 2px;
+}
+
+/* line 149, ../sass/main.scss */
 #cell-canvas {
   position: absolute;
   left: 19%;
   width: 62%;
   height: 100%;
-  border-left: 1px solid #222222;
 }
 
-/* line 115, ../sass/main.scss */
+/* line 156, ../sass/main.scss */
 .floating-visual {
   position: absolute;
-  top: 30px;
+  top: 58px;
   width: 13%;
   height: 225px;
   border: 2px solid rgba(53, 53, 53, 0.7);
   border-radius: 16px;
   background-color: rgba(115, 115, 115, 0.4);
 }
-/* line 124, ../sass/main.scss */
+/* line 165, ../sass/main.scss */
 .floating-visual .visual-content {
   position: absolute;
   top: 15px;
@@ -134,7 +176,7 @@ html, body {
   width: 88%;
   height: 79%;
 }
-/* line 132, ../sass/main.scss */
+/* line 173, ../sass/main.scss */
 .floating-visual .image-content {
   position: absolute;
   margin-top: 10px;
@@ -142,7 +184,7 @@ html, body {
   margin-left: 5%;
   width: 90%;
 }
-/* line 140, ../sass/main.scss */
+/* line 181, ../sass/main.scss */
 .floating-visual .visual-label {
   position: absolute;
   bottom: 4px;
@@ -151,37 +193,37 @@ html, body {
   color: rgba(38, 38, 38, 0.9);
 }
 
-/* line 149, ../sass/main.scss */
+/* line 190, ../sass/main.scss */
 #pathway-visual {
   left: 21%;
 }
-/* line 153, ../sass/main.scss */
+/* line 194, ../sass/main.scss */
 #pathway-visual .reaction p, #pathway-visual .reaction i {
   position: absolute;
 }
-/* line 157, ../sass/main.scss */
+/* line 198, ../sass/main.scss */
 #pathway-visual .reaction .reaction-title {
   font-weight: bold;
 }
-/* line 161, ../sass/main.scss */
+/* line 202, ../sass/main.scss */
 #pathway-visual .reaction .reaction-multiplier {
   right: 0px;
 }
-/* line 165, ../sass/main.scss */
+/* line 206, ../sass/main.scss */
 #pathway-visual .reaction .reactants {
   left: 0;
   top: 25px;
   width: 45%;
   text-align: center;
 }
-/* line 172, ../sass/main.scss */
+/* line 213, ../sass/main.scss */
 #pathway-visual .reaction .products {
   right: 0;
   top: 25px;
   width: 45%;
   text-align: center;
 }
-/* line 179, ../sass/main.scss */
+/* line 220, ../sass/main.scss */
 #pathway-visual .reaction .arrow-holder {
   position: absolute;
   top: 25px;
@@ -189,31 +231,31 @@ html, body {
   left: 45%;
 }
 
-/* line 188, ../sass/main.scss */
+/* line 229, ../sass/main.scss */
 #resource-visual {
   right: 21%;
 }
 
-/* line 192, ../sass/main.scss */
+/* line 233, ../sass/main.scss */
 #organ-visual {
   left: 36%;
 }
 
-/* line 196, ../sass/main.scss */
+/* line 237, ../sass/main.scss */
 #cell-visual {
   right: 36%;
 }
 
-/* line 200, ../sass/main.scss */
+/* line 241, ../sass/main.scss */
 #ph-holder {
   position: absolute;
-  top: 280px;
+  top: 308px;
   right: 21%;
   width: 13%;
   padding: 2px;
 }
 
-/* line 208, ../sass/main.scss */
+/* line 249, ../sass/main.scss */
 .bottom-info {
   position: absolute;
   z-index: 1;
@@ -222,39 +264,39 @@ html, body {
   color: rgba(38, 38, 38, 0.9);
 }
 
-/* line 216, ../sass/main.scss */
+/* line 257, ../sass/main.scss */
 #points {
   left: 21%;
 }
 
-/* line 220, ../sass/main.scss */
+/* line 261, ../sass/main.scss */
 #turns {
   right: 21%;
 }
 
-/* line 224, ../sass/main.scss */
+/* line 265, ../sass/main.scss */
 #notification-holder {
   position: absolute;
   width: 40%;
   left: 30%;
   bottom: 9px;
 }
-/* line 230, ../sass/main.scss */
+/* line 271, ../sass/main.scss */
 #notification-holder #notification {
   display: none;
   margin-bottom: 0px;
 }
-/* line 234, ../sass/main.scss */
+/* line 275, ../sass/main.scss */
 #notification-holder #notification #alert-message {
   min-height: 20px;
 }
 
-/* line 240, ../sass/main.scss */
+/* line 281, ../sass/main.scss */
 .hidden {
   display: none;
 }
 
-/* line 244, ../sass/main.scss */
+/* line 285, ../sass/main.scss */
 .error {
   color: red;
 }

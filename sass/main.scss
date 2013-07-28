@@ -49,13 +49,15 @@ html, body {
     height: 100%;
     background-color: $sidebarBackground;
     overflow: hidden;
+    z-index: 10;
 
     .sidebar-title {
-        font-size: 1.3em;
-        line-height: 1.5em;
+        height: $headerHeight;
 
         p {
             margin: 0;
+            padding-top: 6px;
+            font-size: $headerHeight - 10px;
         }
 
         #pathway-filter-icon {
@@ -76,7 +78,7 @@ html, body {
     }
 
     .accordian-header {
-        border-top:    1px solid $accordianHeaderBorderColor;
+        border-top: 1px solid $accordianHeaderBorderColor;
 
         .accordian-title {
             display: inline-block;
@@ -104,17 +106,56 @@ html, body {
     }
 }
 
+#header {
+    position: absolute;
+    left: $sidebarWidth;
+    width: 100% - 2*$sidebarWidth;
+    height: $headerHeight;
+    background-color: $accordianHeaderBackground;
+    border-bottom: 1px solid $accordianHeaderBorderColor;
+    z-index: 5;
+
+    p {
+        display: inline-block;
+        margin: 4px 5px 0px;
+        color: $accordianHeaderTextColor;
+        text-shadow: 1px 1px $textColor;
+    }
+
+    #account {
+        float: right;
+        width:  $accountWidth;
+        height: 100%;
+        border-left: 1px solid $borderColor;
+        padding-right: 25px;
+
+        .icon-user {
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            margin: 0;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        .dropdown-menu {
+            margin-right: 2px;
+        }
+    }
+}
+
 #cell-canvas {
     position: absolute;
     left: $sidebarWidth;
     width:  100% - 2*$sidebarWidth;
     height: 100%;
-    border-left: 1px solid $borderColor;
 }
 
 .floating-visual {
     position: absolute;
-    top: $visualTop;
+    top: $headerHeight + $visualTop;
     width:  $visualWidth;
     height: $visualHeight;
     border: 2px solid $visualBorderColor;
@@ -199,7 +240,7 @@ html, body {
 
 #ph-holder {
     position: absolute;
-    top: $visualTop + $visualHeight + 25px;
+    top: $headerHeight + $visualTop + $visualHeight + 25px;
     right: $sidebarWidth + $visualPadding;
     width: $visualWidth;
     padding: 2px;
