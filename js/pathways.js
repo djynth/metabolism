@@ -3,6 +3,12 @@ $(document).ready(function() {
 
     $(window).resize(function() { resizeFilter(false); });
 
+    $('.pathway').hover(function() {
+        visualizePathway($(this).attr('value'), true);
+    }, function() {
+        visualizePathway($(this).attr('value'), false);
+    });
+
     $('.pathway-run').click(function() {
         var id = parseInt($(this).parents('.pathway').attr('value'));
         var organ = parseInt($(this).parents('.pathway-holder').attr('value'));
@@ -95,6 +101,12 @@ $(document).ready(function() {
         $('#filter-name, #filter-reactant, #filter-product').val('');
         $('#filter-available, #filter-unavailable, #filter-catabolic, #filter-anabolic').removeClass('active');
         onFilterChange();
+    });
+
+    $('.reactant, .product').hover(function() {
+        visualizeResource($(this).attr('res-id'), true);
+    }, function() {
+        visualizeResource($(this).attr('res-id'), false);
     });
 });
 
@@ -218,6 +230,8 @@ function updatePathwayButtons(pathway)
         minus.removeClass('disabled').removeAttr('disabled');
         bottom.removeClass('disabled').removeAttr('disabled');
     }
+
+    updatePathwayVisualization(pathway.attr('value'));
 }
 
 function getMaxRuns(pathway, organ)
@@ -412,4 +426,78 @@ function onFilterChange()
     }).promise().done(function() {
         updateScrollbars(true);
     });
+}
+
+function visualizePathway(pathway, show)
+{
+    if (show) {
+        var visualization = $('<div>')
+            .attr('name', pathway)
+            .css('display', 'none')
+            .addClass('visual-content')
+            .append($('<div>')
+                .addClass('reaction')
+                .append($('<p>')
+                    .addClass('reaction-title')
+                    .text('Balanced Reaction'))
+                .append($('<p>')
+                    .addClass('reaction-multiplier'))
+                .append($('<p>')
+                    .addClass('reactants')
+                    .text('Reactants'))
+                .append($('<div>')
+                    .addClass('arrow-holder')
+                    .append($('<i>')
+                        .addClass('icon-arrow-right arrow')))
+                .append($('<p>')
+                    .addClass('products')
+                    .text('Products')))
+            .append($('<div>')
+                .append($('<table>')
+                    .addClass('resources')));
+
+        $('#pathway-visual').append(visualization);
+
+        updatePathwayVisualization(pathway);
+
+        setTimeout(function() {
+            visualization.fadeIn(300);
+
+            if ($('#pathway-visual div[name="' + pathway + '"]').length > 0) {
+                $('#pathway-visual .visual-label').text($('.pathway[value="' + pathway + '"] .title').first().text());
+            }
+        }, 350);
+    } else {
+        $('#pathway-visual div[name="' + pathway + '"]').fadeOut(150, function() {
+            $(this).remove();
+
+            $('#pathway-visual .visual-label').text('Pathway');
+        });
+    }
+}
+
+function updatePathwayVisualization(pathway)
+{
+    var pathwayElem = $('.pathway[value="' + pathway + '"]').first();
+    var multiplier = parseInt(pathwayElem.find('.pathway-run').attr('value'));
+    if (multiplier == 0 || isNaN(multiplier)) {
+        multiplier = 1;
+    }
+
+    var reactants = '';
+    var products = '';
+
+    pathwayElem.find('.reactant').each(function() {
+        reactants += Math.abs(multiplier*parseInt($(this).attr('value'))) + 'x<strong>' + $(this).attr('abbr') + '</strong> ';
+    });
+    reactants = reactants.trim();
+
+    pathwayElem.find('.product').each(function() {
+        products += Math.abs(multiplier*parseInt($(this).attr('value'))) + 'x<strong>' + $(this).attr('abbr') + '</strong> ';
+    });
+    products = products.trim();
+
+    $('#pathway-visual .visual-content[name="' + pathway + '"]').find('.reaction-multiplier').text('(x' + multiplier + ')');
+    $('#pathway-visual .visual-content[name="' + pathway + '"]').find('.reactants').html(reactants);
+    $('#pathway-visual .visual-content[name="' + pathway + '"]').find('.products').html(products);
 }

@@ -155,23 +155,56 @@ html, body {
 #pathway-visual {
   left: 21%;
 }
-
 /* line 153, ../sass/main.scss */
+#pathway-visual .reaction p, #pathway-visual .reaction i {
+  position: absolute;
+}
+/* line 157, ../sass/main.scss */
+#pathway-visual .reaction .reaction-title {
+  font-weight: bold;
+}
+/* line 161, ../sass/main.scss */
+#pathway-visual .reaction .reaction-multiplier {
+  right: 0px;
+}
+/* line 165, ../sass/main.scss */
+#pathway-visual .reaction .reactants {
+  left: 0;
+  top: 25px;
+  width: 45%;
+  text-align: center;
+}
+/* line 172, ../sass/main.scss */
+#pathway-visual .reaction .products {
+  right: 0;
+  top: 25px;
+  width: 45%;
+  text-align: center;
+}
+/* line 179, ../sass/main.scss */
+#pathway-visual .reaction .arrow-holder {
+  position: absolute;
+  top: 25px;
+  width: 10%;
+  left: 45%;
+}
+
+/* line 188, ../sass/main.scss */
 #resource-visual {
   right: 21%;
 }
 
-/* line 157, ../sass/main.scss */
+/* line 192, ../sass/main.scss */
 #organ-visual {
   left: 36%;
 }
 
-/* line 161, ../sass/main.scss */
+/* line 196, ../sass/main.scss */
 #cell-visual {
   right: 36%;
 }
 
-/* line 165, ../sass/main.scss */
+/* line 200, ../sass/main.scss */
 #ph-holder {
   position: absolute;
   top: 280px;
@@ -180,7 +213,7 @@ html, body {
   padding: 2px;
 }
 
-/* line 173, ../sass/main.scss */
+/* line 208, ../sass/main.scss */
 .bottom-info {
   position: absolute;
   z-index: 1;
@@ -189,39 +222,39 @@ html, body {
   color: rgba(38, 38, 38, 0.9);
 }
 
-/* line 181, ../sass/main.scss */
+/* line 216, ../sass/main.scss */
 #points {
   left: 21%;
 }
 
-/* line 185, ../sass/main.scss */
+/* line 220, ../sass/main.scss */
 #turns {
   right: 21%;
 }
 
-/* line 189, ../sass/main.scss */
+/* line 224, ../sass/main.scss */
 #notification-holder {
   position: absolute;
   width: 40%;
   left: 30%;
   bottom: 9px;
 }
-/* line 195, ../sass/main.scss */
+/* line 230, ../sass/main.scss */
 #notification-holder #notification {
   display: none;
   margin-bottom: 0px;
 }
-/* line 199, ../sass/main.scss */
+/* line 234, ../sass/main.scss */
 #notification-holder #notification #alert-message {
   min-height: 20px;
 }
 
-/* line 205, ../sass/main.scss */
+/* line 240, ../sass/main.scss */
 .hidden {
   display: none;
 }
 
-/* line 209, ../sass/main.scss */
+/* line 244, ../sass/main.scss */
 .error {
   color: red;
 }
