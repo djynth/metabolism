@@ -88,7 +88,13 @@ $(document).ready(function() {
 
     $('#filter-name, #filter-reactant, #filter-product').change(onFilterChange);
     $('#filter-available, #filter-unavailable, #filter-catabolic, #filter-anabolic').click(function() {
-        window.setTimeout(onFilterChange, 0);
+        window.setTimeout(onFilterChange, 0);       // wait for other events bound to the button to finish
+    });
+
+    $('#filter-clear').click(function() {
+        $('#filter-name, #filter-reactant, #filter-product').val('');
+        $('#filter-available, #filter-unavailable, #filter-catabolic, #filter-anabolic').removeClass('active');
+        onFilterChange();
     });
 });
 

@@ -160,8 +160,12 @@ html, body {
 #pathway-filter #filter-row-reaction .input-prepend {
   display: inline-block;
 }
+/* line 165, ../sass/main.scss */
+#pathway-filter #filter-row-clear {
+  text-align: right;
+}
 
-/* line 166, ../sass/main.scss */
+/* line 170, ../sass/main.scss */
 #cell-canvas {
   position: absolute;
   left: 19%;
@@ -170,7 +174,7 @@ html, body {
   border-left: 1px solid #222222;
 }
 
-/* line 174, ../sass/main.scss */
+/* line 178, ../sass/main.scss */
 .floating-visual {
   position: absolute;
   top: 30px;
@@ -180,7 +184,7 @@ html, body {
   border-radius: 16px;
   background-color: rgba(115, 115, 115, 0.4);
 }
-/* line 183, ../sass/main.scss */
+/* line 187, ../sass/main.scss */
 .floating-visual .visual-content {
   position: absolute;
   top: 15px;
@@ -188,7 +192,7 @@ html, body {
   width: 88%;
   height: 79%;
 }
-/* line 191, ../sass/main.scss */
+/* line 195, ../sass/main.scss */
 .floating-visual .image-content {
   position: absolute;
   margin-top: 10px;
@@ -196,7 +200,7 @@ html, body {
   margin-left: 5%;
   width: 90%;
 }
-/* line 199, ../sass/main.scss */
+/* line 203, ../sass/main.scss */
 .floating-visual .visual-label {
   position: absolute;
   bottom: 4px;
@@ -205,27 +209,27 @@ html, body {
   color: rgba(38, 38, 38, 0.9);
 }
 
-/* line 208, ../sass/main.scss */
+/* line 212, ../sass/main.scss */
 #pathway-visual {
   left: 21%;
 }
 
-/* line 212, ../sass/main.scss */
+/* line 216, ../sass/main.scss */
 #resource-visual {
   right: 21%;
 }
 
-/* line 216, ../sass/main.scss */
+/* line 220, ../sass/main.scss */
 #organ-visual {
   left: 36%;
 }
 
-/* line 220, ../sass/main.scss */
+/* line 224, ../sass/main.scss */
 #cell-visual {
   right: 36%;
 }
 
-/* line 224, ../sass/main.scss */
+/* line 228, ../sass/main.scss */
 #ph-holder {
   position: absolute;
   top: 280px;
@@ -234,7 +238,7 @@ html, body {
   padding: 2px;
 }
 
-/* line 232, ../sass/main.scss */
+/* line 236, ../sass/main.scss */
 .bottom-info {
   position: absolute;
   z-index: 1;
@@ -243,39 +247,39 @@ html, body {
   color: rgba(38, 38, 38, 0.9);
 }
 
-/* line 240, ../sass/main.scss */
+/* line 244, ../sass/main.scss */
 #points {
   left: 21%;
 }
 
-/* line 244, ../sass/main.scss */
+/* line 248, ../sass/main.scss */
 #turns {
   right: 21%;
 }
 
-/* line 248, ../sass/main.scss */
+/* line 252, ../sass/main.scss */
 #notification-holder {
   position: absolute;
   width: 40%;
   left: 30%;
   bottom: 9px;
 }
-/* line 254, ../sass/main.scss */
+/* line 258, ../sass/main.scss */
 #notification-holder #notification {
   display: none;
   margin-bottom: 0px;
 }
-/* line 258, ../sass/main.scss */
+/* line 262, ../sass/main.scss */
 #notification-holder #notification #alert-message {
   min-height: 20px;
 }
 
-/* line 264, ../sass/main.scss */
+/* line 268, ../sass/main.scss */
 .hidden {
   display: none;
 }
 
-/* line 268, ../sass/main.scss */
+/* line 272, ../sass/main.scss */
 .error {
   color: red;
 }

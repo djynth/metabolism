@@ -34,15 +34,19 @@ $global = Organ::getGlobal();
         </div>
 
         <div id="filter-row-reaction" class="filter-row">
-                <div class="input-dark input-prepend">
-                    <span class="add-on"><i class="icon-search icon-white"></i></span>
-                    <input type="text" placeholder="Reactant" id="filter-reactant">
-                </div>
+            <div class="input-dark input-prepend">
+                <span class="add-on"><i class="icon-search icon-white"></i></span>
+                <input type="text" placeholder="Reactant" id="filter-reactant">
+            </div>
 
-                <div class="input-dark input-prepend">
-                    <span class="add-on"><i class="icon-search icon-white"></i></span>
-                    <input type="text" placeholder="Product" id="filter-product">
-                </div>
+            <div class="input-dark input-prepend">
+                <span class="add-on"><i class="icon-search icon-white"></i></span>
+                <input type="text" placeholder="Product" id="filter-product">
+            </div>
+        </div>
+
+        <div id="filter-row-clear" class="filter-row">
+            <input type="button" class="btn btn-small btn-inverse" id="filter-clear" value="Clear Filter">
         </div>
     </div>
 </div>
