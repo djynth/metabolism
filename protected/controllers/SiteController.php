@@ -116,4 +116,13 @@ class SiteController extends Controller
         }
         return false;
     }
+
+    public function actionResourceFullName()
+    {
+        if (isset($_POST) && count($_POST) > 0) {
+            echo CJavaScript::jsonEncode(array(
+                'name' => Resource::model()->findByAttributes(array('id' => $_POST['resource']))->full_name
+            ));
+        }
+    }
 }

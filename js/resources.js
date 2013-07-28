@@ -4,25 +4,50 @@ var COLOR_DECREASE = "232,12,15";
 $(document).ready(function() {
     refreshResources();
 
-    $('.resource-data').mouseenter(function() {
-        var resource = $(this).attr('value');
-
-        $('#resource-visual').append('<img name="' + resource + '" src="' + baseUrl + 'img/molecules/' + resource + '"'
-            + 'alt="' + resource + '" class="image-content hidden">');
-
-        setTimeout(function() {
-            $('#resource-visual img[name="' + resource + '"]').fadeIn(250);
-        }, 300);
-    });
-
-    $('.resource-data').mouseleave(function() {
-        var resource = $(this).attr('value');
-
-        $('#resource-visual img[name="' + resource + '"]').fadeOut(100, function() {
-            $(this).remove();
-        });
+    $('.resource-data').hover(function() {
+        visualizeResource($(this).attr('value'), true);
+    }, function() {
+        visualizeResource($(this).attr('value'), false);
     });
 });
+
+function visualizeResource(resource, show)
+{
+    if (show) {
+        var visualization = $('<img>')
+            .attr('name', resource)
+            .attr('alt', resource)
+            .attr('src', baseUrl + 'img/molecules/' + resource)
+            .addClass('image-content')
+            .css('display', 'none');
+
+        $('#resource-visual').append(visualization);
+
+        setTimeout(function() {
+            visualization.fadeIn(300);
+
+            $.ajax({
+                url: 'index.php?r=site/resourceFullName',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    resource: resource
+                },
+                success: function(data) {
+                    if ($('#resource-visual img[name="' + resource + '"]').length > 0) {
+                        $('#resource-visual .visual-label').text(data.name);
+                    }
+                }
+            });
+        }, 350);
+    } else {
+        $('#resource-visual img[name="' + resource + '"]').fadeOut(150, function() {
+            $(this).remove();
+
+            $('#resource-visual .visual-label').text('Resource');
+        });
+    }
+}
 
 function refreshResources(resources)
 {
