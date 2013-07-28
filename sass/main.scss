@@ -148,6 +148,41 @@ html, body {
 
 #pathway-visual {
     left: $sidebarWidth + $visualPadding;
+
+    .reaction {
+        p, i {
+            position: absolute;
+        }
+
+        .reaction-title {
+            font-weight: bold;
+        }
+
+        .reaction-multiplier {
+            right: 0px;
+        }
+
+        .reactants {
+            left: 0;
+            top:  25px;
+            width: 45%;
+            text-align: center;
+        }
+
+        .products {
+            right: 0;
+            top:   25px;
+            width: 45%;
+            text-align: center;
+        }
+
+        .arrow-holder {
+            position: absolute;
+            top: 25px;
+            width: 10%;
+            left: 45%;
+        }
+    }
 }
 
 #resource-visual {
