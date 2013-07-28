@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    resizeFilter(true);
+
+    $(window).resize(function() { resizeFilter(false); });
+
     $('.pathway-run').click(function() {
         var id = parseInt($(this).parents('.pathway').attr('value'));
         var organ = parseInt($(this).parents('.pathway-holder').attr('value'));
@@ -75,7 +79,51 @@ $(document).ready(function() {
         $(this).siblings('.eat').attr('value', 0);
         updateEatButtons($(this).parents('.food-holder'));
     });
+
+    $('#pathway-filter-icon').click(function() {
+        $('#pathway-filter').slideToggle(function() {
+            updateScrollbars(true);
+        });
+    });
+
+    $('#filter-name, #filter-reactant, #filter-product').change(onFilterChange);
+    $('#filter-available, #filter-unavailable, #filter-catabolic, #filter-anabolic').click(function() {
+        window.setTimeout(onFilterChange, 0);       // wait for other events bound to the button to finish
+    });
+
+    $('#filter-clear').click(function() {
+        $('#filter-name, #filter-reactant, #filter-product').val('');
+        $('#filter-available, #filter-unavailable, #filter-catabolic, #filter-anabolic').removeClass('active');
+        onFilterChange();
+    });
 });
+
+function resizeFilter(hide)
+{
+    $('#filter-row-search input').each(function() {
+        var w = $(this).parent().outerWidth();
+        $(this).siblings().each(function() {
+            w -= $(this).outerWidth();
+        });
+        $(this).outerWidth(w);
+    });
+
+    $('#filter-row-reaction').each(function() {
+        var rowWidth = $(this).width();
+
+        $(this).find('input').each(function() {
+            var w = rowWidth/2;
+            $(this).siblings().each(function() {
+                w -= $(this).outerWidth();
+            });
+            $(this).outerWidth(w-2);    // subtract 2 for borders?
+        });
+    });
+
+    if (hide) {
+        $('#pathway-filter').hide();
+    }
+}
 
 function refreshPathways()
 {
@@ -111,11 +159,13 @@ function refreshPathways()
             $(this).find('p.lacking').html(lackingList + '.');
 
             $(this).css('box-shadow', '0px 0px');
+            $(this).attr('available', 'false')
         } else {
             $(this).find('.run-holder').show();
             $(this).find('.lacking').hide();
 
             $(this).css('box-shadow', '0px 0px 7px #' + $(this).attr('color'));
+            $(this).attr('available', 'true');
         }
 
         updatePathwayButtons($(this), organ);
@@ -279,4 +329,87 @@ function onPathwayError(xhr, error)
 {
     notify('Internal error: ' + error, 'error');
     console.log(xhr);
+}
+
+function onFilterChange()
+{
+    var name            = $('#filter-name').val();
+    var showAvailable   = $('#filter-available').hasClass('active');
+    var showUnavailable = $('#filter-unavailable').hasClass('active');
+    var showCatabolic   = $('#filter-catabolic').hasClass('active');
+    var showAnabolic    = $('#filter-anabolic').hasClass('active');
+    var reactant        = $('#filter-reactant').val();
+    var product         = $('#filter-product').val();
+
+    if (name) {
+        name = new RegExp(name, 'i');
+    }
+    if (!showAvailable && !showUnavailable) {
+        showAvailable = true;
+        showUnavailable = true;
+    }
+    if (!showCatabolic && !showAnabolic) {
+        showCatabolic = true;
+        showAnabolic = true;
+    }
+
+    $('.pathway').each(function() {
+        $(this).attr('filter', 'true')
+    }).each(function() {
+        var pathwayName = $(this).find('.title').html();
+        var pathwayAvailable = $(this).attr('available') === 'true';
+        var pathwayCatabolic = $(this).attr('catabolic') === 'true';
+
+        var matchesReactant = true;
+        var matchesProduct = true;
+
+        if (reactant) {
+            $.ajax({
+                url: 'index.php?r=site/reactants',
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                data: {
+                    pathway: $(this).attr('value'),
+                    reactant: reactant
+                },
+                success: function(data) {
+                    matchesReactant = data.match;
+                }
+            });
+        }
+        if (product) {
+            $.ajax({
+                url: 'index.php?r=site/products',
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                data: {
+                    pathway: $(this).attr('value'),
+                    product: product
+                },
+                success: function(data) {
+                    matchesProduct = data.match;
+                }
+            });
+        }
+
+        if ((name && !name.test(pathwayName)) || 
+            (showAvailable && !showUnavailable && !pathwayAvailable) ||
+            (!showAvailable && showUnavailable && pathwayAvailable)  || 
+            (showCatabolic && !showAnabolic && !pathwayCatabolic) ||
+            (!showCatabolic && showAnabolic && pathwayCatabolic) ||
+            !matchesReactant || !matchesProduct)
+        {
+            $(this).attr('filter', 'false');
+        }
+    }).each(function() {
+        if ($(this).attr('filter') == 'true') {
+            $(this).slideDown();
+        } else {
+            $(this).slideUp();
+        }
+    }).promise().done(function() {
+        updateScrollbars(true);
+    });
 }
