@@ -108,64 +108,6 @@ html, body {
 }
 
 /* line 107, ../sass/main.scss */
-#pathway-filter {
-  width: 100%;
-  padding-bottom: 6px;
-}
-/* line 111, ../sass/main.scss */
-#pathway-filter .filter-row {
-  width: 90%;
-  margin: 5px auto;
-}
-/* line 115, ../sass/main.scss */
-#pathway-filter .filter-row .input-prepend {
-  margin: 0;
-}
-/* line 119, ../sass/main.scss */
-#pathway-filter .filter-row table {
-  width: 100%;
-}
-/* line 125, ../sass/main.scss */
-#pathway-filter #filter-row-search .input-prepend {
-  width: 100%;
-}
-/* line 131, ../sass/main.scss */
-#pathway-filter #filter-row-buttons table {
-  table-layout: fixed;
-}
-/* line 134, ../sass/main.scss */
-#pathway-filter #filter-row-buttons table td {
-  width: 50%;
-  padding: 0 2px;
-}
-/* line 138, ../sass/main.scss */
-#pathway-filter #filter-row-buttons table td:first-child {
-  padding-left: 0;
-}
-/* line 142, ../sass/main.scss */
-#pathway-filter #filter-row-buttons table td:last-child {
-  padding-right: 0;
-}
-/* line 146, ../sass/main.scss */
-#pathway-filter #filter-row-buttons table td .btn-group {
-  width: 100%;
-}
-/* line 149, ../sass/main.scss */
-#pathway-filter #filter-row-buttons table td .btn-group input {
-  width: 50%;
-  font-size: 12px;
-  height: 25px;
-}
-/* line 160, ../sass/main.scss */
-#pathway-filter #filter-row-reaction .input-prepend {
-  display: inline-block;
-}
-/* line 165, ../sass/main.scss */
-#pathway-filter #filter-row-clear {
-  text-align: right;
-}
-
-/* line 170, ../sass/main.scss */
 #cell-canvas {
   position: absolute;
   left: 19%;
@@ -174,7 +116,7 @@ html, body {
   border-left: 1px solid #222222;
 }
 
-/* line 178, ../sass/main.scss */
+/* line 115, ../sass/main.scss */
 .floating-visual {
   position: absolute;
   top: 30px;
@@ -184,7 +126,7 @@ html, body {
   border-radius: 16px;
   background-color: rgba(115, 115, 115, 0.4);
 }
-/* line 187, ../sass/main.scss */
+/* line 124, ../sass/main.scss */
 .floating-visual .visual-content {
   position: absolute;
   top: 15px;
@@ -192,7 +134,7 @@ html, body {
   width: 88%;
   height: 79%;
 }
-/* line 195, ../sass/main.scss */
+/* line 132, ../sass/main.scss */
 .floating-visual .image-content {
   position: absolute;
   margin-top: 10px;
@@ -200,7 +142,7 @@ html, body {
   margin-left: 5%;
   width: 90%;
 }
-/* line 203, ../sass/main.scss */
+/* line 140, ../sass/main.scss */
 .floating-visual .visual-label {
   position: absolute;
   bottom: 4px;
@@ -209,27 +151,27 @@ html, body {
   color: rgba(38, 38, 38, 0.9);
 }
 
-/* line 212, ../sass/main.scss */
+/* line 149, ../sass/main.scss */
 #pathway-visual {
   left: 21%;
 }
 
-/* line 216, ../sass/main.scss */
+/* line 153, ../sass/main.scss */
 #resource-visual {
   right: 21%;
 }
 
-/* line 220, ../sass/main.scss */
+/* line 157, ../sass/main.scss */
 #organ-visual {
   left: 36%;
 }
 
-/* line 224, ../sass/main.scss */
+/* line 161, ../sass/main.scss */
 #cell-visual {
   right: 36%;
 }
 
-/* line 228, ../sass/main.scss */
+/* line 165, ../sass/main.scss */
 #ph-holder {
   position: absolute;
   top: 280px;
@@ -238,7 +180,7 @@ html, body {
   padding: 2px;
 }
 
-/* line 236, ../sass/main.scss */
+/* line 173, ../sass/main.scss */
 .bottom-info {
   position: absolute;
   z-index: 1;
@@ -247,39 +189,39 @@ html, body {
   color: rgba(38, 38, 38, 0.9);
 }
 
-/* line 244, ../sass/main.scss */
+/* line 181, ../sass/main.scss */
 #points {
   left: 21%;
 }
 
-/* line 248, ../sass/main.scss */
+/* line 185, ../sass/main.scss */
 #turns {
   right: 21%;
 }
 
-/* line 252, ../sass/main.scss */
+/* line 189, ../sass/main.scss */
 #notification-holder {
   position: absolute;
   width: 40%;
   left: 30%;
   bottom: 9px;
 }
-/* line 258, ../sass/main.scss */
+/* line 195, ../sass/main.scss */
 #notification-holder #notification {
   display: none;
   margin-bottom: 0px;
 }
-/* line 262, ../sass/main.scss */
+/* line 199, ../sass/main.scss */
 #notification-holder #notification #alert-message {
   min-height: 20px;
 }
 
-/* line 268, ../sass/main.scss */
+/* line 205, ../sass/main.scss */
 .hidden {
   display: none;
 }
 
-/* line 272, ../sass/main.scss */
+/* line 209, ../sass/main.scss */
 .error {
   color: red;
 }

@@ -10,16 +10,16 @@ html, body {
 }
 
 .input-dark {
-    border-color: rgb(18, 18, 18);
+    border-color: $inputDarkBorder;
 
     .add-on {
         border-color: inherit !important;
-        background: rgb(50, 50, 50) !important;
+        background: $inputDarkAddOnBackground !important;
     }
 
     input {
         border-color: inherit !important;
-        background: rgb(34, 34, 34) !important;
+        background: $inputDarkBackground !important;
     }
 }
 
@@ -101,69 +101,6 @@ html, body {
         width: 6px !important;
         height: 95% !important;
         margin-top: 5%;
-    }
-}
-
-#pathway-filter {
-    width: 100%;
-    padding-bottom: 6px;
-
-    .filter-row {
-        width: 90%;
-        margin: 5px auto;
-
-        .input-prepend {
-            margin: 0;
-        }
-
-        table {
-            width: 100%;
-        }
-    }
-
-    #filter-row-search {
-        .input-prepend {
-            width: 100%;
-        }
-    }
-
-    #filter-row-buttons {
-        table {
-            table-layout: fixed;
-
-            td {
-                width: 50%;
-                padding: 0 2px;
-
-                &:first-child {
-                    padding-left: 0;
-                }
-
-                &:last-child {
-                    padding-right: 0;
-                }
-
-                .btn-group {
-                    width: 100%;
-
-                    input {
-                        width: 50%;
-                        font-size: 12px;
-                        height: 25px;
-                    }
-                }
-            }
-        }
-    }
-
-    #filter-row-reaction {
-        .input-prepend {
-            display: inline-block;
-        }
-    }
-
-    #filter-row-clear {
-        text-align: right;
     }
 }
 
