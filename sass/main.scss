@@ -10,6 +10,11 @@ html, body {
 }
 
 .input-dark {
+    border-color: $inputDarkBorder !important;
+    background: $inputDarkBackground !important;
+}
+
+.input-dark-add-on {
     border-color: $inputDarkBorder;
 
     .add-on {
@@ -125,9 +130,11 @@ html, body {
     #account {
         float: right;
         width:  $accountWidth;
-        height: 100%;
+        min-height: 100%;
         border-left: 1px solid $borderColor;
-        padding-right: 25px;
+        border-bottom: 1px solid $borderColor;
+        min-height: 100%;
+        background-color: inherit;
 
         .icon-user {
             position: absolute;
@@ -140,8 +147,51 @@ html, body {
             }
         }
 
-        .dropdown-menu {
-            margin-right: 2px;
+        .login-dropdown {
+            display: none;
+            background-color: inherit;
+            width: 90%;
+            padding: 10px 5%;
+
+            input[type=text],input[type=password] {
+                width: 94%;
+                padding-right: 3%;
+                padding-left: 3%;
+            }
+
+            p {
+                margin-bottom: 5px;
+                display: block;
+            }
+
+            .button-holder {
+                width: 100%;
+                text-align: right;
+            }
+
+            .control-group {
+                margin: 0;
+            }
+
+            .dropdown-footer {
+                text-align: center;
+            }
+
+            .error-info {
+                color: red;
+                margin: 0;
+                max-width: 75%;
+            }
+
+            .success-info {
+                color: green;
+                margin: 0;
+                max-width: 75%;
+            }
+
+            .logout-holder {
+                margin-top: 3px;
+            }
         }
     }
 }
