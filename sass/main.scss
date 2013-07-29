@@ -10,6 +10,11 @@ html, body {
 }
 
 .input-dark {
+    border-color: $inputDarkBorder !important;
+    background: $inputDarkBackground !important;
+}
+
+.input-dark-add-on {
     border-color: $inputDarkBorder;
 
     .add-on {
@@ -49,13 +54,15 @@ html, body {
     height: 100%;
     background-color: $sidebarBackground;
     overflow: hidden;
+    z-index: 10;
 
     .sidebar-title {
-        font-size: 1.3em;
-        line-height: 1.5em;
+        min-height: $headerHeight;
 
         p {
             margin: 0;
+            padding-top: 6px;
+            font-size: $headerHeight - 10px;
         }
 
         #pathway-filter-icon {
@@ -76,7 +83,7 @@ html, body {
     }
 
     .accordian-header {
-        border-top:    1px solid $accordianHeaderBorderColor;
+        border-top: 1px solid $accordianHeaderBorderColor;
 
         .accordian-title {
             display: inline-block;
@@ -104,17 +111,105 @@ html, body {
     }
 }
 
+#header {
+    position: absolute;
+    left: $sidebarWidth;
+    width: 100% - 2*$sidebarWidth;
+    height: $headerHeight;
+    background-color: $accordianHeaderBackground;
+    border-bottom: 1px solid $accordianHeaderBorderColor;
+    z-index: 5;
+
+    p {
+        display: inline-block;
+        margin: 4px 5px 0px;
+        color: $accordianHeaderTextColor;
+        text-shadow: 1px 1px $textColor;
+    }
+
+    #account {
+        float: right;
+        width:  $accountWidth;
+        min-height: 100%;
+        border-left: 1px solid $borderColor;
+        border-bottom: 1px solid $borderColor;
+        min-height: 100%;
+        background-color: inherit;
+
+        .account-header {
+            height: $headerHeight;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        .icon-user {
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            margin: 0;
+        }
+
+        .login-dropdown {
+            display: none;
+            background-color: inherit;
+            width: 90%;
+            padding: 10px 5%;
+
+            input[type=text],input[type=password] {
+                width: 94%;
+                padding-right: 3%;
+                padding-left: 3%;
+            }
+
+            p {
+                margin-bottom: 5px;
+                display: block;
+            }
+
+            .button-holder {
+                width: 100%;
+                text-align: right;
+            }
+
+            .control-group {
+                margin: 0;
+            }
+
+            .dropdown-footer {
+                text-align: center;
+            }
+
+            .error-info {
+                color: red;
+                margin: 0;
+                max-width: 75%;
+            }
+
+            .success-info {
+                color: green;
+                margin: 0;
+                max-width: 75%;
+            }
+
+            .logout-holder {
+                margin-top: 3px;
+            }
+        }
+    }
+}
+
 #cell-canvas {
     position: absolute;
     left: $sidebarWidth;
     width:  100% - 2*$sidebarWidth;
     height: 100%;
-    border-left: 1px solid $borderColor;
 }
 
 .floating-visual {
     position: absolute;
-    top: $visualTop;
+    top: $headerHeight + $visualTop;
     width:  $visualWidth;
     height: $visualHeight;
     border: 2px solid $visualBorderColor;
@@ -199,7 +294,7 @@ html, body {
 
 #ph-holder {
     position: absolute;
-    top: $visualTop + $visualHeight + 25px;
+    top: $headerHeight + $visualTop + $visualHeight + 25px;
     right: $sidebarWidth + $visualPadding;
     width: $visualWidth;
     padding: 2px;

@@ -8,8 +8,7 @@ $this->pageTitle=Yii::app()->name;
     <?php $this->renderPartial('pathways'); ?>
 </div>
 
-<p class="bottom-info" id="points"></p>
-<p class="bottom-info" id="turns"></p>
+<?php $this->renderPartial('header'); ?>
 
 <canvas id="cell-canvas"></canvas>
 
