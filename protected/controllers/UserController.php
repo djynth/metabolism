@@ -37,6 +37,7 @@ class UserController extends Controller
             $password = $_POST['password'];
             $confirm = $_POST['confirm'];
 
+            $message = false;
             $success = false;
             if ($password === $confirm) {
                 if (self::isValidPassword($password)) {

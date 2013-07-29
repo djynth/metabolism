@@ -87,6 +87,9 @@ $(document).ready(function() {
                 if (data.success) {
                     location.reload();
                 } else {
+                    if (!data.message) {
+                        data.message = 'Unknown Error';
+                    }
                     $('#login-error').text(data.message);
                 }
             }
@@ -107,6 +110,9 @@ $(document).ready(function() {
                 if (data.success) {
                     location.reload();
                 } else {
+                    if (!data.message) {
+                        data.message = 'Unknown Error';
+                    }
                     $('#create-account-error').text(data.message);
                 }
             }
@@ -138,6 +144,9 @@ $(document).ready(function() {
                 if (data.success) {
                     $('#change-password-success').text(data.message);
                     $('#change-password-error').text('');
+                    $('#change-password-current').val('');
+                    $('#change-password-new').val('');
+                    $('#change-password-confirm').val('');
                 } else {
                     $('#change-password-error').text(data.message);
                     $('#change-password-success').text('');
