@@ -136,15 +136,19 @@ html, body {
         min-height: 100%;
         background-color: inherit;
 
+        .account-header {
+            height: $headerHeight;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
         .icon-user {
             position: absolute;
             top: 7px;
             right: 7px;
             margin: 0;
-
-            &:hover {
-                cursor: pointer;
-            }
         }
 
         .login-dropdown {

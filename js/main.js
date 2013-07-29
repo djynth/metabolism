@@ -5,7 +5,7 @@ $(document).ready(function() {
         notify(false);
     });
 
-    $('.login-dropdown-toggle').click(function() {
+    $('.account-header').click(function() {
         $('.login-dropdown').slideToggle();
     });
 

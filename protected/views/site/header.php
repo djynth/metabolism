@@ -7,8 +7,10 @@ $guest = Yii::app()->user->getIsGuest();
     <p id="turns" ></p>
 
     <div id="account">
-        <p class="login-text"><?= $guest ? 'Not logged in' : 'Logged in as ' . Yii::app()->user->name ?></p>
-        <i class="icon-user icon-white login-dropdown-toggle"></i>
+        <div class="account-header">
+            <p class="login-text"><?= $guest ? 'Not logged in' : 'Logged in as ' . Yii::app()->user->name ?></p>
+            <i class="icon-user icon-white"></i>
+        </div>
 
         <?php if ($guest): ?>
         <div class="login-dropdown">
