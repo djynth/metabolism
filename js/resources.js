@@ -95,7 +95,7 @@ function onResourceChange(resource, organ, value)
     elem.find('.resource-value').html(value);
     elem.find('.bar').css('width', Math.min(100, 100*(value/parseInt(elem.attr('max-shown')))) + '%');
 
-    tracker = $('.tracker[value="' + resource + '"]');
+    var tracker = $('.tracker[value="' + resource + '"]');
     if (tracker.length) {
         tracker.find('.tracker-organ[value="' + organ + '"] .organ-amount').attr('value', value).text(value);
 
@@ -105,6 +105,34 @@ function onResourceChange(resource, organ, value)
         });
 
         tracker.find('.tracker-amount').attr('value', total).text(total);
+
+        if (resource == 18) {
+            if (change > 0) {
+
+            } else {
+
+            }
+        }
+    }
+
+    tracker = $('.tracker[value="19"]');
+    if (change > 0) {
+        var icon = $('<img>')
+            .addClass('tracker-icon')
+            .attr('src', baseUrl + 'img/primary-icons/19.png')
+            .attr('alt', '');
+
+        var left = 0;
+        tracker.find('.tracker-organ[value="2"] .tracker-icon').each(function() {
+            left += parseInt($(this).width());
+        })
+        
+        tracker.find('.tracker-organ[value="2"] .tracker-icon-holder').append(icon);
+
+        icon.animate({
+            left: left + 'px',
+            opacity: '1',
+        }, 900);
     }
 }
 

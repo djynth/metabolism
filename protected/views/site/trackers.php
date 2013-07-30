@@ -11,6 +11,7 @@
                 <div class="tracker-organ" value="<?= $organ->id ?>">
                     <p class="organ-amount" value="0">0</p>
                     <p class="organ-name"><?= $organ->name ?></p>
+                    <div class="tracker-icon-holder"></div>
                 </div>
             <?php endforeach ?>
         </div>
