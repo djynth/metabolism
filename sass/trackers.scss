@@ -1,0 +1,93 @@
+@import "base";
+
+$trackerHeight: 95px;
+$trackerHeaderBorder: rgb(81, 81, 81);
+$trackerOrganBorder: rgb(60, 60, 60);
+
+#tracker-holder {
+    position: absolute;
+    left: $sidebarWidth;
+    width:  100% - 2*$sidebarWidth;
+    bottom: 0;
+
+    .tracker {
+        position: absolute;
+        height: $trackerHeight;
+        background-color: $accordianHeaderBackground;
+        color: $accordianHeaderTextColor;
+        text-shadow: 1px 1px $textColor;
+        z-index: 10;
+        border: 1px solid $accordianHeaderBorderColor;
+
+        h3 {
+            margin-top: 3px;
+            margin-bottom: 0;
+            line-height: 22px;
+            font-size: 18px;
+        }
+
+        .tracker-header {
+            width: 100%;
+            border-bottom: 1px solid $trackerHeaderBorder;
+            padding-left: 10px;
+        }
+
+        .tracker-amount {
+            position: absolute;
+            right: 9px;
+            top: 0px;
+        }
+
+        .tracker-organ {
+            height: 22px;
+            width: 100%;
+            border-bottom: 1px solid $trackerOrganBorder;
+
+            p {
+                margin-top: 5px;
+                margin-bottom: 0;
+                line-height: 13px;
+                font-size: 13px;
+                position: relative;
+                float: right;
+                top: 0;
+            }
+
+            .organ-name {
+                right: 30px;
+            }
+
+            .organ-amount {
+                right: 10px;
+            }
+        }
+    }
+
+    /// PROTEIN /// 
+    .tracker[value="18"] {
+        left:   0;
+        bottom: $trackerHeight;
+        width:  50%;
+    }
+
+    /// RNA ///
+    .tracker[value="19"] {
+        right:  0;
+        bottom: $trackerHeight;
+        width:  50%;
+    }
+
+    /// GLYCOGEN ///
+    .tracker[value="20"] {
+        left:   0;
+        bottom: 0px;
+        width:  50%;
+    }
+
+    /// RIBOSE ///
+    .tracker[value="23"] {
+        right:  0;
+        bottom: 0px;
+        width:  50%;
+    }
+}

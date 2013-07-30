@@ -36,6 +36,8 @@ $this->pageTitle=Yii::app()->name;
     </div>
 </div>
 
+<?php $this->renderPartial('trackers'); ?>
+
 <div class="sidebar" id="resource-holder">
     <?php $this->renderPartial('resources'); ?>
 </div>
