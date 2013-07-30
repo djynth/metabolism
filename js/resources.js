@@ -94,6 +94,18 @@ function onResourceChange(resource, organ, value)
 
     elem.find('.resource-value').html(value);
     elem.find('.bar').css('width', Math.min(100, 100*(value/parseInt(elem.attr('max-shown')))) + '%');
+
+    tracker = $('.tracker[value="' + resource + '"]');
+    if (tracker.length) {
+        tracker.find('.tracker-organ[value="' + organ + '"] .organ-amount').attr('value', value).text(value);
+
+        var total = 0;
+        tracker.find('.organ-amount').each(function() {
+            total += parseInt($(this).attr('value'));
+        });
+
+        tracker.find('.tracker-amount').attr('value', total).text(total);
+    }
 }
 
 function getResourceElement(resource, organ)

@@ -31,6 +31,14 @@ function selectOrgan(organ, firstTime)
         organImage.fadeIn(ORGAN_FADE_IN);
     }, ORGAN_FADE_OUT);
 
+    $('.tracker-organ').each(function() {
+        if ($(this).attr('value') == organ) {
+            $(this).addClass('selected-organ');
+        } else {
+            $(this).removeClass('selected-organ');
+        }
+    })
+
     $('.accordian-content').each(function() {
         var tabOrgan = $(this).attr('value');
         var height = $(this).hasClass('pathway-holder') ? getPathwayContentHeight() : getResourceContentHeight();
