@@ -1,64 +1,68 @@
-/* line 7, ../sass/trackers.scss */
+/* line 8, ../sass/trackers.scss */
 #tracker-holder {
   position: absolute;
   left: 19%;
   width: 62%;
+  max-width: 62%;
   bottom: 0;
 }
-/* line 13, ../sass/trackers.scss */
+/* line 15, ../sass/trackers.scss */
 #tracker-holder .tracker {
-  position: absolute;
-  height: 95px;
+  height: 110px;
   background-color: #323232;
   color: #afafaf;
   text-shadow: 1px 1px #060606;
   z-index: 10;
   border: 1px solid #232323;
+  bottom: 0px;
 }
-/* line 22, ../sass/trackers.scss */
-#tracker-holder .tracker h3 {
-  margin-top: 3px;
-  margin-bottom: 0;
+/* line 24, ../sass/trackers.scss */
+#tracker-holder .tracker .tracker-header {
+  position: relative;
+  width: 100%;
+  border-bottom: 1px solid #515151;
+}
+/* line 29, ../sass/trackers.scss */
+#tracker-holder .tracker .tracker-header h3 {
+  margin: 0;
   line-height: 22px;
   font-size: 18px;
 }
-/* line 29, ../sass/trackers.scss */
-#tracker-holder .tracker .tracker-header {
-  width: 100%;
-  border-bottom: 1px solid #515151;
-  padding-left: 10px;
-}
 /* line 35, ../sass/trackers.scss */
-#tracker-holder .tracker .tracker-amount {
+#tracker-holder .tracker .tracker-header .tracker-title {
+  margin-left: 10px;
+}
+/* line 39, ../sass/trackers.scss */
+#tracker-holder .tracker .tracker-header .tracker-amount {
   position: absolute;
   right: 9px;
-  top: 0px;
+  top: 0;
 }
-/* line 41, ../sass/trackers.scss */
+/* line 46, ../sass/trackers.scss */
 #tracker-holder .tracker .tracker-organ {
-  height: 22px;
+  height: 32px;
   width: 100%;
   border-bottom: 1px solid #3c3c3c;
   position: relative;
 }
-/* line 47, ../sass/trackers.scss */
+/* line 52, ../sass/trackers.scss */
 #tracker-holder .tracker .tracker-organ p {
-  margin-top: 5px;
+  margin-top: 9px;
   margin-bottom: 0;
   line-height: 13px;
   font-size: 13px;
   position: absolute;
   float: right;
 }
-/* line 56, ../sass/trackers.scss */
+/* line 61, ../sass/trackers.scss */
 #tracker-holder .tracker .tracker-organ .organ-name {
-  right: 38px;
+  right: 32px;
 }
-/* line 60, ../sass/trackers.scss */
+/* line 65, ../sass/trackers.scss */
 #tracker-holder .tracker .tracker-organ .organ-amount {
-  right: 10px;
+  right: 6px;
 }
-/* line 64, ../sass/trackers.scss */
+/* line 69, ../sass/trackers.scss */
 #tracker-holder .tracker .tracker-organ .tracker-icon-holder {
   position: absolute;
   top: 0;
@@ -66,38 +70,15 @@
   width: 100%;
   height: 100%;
 }
-/* line 71, ../sass/trackers.scss */
+/* line 76, ../sass/trackers.scss */
 #tracker-holder .tracker .tracker-organ .tracker-icon-holder .tracker-icon {
   position: absolute;
   top: 0;
   left: 80%;
   opacity: 0;
+  height: 100%;
 }
-/* line 79, ../sass/trackers.scss */
+/* line 85, ../sass/trackers.scss */
 #tracker-holder .selected-organ {
-  background-color: #363636;
-}
-/* line 84, ../sass/trackers.scss */
-#tracker-holder .tracker[value="18"] {
-  left: 0;
-  bottom: 95px;
-  width: 50%;
-}
-/* line 91, ../sass/trackers.scss */
-#tracker-holder .tracker[value="19"] {
-  right: 0;
-  bottom: 95px;
-  width: 50%;
-}
-/* line 98, ../sass/trackers.scss */
-#tracker-holder .tracker[value="20"] {
-  left: 0;
-  bottom: 0px;
-  width: 50%;
-}
-/* line 105, ../sass/trackers.scss */
-#tracker-holder .tracker[value="23"] {
-  right: 0;
-  bottom: 0px;
-  width: 50%;
+  background-color: #353535;
 }

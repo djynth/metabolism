@@ -1,5 +1,6 @@
 var COLOR_INCREASE = "72,144,229";
 var COLOR_DECREASE = "232,12,15";
+var TRACKER_ICONS = 5;
 
 $(document).ready(function() {
     refreshResources();
@@ -97,42 +98,7 @@ function onResourceChange(resource, organ, value)
 
     var tracker = $('.tracker[value="' + resource + '"]');
     if (tracker.length) {
-        tracker.find('.tracker-organ[value="' + organ + '"] .organ-amount').attr('value', value).text(value);
-
-        var total = 0;
-        tracker.find('.organ-amount').each(function() {
-            total += parseInt($(this).attr('value'));
-        });
-
-        tracker.find('.tracker-amount').attr('value', total).text(total);
-
-        if (resource == 18) {
-            if (change > 0) {
-
-            } else {
-
-            }
-        }
-    }
-
-    tracker = $('.tracker[value="19"]');
-    if (change > 0) {
-        var icon = $('<img>')
-            .addClass('tracker-icon')
-            .attr('src', baseUrl + 'img/primary-icons/19.png')
-            .attr('alt', '');
-
-        var left = 0;
-        tracker.find('.tracker-organ[value="2"] .tracker-icon').each(function() {
-            left += parseInt($(this).width());
-        })
-        
-        tracker.find('.tracker-organ[value="2"] .tracker-icon-holder').append(icon);
-
-        icon.animate({
-            left: left + 'px',
-            opacity: '1',
-        }, 900);
+        updateTracker(resource, organ, value, change, tracker);
     }
 }
 
@@ -149,4 +115,85 @@ function getResourceValue(resource, organ)
 function getResourceName(resource, organ)
 {
     return getResourceElement(resource, organ).find('.resource-name').html();
+}
+
+function updateTracker(resource, organ, amount, change, tracker)
+{
+    tracker.find('.tracker-organ[value="' + organ + '"] .organ-amount').attr('value', amount).text(amount);
+
+    var total = 0;
+    tracker.find('.organ-amount').each(function() {
+        total += parseInt($(this).attr('value'));
+    });
+
+    tracker.find('.tracker-amount').attr('value', total).text(total);
+
+    if (change > 0) {
+        var counter = 0;
+
+        function updateTrackerIcons() {
+            if (counter++ < change) {
+                var level1 = $('<img>')
+                    .addClass('tracker-icon level1')
+                    .attr('src', baseUrl + 'img/primary-icons/' + resource + '/level1.png')
+                    .attr('alt', '');
+
+                var left = 0;
+                tracker.find('.tracker-organ[value="' + organ + '"]').find('.tracker-icon').each(function() {
+                    left += parseInt($(this).width());
+                });
+                
+                tracker.find('.tracker-organ[value="' + organ + '"]').find('.tracker-icon-holder').append(level1);
+
+                level1.animate({ left: left, opacity: 1 }, 1000, function() {
+                    if (tracker.find('.level1').length >= TRACKER_ICONS) {
+                        var left = 0;
+                        tracker.find('.tracker-organ[value="' + organ + '"]').find('.level3,.level2').each(function() {
+                            left += parseInt($(this).width());
+                        });
+
+                        var level2 = $('<img>')
+                            .addClass('tracker-icon level2')
+                            .attr('src', baseUrl + 'img/primary-icons/' + resource + '/level2.png')
+                            .attr('alt', '')
+                            .css('left', left);
+
+                        tracker.find('.tracker-organ[value="' + organ + '"]').find('.tracker-icon-holder').append(level2);
+
+                        level2.animate({ opacity: 1 }, 1000);
+
+                        tracker.find('.level1').animate({ left: left, opacity: 0 }, 1000, function() {
+                            tracker.find('.level2').remove();
+                            if (tracker.find('.level2').length >= TRACKER_ICONS) {
+                                var left = 0;
+                                tracker.find('.tracker-organ[value="' + organ + '"]').find('.level3').each(function() {
+                                    left += parseInt($(this).width());
+                                });
+
+                                var level3 = $('<img>')
+                                    .addClass('tracker-icon level3')
+                                    .attr('src', baseUrl + 'img/primary-icons/' + resource + '/level3.png')
+                                    .attr('alt', '')
+                                    .css('left', left);
+
+                                tracker.find('.tracker-organ[value="' + organ + '"]').find('.tracker-icon-holder').append(level3);
+
+                                level3.animate({ opacity: 1 }, 1000);
+
+                                tracker.find('.level2').animate({ left: left, opacity: 0 }, 1000, function() {
+                                    tracker.find('.level2').remove();
+                                    setTimeout(updateTrackerIcons, 1000);
+                                });
+                            } else {
+                                setTimeout(updateTrackerIcons, 1000);
+                            }
+                        });
+                    } else {
+                        setTimeout(updateTrackerIcons, 1000);
+                    }
+                });
+            }
+        }
+        updateTrackerIcons();
+    }
 }

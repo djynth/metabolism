@@ -1,51 +1,56 @@
 @import "base";
 
-$trackerHeight: 95px;
+$trackerHeight: 110px;
+$trackerOrganHeight: 32px;
 $trackerHeaderBorder: rgb(81, 81, 81);
 $trackerOrganBorder: rgb(60, 60, 60);
 
 #tracker-holder {
     position: absolute;
     left: $sidebarWidth;
-    width:  100% - 2*$sidebarWidth;
+    width: 100% - 2*$sidebarWidth;
+    max-width: 100% - 2*$sidebarWidth;
     bottom: 0;
 
     .tracker {
-        position: absolute;
         height: $trackerHeight;
         background-color: $accordianHeaderBackground;
         color: $accordianHeaderTextColor;
         text-shadow: 1px 1px $textColor;
         z-index: 10;
         border: 1px solid $accordianHeaderBorderColor;
-
-        h3 {
-            margin-top: 3px;
-            margin-bottom: 0;
-            line-height: 22px;
-            font-size: 18px;
-        }
+        bottom: 0px;
 
         .tracker-header {
+            position: relative;
             width: 100%;
             border-bottom: 1px solid $trackerHeaderBorder;
-            padding-left: 10px;
-        }
 
-        .tracker-amount {
-            position: absolute;
-            right: 9px;
-            top: 0px;
+            h3 {
+                margin: 0;
+                line-height: 22px;
+                font-size: 18px;
+            }
+
+            .tracker-title {
+                margin-left: 10px;
+            }
+
+            .tracker-amount {
+                position: absolute;
+                right: 9px;
+                top: 0;
+            }
         }
 
         .tracker-organ {
-            height: 22px;
+            height: $trackerOrganHeight;
             width: 100%;
             border-bottom: 1px solid $trackerOrganBorder;
             position: relative;
 
             p {
-                margin-top: 5px;
+                margin-top: 9px;
                 margin-bottom: 0;
                 line-height: 13px;
                 font-size: 13px;
@@ -54,11 +59,11 @@ $trackerOrganBorder: rgb(60, 60, 60);
             }
 
             .organ-name {
-                right: 38px;
+                right: 32px;
             }
 
             .organ-amount {
-                right: 10px;
+                right: 6px;
             }
 
             .tracker-icon-holder {
@@ -73,38 +78,11 @@ $trackerOrganBorder: rgb(60, 60, 60);
                     top: 0;
                     left: 80%;
                     opacity: 0;
+                    height: 100%;
                 }
             }
         }
     }.selected-organ {
-        background-color: lighten($accordianHeaderBackground, 1.5%);
-    }
-
-    /// PROTEIN /// 
-    .tracker[value="18"] {
-        left:   0;
-        bottom: $trackerHeight;
-        width:  50%;
-    }
-
-    /// RNA ///
-    .tracker[value="19"] {
-        right:  0;
-        bottom: $trackerHeight;
-        width:  50%;
-    }
-
-    /// GLYCOGEN ///
-    .tracker[value="20"] {
-        left:   0;
-        bottom: 0px;
-        width:  50%;
-    }
-
-    /// RIBOSE ///
-    .tracker[value="23"] {
-        right:  0;
-        bottom: 0px;
-        width:  50%;
+        background-color: lighten($accordianHeaderBackground, 1.25%);
     }
 }

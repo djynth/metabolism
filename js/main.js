@@ -1,5 +1,7 @@
 $(document).ready(function() {
-    $(window).resize(function() { updateScrollbars(true); });
+    updateTrackerSize();
+
+    $(window).resize(function() { updateScrollbars(true); updateTrackerSize(); });
 
     $('#alert-close').click(function() {
         notify(false);
@@ -238,4 +240,11 @@ function notify(message, type, duration)
             notify(false);
         }, duration);
     }
+}
+
+function updateTrackerSize()
+{
+    var trackers = $('.tracker');
+    var width = $('#tracker-holder').width()/trackers.length;
+    trackers.width(width);
 }
