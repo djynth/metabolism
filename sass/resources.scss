@@ -8,8 +8,8 @@
 
     .progress {
         background-image: none;
-        background-color: $elementBackground;
-        border: 1px solid $elementBorderColor;
+        background-color: $dark_elementBackground;
+        border: 1px solid $dark_elementBorder;
         height: inherit;
     }
 
@@ -18,7 +18,7 @@
         width: 48%;
         font-size: 14px;
         padding-top: 3px;
-        color: $textColor;
+        color: rgb(6, 6, 6);
     }
 
     .resource-name {
@@ -35,7 +35,7 @@
 
 #resource-holder {
     right: 0px;
-    border-left: 1px solid $borderColor;
+    border-left: 1px solid $dark_border;
 
     .resource-holder {
         .resource-data {

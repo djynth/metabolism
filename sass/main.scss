@@ -10,30 +10,30 @@ html, body {
 }
 
 .input-dark {
-    border-color: $inputDarkBorder !important;
-    background: $inputDarkBackground !important;
+    border-color: $dark_inputBorder !important;
+    background: $dark_inputBackground !important;
 }
 
 .input-dark-add-on {
-    border-color: $inputDarkBorder;
+    border-color: $dark_inputBorder;
 
     .add-on {
         border-color: inherit !important;
-        background: $inputDarkAddOnBackground !important;
+        background: $dark_inputAddOnBackground !important;
     }
 
     input {
         border-color: inherit !important;
-        background: $inputDarkBackground !important;
+        background: $dark_inputBackground !important;
     }
 }
 
 .header-text {
     position: relative;
-    background-color: $accordianHeaderBackground;
-    color: $accordianHeaderTextColor;
-    text-shadow: 1px 1px $textColor;
-    border-bottom: 1px solid $accordianHeaderBorderColor;
+    background-color: $dark_background;
+    color: $dark_text;
+    text-shadow: 1px 1px $dark_textShadow;
+    border-bottom: 1px solid $dark_border;
 
     .organ-info {
         position: absolute;
@@ -52,7 +52,7 @@ html, body {
     position: absolute;
     width:  $sidebarWidth;
     height: 100%;
-    background-color: $sidebarBackground;
+    background-color: $dark_sidebarBackground;
     overflow: hidden;
     z-index: 10;
 
@@ -83,7 +83,7 @@ html, body {
     }
 
     .accordian-header {
-        border-top: 1px solid $accordianHeaderBorderColor;
+        border-top: 1px solid $dark_border;
 
         .accordian-title {
             display: inline-block;
@@ -97,7 +97,7 @@ html, body {
 
     .accordian-content {
         padding: 0px 6px;
-        background: $accordianContentBackground;
+        background: $dark_sidebarBackground;
     }
 
     .mCSB_container {
@@ -116,23 +116,23 @@ html, body {
     left: $sidebarWidth;
     width: 100% - 2*$sidebarWidth;
     height: $headerHeight;
-    background-color: $accordianHeaderBackground;
-    border-bottom: 1px solid $accordianHeaderBorderColor;
+    background-color: $dark_background;
+    border-bottom: 1px solid $dark_border;
     z-index: 5;
 
     p {
         display: inline-block;
         margin: 4px 5px 0px;
-        color: $accordianHeaderTextColor;
-        text-shadow: 1px 1px $textColor;
+        color: $dark_text;
+        text-shadow: 1px 1px $dark_textShadow;
     }
 
     #account {
         float: right;
         width:  $accountWidth;
         min-height: 100%;
-        border-left: 1px solid $borderColor;
-        border-bottom: 1px solid $borderColor;
+        border-left: 1px solid $dark_border;
+        border-bottom: 1px solid $dark_border;
         min-height: 100%;
         background-color: inherit;
 
@@ -212,9 +212,9 @@ html, body {
     top: $headerHeight + $visualTop;
     width:  $visualWidth;
     height: $visualHeight;
-    border: 2px solid $visualBorderColor;
+    border: 2px solid rgba(53, 53, 53, 0.7);
     border-radius: 16px;
-    background-color: $visualBackground;
+    background-color: rgba(115, 115, 115, 0.4);
 
     .visual-content {
         position: absolute;
@@ -237,7 +237,7 @@ html, body {
         bottom: 4px;
         left:   8px;
         margin: 0px;
-        color: $visualTextColor;
+        color: rgba(38, 38, 38, 0.9);
     }
 }
 
@@ -298,14 +298,6 @@ html, body {
     right: $sidebarWidth + $visualPadding;
     width: $visualWidth;
     padding: 2px;
-}
-
-.bottom-info {
-    position: absolute;
-    z-index: 1;
-    bottom: $bottomPadding;
-    margin: 0px;
-    color: $visualTextColor;
 }
 
 #points {

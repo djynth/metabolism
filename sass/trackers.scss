@@ -14,11 +14,11 @@ $trackerOrganBorder:  rgb(60, 60, 60);
 
     .tracker {
         height: $trackerHeight;
-        background-color: $accordianHeaderBackground;
-        color: $accordianHeaderTextColor;
-        text-shadow: 1px 1px $textColor;
+        background-color: $dark_background;
+        color: $dark_text;
+        text-shadow: 1px 1px $dark_textShadow;
         z-index: 10;
-        border: 1px solid $accordianHeaderBorderColor;
+        border: 1px solid $dark_border;
         bottom: 0px;
 
         .tracker-header {
@@ -83,6 +83,6 @@ $trackerOrganBorder:  rgb(60, 60, 60);
             }
         }
     }.selected-organ {
-        background-color: lighten($accordianHeaderBackground, 1.25%);
+        background-color: lighten($dark_background, 1.25%);
     }
 }

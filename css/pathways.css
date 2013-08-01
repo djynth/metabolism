@@ -1,14 +1,14 @@
 /* line 3, ../sass/pathways.scss */
 #pathway-holder {
   left: 0;
-  border-right: 1px solid #222222;
+  border-right: 1px solid #232323;
 }
 /* line 8, ../sass/pathways.scss */
 #pathway-holder .pathway-holder .pathway {
   margin: 8px 4px 8px 4px;
   padding: 5px;
-  background-color: rgba(70, 70, 70, 0.82);
-  border: 1px solid rgba(63, 63, 63, 0.9);
+  background-color: #424242;
+  border: 1px solid #3f3f3f;
   box-shadow: -3px -3px rgba(0, 0, 0, 0);
   border-radius: 7px;
   font-size: 12px;
