@@ -8,7 +8,7 @@
 }
 /* line 15, ../sass/trackers.scss */
 #tracker-holder .tracker {
-  height: 110px;
+  height: 98px;
   background-color: #323232;
   color: #afafaf;
   text-shadow: 1px 1px #060606;
@@ -40,7 +40,7 @@
 }
 /* line 46, ../sass/trackers.scss */
 #tracker-holder .tracker .tracker-organ {
-  height: 32px;
+  height: 28px;
   width: 100%;
   border-bottom: 1px solid #3c3c3c;
   position: relative;

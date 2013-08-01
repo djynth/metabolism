@@ -1,6 +1,8 @@
 var COLOR_INCREASE = "72,144,229";
 var COLOR_DECREASE = "232,12,15";
 var TRACKER_ICONS = 5;
+var TRACKER_WAIT = 300;         // the amount of time between tracker animations, in ms
+var TRACKER_ANIMATION = 600;    // the duration of a tracker animtion, in ms
 
 $(document).ready(function() {
     refreshResources();
@@ -136,7 +138,7 @@ function updateTracker(resource, organ, amount, change, tracker)
 
         function updateTrackerIcons() {
             if (counter++ < change) {
-                var level1 = createIcon(resource, 1);
+                var level1 = createIcon(resource, 1, iconHolder.find('.level1').length + 1);
 
                 var left = 0;
                 iconHolder.find('.tracker-icon').each(function() {
@@ -145,20 +147,20 @@ function updateTracker(resource, organ, amount, change, tracker)
                 
                 iconHolder.append(level1);
 
-                level1.animate({ left: left, opacity: 1 }, 600, function() {
+                level1.animate({ left: left, opacity: 1 }, TRACKER_ANIMATION, function() {
                     if (iconHolder.find('.level1').length >= TRACKER_ICONS) {
                         var left = 0;
                         iconHolder.find('.level3,.level2').each(function() {
                             left += $(this).width();
                         });
 
-                        var level2 = createIcon(resource, 2).css('left', left);
+                        var level2 = createIcon(resource, 2, iconHolder.find('.level2').length + 1).css('left', left);
 
                         iconHolder.append(level2);
 
-                        level2.animate({ opacity: 1 }, 600);
+                        level2.animate({ opacity: 1 }, TRACKER_ANIMATION);
 
-                        $.when(iconHolder.find('.level1').animate({ left: left, opacity: 0.5 }, 600)).then(function() {
+                        $.when(iconHolder.find('.level1').animate({ left: left, opacity: 0.5 }, TRACKER_ANIMATION)).then(function() {
                             iconHolder.find('.level1').remove();
                             if (iconHolder.find('.level2').length >= TRACKER_ICONS) {
                                 var left = 0;
@@ -166,22 +168,22 @@ function updateTracker(resource, organ, amount, change, tracker)
                                     left += $(this).width();
                                 });
 
-                                var level3 = createIcon(resource, 3).css('left', left);
+                                var level3 = createIcon(resource, 3, iconHolder.find('.level3').length + 1).css('left', left);
 
                                 iconHolder.append(level3);
 
-                                level3.animate({ opacity: 1 }, 600);
+                                level3.animate({ opacity: 1 }, TRACKER_ANIMATION);
 
-                                $.when(iconHolder.find('.level2').animate({ left: left, opacity: 0.5 }, 600)).then(function() {
+                                $.when(iconHolder.find('.level2').animate({ left: left, opacity: 0.5 }, TRACKER_ANIMATION)).then(function() {
                                     iconHolder.find('.level2').remove();
-                                    setTimeout(updateTrackerIcons, 300);
+                                    setTimeout(updateTrackerIcons, TRACKER_WAIT);
                                 });
                             } else {
-                                setTimeout(updateTrackerIcons, 300);
+                                setTimeout(updateTrackerIcons, TRACKER_WAIT);
                             }
                         });
                     } else {
-                        setTimeout(updateTrackerIcons, 300);
+                        setTimeout(updateTrackerIcons, TRACKER_WAIT);
                     }
                 });
             }
@@ -190,10 +192,12 @@ function updateTracker(resource, organ, amount, change, tracker)
     }
 }
 
-function createIcon(resource, level)
+function createIcon(resource, level, count)
 {
+    var filename = 'level' + level + '.png';
+
     return $('<img>')
         .addClass('tracker-icon level' + level)
-        .attr('src', baseUrl + 'img/primary-icons/' + resource + '/level' + level + '.png')
+        .attr('src', baseUrl + 'img/primary-icons/' + resource + '/' + filename)
         .attr('alt', '');
 }
