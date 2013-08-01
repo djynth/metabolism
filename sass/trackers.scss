@@ -1,0 +1,88 @@
+@import "base";
+
+$trackerHeight: 98px;
+$trackerOrganHeight: 28px;
+$trackerHeaderBorder: rgb(81, 81, 81);
+$trackerOrganBorder:  rgb(60, 60, 60);
+
+#tracker-holder {
+    position: absolute;
+    left: $sidebarWidth;
+    width: 100% - 2*$sidebarWidth;
+    max-width: 100% - 2*$sidebarWidth;
+    bottom: 0;
+
+    .tracker {
+        height: $trackerHeight;
+        background-color: $accordianHeaderBackground;
+        color: $accordianHeaderTextColor;
+        text-shadow: 1px 1px $textColor;
+        z-index: 10;
+        border: 1px solid $accordianHeaderBorderColor;
+        bottom: 0px;
+
+        .tracker-header {
+            position: relative;
+            width: 100%;
+            border-bottom: 1px solid $trackerHeaderBorder;
+
+            h3 {
+                margin: 0;
+                line-height: 22px;
+                font-size: 18px;
+            }
+
+            .tracker-title {
+                margin-left: 10px;
+            }
+
+            .tracker-amount {
+                position: absolute;
+                right: 9px;
+                top: 0;
+            }
+        }
+
+        .tracker-organ {
+            height: $trackerOrganHeight;
+            width: 100%;
+            border-bottom: 1px solid $trackerOrganBorder;
+            position: relative;
+
+            p {
+                margin-top: 9px;
+                margin-bottom: 0;
+                line-height: 13px;
+                font-size: 13px;
+                position: absolute;
+                float: right;
+            }
+
+            .organ-name {
+                right: 32px;
+            }
+
+            .organ-amount {
+                right: 6px;
+            }
+
+            .tracker-icon-holder {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+
+                .tracker-icon {
+                    position: absolute;
+                    top: 0;
+                    left: 80%;
+                    opacity: 0;
+                    height: 100%;
+                }
+            }
+        }
+    }.selected-organ {
+        background-color: lighten($accordianHeaderBackground, 1.25%);
+    }
+}
