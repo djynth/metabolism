@@ -35,7 +35,7 @@ html, body {
   position: relative;
   background-color: #323232;
   color: #afafaf;
-  text-shadow: 1px 1px #060606;
+  text-shadow: 1px 1px #0a0a0a;
   border-bottom: 1px solid #232323;
 }
 /* line 38, ../sass/main.scss */
@@ -102,7 +102,7 @@ html, body {
 /* line 98, ../sass/main.scss */
 .sidebar .accordian-content {
   padding: 0px 6px;
-  background: #5c5c5c;
+  background: #505050;
 }
 /* line 103, ../sass/main.scss */
 .sidebar .mCSB_container {
@@ -130,15 +130,15 @@ html, body {
   display: inline-block;
   margin: 4px 5px 0px;
   color: #afafaf;
-  text-shadow: 1px 1px #060606;
+  text-shadow: 1px 1px #0a0a0a;
 }
 /* line 130, ../sass/main.scss */
 #header #account {
   float: right;
   width: 300px;
   min-height: 100%;
-  border-left: 1px solid #222222;
-  border-bottom: 1px solid #222222;
+  border-left: 1px solid #232323;
+  border-bottom: 1px solid #232323;
   min-height: 100%;
   background-color: inherit;
 }
@@ -311,47 +311,38 @@ html, body {
 }
 
 /* line 303, ../sass/main.scss */
-.bottom-info {
-  position: absolute;
-  z-index: 1;
-  bottom: 9px;
-  margin: 0px;
-  color: rgba(38, 38, 38, 0.9);
-}
-
-/* line 311, ../sass/main.scss */
 #points {
   left: 21%;
 }
 
-/* line 315, ../sass/main.scss */
+/* line 307, ../sass/main.scss */
 #turns {
   right: 21%;
 }
 
-/* line 319, ../sass/main.scss */
+/* line 311, ../sass/main.scss */
 #notification-holder {
   position: absolute;
   width: 40%;
   left: 30%;
   bottom: 9px;
 }
-/* line 325, ../sass/main.scss */
+/* line 317, ../sass/main.scss */
 #notification-holder #notification {
   display: none;
   margin-bottom: 0px;
 }
-/* line 329, ../sass/main.scss */
+/* line 321, ../sass/main.scss */
 #notification-holder #notification #alert-message {
   min-height: 20px;
 }
 
-/* line 335, ../sass/main.scss */
+/* line 327, ../sass/main.scss */
 .hidden {
   display: none;
 }
 
-/* line 339, ../sass/main.scss */
+/* line 331, ../sass/main.scss */
 .error {
   color: red;
 }
