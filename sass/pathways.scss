@@ -2,22 +2,22 @@
 
 #pathway-holder {
     left: 0;
-    border-right: 1px solid $borderColor;
+    border-right: 1px solid $dark_border;
 
     .pathway-holder {
         .pathway {
             margin:  8px 4px 8px 4px;
             padding: 5px;
-            background-color: $elementBackground;
-            border: 1px solid $elementBorderColor;
+            background-color: $dark_elementBackground;
+            border: 1px solid $dark_elementBorder;
             box-shadow: -3px -3px rgba(0, 0, 0, 0);
             border-radius: 7px;
-            font-size:   $textFontSize;
-            line-height: $textFontSize;
+            font-size:   12px;
+            line-height: 12px;
 
             p {
                 margin: 0px;
-                color: $textColor;
+                color: rgb(6, 6, 6);
             }
 
             .title {

@@ -1,21 +1,16 @@
-// colors
-$textColor:                  rgb( 6,   6,   6);
-$borderColor:                rgb( 34,  34,  34);
-$sidebarBackground:          rgb( 80,  80,  80);
-$accordianContentBackground: rgb( 92,  92,  92);
-$elementBackground:          rgba(70,  70,  70,  0.82);
-$elementBorderColor:         rgba(63,  63,  63,  0.9);
-$visualBorderColor:          rgba(53,  53,  53,  0.7);
-$visualBackground:           rgba(115, 115, 115, 0.4);
-$visualTextColor:            rgba(38,  38,  38,  0.9);
-$accordianHeaderBackground:  rgb( 50,  50,  50);
-$accordianHeaderTextColor:   rgb( 175, 175, 175);
-$accordianHeaderBorderColor: rgb( 35,  35,  35);
-$inputDarkBorder:            rgb( 18,  18,  18);
-$inputDarkAddOnBackground:   rgb( 50,  50,  50);
-$inputDarkBackground:        rgb( 34,  34,  34);
+/// COLORS ///
+$dark_text:                 rgb(175, 175, 175);
+$dark_textShadow:           rgb(10,  10,  10);
+$dark_border:               rgb(35,  35,  35);
+$dark_background:           rgb(50,  50,  50);
+$dark_sidebarBackground:    rgb(80,  80,  80);
+$dark_elementBackground:    rgb(66,  66,  66);
+$dark_elementBorder:        rgb(63,  63,  63);
+$dark_inputBackground:      rgb(34,  34,  34);
+$dark_inputAddOnBackground: rgb(50,  50,  50);
+$dark_inputBorder:          rgb(18,  18,  18);
 
-// sizes
+/// SIZES ///
 $sidebarWidth:  19%;
 $visualPadding: 2%;
 $visualWidth:   13%;
@@ -24,7 +19,3 @@ $visualTop:     30px;
 $bottomPadding: 9px;
 $headerHeight:  28px;
 $accountWidth:  300px;
-
-// fonts
-$headerFontSize: 16px;
-$textFontSize:   12px;
