@@ -18,13 +18,6 @@ $this->pageTitle=Yii::app()->name;
     <?php $this->renderPartial('resources'); ?>
 </div>
 
-<div id="notification-holder">
-    <div class="alert" id="notification">
-        <button type="button" class="close" id="alert-close">&times;</button>
-        <p id="alert-message"></p>
-    </div>
-</div>
-
 <div class="modal hide fade">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

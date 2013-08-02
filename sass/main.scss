@@ -253,22 +253,6 @@ html, body {
     height: 100%;
 }
 
-#notification-holder {
-    position: absolute;
-    width: 40%;
-    left: 30%;
-    bottom: $bottomPadding;
-
-    #notification {
-        display: none;
-        margin-bottom: 0px;
-
-        #alert-message {
-            min-height: 20px;
-        }
-    }
-}
-
 .hidden {
     display: none;
 }

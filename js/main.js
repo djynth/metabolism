@@ -3,10 +3,6 @@ $(document).ready(function() {
 
     $(window).resize(function() { updateScrollbars(true); updateTrackerSize(); });
 
-    $('#alert-close').click(function() {
-        notify(false);
-    });
-
     $('.account-header').click(function() {
         $('.login-dropdown').slideToggle();
     });
@@ -219,27 +215,7 @@ function setPoints(points)
 function setPh(ph)
 {
     $('#ph-holder').find('.bar').css('width', Math.max(0, Math.min(100, 100*((ph-6)/2))) + '%')
-                                .siblings('.resource-value').html(ph.toFixed(2));
-}
-
-function notify(message, type, duration)
-{
-    if (typeof duration === 'undefined') {
-        duration = 3000;
-    }
-
-    if (message) {
-        $('#notification').fadeOut();
-    } else {
-        $('#alert-message').html(message);
-        $('#notification')
-            .attr('class', 'alert alert-' + type)
-            .fadeIn();
-
-        setTimeout(function() {
-            notify(false);
-        }, duration);
-    }
+        .siblings('.resource-value').html(ph.toFixed(2));
 }
 
 function updateTrackerSize()

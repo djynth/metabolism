@@ -258,28 +258,11 @@ html, body {
 }
 
 /* line 256, ../sass/main.scss */
-#notification-holder {
-  position: absolute;
-  width: 40%;
-  left: 30%;
-  bottom: 9px;
-}
-/* line 262, ../sass/main.scss */
-#notification-holder #notification {
-  display: none;
-  margin-bottom: 0px;
-}
-/* line 266, ../sass/main.scss */
-#notification-holder #notification #alert-message {
-  min-height: 20px;
-}
-
-/* line 272, ../sass/main.scss */
 .hidden {
   display: none;
 }
 
-/* line 276, ../sass/main.scss */
+/* line 260, ../sass/main.scss */
 .error {
   color: red;
 }
