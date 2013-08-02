@@ -40,3 +40,8 @@
   width: 80%;
   margin: 10px auto;
 }
+
+/* line 48, ../sass/resources.scss */
+#ph-holder {
+  padding-top: 6px;
+}

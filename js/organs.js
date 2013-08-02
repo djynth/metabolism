@@ -15,22 +15,6 @@ $(document).ready(function() {
 
 function selectOrgan(organ, firstTime)
 {
-    $('#organ-visual').find('img').fadeOut(ORGAN_FADE_OUT, function() {
-        $(this).remove();
-    });
-
-    var organImage = $('<img>')
-        .attr('name', organ)
-        .attr('src', baseUrl + 'img/organs/' + organ)
-        .attr('alt', organ)
-        .addClass('image-content')
-        .css('display', 'none');
-    $('#organ-visual').append(organImage);
-
-    setTimeout(function() {
-        organImage.fadeIn(ORGAN_FADE_IN);
-    }, ORGAN_FADE_OUT);
-
     $('.tracker-organ').each(function() {
         if ($(this).attr('value') == organ) {
             $(this).addClass('selected-organ');

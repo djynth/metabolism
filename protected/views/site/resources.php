@@ -21,6 +21,16 @@ $global = Organ::getGlobal();
     ?>
 </div>
 
+<div class="resource-holder global" id="ph-holder">
+    <div class="resource-data resource-bar">
+        <div class="progress">
+            <span class="resource-name">pH</span>
+            <span class="resource-value"></span>
+            <div class="bar"></div>
+        </div>
+    </div>
+</div>
+
 <?php foreach($organs as $organ): ?>
     <div class="accordian-header header-text" value="<?= $organ->id ?>">
         <p class="accordian-title"><?= $organ->name ?></p>
