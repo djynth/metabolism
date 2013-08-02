@@ -97,7 +97,7 @@ html, body {
         .organ-popup {
             display: none;
             position: absolute;
-            top: -1px;
+            
             background-color: $dark_background;
             border: 1px solid $dark_border;
             z-index: 20;
@@ -106,7 +106,7 @@ html, body {
             .organ-cover {
                 background-color: inherit;
                 position: absolute;
-                top: 0px;
+                
                 width: 1px;
                 height: 20px;
                 z-index: 30;
@@ -120,6 +120,22 @@ html, body {
 
             .organ-description {
                 padding: 5px 10px;
+            }
+        }
+
+        .organ-popup-up {
+            bottom: -1px;
+
+            .organ-cover {
+                bottom: 0px;
+            }
+        }
+
+        .organ-popup-down {
+            top: -1px;
+
+            .organ-cover {
+                top: 0px;
             }
         }
 

@@ -1,5 +1,5 @@
 <div class="header-text <?= $organ->isGlobal() ? '' : 'accordian-header' ?>" value="<?= $organ->id ?>">
-    <p><?= $organ->name ?></p>
+    <p class="<?= $organ->isGlobal() ? '' : 'accordian-title' ?>"><?= $organ->name ?></p>
     <i class="icon-info-sign icon-white organ-info"></i>
 
     <div class="organ-popup <?= $right ? 'right' : 'left' ?>">
