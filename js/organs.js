@@ -16,7 +16,7 @@ $(document).ready(function() {
         var popup = $(this).siblings('.organ-popup');
         var content = popup.find('.organ-image,.organ-description');
         if (!popup.is(':visible')) {
-            if ($(window).height() - $(this).offset().top > 300) {
+            if ($(window).height() - $(this).offset().top > 500) {
                 popup.addClass('organ-popup-down');
             } else {
                 popup.addClass('organ-popup-up');
@@ -25,7 +25,7 @@ $(document).ready(function() {
             popup.css('width', 0).show();
             content.hide();
 
-            popup.animate({ width: 200 }, 200, function() {
+            popup.animate({ width: 350 }, 200, function() {
                 content.slideDown(300);
             });
         } else {
