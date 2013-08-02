@@ -104,8 +104,8 @@ html, body {
   top: -1px;
   background-color: #323232;
   border: 1px solid #232323;
-  width: 200px;
   z-index: 20;
+  min-height: 20px;
 }
 /* line 106, ../sass/main.scss */
 .sidebar .header-text .organ-popup .organ-cover {
@@ -128,7 +128,7 @@ html, body {
 }
 /* line 126, ../sass/main.scss */
 .sidebar .header-text .right {
-  right: -202px;
+  left: 100%;
   text-align: right;
 }
 /* line 130, ../sass/main.scss */
@@ -137,7 +137,7 @@ html, body {
 }
 /* line 135, ../sass/main.scss */
 .sidebar .header-text .left {
-  left: -202px;
+  right: 100%;
   text-align: left;
 }
 /* line 139, ../sass/main.scss */

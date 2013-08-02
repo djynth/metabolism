@@ -11,6 +11,25 @@ $(document).ready(function() {
             selectOrgan(header.attr('value'));
         }
     });
+
+    $('.organ-info').click(function() {
+        var popup = $(this).siblings('.organ-popup');
+        var content = popup.find('.organ-image,.organ-description');
+        if (!popup.is(':visible')) {
+            popup.css('width', 0).show();
+            content.hide();
+
+            popup.animate({ width: 200 }, 200, function() {
+                content.slideDown(300);
+            });
+        } else {
+            content.slideUp(300, function() {
+                popup.animate({ width: 0 }, 200, function() {
+                    popup.hide();
+                });
+            });
+        }
+    });
 });
 
 function selectOrgan(organ, firstTime)

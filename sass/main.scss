@@ -97,11 +97,11 @@ html, body {
         .organ-popup {
             display: none;
             position: absolute;
-            top:   -1px;
+            top: -1px;
             background-color: $dark_background;
             border: 1px solid $dark_border;
-            width: 200px;
             z-index: 20;
+            min-height: 20px;
 
             .organ-cover {
                 background-color: inherit;
@@ -124,7 +124,7 @@ html, body {
         }
 
         .right {
-            right: -202px;
+            left: 100%;
             text-align: right;
 
             .organ-cover {
@@ -133,7 +133,7 @@ html, body {
         }
 
         .left {
-            left: -202px;
+            right: 100%;
             text-align: left;
 
             .organ-cover {
