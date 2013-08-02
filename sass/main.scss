@@ -53,7 +53,6 @@ html, body {
     width:  $sidebarWidth;
     height: 100%;
     background-color: $dark_sidebarBackground;
-    overflow: hidden;
     z-index: 10;
 
     .sidebar-title {
@@ -78,7 +77,6 @@ html, body {
     }
 
     .global {
-        background: inherit;
         padding: 0px 6px;
     }
 
@@ -95,9 +93,57 @@ html, body {
         }
     }
 
+    .header-text {
+        .organ-popup {
+            display: none;
+            position: absolute;
+            top:   -1px;
+            background-color: $dark_background;
+            border: 1px solid $dark_border;
+            width: 200px;
+            z-index: 20;
+
+            .organ-cover {
+                background-color: inherit;
+                position: absolute;
+                top: 0px;
+                width: 1px;
+                height: 20px;
+                z-index: 30;
+            }
+
+            .organ-image {
+                display: block;
+                height: 150px;
+                margin: 25px auto;
+            }
+
+            .organ-description {
+                padding: 5px 10px;
+            }
+        }
+
+        .right {
+            right: -202px;
+            text-align: right;
+
+            .organ-cover {
+                left: -1px;
+            }
+        }
+
+        .left {
+            left: -202px;
+            text-align: left;
+
+            .organ-cover {
+                right: -1px;
+            }
+        }
+    }
+
     .accordian-content {
         padding: 0px 6px;
-        background: $dark_sidebarBackground;
     }
 
     .mCSB_container {
