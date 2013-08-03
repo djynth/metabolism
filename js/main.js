@@ -176,7 +176,7 @@ function getPathwayContentHeight()
 
 function getResourceContentHeight()
 {
-    var h = $(window).height() - $('#resource-holder').find('.accordian-header').first().offset().top;
+    var h = $(window).height() - $('#resource-holder').find('.accordian-header').first().offset().top - $('#resource-visual').outerHeight();
     $('#resource-holder .accordian-header').each(function() {
         h -= $(this).outerHeight();
     });

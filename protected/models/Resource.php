@@ -10,6 +10,9 @@
  * @property global
  * @property color
  * @property ph
+ * @property primary
+ * @property formula
+ * @property description
  */
 class Resource extends CActiveRecord
 {
@@ -118,5 +121,37 @@ class Resource extends CActiveRecord
     public function isValidChange($organ, $change)
     {
         return $this->isValidAmount($organ, $this->getAmount($organ) + $change);
+    }
+
+    public function getDestinations()
+    {
+        $pathways = Pathway::model()->findAll();
+        $destinations = array();
+        foreach ($pathways as $pathway) {
+            $reactants = $pathway->getReactants();
+            foreach ($reactants as $reactant) {
+                if ($reactant->resource_id === $this->id) {
+                    $destinations[] = $pathway;
+                    break;
+                }
+            }
+        }
+        return $destinations;
+    }
+
+    public function getSources()
+    {
+        $pathways = Pathway::model()->findAll();
+        $sources = array();
+        foreach ($pathways as $pathway) {
+            $products = $pathway->getProducts();
+            foreach ($products as $product) {
+                if ($product->resource_id === $this->id) {
+                    $sources[] = $pathway;
+                    break;
+                }
+            }
+        }
+        return $sources;
     }
 }

@@ -30,18 +30,93 @@
   text-align: left;
 }
 
-/* line 36, ../sass/resources.scss */
+/* line 35, ../sass/resources.scss */
 #resource-holder {
   right: 0px;
   border-left: 1px solid #232323;
 }
-/* line 41, ../sass/resources.scss */
+/* line 40, ../sass/resources.scss */
 #resource-holder .resource-holder .resource-data {
   width: 80%;
-  margin: 10px auto;
+  margin: 8px auto;
 }
 
-/* line 48, ../sass/resources.scss */
+/* line 47, ../sass/resources.scss */
 #ph-holder {
-  padding-top: 6px;
+  padding-top: 4px;
+}
+
+/* line 51, ../sass/resources.scss */
+#resource-visual {
+  width: 100%;
+  height: 200px;
+  background-color: #505050;
+  border-top: 1px solid #232323;
+  position: relative;
+}
+/* line 58, ../sass/resources.scss */
+#resource-visual .resource-visual-header {
+  background-color: #323232;
+  color: #afafaf;
+  text-shadow: 1px 1px #0a0a0a;
+  padding-left: 10px;
+  border-bottom: 1px solid #232323;
+}
+/* line 65, ../sass/resources.scss */
+#resource-visual .resource-visual-header p, #resource-visual .resource-visual-header h3 {
+  margin: 0;
+  font-size: 16px;
+  line-height: 20px;
+}
+/* line 71, ../sass/resources.scss */
+#resource-visual .resource-visual-header .resource-visual-amount {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding-right: 5px;
+}
+/* line 79, ../sass/resources.scss */
+#resource-visual .resource-visual-content {
+  position: absolute;
+  left: 0;
+  top: 20px;
+  width: 90%;
+  height: 170px;
+  padding: 5px 5%;
+  overflow: hidden;
+  display: none;
+}
+/* line 89, ../sass/resources.scss */
+#resource-visual .resource-visual-content p, #resource-visual .resource-visual-content td, #resource-visual .resource-visual-content th {
+  color: black;
+}
+/* line 93, ../sass/resources.scss */
+#resource-visual .resource-visual-content .resource-visual-image {
+  position: absolute;
+  height: 30%;
+  max-width: 35%;
+  right: 10px;
+  top: 10px;
+}
+/* line 101, ../sass/resources.scss */
+#resource-visual .resource-visual-content .resource-visual-formula {
+  margin-bottom: 2px;
+}
+/* line 105, ../sass/resources.scss */
+#resource-visual .resource-visual-content .resource-visual-pathways {
+  width: 65%;
+}
+/* line 108, ../sass/resources.scss */
+#resource-visual .resource-visual-content .resource-visual-pathways td {
+  font-size: 10px;
+  line-height: 12px;
+}
+/* line 113, ../sass/resources.scss */
+#resource-visual .resource-visual-content .resource-visual-pathways th {
+  text-align: left;
+}
+/* line 118, ../sass/resources.scss */
+#resource-visual .resource-visual-content .resource-visual-description {
+  padding-top: 5px;
+  line-height: 17px;
 }

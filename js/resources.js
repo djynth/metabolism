@@ -4,8 +4,39 @@ var TRACKER_ICONS = 5;
 var TRACKER_WAIT = 300;         // the amount of time between tracker animations, in ms
 var TRACKER_ANIMATION = 600;    // the duration of a tracker animtion, in ms
 
+var activeResource = null;
+var selectedResource = false;
+
 $(document).ready(function() {
     refreshResources();
+
+    $('.resource-data').hoverIntent(function() {
+        if (!selectedResource) {
+            activeResource = $(this).attr('value');
+            updateResourceVisual();
+        }
+    }, function() {
+        if (!selectedResource) {
+            activeResource = null;
+            updateResourceVisual();
+        }
+    });
+
+    $('.resource-data').click(function() {
+        if (selectedResource && activeResource == $(this).attr('value')) {
+            selectedResource = false;
+            activeResource = null;
+        } else {
+            if (selectedResource) {
+                activeResource = null;
+                updateResourceVisual();
+            }
+
+            selectedResource = true;
+            activeResource = $(this).attr('value');
+        }
+        updateResourceVisual();
+    });
 });
 
 function refreshResources(resources)
@@ -73,6 +104,34 @@ function getResourceValue(resource, organ)
 function getResourceName(resource, organ)
 {
     return getResourceElement(resource, organ).find('.resource-name').html();
+}
+
+function updateResourceVisual()
+{
+    if (activeResource === null) {
+        $('.resource-visual-content').fadeOut(function() {
+            $(this).remove();
+        });
+        $('#resource-visual').find('.resource-visual-title').text('Resource');
+        $('#resource-visual').find('.resource-visual-amount').text();
+    } else {
+        $.ajax({
+            url: 'index.php?r=site/resourceVisual',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                resource: activeResource,
+            },
+            success: function(data) {
+                if (activeResource == data.resource) {
+                    $('#resource-visual').append(data.visual);
+                    $('.resource-visual-content[value="' + data.resource + '"]').fadeIn();
+                    $('#resource-visual').find('.resource-visual-amount').text();
+                    $('#resource-visual').find('.resource-visual-title').text(data.resource_name);
+                }
+            }
+        });
+    }
 }
 
 function updateTracker(resource, organ, amount, change, tracker)

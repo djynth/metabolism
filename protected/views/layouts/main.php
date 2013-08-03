@@ -13,6 +13,7 @@
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/lib/jquery.animate-colors-min.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/lib/jquery.animate-shadow.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/lib/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/lib/jquery.hoverIntent.min.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/lib/bootstrap.min.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/main.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/resources.js"></script>

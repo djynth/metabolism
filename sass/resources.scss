@@ -30,7 +30,6 @@
         right: 0px;
         text-align: left;
     }
-
 }
 
 #resource-holder {
@@ -40,11 +39,85 @@
     .resource-holder {
         .resource-data {
             width:  80%;
-            margin: 10px auto;
+            margin: 8px auto;
         }
     }
 }
 
 #ph-holder {
-    padding-top: 6px;
+    padding-top: 4px;
+}
+
+#resource-visual {
+    width: 100%;
+    height: 200px;
+    background-color: $dark_sidebarBackground;
+    border-top: 1px solid $dark_border;
+    position: relative;
+
+    .resource-visual-header {
+        background-color: $dark_background;
+        color: $dark_text;
+        text-shadow: 1px 1px $dark_textShadow;
+        padding-left: 10px;
+        border-bottom: 1px solid $dark_border;
+
+        p, h3 {
+            margin: 0;
+            font-size: 16px;
+            line-height: 20px;
+        }
+
+        .resource-visual-amount {
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding-right: 5px;
+        }
+    }
+
+    .resource-visual-content {
+        position: absolute;
+        left: 0;
+        top: 20px;
+        width: 90%;
+        height: 170px;
+        padding: 5px 5%;
+        overflow: hidden;
+        display: none;
+
+        p, td, th {
+            color: black;
+        }
+
+        .resource-visual-image {
+            position: absolute;
+            height: 30%;
+            max-width: 35%;
+            right: 10px;
+            top: 10px;
+        }
+
+        .resource-visual-formula {
+            margin-bottom: 2px;
+        }
+
+        .resource-visual-pathways {
+            width: 65%;
+
+            td {
+                font-size: 10px;
+                line-height: 12px;
+            }
+
+            th {
+                text-align: left;
+            }
+        }
+
+        .resource-visual-description {
+            padding-top: 5px;
+            line-height: 17px;
+        }
+    }
 }
