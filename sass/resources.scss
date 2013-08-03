@@ -92,27 +92,15 @@
 
         .resource-visual-image {
             position: absolute;
-            height: 30%;
-            max-width: 35%;
+            height: 50%;
             right: 10px;
             top: 10px;
         }
 
         .resource-visual-formula {
-            margin-bottom: 2px;
-        }
-
-        .resource-visual-pathways {
-            width: 65%;
-
-            td {
-                font-size: 10px;
-                line-height: 12px;
-            }
-
-            th {
-                text-align: left;
-            }
+            margin-top: 10px;
+            height: 50%;
+            width: 30%;
         }
 
         .resource-visual-description {
