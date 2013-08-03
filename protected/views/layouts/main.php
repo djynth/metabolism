@@ -22,6 +22,7 @@
 
 <script>
 var baseUrl = "<?= Yii::app()->request->baseUrl ?>";
+var GLOBAL_ORGAN = <?= Organ::GLOBAL_ID ?>;
 </script>
 
 <meta name="description" content="Metabolism Fun">

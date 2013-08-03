@@ -86,8 +86,6 @@ function selectOrgan(organ, firstTime)
         }
     });
 
-    $('.filter').slideUp();
-
     $.ajax({
         url: 'index.php?r=site/organColor',
         type: 'POST',
@@ -99,4 +97,9 @@ function selectOrgan(organ, firstTime)
             $('#cell-canvas').animate({ backgroundColor: '#' + data.color }, ORGAN_FADE_IN + ORGAN_FADE_OUT);
         }
     });
+}
+
+function getSelectedOrgan()
+{
+    return parseInt($('.accordian-content.active').attr('value'));
 }

@@ -106,31 +106,43 @@ function getResourceName(resource, organ)
     return getResourceElement(resource, organ).find('.resource-name').html();
 }
 
-function updateResourceVisual()
+function isResourceGlobal(resource)
 {
-    if (activeResource === null) {
-        $('.resource-visual-content').fadeOut(function() {
-            $(this).remove();
-        });
-        $('#resource-visual').find('.resource-visual-title').text('Resource');
-        $('#resource-visual').find('.resource-visual-amount').text();
+    return $('.resource-holder.global').find('.resource-data[value="' + resource +'"]').length > 0;
+}
+
+function updateResourceVisual(organChanged)
+{
+    if (organChanged) {
+        if (activeResource !== null && !isResourceGlobal(activeResource)) {
+            $('#resource-visual').find('.resource-visual-amount').text(getResourceValue(activeResource, getSelectedOrgan()));
+        }
     } else {
-        $.ajax({
-            url: 'index.php?r=site/resourceVisual',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                resource: activeResource,
-            },
-            success: function(data) {
-                if (activeResource == data.resource) {
-                    $('#resource-visual').append(data.visual);
-                    $('.resource-visual-content[value="' + data.resource + '"]').fadeIn();
-                    $('#resource-visual').find('.resource-visual-amount').text();
-                    $('#resource-visual').find('.resource-visual-title').text(data.resource_name);
+        if (activeResource === null) {
+            $('.resource-visual-content').fadeOut(function() {
+                $(this).remove();
+            });
+            $('#resource-visual').find('.resource-visual-title').text('Resource');
+            $('#resource-visual').find('.resource-visual-amount').text();
+        } else {
+            $.ajax({
+                url: 'index.php?r=site/resourceVisual',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    resource: activeResource,
+                },
+                success: function(data) {
+                    if (activeResource == data.resource) {
+                        $('#resource-visual').append(data.visual);
+                        $('.resource-visual-content[value="' + data.resource + '"]').fadeIn();
+                        $('#resource-visual').find('.resource-visual-title').text(data.resource_name);
+                        var organ = isResourceGlobal(data.resource) ? GLOBAL_ORGAN : getSelectedOrgan();
+                        $('#resource-visual').find('.resource-visual-amount').text(getResourceValue(data.resource, organ));
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }
 
