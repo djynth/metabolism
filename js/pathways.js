@@ -1,7 +1,13 @@
+var SOURCE_HIGHLIGHT_COLOR      = '82,117,255';
+var DESTINATION_HIGHLIGHT_COLOR = '233,25,44';
+
 $(document).ready(function() {
     resizeFilter(true);
+    resizePathways();
 
     $(window).resize(function() { resizeFilter(false); });
+
+    $('.pathway').resize(resizePathways);
 
     $('.pathway-run').click(function() {
         var id = parseInt($(this).parents('.pathway').attr('value'));
@@ -123,6 +129,14 @@ function resizeFilter(hide)
     if (hide) {
         $('#pathway-filter').hide();
     }
+}
+
+function resizePathways()
+{
+    $('.pathway-inner').each(function() {
+        $(this).width($(this).parent().outerWidth() + 2);
+        $(this).height($(this).parent().outerHeight() + 2);
+    });
 }
 
 function refreshPathways()
@@ -412,4 +426,26 @@ function onFilterChange()
     }).promise().done(function() {
         updateScrollbars(true);
     });
+}
+
+function highlightSource(pathwayId, highlight)
+{
+    var pathway = $('.pathway[value="' + pathwayId + '"]');
+    pathway.addClass('source');
+    if (highlight) {
+        pathway.find('.pathway-inner').animate({ boxShadow: '0 0 3px 3px rgb(' + SOURCE_HIGHLIGHT_COLOR + ') inset' });
+    } else {
+        pathway.find('.pathway-inner').animate({ boxShadow: '0 0 3px 3px rgba(' + SOURCE_HIGHLIGHT_COLOR + ',0) inset' });
+    }
+}
+
+function highlightDestination(pathwayId, highlight)
+{
+    var pathway = $('.pathway[value="' + pathwayId + '"]');
+    pathway.addClass('destination');
+    if (highlight) {
+        pathway.find('.pathway-inner').animate({ boxShadow: '0 0 3px 3px rgb(' + DESTINATION_HIGHLIGHT_COLOR + ') inset' });
+    } else {
+        pathway.find('.pathway-inner').animate({ boxShadow: '0 0 3px 3px rgba(' + DESTINATION_HIGHLIGHT_COLOR + ',0) inset' });
+    }   
 }

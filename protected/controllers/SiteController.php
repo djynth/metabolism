@@ -134,6 +134,8 @@ class SiteController extends Controller
                 'visual' => $this->renderPartial('resource-visual', array('resource' => $resource), true),
                 'resource' => $resource->id,
                 'resource_name' => $resource->name,
+                'sources' => $resource->getSources(),
+                'destinations' => $resource->getDestinations(),
             ));
         }
     }

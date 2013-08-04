@@ -124,6 +124,14 @@ function updateResourceVisual(organChanged)
             });
             $('#resource-visual').find('.resource-visual-title').text('Resource');
             $('#resource-visual').find('.resource-visual-amount').text();
+
+            $('.pathway.source').each(function() {
+                highlightSource($(this).attr('value'), false);
+            });
+
+            $('.pathway.destination').each(function() {
+                highlightDestination($(this).attr('value'), false);
+            })
         } else {
             $.ajax({
                 url: 'index.php?r=site/resourceVisual',
@@ -139,6 +147,14 @@ function updateResourceVisual(organChanged)
                         $('#resource-visual').find('.resource-visual-title').text(data.resource_name);
                         var organ = isResourceGlobal(data.resource) ? GLOBAL_ORGAN : getSelectedOrgan();
                         $('#resource-visual').find('.resource-visual-amount').text(getResourceValue(data.resource, organ));
+
+                        for (var i = 0; i < data.sources.length; i++) {
+                            highlightSource(data.sources[i].id, true);
+                        }
+
+                        for (var i = 0; i < data.destinations.length; i++) {
+                            highlightDestination(data.destinations[i].id, true);
+                        }
                     }
                 }
             });

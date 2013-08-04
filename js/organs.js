@@ -97,6 +97,8 @@ function selectOrgan(organ, firstTime)
             $('#cell-canvas').animate({ backgroundColor: '#' + data.color }, ORGAN_FADE_IN + ORGAN_FADE_OUT);
         }
     });
+
+    resizePathways();
 }
 
 function getSelectedOrgan()
