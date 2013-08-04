@@ -123,7 +123,7 @@ function updateResourceVisual(organChanged)
                 $(this).remove();
             });
             $('#resource-visual').find('.resource-visual-title').text('Resource');
-            $('#resource-visual').find('.resource-visual-amount').text();
+            $('#resource-visual').find('.resource-visual-amount').text('');
 
             $('.pathway.source').each(function() {
                 highlightSource($(this).attr('value'), false);
