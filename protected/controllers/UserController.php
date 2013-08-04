@@ -141,4 +141,17 @@ class UserController extends Controller
     {
         return preg_match("/^[a-z0-9:punct:]{3,32}$/", $password);
     }
+
+    public function actionSaveTheme()
+    {
+        if (isset($_POST)) {
+            $theme = $_POST['theme'];
+
+            if (!Yii::app()->user->isGuest) {
+                $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id));
+                $user->theme = $theme;
+                $user->save();
+            }
+        }
+    }
 }

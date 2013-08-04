@@ -16,7 +16,7 @@ $(document).ready(function() {
     $('#settings-apply').click(function() {
         var theme = $(this).siblings('#theme-holder').find('.btn.active').attr('value');
 
-        setColorTheme(theme);
+        setColorTheme(theme, true);
     });
 
     $('#create-account-username').change(function() {
@@ -237,7 +237,7 @@ function updateTrackerSize()
     trackers.width(width);
 }
 
-function setColorTheme(theme)
+function setColorTheme(theme, save)
 {
     if (typeof theme === 'undefined' || theme === null) {
         theme = 'dark';
@@ -255,5 +255,16 @@ function setColorTheme(theme)
         $('.btn').addClass('btn-inverse');
         $('#theme-light').removeClass('btn-inverse').removeClass('active');
         $('#theme-dark').addClass('active');
+    }
+
+    if (save) {
+        $.ajax({
+            url: 'index.php?r=user/saveTheme',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                theme: theme
+            }
+        });
     }
 }
