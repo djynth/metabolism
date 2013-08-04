@@ -253,16 +253,18 @@ html, body {
     #settings {
         position: absolute;
         top: 0;
-        right: $accountWidth + 1;
+        right: $accountWidth;
         width: 200px;
         min-height: 100%;
         background-color: inherit;
-        
+
         &.theme_dark {
-            border-left: 1px solid $dark_border;
+            border: 1px solid $dark_border;
+            border-top: none;
         }
         &.theme_light {
-            border-left: 1px solid $light_border;
+            border: 1px solid $light_border;
+            border-top: none;
         }
 
         .settings-header {

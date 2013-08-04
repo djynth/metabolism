@@ -21,10 +21,10 @@
 }
 /* line 21, ../sass/trackers.scss */
 #tracker-holder .tracker.theme_light {
-  color: black;
+  color: #505050;
   text-shadow: 1px 1px #c8c8c8;
-  background-color: #e6e6e6;
-  border: 1px solid #232323;
+  background-color: #f0f0f0;
+  border: 1px solid #646464;
 }
 /* line 28, ../sass/trackers.scss */
 #tracker-holder .tracker .tracker-header {
@@ -37,7 +37,7 @@
 }
 /* line 35, ../sass/trackers.scss */
 #tracker-holder .tracker .tracker-header.theme_light {
-  border-bottom: 1px solid #515151;
+  border-bottom: 1px solid #8c8c8c;
 }
 /* line 39, ../sass/trackers.scss */
 #tracker-holder .tracker .tracker-header h3 {
@@ -67,7 +67,7 @@
 }
 /* line 64, ../sass/trackers.scss */
 #tracker-holder .tracker .tracker-organ.theme_light {
-  border-bottom: 1px solid #3c3c3c;
+  border-bottom: 1px solid #a0a0a0;
 }
 /* line 68, ../sass/trackers.scss */
 #tracker-holder .tracker .tracker-organ p {
@@ -108,5 +108,5 @@
 }
 /* line 107, ../sass/trackers.scss */
 #tracker-holder .selected-organ.theme_light {
-  background-color: #d9d9d9;
+  background-color: #d0d0d0;
 }

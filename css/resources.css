@@ -48,7 +48,7 @@
 }
 /* line 48, ../sass/resources.scss */
 #resource-holder.theme_light {
-  border-left: 1px solid #232323;
+  border-left: 1px solid #646464;
 }
 /* line 53, ../sass/resources.scss */
 #resource-holder .resource-holder .resource-data {
@@ -75,7 +75,7 @@
 /* line 73, ../sass/resources.scss */
 #resource-visual.theme_light {
   background-color: gainsboro;
-  border-top: 1px solid #232323;
+  border-top: 1px solid #646464;
 }
 /* line 78, ../sass/resources.scss */
 #resource-visual .resource-visual-header {
@@ -90,10 +90,10 @@
 }
 /* line 87, ../sass/resources.scss */
 #resource-visual .resource-visual-header.theme_light {
-  background-color: #e6e6e6;
-  color: black;
+  background-color: #f0f0f0;
+  color: #505050;
   text-shadow: 1px 1px #c8c8c8;
-  border-bottom: 1px solid #232323;
+  border-bottom: 1px solid #646464;
 }
 /* line 94, ../sass/resources.scss */
 #resource-visual .resource-visual-header p, #resource-visual .resource-visual-header h3 {
