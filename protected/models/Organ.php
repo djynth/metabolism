@@ -3,6 +3,8 @@
 /**
  * @property id
  * @property name
+ * @property color
+ * @property description
  */
 class Organ extends CActiveRecord
 {

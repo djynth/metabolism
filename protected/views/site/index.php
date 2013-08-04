@@ -12,41 +12,10 @@ $this->pageTitle=Yii::app()->name;
 
 <canvas id="cell-canvas"></canvas>
 
-<div class="floating-visual" id="pathway-visual">
-    <p class="visual-label">Pathway</p>
-</div>
-
-<div class="floating-visual" id="organ-visual">
-    <p class="visual-label">Organ</p>
-</div>
-
-<div class="floating-visual" id="cell-visual">
-    <p class="visual-label">Cell</p>
-</div>
-
-<div class="floating-visual" id="resource-visual">
-    <p class="visual-label">Resource</p>
-</div>
-
-<div class="resource-bar" id="ph-holder">
-    <div class="progress">
-        <span class="resource-name">pH</span>
-        <span class="resource-value"></span>
-        <div class="bar"></div>
-    </div>
-</div>
-
 <?php $this->renderPartial('trackers'); ?>
 
 <div class="sidebar" id="resource-holder">
     <?php $this->renderPartial('resources'); ?>
-</div>
-
-<div id="notification-holder">
-    <div class="alert" id="notification">
-        <button type="button" class="close" id="alert-close">&times;</button>
-        <p id="alert-message"></p>
-    </div>
 </div>
 
 <div class="modal hide fade">

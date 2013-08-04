@@ -53,7 +53,6 @@ html, body {
     width:  $sidebarWidth;
     height: 100%;
     background-color: $dark_sidebarBackground;
-    overflow: hidden;
     z-index: 10;
 
     .sidebar-title {
@@ -78,7 +77,6 @@ html, body {
     }
 
     .global {
-        background: inherit;
         padding: 0px 6px;
     }
 
@@ -95,9 +93,72 @@ html, body {
         }
     }
 
+    .header-text {
+        .organ-popup {
+            display: none;
+            position: absolute;
+            background-color: $dark_background;
+            border: 1px solid $dark_border;
+            z-index: 20;
+            min-height: 20px;
+
+            .organ-cover {
+                background-color: inherit;
+                position: absolute;
+                
+                width: 1px;
+                height: 20px;
+                z-index: 30;
+            }
+
+            .organ-image {
+                display: block;
+                height: 150px;
+                margin: 25px auto;
+            }
+
+            .organ-description {
+                padding: 5px 10px;
+            }
+        }
+
+        .organ-popup-up {
+            bottom: -1px;
+
+            .organ-cover {
+                bottom: 0px;
+            }
+        }
+
+        .organ-popup-down {
+            top: -1px;
+
+            .organ-cover {
+                top: 0px;
+            }
+        }
+
+        .right {
+            left: 100%;
+            text-align: right;
+
+            .organ-cover {
+                left: -1px;
+            }
+        }
+
+        .left {
+            right: 100%;
+            text-align: left;
+
+            .organ-cover {
+                right: -1px;
+            }
+        }
+    }
+
     .accordian-content {
         padding: 0px 6px;
-        background: $dark_sidebarBackground;
     }
 
     .mCSB_container {
@@ -205,123 +266,6 @@ html, body {
     left: $sidebarWidth;
     width:  100% - 2*$sidebarWidth;
     height: 100%;
-}
-
-.floating-visual {
-    position: absolute;
-    top: $headerHeight + $visualTop;
-    width:  $visualWidth;
-    height: $visualHeight;
-    border: 2px solid rgba(53, 53, 53, 0.7);
-    border-radius: 16px;
-    background-color: rgba(115, 115, 115, 0.4);
-
-    .visual-content {
-        position: absolute;
-        top:  15px;
-        left: 6%;
-        width:  88%;
-        height: 79%;
-    }
-
-    .image-content {
-        position: absolute;
-        margin-top: 10px;
-        margin-right: 5%;
-        margin-left: 5%;
-        width: 90%;
-    }
-
-    .visual-label {
-        position: absolute;
-        bottom: 4px;
-        left:   8px;
-        margin: 0px;
-        color: rgba(38, 38, 38, 0.9);
-    }
-}
-
-#pathway-visual {
-    left: $sidebarWidth + $visualPadding;
-
-    .reaction {
-        p, i {
-            position: absolute;
-        }
-
-        .reaction-title {
-            font-weight: bold;
-        }
-
-        .reaction-multiplier {
-            right: 0px;
-        }
-
-        .reactants {
-            left: 0;
-            top:  25px;
-            width: 45%;
-            text-align: center;
-        }
-
-        .products {
-            right: 0;
-            top:   25px;
-            width: 45%;
-            text-align: center;
-        }
-
-        .arrow-holder {
-            position: absolute;
-            top: 25px;
-            width: 10%;
-            left: 45%;
-        }
-    }
-}
-
-#resource-visual {
-    right: $sidebarWidth + $visualPadding;
-}
-
-#organ-visual {
-    left: $sidebarWidth + $visualPadding + $visualWidth + $visualPadding;
-}
-
-#cell-visual {
-    right: $sidebarWidth + $visualPadding + $visualWidth + $visualPadding;
-}
-
-#ph-holder {
-    position: absolute;
-    top: $headerHeight + $visualTop + $visualHeight + 25px;
-    right: $sidebarWidth + $visualPadding;
-    width: $visualWidth;
-    padding: 2px;
-}
-
-#points {
-    left: $sidebarWidth + $visualPadding;
-}
-
-#turns {
-    right: $sidebarWidth + $visualPadding;
-}
-
-#notification-holder {
-    position: absolute;
-    width: 40%;
-    left: 30%;
-    bottom: $bottomPadding;
-
-    #notification {
-        display: none;
-        margin-bottom: 0px;
-
-        #alert-message {
-            min-height: 20px;
-        }
-    }
 }
 
 .hidden {
