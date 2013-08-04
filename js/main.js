@@ -1,3 +1,5 @@
+var DEFAULT_THEME = 'dark';
+
 $(document).ready(function() {
     updateTrackerSize();
 
@@ -114,7 +116,8 @@ $(document).ready(function() {
             data: {
                 username: $('#create-account-username').val(),
                 password: $('#create-account-password').val(),
-                confirm:  $('#create-account-confirm').val()
+                confirm:  $('#create-account-confirm').val(),
+                theme:    color_theme ? color_theme : DEFAULT_THEME
             },
             success: function(data) {
                 if (data.success) {
@@ -240,7 +243,7 @@ function updateTrackerSize()
 function setColorTheme(theme, save)
 {
     if (typeof theme === 'undefined' || theme === null) {
-        theme = 'dark';
+        theme = DEFAULT_THEME;
     }
 
     if (theme === 'light') {
@@ -256,6 +259,8 @@ function setColorTheme(theme, save)
         $('#theme-light').removeClass('btn-inverse').removeClass('active');
         $('#theme-dark').addClass('active');
     }
+
+    color_theme = theme;
 
     if (save) {
         $.ajax({

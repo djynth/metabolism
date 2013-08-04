@@ -36,6 +36,7 @@ class UserController extends Controller
             $username = $_POST['username'];
             $password = $_POST['password'];
             $confirm = $_POST['confirm'];
+            $theme = $_POST['theme'];
 
             $message = false;
             $success = false;
@@ -45,6 +46,7 @@ class UserController extends Controller
                         $record = new User;
                         $record->username = $username;
                         $record->password = crypt($password);
+                        $record->theme = $theme;
                         if ($record->save()) {
                             Yii::app()->user->login(new UserIdentity($username, $password), 3600*24);
                             $success = true;
