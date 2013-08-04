@@ -57,65 +57,123 @@ html, body {
   width: 19%;
   height: 100%;
   background-color: #505050;
-  overflow: hidden;
   z-index: 10;
 }
-/* line 59, ../sass/main.scss */
+/* line 58, ../sass/main.scss */
 .sidebar .sidebar-title {
   min-height: 28px;
 }
-/* line 62, ../sass/main.scss */
+/* line 61, ../sass/main.scss */
 .sidebar .sidebar-title p {
   margin: 0;
   padding-top: 6px;
   font-size: 18px;
 }
-/* line 68, ../sass/main.scss */
+/* line 67, ../sass/main.scss */
 .sidebar .sidebar-title #pathway-filter-icon {
   position: absolute;
   right: 10px;
   top: 7px;
   margin: 0;
 }
-/* line 74, ../sass/main.scss */
+/* line 73, ../sass/main.scss */
 .sidebar .sidebar-title #pathway-filter-icon:hover {
   cursor: pointer;
 }
-/* line 80, ../sass/main.scss */
+/* line 79, ../sass/main.scss */
 .sidebar .global {
-  background: inherit;
   padding: 0px 6px;
 }
-/* line 85, ../sass/main.scss */
+/* line 83, ../sass/main.scss */
 .sidebar .accordian-header {
   border-top: 1px solid #232323;
 }
-/* line 88, ../sass/main.scss */
+/* line 86, ../sass/main.scss */
 .sidebar .accordian-header .accordian-title {
   display: inline-block;
   margin: 0;
 }
-/* line 92, ../sass/main.scss */
+/* line 90, ../sass/main.scss */
 .sidebar .accordian-header .accordian-title:hover {
   cursor: pointer;
 }
-/* line 98, ../sass/main.scss */
+/* line 97, ../sass/main.scss */
+.sidebar .header-text .organ-popup {
+  display: none;
+  position: absolute;
+  background-color: #323232;
+  border: 1px solid #232323;
+  z-index: 20;
+  min-height: 20px;
+}
+/* line 105, ../sass/main.scss */
+.sidebar .header-text .organ-popup .organ-cover {
+  background-color: inherit;
+  position: absolute;
+  width: 1px;
+  height: 20px;
+  z-index: 30;
+}
+/* line 114, ../sass/main.scss */
+.sidebar .header-text .organ-popup .organ-image {
+  display: block;
+  height: 150px;
+  margin: 25px auto;
+}
+/* line 120, ../sass/main.scss */
+.sidebar .header-text .organ-popup .organ-description {
+  padding: 5px 10px;
+}
+/* line 125, ../sass/main.scss */
+.sidebar .header-text .organ-popup-up {
+  bottom: -1px;
+}
+/* line 128, ../sass/main.scss */
+.sidebar .header-text .organ-popup-up .organ-cover {
+  bottom: 0px;
+}
+/* line 133, ../sass/main.scss */
+.sidebar .header-text .organ-popup-down {
+  top: -1px;
+}
+/* line 136, ../sass/main.scss */
+.sidebar .header-text .organ-popup-down .organ-cover {
+  top: 0px;
+}
+/* line 141, ../sass/main.scss */
+.sidebar .header-text .right {
+  left: 100%;
+  text-align: right;
+}
+/* line 145, ../sass/main.scss */
+.sidebar .header-text .right .organ-cover {
+  left: -1px;
+}
+/* line 150, ../sass/main.scss */
+.sidebar .header-text .left {
+  right: 100%;
+  text-align: left;
+}
+/* line 154, ../sass/main.scss */
+.sidebar .header-text .left .organ-cover {
+  right: -1px;
+}
+/* line 160, ../sass/main.scss */
 .sidebar .accordian-content {
   padding: 0px 6px;
-  background: #505050;
 }
-/* line 103, ../sass/main.scss */
+/* line 164, ../sass/main.scss */
 .sidebar .mCSB_container {
   margin-right: 10px;
 }
-/* line 107, ../sass/main.scss */
+/* line 168, ../sass/main.scss */
 .sidebar .mCSB_scrollTools {
   width: 6px !important;
   height: 95% !important;
   margin-top: 5%;
 }
 
-/* line 114, ../sass/main.scss */
+/* line 175, ../sass/main.scss */
 #header {
   position: absolute;
   left: 19%;
@@ -125,14 +183,14 @@ html, body {
   border-bottom: 1px solid #232323;
   z-index: 5;
 }
-/* line 123, ../sass/main.scss */
+/* line 184, ../sass/main.scss */
 #header p {
   display: inline-block;
   margin: 4px 5px 0px;
   color: #afafaf;
   text-shadow: 1px 1px #0a0a0a;
 }
-/* line 130, ../sass/main.scss */
+/* line 191, ../sass/main.scss */
 #header #account {
   float: right;
   width: 300px;
@@ -142,70 +200,70 @@ html, body {
   min-height: 100%;
   background-color: inherit;
 }
-/* line 139, ../sass/main.scss */
+/* line 200, ../sass/main.scss */
 #header #account .account-header {
   height: 28px;
 }
-/* line 142, ../sass/main.scss */
+/* line 203, ../sass/main.scss */
 #header #account .account-header:hover {
   cursor: pointer;
 }
-/* line 147, ../sass/main.scss */
+/* line 208, ../sass/main.scss */
 #header #account .icon-user {
   position: absolute;
   top: 7px;
   right: 7px;
   margin: 0;
 }
-/* line 154, ../sass/main.scss */
+/* line 215, ../sass/main.scss */
 #header #account .login-dropdown {
   display: none;
   background-color: inherit;
   width: 90%;
   padding: 10px 5%;
 }
-/* line 160, ../sass/main.scss */
+/* line 221, ../sass/main.scss */
 #header #account .login-dropdown input[type=text], #header #account .login-dropdown input[type=password] {
   width: 94%;
   padding-right: 3%;
   padding-left: 3%;
 }
-/* line 166, ../sass/main.scss */
+/* line 227, ../sass/main.scss */
 #header #account .login-dropdown p {
   margin-bottom: 5px;
   display: block;
 }
-/* line 171, ../sass/main.scss */
+/* line 232, ../sass/main.scss */
 #header #account .login-dropdown .button-holder {
   width: 100%;
   text-align: right;
 }
-/* line 176, ../sass/main.scss */
+/* line 237, ../sass/main.scss */
 #header #account .login-dropdown .control-group {
   margin: 0;
 }
-/* line 180, ../sass/main.scss */
+/* line 241, ../sass/main.scss */
 #header #account .login-dropdown .dropdown-footer {
   text-align: center;
 }
-/* line 184, ../sass/main.scss */
+/* line 245, ../sass/main.scss */
 #header #account .login-dropdown .error-info {
   color: red;
   margin: 0;
   max-width: 75%;
 }
-/* line 190, ../sass/main.scss */
+/* line 251, ../sass/main.scss */
 #header #account .login-dropdown .success-info {
   color: green;
   margin: 0;
   max-width: 75%;
 }
-/* line 196, ../sass/main.scss */
+/* line 257, ../sass/main.scss */
 #header #account .login-dropdown .logout-holder {
   margin-top: 3px;
 }
 
-/* line 203, ../sass/main.scss */
+/* line 264, ../sass/main.scss */
 #cell-canvas {
   position: absolute;
   left: 19%;
@@ -213,136 +271,12 @@ html, body {
   height: 100%;
 }
 
-/* line 210, ../sass/main.scss */
-.floating-visual {
-  position: absolute;
-  top: 58px;
-  width: 13%;
-  height: 225px;
-  border: 2px solid rgba(53, 53, 53, 0.7);
-  border-radius: 16px;
-  background-color: rgba(115, 115, 115, 0.4);
-}
-/* line 219, ../sass/main.scss */
-.floating-visual .visual-content {
-  position: absolute;
-  top: 15px;
-  left: 6%;
-  width: 88%;
-  height: 79%;
-}
-/* line 227, ../sass/main.scss */
-.floating-visual .image-content {
-  position: absolute;
-  margin-top: 10px;
-  margin-right: 5%;
-  margin-left: 5%;
-  width: 90%;
-}
-/* line 235, ../sass/main.scss */
-.floating-visual .visual-label {
-  position: absolute;
-  bottom: 4px;
-  left: 8px;
-  margin: 0px;
-  color: rgba(38, 38, 38, 0.9);
-}
-
-/* line 244, ../sass/main.scss */
-#pathway-visual {
-  left: 21%;
-}
-/* line 248, ../sass/main.scss */
-#pathway-visual .reaction p, #pathway-visual .reaction i {
-  position: absolute;
-}
-/* line 252, ../sass/main.scss */
-#pathway-visual .reaction .reaction-title {
-  font-weight: bold;
-}
-/* line 256, ../sass/main.scss */
-#pathway-visual .reaction .reaction-multiplier {
-  right: 0px;
-}
-/* line 260, ../sass/main.scss */
-#pathway-visual .reaction .reactants {
-  left: 0;
-  top: 25px;
-  width: 45%;
-  text-align: center;
-}
-/* line 267, ../sass/main.scss */
-#pathway-visual .reaction .products {
-  right: 0;
-  top: 25px;
-  width: 45%;
-  text-align: center;
-}
-/* line 274, ../sass/main.scss */
-#pathway-visual .reaction .arrow-holder {
-  position: absolute;
-  top: 25px;
-  width: 10%;
-  left: 45%;
-}
-
-/* line 283, ../sass/main.scss */
-#resource-visual {
-  right: 21%;
-}
-
-/* line 287, ../sass/main.scss */
-#organ-visual {
-  left: 36%;
-}
-
-/* line 291, ../sass/main.scss */
-#cell-visual {
-  right: 36%;
-}
-
-/* line 295, ../sass/main.scss */
-#ph-holder {
-  position: absolute;
-  top: 308px;
-  right: 21%;
-  width: 13%;
-  padding: 2px;
-}
-
-/* line 303, ../sass/main.scss */
-#points {
-  left: 21%;
-}
-
-/* line 307, ../sass/main.scss */
-#turns {
-  right: 21%;
-}
-
-/* line 311, ../sass/main.scss */
-#notification-holder {
-  position: absolute;
-  width: 40%;
-  left: 30%;
-  bottom: 9px;
-}
-/* line 317, ../sass/main.scss */
-#notification-holder #notification {
-  display: none;
-  margin-bottom: 0px;
-}
-/* line 321, ../sass/main.scss */
-#notification-holder #notification #alert-message {
-  min-height: 20px;
-}
-
-/* line 327, ../sass/main.scss */
+/* line 271, ../sass/main.scss */
 .hidden {
   display: none;
 }
 
-/* line 331, ../sass/main.scss */
+/* line 275, ../sass/main.scss */
 .error {
   color: red;
 }

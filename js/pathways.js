@@ -1,13 +1,13 @@
+var SOURCE_HIGHLIGHT_COLOR      = '82,117,255';
+var DESTINATION_HIGHLIGHT_COLOR = '233,25,44';
+
 $(document).ready(function() {
     resizeFilter(true);
+    resizePathways();
 
     $(window).resize(function() { resizeFilter(false); });
 
-    $('.pathway').hover(function() {
-        visualizePathway($(this).attr('value'), true);
-    }, function() {
-        visualizePathway($(this).attr('value'), false);
-    });
+    $('.pathway').resize(resizePathways);
 
     $('.pathway-run').click(function() {
         var id = parseInt($(this).parents('.pathway').attr('value'));
@@ -102,12 +102,6 @@ $(document).ready(function() {
         $('#filter-available, #filter-unavailable, #filter-catabolic, #filter-anabolic').removeClass('active');
         onFilterChange();
     });
-
-    $('.reactant, .product').hover(function() {
-        visualizeResource($(this).attr('res-id'), true);
-    }, function() {
-        visualizeResource($(this).attr('res-id'), false);
-    });
 });
 
 function resizeFilter(hide)
@@ -128,13 +122,21 @@ function resizeFilter(hide)
             $(this).siblings().each(function() {
                 w -= $(this).outerWidth();
             });
-            $(this).outerWidth(w-2);    // subtract 2 for borders?
+            $(this).outerWidth(w - 2);    // subtract 2 for borders?
         });
     });
 
     if (hide) {
         $('#pathway-filter').hide();
     }
+}
+
+function resizePathways()
+{
+    $('.pathway-inner').each(function() {
+        $(this).width($(this).parent().outerWidth() + 2);
+        $(this).height($(this).parent().outerHeight() + 2);
+    });
 }
 
 function refreshPathways()
@@ -230,8 +232,6 @@ function updatePathwayButtons(pathway)
         minus.removeClass('disabled').removeAttr('disabled');
         bottom.removeClass('disabled').removeAttr('disabled');
     }
-
-    updatePathwayVisualization(pathway.attr('value'));
 }
 
 function getMaxRuns(pathway, organ)
@@ -428,76 +428,24 @@ function onFilterChange()
     });
 }
 
-function visualizePathway(pathway, show)
+function highlightSource(pathwayId, highlight)
 {
-    if (show) {
-        var visualization = $('<div>')
-            .attr('name', pathway)
-            .css('display', 'none')
-            .addClass('visual-content')
-            .append($('<div>')
-                .addClass('reaction')
-                .append($('<p>')
-                    .addClass('reaction-title')
-                    .text('Balanced Reaction'))
-                .append($('<p>')
-                    .addClass('reaction-multiplier'))
-                .append($('<p>')
-                    .addClass('reactants')
-                    .text('Reactants'))
-                .append($('<div>')
-                    .addClass('arrow-holder')
-                    .append($('<i>')
-                        .addClass('icon-arrow-right arrow')))
-                .append($('<p>')
-                    .addClass('products')
-                    .text('Products')))
-            .append($('<div>')
-                .append($('<table>')
-                    .addClass('resources')));
-
-        $('#pathway-visual').append(visualization);
-
-        updatePathwayVisualization(pathway);
-
-        setTimeout(function() {
-            visualization.fadeIn(300);
-
-            if ($('#pathway-visual div[name="' + pathway + '"]').length > 0) {
-                $('#pathway-visual .visual-label').text($('.pathway[value="' + pathway + '"] .title').first().text());
-            }
-        }, 350);
+    var pathway = $('.pathway[value="' + pathwayId + '"]');
+    pathway.addClass('source');
+    if (highlight) {
+        pathway.find('.pathway-inner').animate({ boxShadow: '0 0 3px 3px rgb(' + SOURCE_HIGHLIGHT_COLOR + ') inset' });
     } else {
-        $('#pathway-visual div[name="' + pathway + '"]').fadeOut(150, function() {
-            $(this).remove();
-
-            $('#pathway-visual .visual-label').text('Pathway');
-        });
+        pathway.find('.pathway-inner').animate({ boxShadow: '0 0 3px 3px rgba(' + SOURCE_HIGHLIGHT_COLOR + ',0) inset' });
     }
 }
 
-function updatePathwayVisualization(pathway)
+function highlightDestination(pathwayId, highlight)
 {
-    var pathwayElem = $('.pathway[value="' + pathway + '"]').first();
-    var multiplier = parseInt(pathwayElem.find('.pathway-run').attr('value'));
-    if (multiplier == 0 || isNaN(multiplier)) {
-        multiplier = 1;
-    }
-
-    var reactants = '';
-    var products = '';
-
-    pathwayElem.find('.reactant').each(function() {
-        reactants += Math.abs(multiplier*parseInt($(this).attr('value'))) + 'x<strong>' + $(this).attr('abbr') + '</strong> ';
-    });
-    reactants = reactants.trim();
-
-    pathwayElem.find('.product').each(function() {
-        products += Math.abs(multiplier*parseInt($(this).attr('value'))) + 'x<strong>' + $(this).attr('abbr') + '</strong> ';
-    });
-    products = products.trim();
-
-    $('#pathway-visual .visual-content[name="' + pathway + '"]').find('.reaction-multiplier').text('(x' + multiplier + ')');
-    $('#pathway-visual .visual-content[name="' + pathway + '"]').find('.reactants').html(reactants);
-    $('#pathway-visual .visual-content[name="' + pathway + '"]').find('.products').html(products);
+    var pathway = $('.pathway[value="' + pathwayId + '"]');
+    pathway.addClass('destination');
+    if (highlight) {
+        pathway.find('.pathway-inner').animate({ boxShadow: '0 0 3px 3px rgb(' + DESTINATION_HIGHLIGHT_COLOR + ') inset' });
+    } else {
+        pathway.find('.pathway-inner').animate({ boxShadow: '0 0 3px 3px rgba(' + DESTINATION_HIGHLIGHT_COLOR + ',0) inset' });
+    }   
 }

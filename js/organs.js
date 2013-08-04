@@ -11,26 +11,36 @@ $(document).ready(function() {
             selectOrgan(header.attr('value'));
         }
     });
+
+    $('.organ-info').click(function() {
+        var popup = $(this).siblings('.organ-popup');
+        var content = popup.find('.organ-image,.organ-description');
+        if (!popup.is(':visible')) {
+            if ($(window).height() - $(this).offset().top > 400) {
+                popup.addClass('organ-popup-down');
+            } else {
+                popup.addClass('organ-popup-up');
+            }
+
+            popup.css('width', 0).show();
+            content.hide();
+
+            popup.animate({ width: 350 }, 200, function() {
+                content.slideDown(300);
+            });
+        } else {
+            content.slideUp(300, function() {
+                popup.animate({ width: 0 }, 200, function() {
+                    popup.removeClass('organ-popup-up organ-popup-down');
+                    popup.hide();
+                });
+            });
+        }
+    });
 });
 
 function selectOrgan(organ, firstTime)
 {
-    $('#organ-visual').find('img').fadeOut(ORGAN_FADE_OUT, function() {
-        $(this).remove();
-    });
-
-    var organImage = $('<img>')
-        .attr('name', organ)
-        .attr('src', baseUrl + 'img/organs/' + organ)
-        .attr('alt', organ)
-        .addClass('image-content')
-        .css('display', 'none');
-    $('#organ-visual').append(organImage);
-
-    setTimeout(function() {
-        organImage.fadeIn(ORGAN_FADE_IN);
-    }, ORGAN_FADE_OUT);
-
     $('.tracker-organ').each(function() {
         if ($(this).attr('value') == organ) {
             $(this).addClass('selected-organ');
@@ -76,8 +86,6 @@ function selectOrgan(organ, firstTime)
         }
     });
 
-    $('.filter').slideUp();
-
     $.ajax({
         url: 'index.php?r=site/organColor',
         type: 'POST',
@@ -89,4 +97,11 @@ function selectOrgan(organ, firstTime)
             $('#cell-canvas').animate({ backgroundColor: '#' + data.color }, ORGAN_FADE_IN + ORGAN_FADE_OUT);
         }
     });
+
+    resizePathways();
+}
+
+function getSelectedOrgan()
+{
+    return parseInt($('.accordian-content.active').attr('value'));
 }

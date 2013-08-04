@@ -7,10 +7,9 @@ $global = Organ::getGlobal();
     <p>Molecular Resources</p>
 </div>
 
-<div class="header-text">
-    <p><?= $global->name ?></p>
-    <i class="icon-info-sign icon-white organ-info"></i>
-</div>
+<?php
+$this->renderPartial('organ-header', array('organ' => $global, 'right' => false));
+?>
 
 <div class="resource-holder global" value="<?= $global->id ?>">
     <?php
@@ -21,11 +20,18 @@ $global = Organ::getGlobal();
     ?>
 </div>
 
-<?php foreach($organs as $organ): ?>
-    <div class="accordian-header header-text" value="<?= $organ->id ?>">
-        <p class="accordian-title"><?= $organ->name ?></p>
-        <i class="icon-info-sign icon-white organ-info"></i>
+<div class="resource-holder global" id="ph-holder">
+    <div class="resource-data resource-bar">
+        <div class="progress">
+            <span class="resource-name">pH</span>
+            <span class="resource-value"></span>
+            <div class="bar"></div>
+        </div>
     </div>
+</div>
+
+<?php foreach($organs as $organ):
+    $this->renderPartial('organ-header', array('organ' => $organ, 'right' => false)); ?>
 
     <div class="accordian-content resource-holder scrollbar-content" value="<?= $organ->id ?>">
         <?php
@@ -36,3 +42,10 @@ $global = Organ::getGlobal();
         ?>
     </div>
 <?php endforeach ?>
+
+<div id="resource-visual">
+    <div class="resource-visual-header">
+        <h3 class="resource-visual-title">Resource</h3>
+        <p class="resource-visual-amount"></p>
+    </div>
+</div>

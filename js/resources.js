@@ -4,53 +4,40 @@ var TRACKER_ICONS = 5;
 var TRACKER_WAIT = 300;         // the amount of time between tracker animations, in ms
 var TRACKER_ANIMATION = 600;    // the duration of a tracker animtion, in ms
 
+var activeResource = null;
+var selectedResource = false;
+
 $(document).ready(function() {
     refreshResources();
 
-    $('.resource-data').hover(function() {
-        visualizeResource($(this).attr('value'), true);
+    $('.resource-data').hoverIntent(function() {
+        if (!selectedResource) {
+            activeResource = $(this).attr('value');
+            updateResourceVisual();
+        }
     }, function() {
-        visualizeResource($(this).attr('value'), false);
+        if (!selectedResource) {
+            activeResource = null;
+            updateResourceVisual();
+        }
+    });
+
+    $('.resource-data').click(function() {
+        if (selectedResource && activeResource == $(this).attr('value')) {
+            selectedResource = false;
+            activeResource = null;
+        } else {
+            if (selectedResource) {
+                activeResource = null;
+                updateResourceVisual();
+            }
+
+            selectedResource = true;
+            activeResource = $(this).attr('value');
+        }
+        updateResourceVisual();
     });
 });
-
-function visualizeResource(resource, show)
-{
-    if (show) {
-        var visualization = $('<img>')
-            .attr('name', resource)
-            .attr('alt', resource)
-            .attr('src', baseUrl + 'img/molecules/' + resource)
-            .addClass('image-content')
-            .css('display', 'none');
-
-        $('#resource-visual').append(visualization);
-
-        setTimeout(function() {
-            visualization.fadeIn(300);
-
-            $.ajax({
-                url: 'index.php?r=site/resourceFullName',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    resource: resource
-                },
-                success: function(data) {
-                    if ($('#resource-visual img[name="' + resource + '"]').length > 0) {
-                        $('#resource-visual .visual-label').text(data.name);
-                    }
-                }
-            });
-        }, 350);
-    } else {
-        $('#resource-visual img[name="' + resource + '"]').fadeOut(150, function() {
-            $(this).remove();
-
-            $('#resource-visual .visual-label').text('Resource');
-        });
-    }
-}
 
 function refreshResources(resources)
 {
@@ -117,6 +104,62 @@ function getResourceValue(resource, organ)
 function getResourceName(resource, organ)
 {
     return getResourceElement(resource, organ).find('.resource-name').html();
+}
+
+function isResourceGlobal(resource)
+{
+    return $('.resource-holder.global').find('.resource-data[value="' + resource +'"]').length > 0;
+}
+
+function updateResourceVisual(organChanged)
+{
+    if (organChanged) {
+        if (activeResource !== null && !isResourceGlobal(activeResource)) {
+            $('#resource-visual').find('.resource-visual-amount').text(getResourceValue(activeResource, getSelectedOrgan()));
+        }
+    } else {
+        if (activeResource === null) {
+            $('.resource-visual-content').fadeOut(function() {
+                $(this).remove();
+            });
+            $('#resource-visual').find('.resource-visual-title').text('Resource');
+            $('#resource-visual').find('.resource-visual-amount').text('');
+
+            $('.pathway.source').each(function() {
+                highlightSource($(this).attr('value'), false);
+            });
+
+            $('.pathway.destination').each(function() {
+                highlightDestination($(this).attr('value'), false);
+            })
+        } else {
+            $.ajax({
+                url: 'index.php?r=site/resourceVisual',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    resource: activeResource,
+                },
+                success: function(data) {
+                    if (activeResource == data.resource) {
+                        $('#resource-visual').append(data.visual);
+                        $('.resource-visual-content[value="' + data.resource + '"]').fadeIn();
+                        $('#resource-visual').find('.resource-visual-title').text(data.resource_name);
+                        var organ = isResourceGlobal(data.resource) ? GLOBAL_ORGAN : getSelectedOrgan();
+                        $('#resource-visual').find('.resource-visual-amount').text(getResourceValue(data.resource, organ));
+
+                        for (var i = 0; i < data.sources.length; i++) {
+                            highlightSource(data.sources[i].id, true);
+                        }
+
+                        for (var i = 0; i < data.destinations.length; i++) {
+                            highlightDestination(data.destinations[i].id, true);
+                        }
+                    }
+                }
+            });
+        }
+    }
 }
 
 function updateTracker(resource, organ, amount, change, tracker)

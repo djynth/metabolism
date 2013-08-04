@@ -121,7 +121,21 @@ class SiteController extends Controller
     {
         if (isset($_POST) && count($_POST) > 0) {
             echo CJavaScript::jsonEncode(array(
-                'name' => Resource::model()->findByAttributes(array('id' => $_POST['resource']))->full_name
+                'name' => Resource::model()->findByAttributes(array('id' => $_POST['resource']))->full_name,
+            ));
+        }
+    }
+
+    public function actionResourceVisual()
+    {
+        if (isset($_POST) && count($_POST) > 0) {
+            $resource = Resource::model()->findByAttributes(array('id' => $_POST['resource']));
+            echo CJavaScript::jsonEncode(array(
+                'visual' => $this->renderPartial('resource-visual', array('resource' => $resource), true),
+                'resource' => $resource->id,
+                'resource_name' => $resource->name,
+                'sources' => $resource->getSources(),
+                'destinations' => $resource->getDestinations(),
             ));
         }
     }
