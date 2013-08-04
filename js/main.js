@@ -247,11 +247,13 @@ function setColorTheme(theme)
         $('#content').find('*').removeClass('theme_dark').addClass('theme_light');
         $('i').removeClass('icon-white');
         $('.btn').removeClass('btn-inverse');
-        $('#theme-dark').addClass('btn-inverse');
+        $('#theme-dark').addClass('btn-inverse').removeClass('active');
+        $('#theme-light').addClass('active');
     } else if (theme === 'dark') {
         $('#content').find('*').removeClass('theme_light').addClass('theme_dark');
         $('i').addClass('icon-white');
         $('.btn').addClass('btn-inverse');
-        $('#theme-light').removeClass('btn-inverse');
+        $('#theme-light').removeClass('btn-inverse').removeClass('active');
+        $('#theme-dark').addClass('active');
     }
 }
