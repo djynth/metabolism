@@ -1,6 +1,8 @@
 $(document).ready(function() {
     updateTrackerSize();
 
+    setColorTheme(color_theme);
+
     $(window).resize(function() { updateScrollbars(true); updateTrackerSize(); });
 
     $('.account-header').click(function() {
@@ -9,7 +11,13 @@ $(document).ready(function() {
 
     $('.settings-header').click(function() {
         $('.settings-dropdown').slideToggle();
-    })
+    });
+
+    $('#settings-apply').click(function() {
+        var theme = $(this).siblings('#theme-holder').find('.btn.active').attr('value');
+
+        setColorTheme(theme);
+    });
 
     $('#create-account-username').change(function() {
         var elem = $(this);
@@ -227,4 +235,23 @@ function updateTrackerSize()
     var trackers = $('.tracker');
     var width = $('#tracker-holder').width()/trackers.length;
     trackers.width(width);
+}
+
+function setColorTheme(theme)
+{
+    if (typeof theme === 'undefined' || theme === null) {
+        theme = 'dark';
+    }
+
+    if (theme === 'light') {
+        $('#content').find('*').removeClass('theme_dark').addClass('theme_light');
+        $('i').removeClass('icon-white');
+        $('.btn').removeClass('btn-inverse');
+        $('#theme-dark').addClass('btn-inverse');
+    } else if (theme === 'dark') {
+        $('#content').find('*').removeClass('theme_light').addClass('theme_dark');
+        $('i').addClass('icon-white');
+        $('.btn').addClass('btn-inverse');
+        $('#theme-light').removeClass('btn-inverse');
+    }
 }

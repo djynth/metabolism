@@ -9,7 +9,7 @@ $global = Organ::getGlobal();
 
     <div id="pathway-filter">
         <div id="filter-row-search" class="filter-row">
-            <div class="input-dark-add-on input-prepend">
+            <div class="input-themed-add-on input-prepend">
                 <span class="add-on"><i class="icon-search icon-white"></i></span>
                 <input type="text" placeholder="Filter By Name" id="filter-name">
             </div>
@@ -34,12 +34,12 @@ $global = Organ::getGlobal();
         </div>
 
         <div id="filter-row-reaction" class="filter-row">
-            <div class="input-dark-add-on input-prepend">
+            <div class="input-themed-add-on input-prepend">
                 <span class="add-on"><i class="icon-search icon-white"></i></span>
                 <input type="text" placeholder="Reactant" id="filter-reactant">
             </div>
 
-            <div class="input-dark-add-on input-prepend">
+            <div class="input-themed-add-on input-prepend">
                 <span class="add-on"><i class="icon-search icon-white"></i></span>
                 <input type="text" placeholder="Product" id="filter-product">
             </div>

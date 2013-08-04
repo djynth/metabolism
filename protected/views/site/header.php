@@ -15,8 +15,8 @@ $guest = Yii::app()->user->getIsGuest();
         <div class="settings-dropdown">
             <p>Color Theme</p>
             <div id="theme-holder" class="btn-group" data-toggle="buttons-radio">
-                <button id="theme-dark"  class="btn btn-small btn-inverse active">Dark</button>
-                <button id="theme-light" class="btn btn-small">Light</button>
+                <button id="theme-dark"  value="dark"  class="btn btn-small btn-inverse active">Dark</button>
+                <button id="theme-light" value="light" class="btn btn-small">Light</button>
             </div>
 
             <button id="settings-apply" class="btn btn-small btn-inverse">Apply</button>
@@ -34,10 +34,10 @@ $guest = Yii::app()->user->getIsGuest();
             <div class="login-holder">
                 <p>Login</p>
                 <div class="control-group">
-                    <input id="login-username" type="text"     placeholder="Username" class="input-dark">
+                    <input id="login-username" type="text"     placeholder="Username" class="input-themed">
                 </div>
                 <div class="control-group">
-                    <input id="login-password" type="password" placeholder="Password" class="input-dark">
+                    <input id="login-password" type="password" placeholder="Password" class="input-themed">
                 </div>
                 <p id="login-error" class="error-info"></p>
                 <div class="button-holder">
@@ -47,13 +47,13 @@ $guest = Yii::app()->user->getIsGuest();
             <div class="create-account-holder">
                 <p>Create Account</p>
                 <div class="control-group">
-                    <input id="create-account-username" type="text" placeholder="Username" class="input-dark">
+                    <input id="create-account-username" type="text" placeholder="Username" class="input-themed">
                 </div>
                 <div class="control-group">
-                    <input id="create-account-password" type="password" placeholder="Password" class="input-dark">
+                    <input id="create-account-password" type="password" placeholder="Password" class="input-themed">
                 </div>
                 <div class="control-group">
-                    <input id="create-account-confirm" type="password" placeholder="Confirm Password" class="input-dark">
+                    <input id="create-account-confirm" type="password" placeholder="Confirm Password" class="input-themed">
                 </div>
                 <p id="create-account-error" class="error-info"></p>
                 <div class="button-holder">
@@ -69,13 +69,13 @@ $guest = Yii::app()->user->getIsGuest();
             <div class="change-password-holder">
                 <p>Change Password</p>
                 <div class="control-group">
-                    <input id="change-password-current" type="password" placeholder="Current Password" class="input-dark">
+                    <input id="change-password-current" type="password" placeholder="Current Password" class="input-themed">
                 </div>
                 <div class="control-group">
-                    <input id="change-password-new" type="password" placeholder="New Password" class="input-dark">
+                    <input id="change-password-new" type="password" placeholder="New Password" class="input-themed">
                 </div>
                 <div class="control-group">
-                    <input id="change-password-confirm" type="password" placeholder="Confirm New Password" class="input-dark">
+                    <input id="change-password-confirm" type="password" placeholder="Confirm New Password" class="input-themed">
                 </div>
                 <p id="change-password-error" class="error-info"></p>
                 <p id="change-password-success" class="success-info"></p>

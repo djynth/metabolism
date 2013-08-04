@@ -8,9 +8,16 @@
 
     .progress {
         background-image: none;
-        background-color: $dark_elementBackground;
-        border: 1px solid $dark_elementBorder;
         height: inherit;
+
+        &.theme_dark {
+            background-color: $dark_elementBackground;
+            border: 1px solid $dark_elementBorder;
+        }
+        &.theme_light {
+            background-color: $light_elementBackground;
+            border: 1px solid $light_elementBorder;
+        }
     }
 
     span {
@@ -34,7 +41,13 @@
 
 #resource-holder {
     right: 0px;
-    border-left: 1px solid $dark_border;
+    
+    &.theme_dark {
+        border-left: 1px solid $dark_border;
+    }
+    &.theme_light {
+        border-left: 1px solid $light_border;
+    }
 
     .resource-holder {
         .resource-data {
@@ -51,16 +64,32 @@
 #resource-visual {
     width: 100%;
     height: 200px;
-    background-color: $dark_sidebarBackground;
-    border-top: 1px solid $dark_border;
     position: relative;
 
+    &.theme_dark {
+        background-color: $dark_sidebarBackground;
+        border-top: 1px solid $dark_border;
+    }
+    &.theme_light {
+        background-color: $light_sidebarBackground;
+        border-top: 1px solid $light_border;
+    }
+
     .resource-visual-header {
-        background-color: $dark_background;
-        color: $dark_text;
-        text-shadow: 1px 1px $dark_textShadow;
         padding-left: 10px;
-        border-bottom: 1px solid $dark_border;
+
+        &.theme_dark {
+            background-color: $dark_background;
+            color: $dark_text;
+            text-shadow: 1px 1px $dark_textShadow;
+            border-bottom: 1px solid $dark_border;
+        }
+        &.theme_light {
+            background-color: $light_background;
+            color: $light_text;
+            text-shadow: 1px 1px $light_textShadow;
+            border-bottom: 1px solid $light_border;
+        }
 
         p, h3 {
             margin: 0;

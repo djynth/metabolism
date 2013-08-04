@@ -9,31 +9,61 @@ html, body {
     @include user-select(none);
 }
 
-.input-dark {
-    border-color: $dark_inputBorder !important;
-    background: $dark_inputBackground !important;
+.input-themed {
+    &.theme_dark {
+        border-color: $dark_inputBorder !important;
+        background: $dark_inputBackground !important;
+    }
+    &.theme_light {
+        border-color: $light_inputBorder !important;
+        background: $light_inputBackground !important;
+    }
 }
 
-.input-dark-add-on {
-    border-color: $dark_inputBorder;
+.input-themed-add-on {
+    &.theme_dark {
+        border-color: $dark_inputBorder;
+    }
+    &.theme_light {
+        border-color: $light_inputBorder;
+    }
 
     .add-on {
         border-color: inherit !important;
-        background: $dark_inputAddOnBackground !important;
+        &.theme_dark {
+            background: $dark_inputAddOnBackground !important;
+        }
+        &.theme_light {
+            background: $light_inputAddOnBackground !important;
+        }
     }
 
     input {
         border-color: inherit !important;
-        background: $dark_inputBackground !important;
+        &.theme_dark {
+            background: $dark_inputBackground !important;
+        }
+        &.theme_light {
+            background: $light_inputBackground !important;
+        }
     }
 }
 
 .header-text {
     position: relative;
-    background-color: $dark_background;
-    color: $dark_text;
-    text-shadow: 1px 1px $dark_textShadow;
-    border-bottom: 1px solid $dark_border;
+
+    &.theme_dark {
+        background-color: $dark_background;
+        color: $dark_text;
+        text-shadow: 1px 1px $dark_textShadow;
+        border-bottom: 1px solid $dark_border;
+    }
+    &.theme_light {
+        background-color: $light_background;
+        color: $light_text;
+        text-shadow: 1px 1px $light_textShadow;
+        border-bottom: 1px solid $light_border;
+    }
 
     .organ-info {
         position: absolute;
@@ -52,8 +82,14 @@ html, body {
     position: absolute;
     width:  $sidebarWidth;
     height: 100%;
-    background-color: $dark_sidebarBackground;
     z-index: 10;
+
+    &.theme_dark {
+        background-color: $dark_sidebarBackground;
+    }
+    &.theme_light {
+        background-color: $light_sidebarBackground;
+    }
 
     .sidebar-title {
         min-height: $headerHeight;
@@ -81,7 +117,12 @@ html, body {
     }
 
     .accordian-header {
-        border-top: 1px solid $dark_border;
+        &.theme_dark {
+            border-top: 1px solid $dark_border;
+        }
+        &.theme_light {
+            border-top: 1px solid $light_border;
+        }
 
         .accordian-title {
             display: inline-block;
@@ -97,10 +138,17 @@ html, body {
         .organ-popup {
             display: none;
             position: absolute;
-            background-color: $dark_background;
-            border: 1px solid $dark_border;
             z-index: 20;
             min-height: 20px;
+
+            &.theme_dark {
+                background-color: $dark_background;
+                border: 1px solid $dark_border;
+            }
+            &.theme_light {
+                background-color: $light_background;
+                border: 1px solid $light_border;
+            }
 
             .organ-cover {
                 background-color: inherit;
@@ -177,15 +225,29 @@ html, body {
     left: $sidebarWidth;
     width: 100% - 2*$sidebarWidth;
     height: $headerHeight;
-    background-color: $dark_background;
-    border-bottom: 1px solid $dark_border;
     z-index: 5;
+
+    &.theme_dark {
+        background-color: $dark_background;
+        border-bottom: 1px solid $dark_border;
+    }
+    &.theme_light {
+        background-color: $light_background;
+        border-bottom: 1px solid $light_border;
+    }
 
     p {
         display: inline-block;
         margin: 4px 5px 0px;
-        color: $dark_text;
-        text-shadow: 1px 1px $dark_textShadow;
+        
+        &.theme_dark {
+            color: $dark_text;
+            text-shadow: 1px 1px $dark_textShadow;
+        }
+        &.theme_light {
+            color: $light_text;
+            text-shadow: 1px 1px $light_textShadow;
+        }
     }
 
     #settings {
@@ -195,7 +257,13 @@ html, body {
         width: 200px;
         min-height: 100%;
         background-color: inherit;
-        border-left: 1px solid $dark_border;
+        
+        &.theme_dark {
+            border-left: 1px solid $dark_border;
+        }
+        &.theme_light {
+            border-left: 1px solid $light_border;
+        }
 
         .settings-header {
             height: $headerHeight;
@@ -242,9 +310,16 @@ html, body {
         float: right;
         width:  $accountWidth;
         min-height: 100%;
-        border-left: 1px solid $dark_border;
-        border-bottom: 1px solid $dark_border;
         background-color: inherit;
+
+        &.theme_dark {
+            border-left: 1px solid $dark_border;
+            border-bottom: 1px solid $dark_border;
+        }
+        &.theme_light {
+            border-left: 1px solid $light_border;
+            border-bottom: 1px solid $light_border; 
+        }
 
         .account-header {
             height: $headerHeight;

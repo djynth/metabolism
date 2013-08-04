@@ -2,19 +2,32 @@
 
 #pathway-holder {
     left: 0;
-    border-right: 1px solid $dark_border;
+
+    &.theme_dark {
+        border-right: 1px solid $dark_border;
+    }
+    &.theme_light {
+        border-right: 1px solid $light_border;
+    }
 
     .pathway-holder {
         .pathway {
             margin:  8px 4px 8px 4px;
             padding: 5px;
-            background-color: $dark_elementBackground;
-            border: 1px solid $dark_elementBorder;
             box-shadow: -3px -3px rgba(0, 0, 0, 0);
             border-radius: 7px;
             font-size:   12px;
             line-height: 12px;
             position: relative;
+
+            &.theme_dark {
+                background-color: $dark_elementBackground;
+                border: 1px solid $dark_elementBorder;
+            }
+            &.theme_light {
+                background-color: $light_elementBackground;
+                border: 1px solid $light_elementBorder;
+            }
 
             .pathway-inner {
                 position: absolute;
