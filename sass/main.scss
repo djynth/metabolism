@@ -188,13 +188,62 @@ html, body {
         text-shadow: 1px 1px $dark_textShadow;
     }
 
+    #settings {
+        position: absolute;
+        top: 0;
+        right: $accountWidth + 1;
+        width: 200px;
+        min-height: 100%;
+        background-color: inherit;
+        border-left: 1px solid $dark_border;
+
+        .settings-header {
+            height: $headerHeight;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        .icon-cog {
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            margin: 0;
+        }
+
+        .settings-dropdown {
+            display: none;
+            background-color: inherit;
+            width: 90%;
+            padding: 10px 5%;
+
+            p {
+                margin-bottom: 5px;
+                display: block;
+            }
+
+            #theme-holder {
+                width: 100%;
+
+                button {
+                    width: 50%;
+                }
+            }
+
+            #settings-apply {
+                margin-top: 15px;
+                width: 35%;
+            }
+        }
+    }
+
     #account {
         float: right;
         width:  $accountWidth;
         min-height: 100%;
         border-left: 1px solid $dark_border;
         border-bottom: 1px solid $dark_border;
-        min-height: 100%;
         background-color: inherit;
 
         .account-header {

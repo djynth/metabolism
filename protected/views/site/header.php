@@ -6,6 +6,23 @@ $guest = Yii::app()->user->getIsGuest();
     <p id="points"></p>
     <p id="turns" ></p>
 
+    <div id="settings">
+        <div class="settings-header">
+            <p class="settings-text">Settings</p>
+            <i class="icon-cog icon-white"></i>
+        </div>
+
+        <div class="settings-dropdown">
+            <p>Color Theme</p>
+            <div id="theme-holder" class="btn-group" data-toggle="buttons-radio">
+                <button id="theme-dark"  class="btn btn-small btn-inverse active">Dark</button>
+                <button id="theme-light" class="btn btn-small">Light</button>
+            </div>
+
+            <button id="settings-apply" class="btn btn-small btn-inverse">Apply</button>
+        </div>
+    </div>
+
     <div id="account">
         <div class="account-header">
             <p class="login-text"><?= $guest ? 'Not logged in' : 'Logged in as ' . Yii::app()->user->name ?></p>

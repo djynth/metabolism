@@ -7,6 +7,10 @@ $(document).ready(function() {
         $('.login-dropdown').slideToggle();
     });
 
+    $('.settings-header').click(function() {
+        $('.settings-dropdown').slideToggle();
+    })
+
     $('#create-account-username').change(function() {
         var elem = $(this);
         $.ajax({
