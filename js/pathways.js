@@ -340,6 +340,12 @@ function onFilterChange()
     if (name) {
         name = new RegExp(name, 'i');
     }
+    if (reactant) {
+        reactant = new RegExp(reactant, 'i');
+    }
+    if (product) {
+        product = new RegExp(product, 'i');
+    }
     if (!showAvailable && !showUnavailable) {
         showAvailable = true;
         showUnavailable = true;
@@ -349,55 +355,68 @@ function onFilterChange()
         showAnabolic = true;
     }
 
-    $('.pathway').each(function() {
-        $(this).attr('filter', 'true')
-    }).each(function() {
+    $('.pathway').attr('filter', 'true').each(function() {
         var pathwayName = $(this).find('.title').html();
-        var pathwayAvailable = $(this).attr('available') === 'true';
-        var pathwayCatabolic = $(this).attr('catabolic') === 'true';
+        if (name && !name.test(pathwayName)) {
+            $(this).attr('filter', 'false');
+            return;
+        }
 
-        var matchesReactant = true;
-        var matchesProduct = true;
+        var pathwayAvailable = $(this).attr('available') === 'true';
+        if ((showAvailable && !showUnavailable && !pathwayAvailable) || (!showAvailable && showUnavailable && pathwayAvailable)) {
+            $(this).attr('filter', 'false');
+            return;
+        }
+        var pathwayCatabolic = $(this).attr('catabolic') === 'true';
+        if ((showCatabolic && !showAnabolic && !pathwayCatabolic) || (!showCatabolic && showAnabolic && pathwayCatabolic)) {
+            $(this).attr('filter', 'false');
+            return;
+        }
 
         if (reactant) {
-            $.ajax({
-                url: 'index.php?r=site/reactants',
-                type: 'POST',
-                async: false,
-                dataType: 'json',
-                data: {
-                    pathway: $(this).attr('value'),
-                    reactant: reactant
-                },
-                success: function(data) {
-                    matchesReactant = data.match;
-                }
+            var pathwayReactants = new Array;
+            $(this).find('.reactant').each(function() {
+                pathwayReactants.push(getResourceElement($(this).attr('res-id')));
             });
-        }
-        if (product) {
-            $.ajax({
-                url: 'index.php?r=site/products',
-                type: 'POST',
-                async: false,
-                dataType: 'json',
-                data: {
-                    pathway: $(this).attr('value'),
-                    product: product
-                },
-                success: function(data) {
-                    matchesProduct = data.match;
+
+            var match = false;
+            for (var i = 0; i < pathwayReactants.length; i++) {
+                if (reactant.test(pathwayReactants[i].attr('abbr')) ||
+                    reactant.test(pathwayReactants[i].attr('name')) ||
+                    reactant.test(pathwayReactants[i].attr('full-name')))
+                {
+                    match = true;
+                    break;
                 }
-            });
+            }
+
+            if (!match) {
+                $(this).attr('filter', 'false');
+                return;
+            }
         }
 
-        if ((name && !name.test(pathwayName)) || 
-            (showAvailable && !showUnavailable && !pathwayAvailable) ||
-            (!showAvailable && showUnavailable && pathwayAvailable)  || 
-            (showCatabolic && !showAnabolic && !pathwayCatabolic) ||
-            (!showCatabolic && showAnabolic && pathwayCatabolic) ||
-            !matchesReactant || !matchesProduct)
-        {
-            $(this).attr('filter', 'false');
+        if (product) {
+            var pathwayProducts = new Array;
+            $(this).find('.product').each(function() {
+                pathwayProducts.push(getResourceElement($(this).attr('res-id')));
+            });
+
+            var match = false;
+            for (var i = 0; i < pathwayProducts.length; i++) {
+                if (product.test(pathwayProducts[i].attr('abbr')) ||
+                    product.test(pathwayProducts[i].attr('name')) ||
+                    product.test(pathwayProducts[i].attr('full-name')))
+                {
+                    match = true;
+                    break;
+                }
+            }
+
+            if (!match) {
+                $(this).attr('filter', 'false');
+                return;
+            }
         }
     }).each(function() {
         if ($(this).attr('filter') == 'true') {

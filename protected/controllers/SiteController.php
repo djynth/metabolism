@@ -70,62 +70,6 @@ class SiteController extends Controller
         }
     }
 
-    public function actionOrganColor()
-    {
-        if (isset($_POST) && count($_POST) > 0) {
-            $organ = Organ::model()->findByAttributes(array('id' => $_POST['organ']));
-
-            echo CJavaScript::jsonEncode(array(
-                'color' => $organ->color
-            ));
-        }
-    }
-
-    public function actionProducts()
-    {
-        if (isset($_POST) && count($_POST) > 0) {
-            $pathway = Pathway::model()->findByAttributes(array('id' => $_POST['pathway']));
-            $resource = $_POST['product'];
-
-            echo CJavaScript::jsonEncode(array(
-                'match' => self::resourceMatch($pathway->getProducts(), $resource)
-            ));
-        }
-    }
-
-    public function actionReactants()
-    {
-        if (isset($_POST) && count($_POST) > 0) {
-            $pathway = Pathway::model()->findByAttributes(array('id' => $_POST['pathway']));
-            $resource = $_POST['reactant'];
-
-            echo CJavaScript::jsonEncode(array(
-                'match' => self::resourceMatch($pathway->getReactants(), $resource)
-            ));
-        }
-    }
-
-    private static function resourceMatch($resources, $key)
-    {
-        foreach ($resources as $resource) {
-            if (intval($key) === intval($resource->resource_id) || 
-                Resource::model()->findByAttributes(array('id' => $resource->resource_id))->matchesName($key))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function actionResourceFullName()
-    {
-        if (isset($_POST) && count($_POST) > 0) {
-            echo CJavaScript::jsonEncode(array(
-                'name' => Resource::model()->findByAttributes(array('id' => $_POST['resource']))->full_name,
-            ));
-        }
-    }
-
     public function actionResourceVisual()
     {
         if (isset($_POST) && count($_POST) > 0) {
