@@ -9,7 +9,14 @@ $(document).ready(function() {
     $(window).resize(function() { updateScrollbars(true); });
 
     $('.account-header').click(function() {
-        $('.login-dropdown').slideToggle();
+        var dropdown = $('.login-dropdown');
+        if (dropdown.is(':visible')) {
+            dropdown.slideUp();
+        } else {
+            dropdown.slideDown(function() {
+                $('#change-password-current, #login-username').focus();
+            });
+        }
     });
 
     $('.settings-header').click(function() {
@@ -20,6 +27,24 @@ $(document).ready(function() {
         var theme = $(this).siblings('#theme-holder').find('.btn.active').attr('value');
 
         setColorTheme(theme, true);
+    });
+
+    $('#create-account-username, #create-account-password, #create-account-confirm').keypress(function(event) {
+        if (event.which == 13) {
+            $('#create-account-submit').click();
+        }
+    });
+
+    $('#login-username, #login-password').keypress(function(event) {
+        if (event.which == 13) {
+            $('#login-submit').click();
+        }
+    });
+
+    $('#change-password-current, #change-password-new, #change-password-confirm').keypress(function(event) {
+        if (event.which == 13) {
+            $('#change-password-submit').click();
+        }
     });
 
     $('#create-account-username').change(function() {
