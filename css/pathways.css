@@ -136,56 +136,61 @@
 #pathway-filter {
   width: 100%;
   padding-bottom: 6px;
+  display: none;
 }
-/* line 141, ../sass/pathways.scss */
+/* line 142, ../sass/pathways.scss */
 #pathway-filter .filter-row {
   width: 90%;
   margin: 5px auto;
 }
-/* line 145, ../sass/pathways.scss */
+/* line 146, ../sass/pathways.scss */
 #pathway-filter .filter-row .input-prepend {
   margin: 0;
 }
-/* line 149, ../sass/pathways.scss */
+/* line 150, ../sass/pathways.scss */
 #pathway-filter .filter-row table {
   width: 100%;
 }
-/* line 155, ../sass/pathways.scss */
+/* line 156, ../sass/pathways.scss */
 #pathway-filter #filter-row-search .input-prepend {
   width: 100%;
 }
-/* line 161, ../sass/pathways.scss */
+/* line 162, ../sass/pathways.scss */
 #pathway-filter #filter-row-buttons table {
   table-layout: fixed;
 }
-/* line 164, ../sass/pathways.scss */
+/* line 165, ../sass/pathways.scss */
 #pathway-filter #filter-row-buttons table td {
   width: 50%;
   padding: 0 2px;
 }
-/* line 168, ../sass/pathways.scss */
+/* line 169, ../sass/pathways.scss */
 #pathway-filter #filter-row-buttons table td:first-child {
   padding-left: 0;
 }
-/* line 172, ../sass/pathways.scss */
+/* line 173, ../sass/pathways.scss */
 #pathway-filter #filter-row-buttons table td:last-child {
   padding-right: 0;
 }
-/* line 176, ../sass/pathways.scss */
+/* line 177, ../sass/pathways.scss */
 #pathway-filter #filter-row-buttons table td .btn-group {
   width: 100%;
 }
-/* line 179, ../sass/pathways.scss */
+/* line 180, ../sass/pathways.scss */
 #pathway-filter #filter-row-buttons table td .btn-group input {
   width: 50%;
   font-size: 12px;
   height: 25px;
 }
 /* line 190, ../sass/pathways.scss */
+#pathway-filter #filter-row-reaction {
+  height: 30px;
+}
+/* line 193, ../sass/pathways.scss */
 #pathway-filter #filter-row-reaction .input-prepend {
   display: inline-block;
 }
-/* line 195, ../sass/pathways.scss */
+/* line 198, ../sass/pathways.scss */
 #pathway-filter #filter-row-clear {
   text-align: right;
 }

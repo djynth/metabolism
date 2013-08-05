@@ -137,6 +137,7 @@
 #pathway-filter {
     width: 100%;
     padding-bottom: 6px;
+    display: none;
 
     .filter-row {
         width: 90%;
@@ -187,6 +188,8 @@
     }
 
     #filter-row-reaction {
+        height: 30px;
+
         .input-prepend {
             display: inline-block;
         }

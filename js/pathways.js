@@ -2,12 +2,9 @@ var SOURCE_HIGHLIGHT_COLOR      = '82,117,255';
 var DESTINATION_HIGHLIGHT_COLOR = '233,25,44';
 
 $(document).ready(function() {
-    resizeFilter(true);
-    resizePathways();
+    resizeFilter();
 
-    $(window).resize(function() { resizeFilter(false); });
-
-    $('.pathway').resize(resizePathways);
+    $(window).resize(resizeFilter);
 
     $('.pathway-run').click(function() {
         var id = parseInt($(this).parents('.pathway').attr('value'));
@@ -47,11 +44,11 @@ $(document).ready(function() {
         var eatMax = parseInt(foodHolder.attr('eat-max'));
 
         if (total < eatMax) {
-            $('#modal-header').html('Are You Sure?');
-            $('#modal-content').html('You are eating less than you could! Your total nutrient intake of ' + 
+            $('#modal-header').text('Are You Sure?');
+            $('#modal-content').text('You are eating less than you could! Your total nutrient intake of ' + 
                 total + ' is less than the maximum of ' + eatMax);
-            $('#modal-cancel').html('Cancel');
-            $('#modal-confirm').html('Confirm');
+            $('#modal-cancel').text('Cancel');
+            $('#modal-confirm').text('Confirm');
             $('#modal-cancel').click(function() {
                 $('.modal').modal('hide');
             });
@@ -87,14 +84,23 @@ $(document).ready(function() {
     });
 
     $('#pathway-filter-icon').click(function() {
-        $('#pathway-filter').slideToggle(function() {
-            updateScrollbars(true);
+        var resizedFilter = false;
+        $('#pathway-filter').slideToggle({
+            progress: function() {
+                updateScrollbars(true);
+                if (!resizedFilter) {
+                    resizeFilter();
+                    resizedFilter = true;
+                }
+            }
         });
     });
 
     $('#filter-name, #filter-reactant, #filter-product').change(onFilterChange);
+
     $('#filter-available, #filter-unavailable, #filter-catabolic, #filter-anabolic').click(function() {
-        window.setTimeout(onFilterChange, 0);       // wait for other events bound to the button to finish
+        window.setTimeout(onFilterChange, 0);   // wait for other events bound to the button to finish so that buttons
+                                                // 'active' property is accurately set
     });
 
     $('#filter-clear').click(function() {
@@ -104,9 +110,9 @@ $(document).ready(function() {
     });
 });
 
-function resizeFilter(hide)
+function resizeFilter()
 {
-    $('#filter-row-search input').each(function() {
+    $('#filter-row-search').find('input').each(function() {
         var w = $(this).parent().outerWidth();
         $(this).siblings().each(function() {
             w -= $(this).outerWidth();
@@ -115,27 +121,17 @@ function resizeFilter(hide)
     });
 
     $('#filter-row-reaction').each(function() {
-        var rowWidth = $(this).width();
+        var rowWidth = $(this).outerWidth();
+        var inputs = $(this).find('input');
 
-        $(this).find('input').each(function() {
-            var w = rowWidth/2;
+        inputs.each(function() {
+            var w = rowWidth/inputs.length;
             $(this).siblings().each(function() {
-                w -= $(this).outerWidth();
+                w -= $(this).outerWidth() + parseInt($(this).css('border-left-width')) + 
+                    parseInt($(this).css('border-right-width'));
             });
-            $(this).outerWidth(w - 2);    // subtract 2 for borders?
+            $(this).outerWidth(w);
         });
-    });
-
-    if (hide) {
-        $('#pathway-filter').hide();
-    }
-}
-
-function resizePathways()
-{
-    $('.pathway-inner').each(function() {
-        $(this).width($(this).parent().outerWidth() + 2);
-        $(this).height($(this).parent().outerHeight() + 2);
     });
 }
 
@@ -170,15 +166,15 @@ function refreshPathways()
                     lackingList += ', ';
                 }
             }
-            $(this).find('p.lacking').html(lackingList + '.');
+            $(this).find('p.lacking').text(lackingList + '.');
 
-            $(this).css('box-shadow', '0px 0px');
+            $(this).css('box-shadow', '0 0');
             $(this).attr('available', 'false')
         } else {
             $(this).find('.run-holder').show();
             $(this).find('.lacking').hide();
 
-            $(this).css('box-shadow', '0px 0px 7px #' + $(this).attr('color'));
+            $(this).css('box-shadow', '0 0 7px #' + $(this).attr('color'));
             $(this).attr('available', 'true');
         }
 
@@ -237,7 +233,7 @@ function updatePathwayButtons(pathway)
 function getMaxRuns(pathway, organ)
 {
     var maxRuns = -1;
-    $('.pathway[value="' + pathway + '"] .reactant').each(function() {
+    $('.pathway[value="' + pathway + '"]').find('.reactant').each(function() {
         var actualOrgan = $(this).hasClass('global') ? '1' : organ;
         var resId = parseInt($(this).attr('res-id'));
         var value = Math.abs(parseInt($(this).attr('value')));
@@ -300,9 +296,6 @@ function eat(nutrients)
         },
         success: function(data) {
             onPathwaySuccess(data);
-        },
-        error: function(xhr, status, error) {
-            onPathwayError(xhr, error);
         }
     });
 }
@@ -320,9 +313,6 @@ function runPathway(pathwayId, times, organ)
         },
         success: function(data) {
             onPathwaySuccess(data);
-        },
-        error: function(xhr, status, error) {
-            onPathwayError(xhr, error);
         }
     });
 }
@@ -334,15 +324,7 @@ function onPathwaySuccess(data)
         setPoints(data.points);
         refreshResources(data.resources);
         setPh(data.ph);
-    } else {
-        notify('Unable to run ' + data.pathway_name + '.', 'warning');
     }
-}
-
-function onPathwayError(xhr, error)
-{
-    notify('Internal error: ' + error, 'error');
-    console.log(xhr);
 }
 
 function onFilterChange()
