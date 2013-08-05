@@ -42,7 +42,7 @@ $(document).ready(function() {
 function refreshResources(resources)
 {
     if (typeof resources === 'undefined') {
-        $('.resource-holder .resource-data').each(function() {
+        $('.resource-holder').find('.resource-data').each(function() {
             onResourceChange(
                 $(this).attr('value'),
                 $(this).parents('.resource-holder').attr('value'),
@@ -82,7 +82,7 @@ function onResourceChange(resource, organ, value)
         });
     }
 
-    elem.find('.resource-value').html(value);
+    elem.find('.resource-value').text(value);
     elem.find('.bar').css('width', Math.min(100, 100*(value/parseInt(elem.attr('max-shown')))) + '%');
 
     var tracker = $('.tracker[value="' + resource + '"]');
@@ -93,7 +93,15 @@ function onResourceChange(resource, organ, value)
 
 function getResourceElement(resource, organ)
 {
-    return $('.resource-holder[value="' + organ + '"] .resource-data[value="' + resource + '"]');
+    if (typeof organ === 'undefined') {
+        if (isResourceGlobal(resource)) {
+            organ = GLOBAL_ORGAN;
+        } else {
+            organ = getSelectedOrgan();
+        }
+    }
+
+    return $('.resource-holder[value="' + organ + '"]').find('.resource-data[value="' + resource + '"]');
 }
 
 function getResourceValue(resource, organ)
@@ -108,7 +116,7 @@ function getResourceName(resource, organ)
 
 function isResourceGlobal(resource)
 {
-    return $('.resource-holder.global').find('.resource-data[value="' + resource +'"]').length > 0;
+    return $('.resource-holder.global').find('.resource-data[value="' + resource + '"]').length > 0;
 }
 
 function updateResourceVisual(organChanged)
@@ -142,7 +150,7 @@ function updateResourceVisual(organChanged)
                 },
                 success: function(data) {
                     if (activeResource == data.resource) {
-                        $('#resource-visual').append(data.visual);
+                        applyColorTheme($('#resource-visual').append(data.visual));
                         $('.resource-visual-content[value="' + data.resource + '"]').fadeIn();
                         $('#resource-visual').find('.resource-visual-title').text(data.resource_name);
                         var organ = isResourceGlobal(data.resource) ? GLOBAL_ORGAN : getSelectedOrgan();

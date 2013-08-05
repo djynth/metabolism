@@ -3,26 +3,29 @@
 #tracker-holder {
     position: absolute;
     left: $sidebarWidth;
-    width: 100% - 2*$sidebarWidth;
-    max-width: 100% - 2*$sidebarWidth;
     bottom: 0;
+    width: 100% - 2*$sidebarWidth;
+    table-layout: fixed;
 
     .tracker {
-        height: $trackerHeight;
-        z-index: 10;
-        bottom: 0px;
+        bottom: 0;
+        border: 1px solid;
 
         &.theme_dark {
             color: $dark_text;
             text-shadow: 1px 1px $dark_textShadow;
             background-color: $dark_background;
-            border: 1px solid $dark_border;
+            border-color: $dark_border;
         }
         &.theme_light {
             color: $light_text;
             text-shadow: 1px 1px $light_textShadow;
             background-color: $light_background;
-            border: 1px solid $light_border;
+            border-color: $light_border;
+        }
+
+        &:last-child {
+            border-right: none;
         }
 
         .tracker-header {
@@ -37,26 +40,25 @@
             }
             
             h3 {
-                margin: 0;
+                top: 1px;
                 line-height: 22px;
                 font-size: 18px;
             }
 
             .tracker-title {
-                margin-left: 10px;
+                margin-left: 8px;
             }
 
             .tracker-amount {
                 position: absolute;
-                right: 9px;
-                top: 0;
+                right: 5px;
             }
         }
 
         .tracker-organ {
-            height: $trackerOrganHeight;
-            width: 100%;
             position: relative;
+            width: 100%;
+            height: $trackerOrganHeight;
 
             &.theme_dark {
                 border-bottom: 1px solid $dark_trackerOrganBorder;
@@ -84,17 +86,17 @@
 
             .tracker-icon-holder {
                 position: absolute;
-                top: 0;
                 left: 0;
-                width: 100%;
+                top:  0;
+                width:  100%;
                 height: 100%;
 
                 .tracker-icon {
                     position: absolute;
-                    top: 0;
                     left: 80%;
-                    opacity: 0;
+                    top:  0;
                     height: 100%;
+                    opacity: 0;
                 }
             }
         }

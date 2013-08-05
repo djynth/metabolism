@@ -3,7 +3,7 @@ var ORGAN_FADE_OUT = 150;
 var ORGAN_TRANSITION = ORGAN_FADE_OUT + ORGAN_FADE_IN;
 
 $(document).ready(function() {
-    selectOrgan(parseInt($('.accordian-header').first().attr('value')), true);
+    selectOrgan($('.accordian-header').first().attr('value'), true);
 
     $('.accordian-title').click(function() {
         var header = $(this).parents('.accordian-header');
@@ -14,7 +14,7 @@ $(document).ready(function() {
 
     $('.organ-info').click(function() {
         var popup = $(this).siblings('.organ-popup');
-        var content = popup.find('.organ-image,.organ-description');
+        var content = popup.find('.organ-image, .organ-description');
         if (!popup.is(':visible')) {
             if ($(window).height() - $(this).offset().top > 400) {
                 popup.addClass('organ-popup-down');
@@ -55,18 +55,21 @@ function selectOrgan(organ, firstTime)
         if (tabOrgan == organ) {                    // select this tab
             $(this).addClass('active');
             if (firstTime) {
-                $(this).css('height', height);
+                $(this).height(height);
                 $(this).mCustomScrollbar('update');
             } else {
-                $(this).animate({ height: height }, ORGAN_TRANSITION, function() {
-                    $(this).mCustomScrollbar('update');
+                $(this).animate({ height: height }, {
+                    duration: ORGAN_TRANSITION,
+                    progress: function() {
+                        $(this).mCustomScrollbar('update');
+                    }
                 });
             }
             
         } else {                                    // unselect this tab
             $(this).removeClass('active');
             if (firstTime) {
-                $(this).css('height', 0);
+                $(this).height(0);
             } else {
                 $(this).animate({ height: 0 }, ORGAN_TRANSITION);
             }
@@ -76,29 +79,12 @@ function selectOrgan(organ, firstTime)
     $('.accordian-header').each(function() {
         if ($(this).attr('value') == organ) {
             $(this).addClass('active');
-            $(this).find('.filter-icon-holder').addClass('active').click(function() {
-                var organ = $(this).parents('.accordian-header').attr('value');
-                $(this).parents('.accordian-header').siblings('.filter[value="' + organ + '"]').slideToggle();
-            });
         } else {
             $(this).removeClass('active');
-            $(this).find('.filter-icon-holder').removeClass('active').unbind('click');
         }
     });
 
-    $.ajax({
-        url: 'index.php?r=site/organColor',
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            organ: organ
-        },
-        success: function(data) {
-            $('#cell-canvas').animate({ backgroundColor: '#' + data.color }, ORGAN_FADE_IN + ORGAN_FADE_OUT);
-        }
-    });
-
-    resizePathways();
+    $('#cell-canvas').animate({ backgroundColor: '#' + organColors[organ] }, ORGAN_TRANSITION);
 }
 
 function getSelectedOrgan()

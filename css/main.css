@@ -9,408 +9,384 @@ html, body {
   user-select: none;
 }
 
-/* line 13, ../sass/main.scss */
+/* line 12, ../sass/main.scss */
+p, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+/* line 17, ../sass/main.scss */
 .input-themed.theme_dark {
   border-color: #121212 !important;
   background: #222222 !important;
 }
-/* line 17, ../sass/main.scss */
+/* line 21, ../sass/main.scss */
 .input-themed.theme_light {
   border-color: #787878 !important;
   background: #e1e1e1 !important;
 }
 
-/* line 24, ../sass/main.scss */
+/* line 28, ../sass/main.scss */
 .input-themed-add-on.theme_dark {
   border-color: #121212;
 }
-/* line 27, ../sass/main.scss */
+/* line 31, ../sass/main.scss */
 .input-themed-add-on.theme_light {
   border-color: #787878;
 }
-/* line 31, ../sass/main.scss */
+/* line 35, ../sass/main.scss */
 .input-themed-add-on .add-on {
   border-color: inherit !important;
 }
-/* line 33, ../sass/main.scss */
+/* line 37, ../sass/main.scss */
 .input-themed-add-on .add-on.theme_dark {
   background: #323232 !important;
 }
-/* line 36, ../sass/main.scss */
+/* line 40, ../sass/main.scss */
 .input-themed-add-on .add-on.theme_light {
   background: #e1e1e1 !important;
 }
-/* line 41, ../sass/main.scss */
+/* line 45, ../sass/main.scss */
 .input-themed-add-on input {
   border-color: inherit !important;
 }
-/* line 43, ../sass/main.scss */
+/* line 47, ../sass/main.scss */
 .input-themed-add-on input.theme_dark {
   background: #222222 !important;
 }
-/* line 46, ../sass/main.scss */
+/* line 50, ../sass/main.scss */
 .input-themed-add-on input.theme_light {
   background: #e1e1e1 !important;
 }
 
-/* line 52, ../sass/main.scss */
+/* line 56, ../sass/main.scss */
 .header-text {
   position: relative;
 }
-/* line 55, ../sass/main.scss */
+/* line 59, ../sass/main.scss */
 .header-text.theme_dark {
   background-color: #323232;
   color: #afafaf;
   text-shadow: 1px 1px #0a0a0a;
   border-bottom: 1px solid #232323;
 }
-/* line 61, ../sass/main.scss */
+/* line 65, ../sass/main.scss */
 .header-text.theme_light {
   background-color: #f0f0f0;
   color: #505050;
   text-shadow: 1px 1px #c8c8c8;
   border-bottom: 1px solid #646464;
 }
-/* line 68, ../sass/main.scss */
+/* line 72, ../sass/main.scss */
 .header-text .organ-info {
   position: absolute;
   right: 10px;
   top: 2px;
   cursor: pointer;
 }
-/* line 75, ../sass/main.scss */
+/* line 79, ../sass/main.scss */
 .header-text p {
   padding-left: 10px;
-  margin: 0;
 }
 
-/* line 81, ../sass/main.scss */
+/* line 84, ../sass/main.scss */
 .sidebar {
   position: absolute;
   width: 19%;
   height: 100%;
-  z-index: 10;
+  z-index: 2;
 }
-/* line 87, ../sass/main.scss */
+/* line 90, ../sass/main.scss */
 .sidebar.theme_dark {
   background-color: #505050;
 }
-/* line 90, ../sass/main.scss */
+/* line 93, ../sass/main.scss */
 .sidebar.theme_light {
   background-color: gainsboro;
 }
-/* line 94, ../sass/main.scss */
+/* line 97, ../sass/main.scss */
 .sidebar .sidebar-title {
   min-height: 28px;
 }
-/* line 97, ../sass/main.scss */
+/* line 100, ../sass/main.scss */
 .sidebar .sidebar-title p {
-  margin: 0;
   padding-top: 6px;
   font-size: 18px;
 }
-/* line 103, ../sass/main.scss */
+/* line 105, ../sass/main.scss */
 .sidebar .sidebar-title #pathway-filter-icon {
   position: absolute;
   right: 10px;
   top: 7px;
   margin: 0;
-}
-/* line 109, ../sass/main.scss */
-.sidebar .sidebar-title #pathway-filter-icon:hover {
   cursor: pointer;
 }
-/* line 115, ../sass/main.scss */
-.sidebar .global {
-  padding: 0px 6px;
+/* line 114, ../sass/main.scss */
+.sidebar .accordian-header {
+  height: 20px;
 }
-/* line 120, ../sass/main.scss */
+/* line 117, ../sass/main.scss */
 .sidebar .accordian-header.theme_dark {
   border-top: 1px solid #232323;
 }
-/* line 123, ../sass/main.scss */
+/* line 120, ../sass/main.scss */
 .sidebar .accordian-header.theme_light {
   border-top: 1px solid #646464;
 }
-/* line 127, ../sass/main.scss */
+/* line 124, ../sass/main.scss */
 .sidebar .accordian-header .accordian-title {
   display: inline-block;
-  margin: 0;
-}
-/* line 131, ../sass/main.scss */
-.sidebar .accordian-header .accordian-title:hover {
   cursor: pointer;
 }
-/* line 138, ../sass/main.scss */
+/* line 131, ../sass/main.scss */
 .sidebar .header-text .organ-popup {
-  display: none;
   position: absolute;
-  z-index: 20;
+  display: none;
   min-height: 20px;
+  z-index: 2;
 }
-/* line 144, ../sass/main.scss */
+/* line 137, ../sass/main.scss */
 .sidebar .header-text .organ-popup.theme_dark {
   background-color: #323232;
   border: 1px solid #232323;
 }
-/* line 148, ../sass/main.scss */
+/* line 141, ../sass/main.scss */
 .sidebar .header-text .organ-popup.theme_light {
   background-color: #f0f0f0;
   border: 1px solid #646464;
 }
-/* line 153, ../sass/main.scss */
+/* line 146, ../sass/main.scss */
 .sidebar .header-text .organ-popup .organ-cover {
-  background-color: inherit;
   position: absolute;
+  background-color: inherit;
   width: 1px;
   height: 20px;
-  z-index: 30;
 }
-/* line 162, ../sass/main.scss */
+/* line 153, ../sass/main.scss */
 .sidebar .header-text .organ-popup .organ-image {
   display: block;
   height: 150px;
   margin: 25px auto;
 }
-/* line 168, ../sass/main.scss */
+/* line 159, ../sass/main.scss */
 .sidebar .header-text .organ-popup .organ-description {
   padding: 5px 10px;
 }
-/* line 173, ../sass/main.scss */
+/* line 164, ../sass/main.scss */
 .sidebar .header-text .organ-popup-up {
   bottom: -1px;
 }
-/* line 176, ../sass/main.scss */
+/* line 167, ../sass/main.scss */
 .sidebar .header-text .organ-popup-up .organ-cover {
   bottom: 0px;
 }
-/* line 181, ../sass/main.scss */
+/* line 172, ../sass/main.scss */
 .sidebar .header-text .organ-popup-down {
   top: -1px;
 }
-/* line 184, ../sass/main.scss */
+/* line 175, ../sass/main.scss */
 .sidebar .header-text .organ-popup-down .organ-cover {
   top: 0px;
 }
-/* line 189, ../sass/main.scss */
+/* line 180, ../sass/main.scss */
 .sidebar .header-text .right {
   left: 100%;
   text-align: right;
 }
-/* line 193, ../sass/main.scss */
+/* line 184, ../sass/main.scss */
 .sidebar .header-text .right .organ-cover {
   left: -1px;
 }
-/* line 198, ../sass/main.scss */
+/* line 189, ../sass/main.scss */
 .sidebar .header-text .left {
   right: 100%;
   text-align: left;
 }
-/* line 202, ../sass/main.scss */
+/* line 193, ../sass/main.scss */
 .sidebar .header-text .left .organ-cover {
   right: -1px;
 }
-/* line 208, ../sass/main.scss */
-.sidebar .accordian-content {
-  padding: 0px 6px;
+/* line 199, ../sass/main.scss */
+.sidebar .accordian-content, .sidebar .global {
+  padding: 0 6px;
 }
-/* line 212, ../sass/main.scss */
+/* line 203, ../sass/main.scss */
 .sidebar .mCSB_container {
-  margin-right: 10px;
+  margin-right: 6px;
 }
-/* line 216, ../sass/main.scss */
+/* line 207, ../sass/main.scss */
 .sidebar .mCSB_scrollTools {
-  width: 6px !important;
+  width: 4px !important;
   height: 95% !important;
   margin-top: 5%;
 }
 
-/* line 223, ../sass/main.scss */
+/* line 214, ../sass/main.scss */
 #header {
   position: absolute;
   left: 19%;
   width: 62%;
   height: 28px;
-  z-index: 5;
+  z-index: 1;
 }
-/* line 230, ../sass/main.scss */
+/* line 221, ../sass/main.scss */
 #header.theme_dark {
   background-color: #323232;
   border-bottom: 1px solid #232323;
 }
-/* line 234, ../sass/main.scss */
+/* line 225, ../sass/main.scss */
 #header.theme_light {
   background-color: #f0f0f0;
   border-bottom: 1px solid #646464;
 }
-/* line 239, ../sass/main.scss */
+/* line 230, ../sass/main.scss */
 #header p {
   display: inline-block;
-  margin: 4px 5px 0px;
+  margin: 4px 5px 0;
 }
-/* line 243, ../sass/main.scss */
+/* line 234, ../sass/main.scss */
 #header p.theme_dark {
   color: #afafaf;
   text-shadow: 1px 1px #0a0a0a;
 }
-/* line 247, ../sass/main.scss */
+/* line 238, ../sass/main.scss */
 #header p.theme_light {
   color: #505050;
   text-shadow: 1px 1px #c8c8c8;
 }
-/* line 253, ../sass/main.scss */
+/* line 244, ../sass/main.scss */
 #header #settings {
   position: absolute;
-  top: 0;
   right: 300px;
+  top: 0;
   width: 185px;
   min-height: 100%;
   background-color: inherit;
 }
-/* line 261, ../sass/main.scss */
+/* line 252, ../sass/main.scss */
 #header #settings.theme_dark {
   border: 1px solid #232323;
   border-top: none;
 }
-/* line 265, ../sass/main.scss */
+/* line 256, ../sass/main.scss */
 #header #settings.theme_light {
   border: 1px solid #646464;
   border-top: none;
 }
-/* line 270, ../sass/main.scss */
+/* line 261, ../sass/main.scss */
 #header #settings .settings-header {
   height: 28px;
-}
-/* line 273, ../sass/main.scss */
-#header #settings .settings-header:hover {
   cursor: pointer;
 }
-/* line 278, ../sass/main.scss */
+/* line 266, ../sass/main.scss */
 #header #settings .icon-cog {
   position: absolute;
-  top: 7px;
+  top: 6px;
   right: 7px;
-  margin: 0;
 }
-/* line 285, ../sass/main.scss */
+/* line 272, ../sass/main.scss */
 #header #settings .settings-dropdown {
   display: none;
-  background-color: inherit;
   width: 90%;
   padding: 10px 5%;
+  background-color: inherit;
 }
-/* line 291, ../sass/main.scss */
+/* line 278, ../sass/main.scss */
 #header #settings .settings-dropdown p {
   margin-bottom: 5px;
   display: block;
 }
-/* line 296, ../sass/main.scss */
+/* line 283, ../sass/main.scss */
 #header #settings .settings-dropdown #theme-holder {
   width: 100%;
 }
-/* line 299, ../sass/main.scss */
+/* line 286, ../sass/main.scss */
 #header #settings .settings-dropdown #theme-holder button {
   width: 50%;
 }
-/* line 304, ../sass/main.scss */
+/* line 291, ../sass/main.scss */
 #header #settings .settings-dropdown #settings-apply {
   margin-top: 15px;
   width: 35%;
 }
-/* line 311, ../sass/main.scss */
+/* line 298, ../sass/main.scss */
 #header #account {
   float: right;
   width: 300px;
   min-height: 100%;
   background-color: inherit;
 }
-/* line 317, ../sass/main.scss */
+/* line 304, ../sass/main.scss */
 #header #account.theme_dark {
   border-left: 1px solid #232323;
   border-bottom: 1px solid #232323;
 }
-/* line 321, ../sass/main.scss */
+/* line 308, ../sass/main.scss */
 #header #account.theme_light {
   border-left: 1px solid #646464;
   border-bottom: 1px solid #646464;
 }
-/* line 326, ../sass/main.scss */
+/* line 313, ../sass/main.scss */
 #header #account .account-header {
   height: 28px;
-}
-/* line 329, ../sass/main.scss */
-#header #account .account-header:hover {
   cursor: pointer;
 }
-/* line 334, ../sass/main.scss */
+/* line 318, ../sass/main.scss */
 #header #account .icon-user {
   position: absolute;
-  top: 7px;
+  top: 6px;
   right: 7px;
-  margin: 0;
 }
-/* line 341, ../sass/main.scss */
+/* line 324, ../sass/main.scss */
 #header #account .login-dropdown {
   display: none;
   background-color: inherit;
   width: 90%;
   padding: 10px 5%;
 }
-/* line 347, ../sass/main.scss */
+/* line 330, ../sass/main.scss */
 #header #account .login-dropdown input[type=text], #header #account .login-dropdown input[type=password] {
   width: 94%;
   padding-right: 3%;
   padding-left: 3%;
 }
-/* line 353, ../sass/main.scss */
+/* line 336, ../sass/main.scss */
 #header #account .login-dropdown p {
   margin-bottom: 5px;
   display: block;
 }
-/* line 358, ../sass/main.scss */
+/* line 341, ../sass/main.scss */
 #header #account .login-dropdown .button-holder {
   width: 100%;
   text-align: right;
 }
-/* line 363, ../sass/main.scss */
+/* line 346, ../sass/main.scss */
 #header #account .login-dropdown .control-group {
   margin: 0;
 }
-/* line 367, ../sass/main.scss */
+/* line 350, ../sass/main.scss */
 #header #account .login-dropdown .dropdown-footer {
   text-align: center;
+  margin: 8px 0 0;
 }
-/* line 371, ../sass/main.scss */
+/* line 355, ../sass/main.scss */
 #header #account .login-dropdown .error-info {
   color: red;
-  margin: 0;
   max-width: 75%;
 }
-/* line 377, ../sass/main.scss */
+/* line 360, ../sass/main.scss */
 #header #account .login-dropdown .success-info {
   color: green;
-  margin: 0;
   max-width: 75%;
 }
-/* line 383, ../sass/main.scss */
+/* line 365, ../sass/main.scss */
 #header #account .login-dropdown .logout-holder {
   margin-top: 3px;
 }
 
-/* line 390, ../sass/main.scss */
+/* line 372, ../sass/main.scss */
 #cell-canvas {
   position: absolute;
   left: 19%;
   width: 62%;
   height: 100%;
-}
-
-/* line 397, ../sass/main.scss */
-.hidden {
-  display: none;
-}
-
-/* line 401, ../sass/main.scss */
-.error {
-  color: red;
 }

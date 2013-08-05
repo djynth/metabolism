@@ -3,12 +3,15 @@
 
 <head>
 
+<!-- CSS -->
+<link rel="stylesheet" tyle="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/bootstrap.min.css">
+<link rel="stylesheet" tyle="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/jquery.mCustomScrollbar.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/pathways.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/resources.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/trackers.css">
-<link rel="stylesheet" tyle="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/bootstrap.min.css">
-<link rel="stylesheet" tyle="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/jquery.mCustomScrollbar.css">
+
+<!-- JavaScript -->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/lib/jquery-1.10.1.min.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/lib/jquery.animate-colors-min.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/lib/jquery.animate-shadow.js"></script>
@@ -21,14 +24,21 @@
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/organs.js"></script>
 
 <script>
-var baseUrl = "<?= Yii::app()->request->baseUrl ?>";
-var GLOBAL_ORGAN = <?= Organ::GLOBAL_ID ?>;
+var baseUrl = <?= json_encode(Yii::app()->request->baseUrl); ?>;
+var GLOBAL_ORGAN = <?= json_encode(Organ::GLOBAL_ID); ?>;
 var color_theme = null;
 
 <?php if (!Yii::app()->user->isGuest):
     $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id)); ?>
-    var color_theme = '<?= $user->theme ?>';
+    var color_theme = <?= json_encode($user->theme); ?>;
 <?php endif ?>
+
+var organColors = new Array;
+<?php
+$organs = Organ::getNotGlobal();
+foreach ($organs as $organ): ?>
+    organColors[<?= json_encode($organ->id) ?>] = <?= json_encode($organ->color) ?>;
+<?php endforeach ?>
 </script>
 
 <meta name="description" content="Metabolism Fun">
