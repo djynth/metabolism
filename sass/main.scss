@@ -9,6 +9,10 @@ html, body {
     @include user-select(none);
 }
 
+p, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
 .input-themed {
     &.theme_dark {
         border-color: $dark_inputBorder !important;
@@ -74,7 +78,6 @@ html, body {
 
     p {
         padding-left: 10px;
-        margin: 0;
     }
 }
 
@@ -82,7 +85,7 @@ html, body {
     position: absolute;
     width:  $sidebarWidth;
     height: 100%;
-    z-index: 10;
+    z-index: 2;
 
     &.theme_dark {
         background-color: $dark_sidebarBackground;
@@ -95,7 +98,6 @@ html, body {
         min-height: $headerHeight;
 
         p {
-            margin: 0;
             padding-top: 6px;
             font-size: $headerHeight - 10px;
         }
@@ -105,18 +107,13 @@ html, body {
             right: 10px;
             top: 7px;
             margin: 0;
-
-            &:hover {
-                cursor: pointer;
-            }
+            cursor: pointer;
         }
     }
 
-    .global {
-        padding: 0px 6px;
-    }
-
     .accordian-header {
+        height: $accordianHeaderHeight;
+
         &.theme_dark {
             border-top: 1px solid $dark_border;
         }
@@ -126,20 +123,16 @@ html, body {
 
         .accordian-title {
             display: inline-block;
-            margin: 0;
-
-            &:hover {
-                cursor: pointer;
-            }
+            cursor: pointer;
         }
     }
 
     .header-text {
         .organ-popup {
-            display: none;
             position: absolute;
-            z-index: 20;
-            min-height: 20px;
+            display: none;
+            min-height: $accordianHeaderHeight;
+            z-index: 2;
 
             &.theme_dark {
                 background-color: $dark_background;
@@ -151,12 +144,10 @@ html, body {
             }
 
             .organ-cover {
-                background-color: inherit;
                 position: absolute;
-                
+                background-color: inherit;
                 width: 1px;
-                height: 20px;
-                z-index: 30;
+                height: $accordianHeaderHeight;
             }
 
             .organ-image {
@@ -205,16 +196,16 @@ html, body {
         }
     }
 
-    .accordian-content {
-        padding: 0px 6px;
+    .accordian-content, .global {
+        padding: 0 6px;
     }
 
     .mCSB_container {
-        margin-right: 10px;
+        margin-right: 6px;
     }
 
     .mCSB_scrollTools {
-        width: 6px !important;
+        width: 4px !important;
         height: 95% !important;
         margin-top: 5%;
     }
@@ -225,7 +216,7 @@ html, body {
     left: $sidebarWidth;
     width: 100% - 2*$sidebarWidth;
     height: $headerHeight;
-    z-index: 5;
+    z-index: 1;
 
     &.theme_dark {
         background-color: $dark_background;
@@ -238,7 +229,7 @@ html, body {
 
     p {
         display: inline-block;
-        margin: 4px 5px 0px;
+        margin: 4px 5px 0;
         
         &.theme_dark {
             color: $dark_text;
@@ -252,8 +243,8 @@ html, body {
 
     #settings {
         position: absolute;
-        top: 0;
         right: $accountWidth;
+        top: 0;
         width: $settingsWidth;
         min-height: 100%;
         background-color: inherit;
@@ -269,24 +260,20 @@ html, body {
 
         .settings-header {
             height: $headerHeight;
-
-            &:hover {
-                cursor: pointer;
-            }
+            cursor: pointer;
         }
 
         .icon-cog {
             position: absolute;
-            top: 7px;
+            top: 6px;
             right: 7px;
-            margin: 0;
         }
 
         .settings-dropdown {
             display: none;
-            background-color: inherit;
             width: 90%;
             padding: 10px 5%;
+            background-color: inherit;
 
             p {
                 margin-bottom: 5px;
@@ -325,17 +312,13 @@ html, body {
 
         .account-header {
             height: $headerHeight;
-
-            &:hover {
-                cursor: pointer;
-            }
+            cursor: pointer;
         }
 
         .icon-user {
             position: absolute;
-            top: 7px;
+            top: 6px;
             right: 7px;
-            margin: 0;
         }
 
         .login-dropdown {
@@ -366,17 +349,16 @@ html, body {
 
             .dropdown-footer {
                 text-align: center;
+                margin: 8px 0 0;
             }
 
             .error-info {
                 color: red;
-                margin: 0;
                 max-width: 75%;
             }
 
             .success-info {
                 color: green;
-                margin: 0;
                 max-width: 75%;
             }
 
@@ -392,12 +374,4 @@ html, body {
     left: $sidebarWidth;
     width:  100% - 2*$sidebarWidth;
     height: 100%;
-}
-
-.hidden {
-    display: none;
-}
-
-.error {
-    color: red;
 }

@@ -246,21 +246,20 @@ function setColorTheme(theme, save)
         theme = DEFAULT_THEME;
     }
 
+    color_theme = theme;
+    applyColorTheme($('#content'));
+
     if (theme === 'light') {
-        $('#content').find('*').removeClass('theme_dark').addClass('theme_light');
         $('i').removeClass('icon-white');
         $('.btn').removeClass('btn-inverse');
         $('#theme-dark').addClass('btn-inverse').removeClass('active');
         $('#theme-light').addClass('active');
     } else if (theme === 'dark') {
-        $('#content').find('*').removeClass('theme_light').addClass('theme_dark');
         $('i').addClass('icon-white');
         $('.btn').addClass('btn-inverse');
         $('#theme-light').removeClass('btn-inverse').removeClass('active');
         $('#theme-dark').addClass('active');
     }
-
-    color_theme = theme;
 
     if (save) {
         $.ajax({
@@ -271,5 +270,14 @@ function setColorTheme(theme, save)
                 theme: theme
             }
         });
+    }
+}
+
+function applyColorTheme(base)
+{
+    if (color_theme === 'light') {
+        base.find('*').removeClass('theme_dark').addClass('theme_light');
+    } else if (color_theme === 'dark') {
+        base.find('*').removeClass('theme_light').addClass('theme_dark');
     }
 }

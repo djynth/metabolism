@@ -3,12 +3,15 @@
 
 <head>
 
+<!-- CSS -->
+<link rel="stylesheet" tyle="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/bootstrap.min.css">
+<link rel="stylesheet" tyle="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/jquery.mCustomScrollbar.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/pathways.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/resources.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/trackers.css">
-<link rel="stylesheet" tyle="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/bootstrap.min.css">
-<link rel="stylesheet" tyle="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/jquery.mCustomScrollbar.css">
+
+<!-- JavaScript -->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/lib/jquery-1.10.1.min.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/lib/jquery.animate-colors-min.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/lib/jquery.animate-shadow.js"></script>
