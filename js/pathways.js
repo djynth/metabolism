@@ -415,9 +415,15 @@ function highlightSource(pathwayId, highlight)
     var pathway = $('.pathway[value="' + pathwayId + '"]');
     pathway.addClass('source');
     if (highlight) {
-        pathway.find('.pathway-inner').animate({ boxShadow: '0 0 3px 3px rgb(' + SOURCE_HIGHLIGHT_COLOR + ') inset' });
+        pathway.find('.pathway-inner').animate({
+            boxShadow: '0 0 2px 2px rgb(' + SOURCE_HIGHLIGHT_COLOR + ') inset',
+            borderColor: 'rgb(' + SOURCE_HIGHLIGHT_COLOR + ')'
+        });
     } else {
-        pathway.find('.pathway-inner').animate({ boxShadow: '0 0 3px 3px rgba(' + SOURCE_HIGHLIGHT_COLOR + ',0) inset' });
+        pathway.find('.pathway-inner').animate({
+            boxShadow: '0 0 2px 2px rgba(' + SOURCE_HIGHLIGHT_COLOR + ',0) inset',
+            borderColor: 'rgba(' + SOURCE_HIGHLIGHT_COLOR + ', 0)'
+        });
     }
 }
 
