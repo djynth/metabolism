@@ -1,43 +1,4 @@
 @import "base";
-@import "compass";
-
-.resource-bar {
-    height: 21px;
-    border-radius: 4px;            
-    line-height: 14px;
-
-    .progress {
-        background-image: none;
-        height: inherit;
-
-        &.theme_dark {
-            background-color: $dark_elementBackground;
-            border: 1px solid $dark_elementBorder;
-        }
-        &.theme_light {
-            background-color: $light_elementBackground;
-            border: 1px solid $light_elementBorder;
-        }
-    }
-
-    span {
-        position: absolute;
-        width: 48%;
-        font-size: 14px;
-        padding-top: 3px;
-        color: rgb(6, 6, 6);
-    }
-
-    .resource-name {
-        left: 0px;
-        text-align: right;
-    }
-
-    .resource-value {
-        right: 0px;
-        text-align: left;
-    }
-}
 
 #resource-holder {
     right: 0px;
@@ -49,10 +10,49 @@
         border-left: 1px solid $light_border;
     }
 
-    .resource-holder {
-        .resource-data {
-            width:  80%;
-            margin: 8px auto;
+    .resource-data {
+        width:  80%;
+        height: 21px;
+        margin: 8px auto;
+        border-radius: 4px;
+        font-size:   14px;
+        line-height: 14px;
+
+        .progress {
+            background-image: none;
+            border: 1px solid;
+
+            &.theme_dark {
+                background-color: $dark_elementBackground;
+                border-color: $dark_elementBorder;
+            }
+            &.theme_light {
+                background-color: $light_elementBackground;
+                border-color: $light_elementBorder;
+            }
+        }
+
+        span {
+            position: absolute;
+            width: 48%;
+            padding-top: 3px;
+
+            &.theme_dark {
+                color: $dark_elementText;
+            }
+            &.theme_light {
+                color: $light_elementText;
+            }
+        }
+
+        .resource-name {
+            left: 0px;
+            text-align: right;
+        }
+
+        .resource-value {
+            right: 0px;
+            text-align: left;
         }
     }
 }
@@ -62,9 +62,10 @@
 }
 
 #resource-visual {
-    width: 100%;
-    height: 200px;
     position: relative;
+    width:  100%;
+    height: $resourceVisualHeight;
+    overflow: hidden;
 
     &.theme_dark {
         background-color: $dark_sidebarBackground;
@@ -92,49 +93,52 @@
         }
 
         p, h3 {
-            margin: 0;
             font-size: 16px;
             line-height: 20px;
+            padding-top: 1px;
         }
 
         .resource-visual-amount {
             position: absolute;
-            right: 0;
+            right: 6px;
             top: 0;
-            padding-right: 5px;
         }
     }
 
     .resource-visual-content {
         position: absolute;
+        display: none;
         left: 0;
         top: 20px;
-        width: 90%;
+        width: 92%;
         height: 170px;
-        padding: 5px 5%;
-        overflow: hidden;
-        display: none;
+        padding: 5px 4%;
 
         p, td, th {
-            color: black;
+            &.theme_dark {
+                color: $dark_elementText;
+            }
+            &.theme_light {
+                color: $light_elementText;
+            }
         }
 
         .resource-visual-image {
             position: absolute;
-            height: 50%;
             right: 10px;
-            top: 10px;
+            top:   10px;
+            height: 40%;
         }
 
         .resource-visual-formula {
+            width:  30%;
+            height: 40%;
             margin-top: 10px;
-            height: 50%;
-            width: 30%;
         }
 
         .resource-visual-description {
             padding-top: 5px;
-            line-height: 17px;
+            line-height: 16px;
         }
     }
 }
