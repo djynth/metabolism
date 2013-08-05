@@ -24,14 +24,21 @@
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/organs.js"></script>
 
 <script>
-var baseUrl = "<?= Yii::app()->request->baseUrl ?>";
-var GLOBAL_ORGAN = <?= Organ::GLOBAL_ID ?>;
+var baseUrl = <?= json_encode(Yii::app()->request->baseUrl); ?>;
+var GLOBAL_ORGAN = <?= json_encode(Organ::GLOBAL_ID); ?>;
 var color_theme = null;
 
 <?php if (!Yii::app()->user->isGuest):
     $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id)); ?>
-    var color_theme = '<?= $user->theme ?>';
+    var color_theme = <?= json_encode($user->theme); ?>;
 <?php endif ?>
+
+var organColors = new Array;
+<?php
+$organs = Organ::getNotGlobal();
+foreach ($organs as $organ): ?>
+    organColors[<?= json_encode($organ->id) ?>] = <?= json_encode($organ->color) ?>;
+<?php endforeach ?>
 </script>
 
 <meta name="description" content="Metabolism Fun">

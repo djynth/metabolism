@@ -84,17 +84,7 @@ function selectOrgan(organ, firstTime)
         }
     });
 
-    $.ajax({
-        url: 'index.php?r=site/organColor',
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            organ: organ
-        },
-        success: function(data) {
-            $('#cell-canvas').animate({ backgroundColor: '#' + data.color }, ORGAN_FADE_IN + ORGAN_FADE_OUT);
-        }
-    });
+    $('#cell-canvas').animate({ backgroundColor: '#' + organColors[organ] }, ORGAN_TRANSITION);
 }
 
 function getSelectedOrgan()
