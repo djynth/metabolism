@@ -7,11 +7,19 @@
 /* line 9, ../sass/resources.scss */
 .resource-bar .progress {
   background-image: none;
-  background-color: #424242;
-  border: 1px solid #3f3f3f;
   height: inherit;
 }
-/* line 16, ../sass/resources.scss */
+/* line 13, ../sass/resources.scss */
+.resource-bar .progress.theme_dark {
+  background-color: #424242;
+  border: 1px solid #3f3f3f;
+}
+/* line 17, ../sass/resources.scss */
+.resource-bar .progress.theme_light {
+  background-color: #c8c8c8;
+  border: 1px solid #a0a0a0;
+}
+/* line 23, ../sass/resources.scss */
 .resource-bar span {
   position: absolute;
   width: 48%;
@@ -19,63 +27,88 @@
   padding-top: 3px;
   color: #060606;
 }
-/* line 24, ../sass/resources.scss */
+/* line 31, ../sass/resources.scss */
 .resource-bar .resource-name {
   left: 0px;
   text-align: right;
 }
-/* line 29, ../sass/resources.scss */
+/* line 36, ../sass/resources.scss */
 .resource-bar .resource-value {
   right: 0px;
   text-align: left;
 }
 
-/* line 35, ../sass/resources.scss */
+/* line 42, ../sass/resources.scss */
 #resource-holder {
   right: 0px;
+}
+/* line 45, ../sass/resources.scss */
+#resource-holder.theme_dark {
   border-left: 1px solid #232323;
 }
-/* line 40, ../sass/resources.scss */
+/* line 48, ../sass/resources.scss */
+#resource-holder.theme_light {
+  border-left: 1px solid #646464;
+}
+/* line 53, ../sass/resources.scss */
 #resource-holder .resource-holder .resource-data {
   width: 80%;
   margin: 8px auto;
 }
 
-/* line 47, ../sass/resources.scss */
+/* line 60, ../sass/resources.scss */
 #ph-holder {
   padding-top: 4px;
 }
 
-/* line 51, ../sass/resources.scss */
+/* line 64, ../sass/resources.scss */
 #resource-visual {
   width: 100%;
   height: 200px;
-  background-color: #505050;
-  border-top: 1px solid #232323;
   position: relative;
 }
-/* line 58, ../sass/resources.scss */
+/* line 69, ../sass/resources.scss */
+#resource-visual.theme_dark {
+  background-color: #505050;
+  border-top: 1px solid #232323;
+}
+/* line 73, ../sass/resources.scss */
+#resource-visual.theme_light {
+  background-color: gainsboro;
+  border-top: 1px solid #646464;
+}
+/* line 78, ../sass/resources.scss */
 #resource-visual .resource-visual-header {
+  padding-left: 10px;
+}
+/* line 81, ../sass/resources.scss */
+#resource-visual .resource-visual-header.theme_dark {
   background-color: #323232;
   color: #afafaf;
   text-shadow: 1px 1px #0a0a0a;
-  padding-left: 10px;
   border-bottom: 1px solid #232323;
 }
-/* line 65, ../sass/resources.scss */
+/* line 87, ../sass/resources.scss */
+#resource-visual .resource-visual-header.theme_light {
+  background-color: #f0f0f0;
+  color: #505050;
+  text-shadow: 1px 1px #c8c8c8;
+  border-bottom: 1px solid #646464;
+}
+/* line 94, ../sass/resources.scss */
 #resource-visual .resource-visual-header p, #resource-visual .resource-visual-header h3 {
   margin: 0;
   font-size: 16px;
   line-height: 20px;
 }
-/* line 71, ../sass/resources.scss */
+/* line 100, ../sass/resources.scss */
 #resource-visual .resource-visual-header .resource-visual-amount {
   position: absolute;
   right: 0;
   top: 0;
   padding-right: 5px;
 }
-/* line 79, ../sass/resources.scss */
+/* line 108, ../sass/resources.scss */
 #resource-visual .resource-visual-content {
   position: absolute;
   left: 0;
@@ -86,24 +119,24 @@
   overflow: hidden;
   display: none;
 }
-/* line 89, ../sass/resources.scss */
+/* line 118, ../sass/resources.scss */
 #resource-visual .resource-visual-content p, #resource-visual .resource-visual-content td, #resource-visual .resource-visual-content th {
   color: black;
 }
-/* line 93, ../sass/resources.scss */
+/* line 122, ../sass/resources.scss */
 #resource-visual .resource-visual-content .resource-visual-image {
   position: absolute;
   height: 50%;
   right: 10px;
   top: 10px;
 }
-/* line 100, ../sass/resources.scss */
+/* line 129, ../sass/resources.scss */
 #resource-visual .resource-visual-content .resource-visual-formula {
   margin-top: 10px;
   height: 50%;
   width: 30%;
 }
-/* line 106, ../sass/resources.scss */
+/* line 135, ../sass/resources.scss */
 #resource-visual .resource-visual-content .resource-visual-description {
   padding-top: 5px;
   line-height: 17px;
