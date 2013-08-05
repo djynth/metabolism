@@ -1,10 +1,24 @@
+var DEFAULT_THEME = 'dark';
+
 $(document).ready(function() {
     updateTrackerSize();
+
+    setColorTheme(color_theme);
 
     $(window).resize(function() { updateScrollbars(true); updateTrackerSize(); });
 
     $('.account-header').click(function() {
         $('.login-dropdown').slideToggle();
+    });
+
+    $('.settings-header').click(function() {
+        $('.settings-dropdown').slideToggle();
+    });
+
+    $('#settings-apply').click(function() {
+        var theme = $(this).siblings('#theme-holder').find('.btn.active').attr('value');
+
+        setColorTheme(theme, true);
     });
 
     $('#create-account-username').change(function() {
@@ -102,7 +116,8 @@ $(document).ready(function() {
             data: {
                 username: $('#create-account-username').val(),
                 password: $('#create-account-password').val(),
-                confirm:  $('#create-account-confirm').val()
+                confirm:  $('#create-account-confirm').val(),
+                theme:    color_theme ? color_theme : DEFAULT_THEME
             },
             success: function(data) {
                 if (data.success) {
@@ -223,4 +238,38 @@ function updateTrackerSize()
     var trackers = $('.tracker');
     var width = $('#tracker-holder').width()/trackers.length;
     trackers.width(width);
+}
+
+function setColorTheme(theme, save)
+{
+    if (typeof theme === 'undefined' || theme === null) {
+        theme = DEFAULT_THEME;
+    }
+
+    if (theme === 'light') {
+        $('#content').find('*').removeClass('theme_dark').addClass('theme_light');
+        $('i').removeClass('icon-white');
+        $('.btn').removeClass('btn-inverse');
+        $('#theme-dark').addClass('btn-inverse').removeClass('active');
+        $('#theme-light').addClass('active');
+    } else if (theme === 'dark') {
+        $('#content').find('*').removeClass('theme_light').addClass('theme_dark');
+        $('i').addClass('icon-white');
+        $('.btn').addClass('btn-inverse');
+        $('#theme-light').removeClass('btn-inverse').removeClass('active');
+        $('#theme-dark').addClass('active');
+    }
+
+    color_theme = theme;
+
+    if (save) {
+        $.ajax({
+            url: 'index.php?r=user/saveTheme',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                theme: theme
+            }
+        });
+    }
 }

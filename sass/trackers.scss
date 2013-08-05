@@ -1,10 +1,5 @@
 @import "base";
 
-$trackerHeight: 98px;
-$trackerOrganHeight: 28px;
-$trackerHeaderBorder: rgb(81, 81, 81);
-$trackerOrganBorder:  rgb(60, 60, 60);
-
 #tracker-holder {
     position: absolute;
     left: $sidebarWidth;
@@ -14,18 +9,33 @@ $trackerOrganBorder:  rgb(60, 60, 60);
 
     .tracker {
         height: $trackerHeight;
-        background-color: $dark_background;
-        color: $dark_text;
-        text-shadow: 1px 1px $dark_textShadow;
         z-index: 10;
-        border: 1px solid $dark_border;
         bottom: 0px;
+
+        &.theme_dark {
+            color: $dark_text;
+            text-shadow: 1px 1px $dark_textShadow;
+            background-color: $dark_background;
+            border: 1px solid $dark_border;
+        }
+        &.theme_light {
+            color: $light_text;
+            text-shadow: 1px 1px $light_textShadow;
+            background-color: $light_background;
+            border: 1px solid $light_border;
+        }
 
         .tracker-header {
             position: relative;
             width: 100%;
-            border-bottom: 1px solid $trackerHeaderBorder;
 
+            &.theme_dark {
+                border-bottom: 1px solid $dark_trackerHeaderBorder;
+            }
+            &.theme_light {
+                border-bottom: 1px solid $light_trackerHeaderBorder;
+            }
+            
             h3 {
                 margin: 0;
                 line-height: 22px;
@@ -46,8 +56,14 @@ $trackerOrganBorder:  rgb(60, 60, 60);
         .tracker-organ {
             height: $trackerOrganHeight;
             width: 100%;
-            border-bottom: 1px solid $trackerOrganBorder;
             position: relative;
+
+            &.theme_dark {
+                border-bottom: 1px solid $dark_trackerOrganBorder;
+            }
+            &.theme_light {
+                border-bottom: 1px solid $light_trackerOrganBorder;
+            }
 
             p {
                 margin-top: 9px;
@@ -82,7 +98,14 @@ $trackerOrganBorder:  rgb(60, 60, 60);
                 }
             }
         }
-    }.selected-organ {
-        background-color: lighten($dark_background, 1.25%);
+    }
+
+    .selected-organ {
+        &.theme_dark {
+            background-color: lighten($dark_background, 1.25%);
+        }
+        &.theme_light {
+            background-color: darken($light_background, 12.5%);
+        }
     }
 }

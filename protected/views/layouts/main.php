@@ -23,6 +23,12 @@
 <script>
 var baseUrl = "<?= Yii::app()->request->baseUrl ?>";
 var GLOBAL_ORGAN = <?= Organ::GLOBAL_ID ?>;
+var color_theme = null;
+
+<?php if (!Yii::app()->user->isGuest):
+    $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id)); ?>
+    var color_theme = '<?= $user->theme ?>';
+<?php endif ?>
 </script>
 
 <meta name="description" content="Metabolism Fun">

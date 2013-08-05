@@ -1,17 +1,34 @@
 /// COLORS ///
-$dark_text:                 rgb(175, 175, 175);
-$dark_textShadow:           rgb(10,  10,  10);
-$dark_border:               rgb(35,  35,  35);
-$dark_background:           rgb(50,  50,  50);
-$dark_sidebarBackground:    rgb(80,  80,  80);
-$dark_elementBackground:    rgb(66,  66,  66);
-$dark_elementBorder:        rgb(63,  63,  63);
-$dark_inputBackground:      rgb(34,  34,  34);
-$dark_inputAddOnBackground: rgb(50,  50,  50);
-$dark_inputBorder:          rgb(18,  18,  18);
+$dark_text:                  rgb(175, 175, 175);
+$dark_textShadow:            rgb(10,  10,  10);
+$dark_border:                rgb(35,  35,  35);
+$dark_background:            rgb(50,  50,  50);
+$dark_sidebarBackground:     rgb(80,  80,  80);
+$dark_elementBackground:     rgb(66,  66,  66);
+$dark_elementBorder:         rgb(63,  63,  63);
+$dark_inputBackground:       rgb(34,  34,  34);
+$dark_inputAddOnBackground:  rgb(50,  50,  50);
+$dark_inputBorder:           rgb(18,  18,  18);
+$dark_trackerHeaderBorder:   rgb(81,  81,  81);
+$dark_trackerOrganBorder:    rgb(60,  60,  60);
+
+$light_text:                 rgb(80,  80,  80);
+$light_textShadow:           rgb(200, 200, 200);
+$light_border:               rgb(100, 100, 100);
+$light_background:           rgb(240, 240, 240);
+$light_sidebarBackground:    rgb(220, 220, 220);
+$light_elementBackground:    rgb(200, 200, 200);
+$light_elementBorder:        rgb(160, 160, 160);
+$light_inputBackground:      rgb(225, 225, 225);
+$light_inputAddOnBackground: rgb(225, 225, 225);
+$light_inputBorder:          rgb(120, 120, 120);
+$light_trackerHeaderBorder:  rgb(140, 140, 140);
+$light_trackerOrganBorder:   rgb(160, 160, 160);
 
 /// SIZES ///
-$sidebarWidth:  19%;
-$bottomPadding: 9px;
-$headerHeight:  28px;
-$accountWidth:  300px;
+$sidebarWidth:       19%;
+$headerHeight:       28px;
+$accountWidth:       300px;
+$settingsWidth:      185px;
+$trackerHeight:      98px;
+$trackerOrganHeight: 28px;

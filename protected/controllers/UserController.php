@@ -36,6 +36,7 @@ class UserController extends Controller
             $username = $_POST['username'];
             $password = $_POST['password'];
             $confirm = $_POST['confirm'];
+            $theme = $_POST['theme'];
 
             $message = false;
             $success = false;
@@ -45,6 +46,7 @@ class UserController extends Controller
                         $record = new User;
                         $record->username = $username;
                         $record->password = crypt($password);
+                        $record->theme = $theme;
                         if ($record->save()) {
                             Yii::app()->user->login(new UserIdentity($username, $password), 3600*24);
                             $success = true;
@@ -140,5 +142,18 @@ class UserController extends Controller
     private static function isValidPassword($password)
     {
         return preg_match("/^[a-z0-9:punct:]{3,32}$/", $password);
+    }
+
+    public function actionSaveTheme()
+    {
+        if (isset($_POST)) {
+            $theme = $_POST['theme'];
+
+            if (!Yii::app()->user->isGuest) {
+                $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id));
+                $user->theme = $theme;
+                $user->save();
+            }
+        }
     }
 }
