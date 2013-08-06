@@ -10,12 +10,17 @@ var selectedResource = false;
 $(document).ready(function() {
     refreshResources();
 
-    $('.resource-data').hoverIntent(function() {
-        if (!selectedResource) {
-            activeResource = $(this).attr('value');
-            updateResourceVisual();
-        }
+    $('.resource-data').hover(function() {
+        var res = $(this).attr('value');
+        var t = setTimeout(function() {
+            if (!selectedResource) {
+                activeResource = res;
+                updateResourceVisual();
+            }
+        }, 1000);
+        $(this).data('timeout', t);
     }, function() {
+        clearTimeout($(this).data('timeout'));
         if (!selectedResource) {
             activeResource = null;
             updateResourceVisual();
@@ -139,7 +144,7 @@ function updateResourceVisual(organChanged)
 
             $('.pathway.destination').each(function() {
                 highlightDestination($(this).attr('value'), false);
-            })
+            });
         } else {
             $.ajax({
                 url: 'index.php?r=site/resourceVisual',
@@ -153,8 +158,7 @@ function updateResourceVisual(organChanged)
                         applyColorTheme($('#resource-visual').append(data.visual));
                         $('.resource-visual-content[value="' + data.resource + '"]').fadeIn();
                         $('#resource-visual').find('.resource-visual-title').text(data.resource_name);
-                        var organ = isResourceGlobal(data.resource) ? GLOBAL_ORGAN : getSelectedOrgan();
-                        $('#resource-visual').find('.resource-visual-amount').text(getResourceValue(data.resource, organ));
+                        $('#resource-visual').find('.resource-visual-amount').text(getResourceValue(data.resource));
 
                         for (var i = 0; i < data.sources.length; i++) {
                             highlightSource(data.sources[i].id, true);

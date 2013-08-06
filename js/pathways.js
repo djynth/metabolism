@@ -434,13 +434,13 @@ function highlightSource(pathwayId, highlight)
     var pathway = $('.pathway[value="' + pathwayId + '"]');
     pathway.addClass('source');
     if (highlight) {
-        pathway.find('.pathway-inner').animate({
-            boxShadow: '0 0 2px 2px rgb(' + SOURCE_HIGHLIGHT_COLOR + ') inset',
+        pathway.find('.pathway-inner').stop().animate({
+            boxShadow: '0 0 9px rgb(' + SOURCE_HIGHLIGHT_COLOR + ') inset',
             borderColor: 'rgb(' + SOURCE_HIGHLIGHT_COLOR + ')'
         });
     } else {
-        pathway.find('.pathway-inner').animate({
-            boxShadow: '0 0 2px 2px rgba(' + SOURCE_HIGHLIGHT_COLOR + ',0) inset',
+        pathway.find('.pathway-inner').stop().animate({
+            boxShadow: '0 0 9px rgba(' + SOURCE_HIGHLIGHT_COLOR + ',0) inset',
             borderColor: 'rgba(' + SOURCE_HIGHLIGHT_COLOR + ', 0)'
         });
     }
@@ -451,8 +451,14 @@ function highlightDestination(pathwayId, highlight)
     var pathway = $('.pathway[value="' + pathwayId + '"]');
     pathway.addClass('destination');
     if (highlight) {
-        pathway.find('.pathway-inner').animate({ boxShadow: '0 0 3px 3px rgb(' + DESTINATION_HIGHLIGHT_COLOR + ') inset' });
+        pathway.find('.pathway-inner').stop().animate({
+            boxShadow: '0 0 9px rgb(' + DESTINATION_HIGHLIGHT_COLOR + ') inset',
+            borderColor: 'rgb(' + DESTINATION_HIGHLIGHT_COLOR + ')'
+        });
     } else {
-        pathway.find('.pathway-inner').animate({ boxShadow: '0 0 3px 3px rgba(' + DESTINATION_HIGHLIGHT_COLOR + ',0) inset' });
+        pathway.find('.pathway-inner').stop().animate({
+            boxShadow: '0 0 9px rgba(' + DESTINATION_HIGHLIGHT_COLOR + ',0) inset',
+            borderColor: 'rgba(' + DESTINATION_HIGHLIGHT_COLOR + ', 0)'
+        });
     }   
 }
