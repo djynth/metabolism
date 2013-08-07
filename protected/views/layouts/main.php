@@ -56,3 +56,10 @@ foreach ($organs as $organ): ?>
 
 </body>
 </html>
+
+<script>
+
+setPoints(<?= Game::STARTING_POINTS ?>);
+setTurn(<?= Game::STARTING_TURN ?>, <?= Game::MAX_TURNS ?>);
+
+</script>
