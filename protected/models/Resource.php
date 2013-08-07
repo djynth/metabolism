@@ -68,10 +68,11 @@ class Resource extends CActiveRecord
 
     public function getAmount($organ=null)
     {
+        $amounts = self::getAmounts();
         if ($this->global) {
-            return self::getAmounts()[intval($this->id)][Organ::GLOBAL_ID];
+            return $amounts[intval($this->id)][Organ::GLOBAL_ID];
         } else {
-            return self::getAmounts()[intval($this->id)][intval($organ->id)];
+            return $amounts[intval($this->id)][intval($organ->id)];
         }
     }
 
