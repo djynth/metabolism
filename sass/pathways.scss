@@ -3,32 +3,52 @@
 #pathway-holder {
     left: 0;
 
+    &.theme_dark {
+        border-right: 1px solid $dark_border;
+    }
+    &.theme_light {
+        border-right: 1px solid $light_border;
+    }
+
     .pathway-holder {
-        padding: 10px 6px;
-        background-color: $activeTabBackground;
-        overflow: auto;
-
         .pathway {
-            margin:  2px 2px 4px 2px;
+            position: relative;
+            margin:  8px 4px 8px 4px;
             padding: 5px;
-            background-color: $elementBackground;
-            border: 1px solid $elementBorderColor;
-            box-shadow: -3px -3px rgba(0, 0, 0, 0);
             border-radius: 7px;
-            font-size:   $textFontSize;
-            line-height: $textFontSize;
+            font-size:   12px;
+            line-height: 12px;
 
-            &:first-child {
-                margin-top: 0px;
+            &.theme_dark {
+                background-color: $dark_elementBackground;
+                border: 1px solid $dark_elementBorder;
+            }
+            &.theme_light {
+                background-color: $light_elementBackground;
+                border: 1px solid $light_elementBorder;
             }
 
-            &:last-child {
-                margin-bottom: 0px;
+            .pathway-inner {
+                position: absolute;
+                left: 0;
+                top:  0;
+                width: 100%;
+                height: 100%;
+                margin-left: -1px;
+                margin-top: -1px;
+                background-color: rgba(0, 0, 0, 0);
+                border-radius: inherit;
+                box-shadow: rgba(0, 0, 0, 0) 0 0 0 0 inset;
+                border: 1px solid rgba(0, 0, 0, 0);
             }
 
             p {
-                margin: 0px;
-                color: $textColor;
+                &.theme_dark {
+                    color: $dark_elementText;
+                }
+                &.theme_light {
+                    color: $light_elementText;
+                }
             }
 
             .title {
@@ -49,13 +69,17 @@
             .reaction {
                 width: 80%;
                 margin: 3px auto;
-                border-collapse: collapse;
-                color: black;
+
+                &.theme_dark {
+                    color: $dark_elementText;
+                }
+                &.theme_light {
+                    color: $light_elementText;
+                }
 
                 td {
                     width: 40%;
-                    padding-top: 1px;
-                    padding-bottom: 1px;
+                    padding: 1px 0;
                 }
 
                 .reactant {
@@ -73,16 +97,25 @@
                 }
 
                 .lacking {
-                    color: rgb(111, 12, 12);
+                    &.theme_dark {
+                        color: $dark_lackingText;
+                    }
+                    &.theme_light {
+                        color: $light_lackingText;
+                    }
+                }
+
+                .global {
+                    font-weight: bold;
                 }
             }
 
             .food-holder {
-                margin: 10px auto;
-                width: 198px;
+                width: 200px;
+                margin: 2px auto 4px;
 
                 .btn-group {
-                    margin: 2px 0px;
+                    margin: 2px 0;
                 }
 
                 .eat {
@@ -90,20 +123,82 @@
                 }
             }
 
-            .lacking {
+            p.lacking {
                 position: relative;
                 left:   2px;
-                bottom: 2px;
-                padding: 8px 0px 2px;
+                bottom: -7px;
+                margin: 7px 0 6px;
             }
 
             .pathway-run {
-                min-width: 60px;
+                min-width: 64px;
+            }
+        }
+    }
+}
+
+#pathway-filter {
+    width: 100%;
+    padding-bottom: 6px;
+    display: none;
+
+    .filter-row {
+        width: 90%;
+        margin: 5px auto;
+
+        .input-prepend {
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+        }
+    }
+
+    #filter-row-search {
+        .input-prepend {
+            width: 100%;
+        }
+    }
+
+    #filter-row-buttons {
+        table {
+            table-layout: fixed;
+
+            td {
+                width: 50%;
+                padding: 0 2px;
+
+                &:first-child {
+                    padding-left: 0;
+                }
+
+                &:last-child {
+                    padding-right: 0;
+                }
+
+                .btn-group {
+                    width: 100%;
+
+                    input {
+                        width: 50%;
+                        font-size: 12px;
+                        height: 25px;
+                    }
+                }
             }
         }
     }
 
-    [value|=global] {
-        background-color: inherit;
+    #filter-row-reaction {
+        height: 30px;
+
+        .input-prepend {
+            display: inline-block;
+        }
+    }
+
+    #filter-row-clear {
+        text-align: right;
     }
 }

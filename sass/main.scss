@@ -1,71 +1,371 @@
 @import "base";
+@import "compass/css3/user-interface";
 
 html, body {
     width:  100%;
     height: 100%;
     margin: 0;
     font-family: Sans-serif;
+    @include user-select(none);
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+.input-themed {
+    &.theme_dark {
+        border-color: $dark_inputBorder !important;
+        background: $dark_inputBackground !important;
+    }
+    &.theme_light {
+        border-color: $light_inputBorder !important;
+        background: $light_inputBackground !important;
+    }
+}
+
+.input-themed-add-on {
+    &.theme_dark {
+        border-color: $dark_inputBorder;
+    }
+    &.theme_light {
+        border-color: $light_inputBorder;
+    }
+
+    .add-on {
+        border-color: inherit !important;
+        &.theme_dark {
+            background: $dark_inputAddOnBackground !important;
+        }
+        &.theme_light {
+            background: $light_inputAddOnBackground !important;
+        }
+    }
+
+    input {
+        border-color: inherit !important;
+        &.theme_dark {
+            background: $dark_inputBackground !important;
+        }
+        &.theme_light {
+            background: $light_inputBackground !important;
+        }
+    }
+}
+
+.header-text {
+    position: relative;
+
+    &.theme_dark {
+        background-color: $dark_background;
+        color: $dark_text;
+        text-shadow: 1px 1px $dark_textShadow;
+        border-bottom: 1px solid $dark_border;
+    }
+    &.theme_light {
+        background-color: $light_background;
+        color: $light_text;
+        text-shadow: 1px 1px $light_textShadow;
+        border-bottom: 1px solid $light_border;
+    }
+
+    .organ-info {
+        position: absolute;
+        right: 10px;
+        top: 2px;
+        cursor: pointer;
+    }
+
+    p {
+        padding-left: 10px;
+    }
 }
 
 .sidebar {
     position: absolute;
     width:  $sidebarWidth;
     height: 100%;
-    max-height: 100%;
-    background-color: $sidebarBackground;
-    overflow: hidden;
+    z-index: 2;
 
-    .organ-title {
-        margin:  3px 0px 0px 0px;
-        padding: 5px 10px;
-        color: $textColor;
-        font-size:   $headerFontSize;
-        line-height: $headerFontSize;
-        font-weight: bold;
+    &.theme_dark {
+        background-color: $dark_sidebarBackground;
+    }
+    &.theme_light {
+        background-color: $light_sidebarBackground;
     }
 
-    .tab-holder {
-        padding-left: 8px;
-        border-bottom: 1px solid $borderColor;
+    .sidebar-title {
+        min-height: $headerHeight;
 
-        .organ-title {
+        p {
+            padding-top: 6px;
+            font-size: $headerHeight - 10px;
+        }
+
+        #pathway-filter-icon {
+            position: absolute;
+            right: 10px;
+            top: 7px;
+            margin: 0;
+            cursor: pointer;
+        }
+    }
+
+    .accordian-header {
+        height: $accordianHeaderHeight;
+
+        &.theme_dark {
+            border-top: 1px solid $dark_border;
+        }
+        &.theme_light {
+            border-top: 1px solid $light_border;
+        }
+
+        .accordian-title {
             display: inline-block;
-            width:  64px;
-            height: 20px;
-            margin:  2px 2px 0px 2px;
-            padding: 5px 0px 0px 0px;
-            background-color: $tabBackground;
-            border: 1px solid $borderColor;
-            border-bottom: none;
-            border-top-right-radius: 5px;
-            border-top-left-radius:  5px;
-            text-align: center;
+            cursor: pointer;
+        }
+    }
 
-            &:hover {
-                cursor: pointer;
+    .header-text {
+        .organ-popup {
+            position: absolute;
+            display: none;
+            min-height: $accordianHeaderHeight;
+            z-index: 2;
+
+            &.theme_dark {
+                background-color: $dark_background;
+                border: 1px solid $dark_border;
+            }
+            &.theme_light {
+                background-color: $light_background;
+                border: 1px solid $light_border;
             }
 
-            .cover {
-                position: relative;
-                bottom: -4px;
-                width:  100%;
-                height: 1px;
-                padding: 0;
+            .organ-cover {
+                position: absolute;
                 background-color: inherit;
+                width: 1px;
+                height: $accordianHeaderHeight;
+            }
+
+            .organ-image {
+                display: block;
+                height: 150px;
+                margin: 25px auto;
+            }
+
+            .organ-description {
+                padding: 5px 10px;
             }
         }
 
-        .active {
-            background-color: $activeTabBackground;
+        .organ-popup-up {
+            bottom: -1px;
+
+            .organ-cover {
+                bottom: 0px;
+            }
         }
+
+        .organ-popup-down {
+            top: -1px;
+
+            .organ-cover {
+                top: 0px;
+            }
+        }
+
+        .right {
+            left: 100%;
+            text-align: right;
+
+            .organ-cover {
+                left: -1px;
+            }
+        }
+
+        .left {
+            right: 100%;
+            text-align: left;
+
+            .organ-cover {
+                right: -1px;
+            }
+        }
+    }
+
+    .accordian-content, .global {
+        padding: 0 6px;
     }
 
     .mCSB_container {
-        margin-right: 10px;
+        margin-right: 6px;
     }
 
     .mCSB_scrollTools {
-        width: 6px !important;
+        width: 4px !important;
+        height: 95% !important;
+        margin-top: 5%;
+    }
+}
+
+#header {
+    position: absolute;
+    left: $sidebarWidth;
+    width: 100% - 2*$sidebarWidth;
+    height: $headerHeight;
+    z-index: 1;
+
+    &.theme_dark {
+        background-color: $dark_background;
+        border-bottom: 1px solid $dark_border;
+    }
+    &.theme_light {
+        background-color: $light_background;
+        border-bottom: 1px solid $light_border;
+    }
+
+    p {
+        display: inline-block;
+        margin: 4px 5px 0;
+        
+        &.theme_dark {
+            color: $dark_text;
+            text-shadow: 1px 1px $dark_textShadow;
+        }
+        &.theme_light {
+            color: $light_text;
+            text-shadow: 1px 1px $light_textShadow;
+        }
+    }
+
+    #settings {
+        position: absolute;
+        right: $accountWidth;
+        top: 0;
+        width: $settingsWidth;
+        min-height: 100%;
+        background-color: inherit;
+
+        &.theme_dark {
+            border: 1px solid $dark_border;
+            border-top: none;
+        }
+        &.theme_light {
+            border: 1px solid $light_border;
+            border-top: none;
+        }
+
+        .settings-header {
+            height: $headerHeight;
+            cursor: pointer;
+        }
+
+        .icon-cog {
+            position: absolute;
+            top: 6px;
+            right: 7px;
+        }
+
+        .settings-dropdown {
+            display: none;
+            width: 90%;
+            padding: 10px 5%;
+            background-color: inherit;
+
+            p {
+                margin-bottom: 5px;
+                display: block;
+            }
+
+            #theme-holder {
+                width: 100%;
+
+                button {
+                    width: 50%;
+                }
+            }
+
+            #settings-apply {
+                margin-top: 15px;
+                width: 35%;
+            }
+        }
+    }
+
+    #account {
+        float: right;
+        width:  $accountWidth;
+        min-height: 100%;
+        background-color: inherit;
+
+        &.theme_dark {
+            border-left: 1px solid $dark_border;
+            border-bottom: 1px solid $dark_border;
+        }
+        &.theme_light {
+            border-left: 1px solid $light_border;
+            border-bottom: 1px solid $light_border; 
+        }
+
+        .account-header {
+            height: $headerHeight;
+            cursor: pointer;
+        }
+
+        .icon-user {
+            position: absolute;
+            top: 6px;
+            right: 7px;
+        }
+
+        .login-dropdown {
+            display: none;
+            background-color: inherit;
+            width: 90%;
+            padding: 10px 5%;
+
+            input[type=text],input[type=password] {
+                width: 94%;
+                padding-right: 3%;
+                padding-left: 3%;
+            }
+
+            p {
+                margin-bottom: 5px;
+                display: block;
+            }
+
+            .button-holder {
+                width: 100%;
+                text-align: right;
+            }
+
+            .control-group {
+                margin: 0;
+            }
+
+            .dropdown-footer {
+                text-align: center;
+                margin: 8px 0 0;
+            }
+
+            .error-info {
+                color: red;
+                max-width: 75%;
+            }
+
+            .success-info {
+                color: green;
+                max-width: 75%;
+            }
+
+            .logout-holder {
+                margin-top: 3px;
+            }
+        }
     }
 }
 
@@ -74,80 +374,4 @@ html, body {
     left: $sidebarWidth;
     width:  100% - 2*$sidebarWidth;
     height: 100%;
-    border-left: 1px solid $borderColor;
-    background-color: #53AAAD;
-}
-
-.floating-visual {
-    position: absolute;
-    top: 30px;
-    width:  $visualWidth;
-    height: 225px;
-    border: 2px solid $visualBorderColor;
-    border-radius: 16px;
-    background-color: $visualBackground;
-
-    .visual-content {
-        position: absolute;
-        top:  15px;
-        left: 6%;
-        width:  88%;
-        height: 79%;
-    }
-
-    .image-content {
-        position: absolute;
-        margin-top: 10px;
-        margin-right: 5%;
-        margin-left: 5%;
-        width: 90%;
-    }
-
-    .visual-label {
-        position: absolute;
-        bottom: 4px;
-        left:   8px;
-        margin: 0px;
-        color: $visualTextColor;
-    }
-}
-
-#pathway-visual {
-    left: $sidebarWidth + $visualPadding;
-}
-
-#resource-visual {
-    right: $sidebarWidth + $visualPadding;
-}
-
-#organ-visual {
-    left: $sidebarWidth + $visualPadding + $visualWidth + $visualPadding;
-}
-
-#cell-visual {
-    right: $sidebarWidth + $visualPadding + $visualWidth + $visualPadding;
-}
-
-.bottom-info {
-    position: absolute;
-    bottom: 9px;
-    margin: 0px;
-    z-index: 1;
-    color: $visualTextColor;
-}
-
-#points {
-    left: $sidebarWidth + $visualPadding;
-}
-
-#turns {
-    right: $sidebarWidth + $visualPadding;
-}
-
-.hidden {
-    display: none;
-}
-
-.error {
-    color: red;
 }

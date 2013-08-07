@@ -1,0 +1,113 @@
+@import "base";
+
+#tracker-holder {
+    position: absolute;
+    left: $sidebarWidth;
+    bottom: 0;
+    width: 100% - 2*$sidebarWidth;
+    table-layout: fixed;
+
+    .tracker {
+        bottom: 0;
+        border: 1px solid;
+
+        &.theme_dark {
+            color: $dark_text;
+            text-shadow: 1px 1px $dark_textShadow;
+            background-color: $dark_background;
+            border-color: $dark_border;
+        }
+        &.theme_light {
+            color: $light_text;
+            text-shadow: 1px 1px $light_textShadow;
+            background-color: $light_background;
+            border-color: $light_border;
+        }
+
+        &:last-child {
+            border-right: none;
+        }
+
+        .tracker-header {
+            position: relative;
+            width: 100%;
+
+            &.theme_dark {
+                border-bottom: 1px solid $dark_trackerHeaderBorder;
+            }
+            &.theme_light {
+                border-bottom: 1px solid $light_trackerHeaderBorder;
+            }
+            
+            h3 {
+                top: 1px;
+                line-height: 22px;
+                font-size: 18px;
+            }
+
+            .tracker-title {
+                margin-left: 8px;
+            }
+
+            .tracker-amount {
+                position: absolute;
+                right: 5px;
+            }
+        }
+
+        .tracker-organ {
+            position: relative;
+            width: 100%;
+            height: $trackerOrganHeight;
+
+            &.theme_dark {
+                border-bottom: 1px solid $dark_trackerOrganBorder;
+            }
+            &.theme_light {
+                border-bottom: 1px solid $light_trackerOrganBorder;
+            }
+
+            p {
+                margin-top: 9px;
+                margin-bottom: 0;
+                line-height: 13px;
+                font-size: 13px;
+                position: absolute;
+                float: right;
+            }
+
+            .organ-name {
+                right: 32px;
+            }
+
+            .organ-amount {
+                right: 6px;
+            }
+
+            .tracker-icon-holder {
+                position: absolute;
+                left: 0;
+                top:  0;
+                width:  100%;
+                height: 100%;
+
+                .tracker-icon {
+                    position: absolute;
+                    left: 80%;
+                    top:  0;
+                    height: 100%;
+                    opacity: 0;
+                }
+            }
+        }
+    }
+
+    .selected-organ {
+        &.theme_dark {
+            background-color: lighten($dark_background, 1.25%);
+        }
+        &.theme_light {
+            background-color: darken($light_background, 12.5%);
+        }
+    }
+}
