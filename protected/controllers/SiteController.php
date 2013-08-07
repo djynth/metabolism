@@ -83,4 +83,12 @@ class SiteController extends Controller
             ));
         }
     }
+
+    public function actionErro()
+    {
+        if ($error=Yii::app()->errorHandler->error) {
+            var_dump($error);
+            die;
+        }
+    }
 }
