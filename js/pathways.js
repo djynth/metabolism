@@ -323,7 +323,6 @@ function onPathwaySuccess(data)
         setTurn(data.turn, data.max_turns);
         setPoints(data.points);
         refreshResources(data.resources);
-        setPh(data.ph);
     }
 }
 

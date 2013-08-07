@@ -39,7 +39,6 @@ class SiteController extends Controller
                 'points' => $points,
                 'turn' => $turn,
                 'max_turns' => Game::MAX_TURNS,
-                'ph' => Game::getPh(),
                 'resources' => Resource::getAmounts(),
             ));
         }
@@ -64,7 +63,6 @@ class SiteController extends Controller
                 'points' => $points,
                 'turn' => $turn,
                 'max_turns' => Game::MAX_TURNS,
-                'ph' => Game::getPh(),
                 'resources' => Resource::getAmounts(),
             ));
         }
