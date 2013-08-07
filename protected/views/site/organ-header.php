@@ -4,7 +4,7 @@
 
     <div class="organ-popup <?= $right ? 'right' : 'left' ?>">
         <div class="organ-cover"></div>
-        <img class="organ-image" src="<?= Yii::app()->request->baseUrl . 'img/organs/' . $organ->id ?>" alt="<?= $organ->name ?>">
+        <img class="organ-image" src="<?= Yii::app()->request->baseUrl . 'img/organs/' . $organ->id . '.png' ?>" alt="<?= $organ->name ?>">
         <p class="organ-description"><?= $organ->description ?></p>
     </div>
 </div>
