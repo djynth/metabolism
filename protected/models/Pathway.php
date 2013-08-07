@@ -141,9 +141,7 @@ class Pathway extends CActiveRecord
         foreach ($resources as $resource) {
             $resource->modify($times, $organ);
         }
-
-        Game::calculatePh();
-
+        
         return true;
     }
 }

@@ -20,16 +20,6 @@ $this->renderPartial('organ-header', array('organ' => $global, 'right' => false)
     ?>
 </div>
 
-<div class="resource-holder global" id="ph-holder">
-    <div class="resource-data resource-bar">
-        <div class="progress">
-            <span class="resource-name">pH</span>
-            <span class="resource-value"></span>
-            <div class="bar"></div>
-        </div>
-    </div>
-</div>
-
 <?php foreach($organs as $organ):
     $this->renderPartial('organ-header', array('organ' => $organ, 'right' => false)); ?>
 

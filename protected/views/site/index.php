@@ -31,11 +31,3 @@ $this->pageTitle=Yii::app()->name;
         <a class="btn btn-primary" id="modal-confirm"></a>
     </div>
 </div>
-
-<script>
-
-setPoints(<?= Game::STARTING_POINTS ?>);
-setTurn(<?= Game::STARTING_TURN ?>, <?= Game::MAX_TURNS ?>);
-setPh(<?= Game::STARTING_PH ?>);
-
-</script>
