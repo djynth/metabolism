@@ -1,248 +1,159 @@
-var EAT_MAX = 50;
+var SOURCE_HIGHLIGHT_COLOR      = '82,117,255';
+var DESTINATION_HIGHLIGHT_COLOR = '233,25,44';
 
-function Pathway(id, name, points, limit, color, catabolic, organs, resources)
+$(document).ready(function() {
+    resizeFilter();
+
+    $(window).resize(resizeFilter);
+
+    $('.pathway-run').click(function() {
+        var id = parseInt($(this).parents('.pathway').attr('value'));
+        var organ = parseInt($(this).parents('.pathway-holder').attr('value'));
+        var times = parseInt($(this).attr('value'));
+        runPathway(id, times, organ);
+    });
+
+    $('.pathway-plus').click(function() {
+        $(this).siblings('.pathway-run').attr('value', parseInt($(this).siblings('.pathway-run').attr('value')) + 1);
+        updatePathwayButtons($(this).parents('.pathway'));
+    });
+
+    $('.pathway-minus').click(function() {
+        $(this).siblings('.pathway-run').attr('value', parseInt($(this).siblings('.pathway-run').attr('value')) - 1);
+        updatePathwayButtons($(this).parents('.pathway'));
+    });
+
+    $('.pathway-top').click(function() {
+        $(this).siblings('.pathway-run').attr('value', -1);
+        updatePathwayButtons($(this).parents('.pathway'));
+    });
+
+    $('.pathway-bottom').click(function() {
+        $(this).siblings('.pathway-run').attr('value', 1);
+        updatePathwayButtons($(this).parents('.pathway'));
+    });
+
+    $('.eat-run').click(function() {
+        var foodHolder = $('.food-holder');
+        var total = 0;
+        var nutrients = new Array();
+        foodHolder.find('.eat').each(function() {
+            total += Math.max(0, parseInt($(this).attr('value')));
+            nutrients[parseInt($(this).attr('id'))] = parseInt($(this).attr('value'));
+        });
+        var eatMax = parseInt(foodHolder.attr('eat-max'));
+
+        if (total < eatMax) {
+            $('#modal-header').text('Are You Sure?');
+            $('#modal-content').text('You are eating less than you could! Your total nutrient intake of ' + 
+                total + ' is less than the maximum of ' + eatMax);
+            $('#modal-cancel').text('Cancel');
+            $('#modal-confirm').text('Confirm');
+            $('#modal-cancel').click(function() {
+                $('.modal').modal('hide');
+            });
+            $('#modal-confirm').click(function() {
+                $(this).unbind('click');
+                $('.modal').modal('hide');
+                eat(nutrients);
+            });
+            $('.modal').modal('show');
+        } else {
+            eat(nutrients);
+        }
+    });
+
+    $('.eat-plus').click(function() {
+        $(this).siblings('.eat').attr('value', parseInt($(this).siblings('.eat').attr('value')) + 1);
+        updateEatButtons($(this).parents('.food-holder'));
+    });
+
+    $('.eat-minus').click(function() {
+        $(this).siblings('.eat').attr('value', parseInt($(this).siblings('.eat').attr('value')) - 1);
+        updateEatButtons($(this).parents('.food-holder'));
+    });
+
+    $('.eat-top').click(function() {
+        $(this).siblings('.eat').attr('value', -1);
+        updateEatButtons($(this).parents('.food-holder'));
+    });
+
+    $('.eat-bottom').click(function() {
+        $(this).siblings('.eat').attr('value', 0);
+        updateEatButtons($(this).parents('.food-holder'));
+    });
+
+    $('#pathway-filter-icon').click(function() {
+        var resizedFilter = false;
+        $('#pathway-filter').slideToggle({
+            progress: function() {
+                updateScrollbars(true);
+                if (!resizedFilter) {
+                    resizeFilter();
+                    resizedFilter = true;
+                }
+            }
+        });
+    });
+
+    $('#filter-name, #filter-reactant, #filter-product').change(onFilterChange);
+
+    $('#filter-available, #filter-unavailable, #filter-catabolic, #filter-anabolic').click(function() {
+        window.setTimeout(onFilterChange, 0);   // wait for other events bound to the button to finish so that buttons
+                                                // 'active' property is accurately set
+    });
+
+    $('#filter-clear').click(function() {
+        $('#filter-name, #filter-reactant, #filter-product').val('');
+        $('#filter-available, #filter-unavailable, #filter-catabolic, #filter-anabolic').removeClass('active');
+        onFilterChange();
+    });
+});
+
+function resizeFilter()
 {
-    this.id = id;
-    this.name = name;
-    this.points = points;
-    this.limit = limit;
-    this.color = color;
-    this.catabolic = catabolic;
-    this.organs = organs;
-    this.resources = resources;
+    $('#filter-row-search').find('input').each(function() {
+        var w = $(this).parent().outerWidth();
+        $(this).siblings().each(function() {
+            w -= $(this).outerWidth();
+        });
+        $(this).outerWidth(w);
+    });
 
-    this.hasOrgan = function(organ) {
-        for (var i = 0; i < organs.length; i++) {
-            if (organs[i] == organ) {
-                return true;
-            }
-        }
-        return false;
-    }
+    $('#filter-row-reaction').each(function() {
+        var rowWidth = $(this).outerWidth();
+        var inputs = $(this).find('input');
 
-    this.run = function(organ, times) {
-        if (!this.hasOrgan(organ)) {
-            throw "invalid organ " + organ + " for pathway id " + this.id;
-        }
-
-        for (var i = 0; i < this.resources.length; i++) {
-            if (getResourceValue(this.resources[i].res, isResourceGlobal(this.resources[i].res) ? GLOBAL : organ) + times*this.resources[i].val < 0) {
-                return false;
-            }
-        }
-
-        for (var i = 0; i < this.resources.length; i++) {
-            var res = this.resources[i].res;
-            var val = times*this.resources[i].val;
-            var actualOrgan = isResourceGlobal(res) ? GLOBAL : organ;
-            changeResourceValue(res, actualOrgan, val);
-            onResourceChange(getResourceByName(res, actualOrgan), val);
-        }
-
-        refreshPathways();
-
-        nextTurn();
-        addPoints(times*this.points);
-
-        return true;
-    }
-
-    this.getReactants = function() {
-        var reactants = new Array();
-        for (var i = 0; i < resources.length; i++) {
-            if (resources[i].val < 0) {
-                reactants.push(resources[i]);
-            }
-        }
-        return reactants;
-    }
-
-    this.getProducts = function() {
-        var products = new Array();
-        for (var i = 0; i < resources.length; i++) {
-            if (resources[i].val > 0) {
-                products.push(resources[i]);
-            }
-        }
-        return products;
-    }
-
-    this.getMaxRuns = function(resource, value, organ) {
-        return Math.floor(getResourceValue(resource, (isResourceGlobal(resource) ? GLOBAL : organ), resources)/value);
-    }
-
-    this.getTotalMaxRuns = function(organ) {
-        if (this.limit) {
-            return 1;
-        }
-
-        var max = -1;
-        var reactants = this.getReactants();
-        for (var i = 0; i < reactants.length; i++) {
-            var reactantMax = this.getMaxRuns(reactants[i].res, Math.abs(reactants[i].val), organ);
-            if (max == -1 || reactantMax < max) {
-                max = reactantMax;
-            }
-        }
-        return max;
-    }
-
-    this.isEat = function() {
-        return this.name == "Eat";
-    }
-
-    this.toHTML = function(resources, organ) {
-        var s = '';
-        s += '<div class="pathway" value="' + this.id + '">';
-
-        s += '<p class="title">' + this.name + '</p>'
-        s += '<p class="catabolic">(' + (this.catabolic ? 'Catabolic' : 'Anabolic') + ')</p>';
-        s += '<p class="points">' + this.points + ' points</p>';
-
-        var reactants = this.getReactants();
-        var products = this.getProducts();
-
-        if (this.isEat()) {
-            var glc = 0;
-            var ala = 0;
-            var fa = 0;
-
-            for (var i = 0; i < this.resources.length; i++) {
-                if (getResourceByName('Glucose').hasName(this.resources[i].res)) {
-                    glc = this.resources[i].val;
-                } else if (getResourceByName('Alanine').hasName(this.resources[i].res)) {
-                    ala = this.resources[i].val;
-                } else {
-                    fa = this.resources[i].val;
-                }
-            }
-
-            s += '<div class="food-holder">'
-
-            s += '<div class="btn-group">';
-            s += '<button class="btn btn-mini btn-inverse eat-bottom"><i class="icon-chevron-down icon-white"></i> </button>';
-            s += '<button class="btn btn-mini btn-inverse eat-minus"><i class="icon-minus icon-white"></i> </button>';
-            s += '<button class="btn btn-mini btn-inverse eat" id="glc" value="' + glc + '"> </button>';
-            s += '<button class="btn btn-mini btn-inverse eat-plus disabled"><i class="icon-plus icon-white"></i> </button>';
-            s += '<button class="btn btn-mini btn-inverse eat-top disabled"><i class="icon-chevron-up icon-white"></i> </button>';
-            s += '</div>';
-
-            s += '<div class="btn-group">';
-            s += '<button class="btn btn-mini btn-inverse eat-bottom"><i class="icon-chevron-down icon-white"></i> </button>';
-            s += '<button class="btn btn-mini btn-inverse eat-minus"><i class="icon-minus icon-white"></i> </button>';
-            s += '<button class="btn btn-mini btn-inverse eat" id="ala" value="' + ala + '"> </button>';
-            s += '<button class="btn btn-mini btn-inverse eat-plus disabled"><i class="icon-plus icon-white"></i> </button>';
-            s += '<button class="btn btn-mini btn-inverse eat-top disabled"><i class="icon-chevron-up icon-white"></i> </button>';
-            s += '</div>';
-
-            s += '<div class="btn-group">';
-            s += '<button class="btn btn-mini btn-inverse eat-bottom"><i class="icon-chevron-down icon-white"></i> </button>';
-            s += '<button class="btn btn-mini btn-inverse eat-minus"><i class="icon-minus icon-white"></i> </button>';
-            s += '<button class="btn btn-mini btn-inverse eat" id="fa" value="' + fa + '"> </button>';
-            s += '<button class="btn btn-mini btn-inverse eat-plus disabled"><i class="icon-plus icon-white"></i> </button>';
-            s += '<button class="btn btn-mini btn-inverse eat-top disabled"><i class="icon-chevron-up icon-white"></i> </button>';
-            s += '</div>';
-
-            s += '</div>';
-        } else {
-            s += '<table class="reaction">';
-
-            for (var i = 0; i < Math.max(reactants.length, products.length); i++) {
-                s += '<tr>';
-
-                s += '<td class="reactant"';
-                if (i < reactants.length) {
-                    s += ' value="' + reactants[i].res + '"';
-                }
-                s += '>';
-                if (i < reactants.length && isResourceGlobal(reactants[i].res)) {
-                    s += '<strong>';
-                }
-                if (i < reactants.length) {
-                    s += getResourceByName(reactants[i].res).name + '\t' + reactants[i].val;
-                }
-                if (i < reactants.length && isResourceGlobal(reactants[i].res)) {
-                    s += '</strong>';
-                }
-                s += '</td>';
-
-                s += '<td class="product"';
-                s += '>';
-                if (i < products.length && isResourceGlobal(products[i].res)) {
-                    s += '<strong>';
-                }
-                if (i < products.length) {
-                    s += products[i].val + '\t' + getResourceByName(products[i].res).name;
-                }
-                if (i < products.length && isResourceGlobal(products[i].res)) {
-                    s += '</strong>';
-                }
-                s += '</td>';
-
-                s += '</tr>';
-            }
-
-            s += '</table>';
-        }
-
-        var actual_limit = this.limit;
-        var lacking = null;
-        for (var i = 0; i < reactants.length; i++) {
-            var max_runs = this.getMaxRuns(reactants[i].res, Math.abs(reactants[i].val), organ)
-
-            if (max_runs <= 0) {
-                lacking = reactants[i].res;
-                break;
-            }
-
-            if (actual_limit == -1) {
-                actual_limit = max_runs;
-            } else {
-                actual_limit = Math.min(actual_limit, max_runs);
-            }
-        }
-
-        s += '<p class="lacking">Not enough ' + lacking + '</p>';
-        s += '<div class="btn-group run-holder">';
-        if (this.limit) {
-            s += '<button class="btn btn-mini btn-inverse ' + (this.isEat() ? 'eat-run' : 'pathway-run') + '" value="1">Run</button>';
-        } else {
-            s += '<button class="btn btn-mini btn-inverse pathway-bottom disabled"><i class="icon-chevron-down icon-white"></i> </button>';
-            s += '<button class="btn btn-mini btn-inverse pathway-minus disabled"><i class="icon-minus icon-white"></i> </button>';
-            s += '<button class="btn btn-mini btn-inverse pathway-run" value="1" min-value="1" max-value="1">Run x1</button>';
-            s += '<button class="btn btn-mini btn-inverse pathway-plus" ><i class="icon-plus icon-white"></i> </button>';
-            s += '<button class="btn btn-mini btn-inverse pathway-top"><i class="icon-chevron-up icon-white"></i> </button>';
-        }
-        
-        s += '</div>';
-
-        s += '</div>';
-        return s;
-    }
+        inputs.each(function() {
+            var w = rowWidth/inputs.length;
+            $(this).siblings().each(function() {
+                w -= $(this).outerWidth() + parseInt($(this).css('border-left-width')) + 
+                    parseInt($(this).css('border-right-width'));
+            });
+            $(this).outerWidth(w);
+        });
+    });
 }
 
-function refreshPathways() {
-    for (var i = 0; i < pathways.length; i++) {
-        for (var j = 0; j < pathways[i].organs.length; j++) {
-            checkForLacking(pathways[i], pathways[i].organs[j]);
-        }
-    }
-}
-
-function checkForLacking(pathway, organ) {
-    $('.pathway[value="' + pathway.id + '"]').each(function() {
+function refreshPathways()
+{
+    $('.pathway').each(function() {
         var lackingReactants = new Array();
-        var reactants = pathway.getReactants();
-        for (var i = 0; i < reactants.length; i++) {
-            var reactantLimit = pathway.getMaxRuns(reactants[i].res, Math.abs(reactants[i].val), organ);
-            var isLacking = reactantLimit <= 0;
-            if (isLacking) {
-                $(this).find('.reactant').filter(function() { return getResourceByName(reactants[i].res).hasName($(this).attr('value')); }).addClass('lacking');
-                lackingReactants.push(getResourceByName(reactants[i].res).name)
+        var organ = $(this).parents('.pathway-holder').attr('value');
+
+        $(this).find('.reaction .reactant').each(function() {
+            var resId = $(this).attr('res-id');
+            var value = Math.abs(parseInt($(this).attr('value')));
+            var actualOrgan = $(this).hasClass('global') ? '1' : organ;
+            var amountAvailable = getResourceValue(resId, actualOrgan);
+
+            if (value > amountAvailable) {
+                $(this).addClass('lacking');
+                lackingReactants.push(getResourceName(resId, actualOrgan));
             } else {
-                $(this).find('.reactant').filter(function() { return getResourceByName(reactants[i].res).hasName($(this).attr('value')); }).removeClass('lacking');
+                $(this).removeClass('lacking');
             }
-        }
+        });
 
         if (lackingReactants.length > 0) {
             $(this).find('.run-holder').hide();
@@ -251,52 +162,303 @@ function checkForLacking(pathway, organ) {
             var lackingList = 'Not enough ';
             for (var i = 0; i < lackingReactants.length; i++) {
                 lackingList += lackingReactants[i];
-                if (i != lackingReactants.length-1) {
+                if (i != lackingReactants.length - 1) {
                     lackingList += ', ';
                 }
             }
-            lackingList += '.';
-            $(this).find('p.lacking').html(lackingList);
+            $(this).find('p.lacking').text(lackingList + '.');
 
-            $(this).css('box-shadow', '0px 0px');
+            $(this).css('box-shadow', '0 0');
+            $(this).attr('available', 'false')
         } else {
             $(this).find('.run-holder').show();
             $(this).find('.lacking').hide();
-            $(this).find('.pathway-run').attr('max-value', pathway.getTotalMaxRuns(organ));
-            
-            $(this).css('box-shadow', '0px 0px 5px 2px ' + pathway.color);
+
+            $(this).css('box-shadow', '0 0 7px #' + $(this).attr('color'));
+            $(this).attr('available', 'true');
         }
 
-        updatePathwayButtons($(this).find('.pathway-run'));
+        updatePathwayButtons($(this), organ);
+    });
+
+    updateEatButtons();
+    updateScrollbars();
+}
+
+function updatePathwayButtons(pathway)
+{
+    if (pathway.attr('limit')) {
+        return;
+    }
+
+    var organ = pathway.parents('.pathway-holder').attr('value');
+    var runButton = pathway.find('.pathway-run');
+    var times = parseInt(runButton.attr('value'));
+    if (typeof times === 'undefined' || isNaN(times)) {
+        times = 1;
+    }
+    
+    var maxRuns = getMaxRuns(pathway.attr('value'), organ);
+    var plus   = runButton.siblings('.pathway-plus');
+    var minus  = runButton.siblings('.pathway-minus');
+    var top    = runButton.siblings('.pathway-top');
+    var bottom = runButton.siblings('.pathway-bottom');
+
+    if (times == -1 || times > maxRuns) {
+        times = maxRuns;
+    } else if (times < 1) {
+        times = 1;
+    }
+
+    runButton.attr('value', times);
+    runButton.html('Run x' + times);
+
+    if (times >= maxRuns) {
+        plus.addClass('disabled').attr('disabled', 'disabled');
+        top.addClass('disabled').attr('disabled', 'disabled');
+    } else {
+        plus.removeClass('disabled').removeAttr('disabled');
+        top.removeClass('disabled').removeAttr('disabled');
+    }
+
+    if (times <= 1) {
+        minus.addClass('disabled').attr('disabled', 'disabled');
+        bottom.addClass('disabled').attr('disabled', 'disabled');
+    } else {
+        minus.removeClass('disabled').removeAttr('disabled');
+        bottom.removeClass('disabled').removeAttr('disabled');
+    }
+}
+
+function getMaxRuns(pathway, organ)
+{
+    var maxRuns = -1;
+    $('.pathway[value="' + pathway + '"]').find('.reactant').each(function() {
+        var actualOrgan = $(this).hasClass('global') ? '1' : organ;
+        var resId = parseInt($(this).attr('res-id'));
+        var value = Math.abs(parseInt($(this).attr('value')));
+        var amountAvailable = getResourceValue(resId, actualOrgan);
+        var limit = Math.floor(amountAvailable/value);
+        if (maxRuns == -1 || limit < maxRuns) {
+            maxRuns = limit;
+        }
+    });
+    return maxRuns;
+}
+
+function updateEatButtons()
+{
+    var foodHolder = $('.food-holder');
+    var total = 0;
+    foodHolder.find('.eat').each(function() { total += Math.max(0, parseInt($(this).attr('value'))); });
+    var EAT_MAX = parseInt(foodHolder.attr('eat-max'));
+
+    var full = total >= EAT_MAX;
+    foodHolder.children('.btn-group').each(function() {
+        var eat = $(this).find('.eat');
+
+        if (eat.attr('value') == -1) {
+            eat.attr('value', EAT_MAX - total);
+            total = EAT_MAX;
+            full = true;
+        }
+
+        eat.html(eat.attr('full-name') + ' x' + eat.attr('value'));
+
+        if (eat.attr('value') <= 0) {
+            $(this).find('.eat-minus').addClass('disabled').attr('disabled', 'disabled');
+            $(this).find('.eat-bottom').addClass('disabled').attr('disabled', 'disabled');
+        } else {
+            $(this).find('.eat-minus').removeClass('disabled').removeAttr('disabled');
+            $(this).find('.eat-bottom').removeClass('disabled').removeAttr('disabled');
+        }
+    });
+
+    if (full) {
+        foodHolder.find('.eat-plus').addClass('disabled').attr('disabled', 'disabled');
+        foodHolder.find('.eat-top').addClass('disabled').attr('disabled', 'disabled');
+    } else {
+        foodHolder.find('.eat-plus').removeClass('disabled').removeAttr('disabled');
+        foodHolder.find('.eat-top').removeClass('disabled').removeAttr('disabled');
+    }
+
+    foodHolder.siblings('.run-holder').find('.eat-run').html('Run [' + total + '/' + EAT_MAX + ']')
+}
+
+function eat(nutrients)
+{
+    $.ajax({
+        url: 'index.php?r=site/eat',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            nutrients: nutrients,
+        },
+        success: function(data) {
+            onPathwaySuccess(data);
+        }
     });
 }
 
-function getPathways(organ)
+function runPathway(pathwayId, times, organ)
 {
-    var organPathways = new Array();
-    for (var i = 0; i < pathways.length; i++) {
-        var pathway = pathways[i];
-        if (pathway.hasOrgan(organ)) {
-            organPathways.push(pathway);
+    $.ajax({
+        url: 'index.php?r=site/pathway',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            pathway_id: pathwayId,
+            times: times,
+            organ: organ,
+        },
+        success: function(data) {
+            onPathwaySuccess(data);
         }
-    }
-    return organPathways;
+    });
 }
 
-function getPathwayById(id) {
-    for (var i = 0; i < pathways.length; i++) {
-        if (pathways[i].id == id) {
-             return pathways[i];
-        }
+function onPathwaySuccess(data)
+{
+    if (data.success) {
+        setTurn(data.turn, data.max_turns);
+        setPoints(data.points);
+        refreshResources(data.resources);
+        setPh(data.ph);
     }
-    return null;
 }
 
-function getPathwayByName(name) {
-    for (var i = 0; i < pathways.length; i++) {
-        if (pathways[i].name == name) {
-             return pathways[i];
-        }
+function onFilterChange()
+{
+    var name            = $('#filter-name').val();
+    var showAvailable   = $('#filter-available').hasClass('active');
+    var showUnavailable = $('#filter-unavailable').hasClass('active');
+    var showCatabolic   = $('#filter-catabolic').hasClass('active');
+    var showAnabolic    = $('#filter-anabolic').hasClass('active');
+    var reactant        = $('#filter-reactant').val();
+    var product         = $('#filter-product').val();
+
+    if (name) {
+        name = new RegExp(name, 'i');
     }
-    return null;
+    if (reactant) {
+        reactant = new RegExp(reactant, 'i');
+    }
+    if (product) {
+        product = new RegExp(product, 'i');
+    }
+    if (!showAvailable && !showUnavailable) {
+        showAvailable = true;
+        showUnavailable = true;
+    }
+    if (!showCatabolic && !showAnabolic) {
+        showCatabolic = true;
+        showAnabolic = true;
+    }
+
+    $('.pathway').attr('filter', 'true').each(function() {
+        var pathwayName = $(this).find('.title').html();
+        if (name && !name.test(pathwayName)) {
+            $(this).attr('filter', 'false');
+            return;
+        }
+
+        var pathwayAvailable = $(this).attr('available') === 'true';
+        if ((showAvailable && !showUnavailable && !pathwayAvailable) || (!showAvailable && showUnavailable && pathwayAvailable)) {
+            $(this).attr('filter', 'false');
+            return;
+        }
+        var pathwayCatabolic = $(this).attr('catabolic') === 'true';
+        if ((showCatabolic && !showAnabolic && !pathwayCatabolic) || (!showCatabolic && showAnabolic && pathwayCatabolic)) {
+            $(this).attr('filter', 'false');
+            return;
+        }
+
+        if (reactant) {
+            var pathwayReactants = new Array;
+            $(this).find('.reactant').each(function() {
+                pathwayReactants.push(getResourceElement($(this).attr('res-id')));
+            });
+
+            var match = false;
+            for (var i = 0; i < pathwayReactants.length; i++) {
+                if (reactant.test(pathwayReactants[i].attr('abbr')) ||
+                    reactant.test(pathwayReactants[i].attr('name')) ||
+                    reactant.test(pathwayReactants[i].attr('full-name')))
+                {
+                    match = true;
+                    break;
+                }
+            }
+
+            if (!match) {
+                $(this).attr('filter', 'false');
+                return;
+            }
+        }
+
+        if (product) {
+            var pathwayProducts = new Array;
+            $(this).find('.product').each(function() {
+                pathwayProducts.push(getResourceElement($(this).attr('res-id')));
+            });
+
+            var match = false;
+            for (var i = 0; i < pathwayProducts.length; i++) {
+                if (product.test(pathwayProducts[i].attr('abbr')) ||
+                    product.test(pathwayProducts[i].attr('name')) ||
+                    product.test(pathwayProducts[i].attr('full-name')))
+                {
+                    match = true;
+                    break;
+                }
+            }
+
+            if (!match) {
+                $(this).attr('filter', 'false');
+                return;
+            }
+        }
+    }).each(function() {
+        if ($(this).attr('filter') == 'true') {
+            $(this).slideDown();
+        } else {
+            $(this).slideUp();
+        }
+    }).promise().done(function() {
+        updateScrollbars(true);
+    });
+}
+
+function highlightSource(pathwayId, highlight)
+{
+    var pathway = $('.pathway[value="' + pathwayId + '"]');
+    pathway.addClass('source');
+    if (highlight) {
+        pathway.find('.pathway-inner').stop().animate({
+            boxShadow: '0 0 9px rgb(' + SOURCE_HIGHLIGHT_COLOR + ') inset',
+            borderColor: 'rgb(' + SOURCE_HIGHLIGHT_COLOR + ')'
+        });
+    } else {
+        pathway.find('.pathway-inner').stop().animate({
+            boxShadow: '0 0 9px rgba(' + SOURCE_HIGHLIGHT_COLOR + ',0) inset',
+            borderColor: 'rgba(' + SOURCE_HIGHLIGHT_COLOR + ', 0)'
+        });
+    }
+}
+
+function highlightDestination(pathwayId, highlight)
+{
+    var pathway = $('.pathway[value="' + pathwayId + '"]');
+    pathway.addClass('destination');
+    if (highlight) {
+        pathway.find('.pathway-inner').stop().animate({
+            boxShadow: '0 0 9px rgb(' + DESTINATION_HIGHLIGHT_COLOR + ') inset',
+            borderColor: 'rgb(' + DESTINATION_HIGHLIGHT_COLOR + ')'
+        });
+    } else {
+        pathway.find('.pathway-inner').stop().animate({
+            boxShadow: '0 0 9px rgba(' + DESTINATION_HIGHLIGHT_COLOR + ',0) inset',
+            borderColor: 'rgba(' + DESTINATION_HIGHLIGHT_COLOR + ', 0)'
+        });
+    }   
 }

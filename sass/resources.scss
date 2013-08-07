@@ -1,54 +1,144 @@
 @import "base";
-@import "compass";
 
 #resource-holder {
     right: 0px;
-    border-left: 1px solid $borderColor;
+    
+    &.theme_dark {
+        border-left: 1px solid $dark_border;
+    }
+    &.theme_light {
+        border-left: 1px solid $light_border;
+    }
 
-    .resource-holder {
-        height: auto;
-        padding: 3px 6px 6px 6px;
-        background: $activeTabBackground;
+    .resource-data {
+        width:  80%;
+        height: 21px;
+        margin: 8px auto;
+        border-radius: 4px;
+        font-size:   14px;
+        line-height: 14px;
 
-        .resource-data {
-            width:  80%;
-            height: 21px;
-            margin: 10px auto;
-            border-radius: 4px;            
-            line-height: 14px;
+        .progress {
+            background-image: none;
+            border: 1px solid;
 
-            .progress {
-                background-image: none;
-                background-color: $elementBackground;
-                border: 1px solid $elementBorderColor;
-                height: inherit;
+            &.theme_dark {
+                background-color: $dark_elementBackground;
+                border-color: $dark_elementBorder;
             }
-
-            span {
-                position: absolute;
-                width: 48%;
-                font-size: 14px;
-                padding-top: 3px;
-                color: $textColor;
-            }
-
-            .resource-name {
-                left: 0px;
-                text-align: right;
-            }
-
-            .resource-value {
-                right: 0px;
-                text-align: left;
+            &.theme_light {
+                background-color: $light_elementBackground;
+                border-color: $light_elementBorder;
             }
         }
 
-        .tooltip {
-            z-index: 10000;
+        span {
+            position: absolute;
+            width: 48%;
+            padding-top: 3px;
+
+            &.theme_dark {
+                color: $dark_elementText;
+            }
+            &.theme_light {
+                color: $light_elementText;
+            }
+        }
+
+        .resource-name {
+            left: 0px;
+            text-align: right;
+        }
+
+        .resource-value {
+            right: 0px;
+            text-align: left;
+        }
+    }
+}
+
+#ph-holder {
+    padding-top: 4px;
+}
+
+#resource-visual {
+    position: relative;
+    width:  100%;
+    height: $resourceVisualHeight;
+    overflow: hidden;
+
+    &.theme_dark {
+        background-color: $dark_sidebarBackground;
+        border-top: 1px solid $dark_border;
+    }
+    &.theme_light {
+        background-color: $light_sidebarBackground;
+        border-top: 1px solid $light_border;
+    }
+
+    .resource-visual-header {
+        padding-left: 10px;
+
+        &.theme_dark {
+            background-color: $dark_background;
+            color: $dark_text;
+            text-shadow: 1px 1px $dark_textShadow;
+            border-bottom: 1px solid $dark_border;
+        }
+        &.theme_light {
+            background-color: $light_background;
+            color: $light_text;
+            text-shadow: 1px 1px $light_textShadow;
+            border-bottom: 1px solid $light_border;
+        }
+
+        p, h3 {
+            font-size: 16px;
+            line-height: 20px;
+            padding-top: 1px;
+        }
+
+        .resource-visual-amount {
+            position: absolute;
+            right: 6px;
+            top: 0;
         }
     }
 
-    [value|=global] {
-        background-color: inherit;
+    .resource-visual-content {
+        position: absolute;
+        display: none;
+        left: 0;
+        top: 20px;
+        width: 92%;
+        height: 170px;
+        padding: 5px 4%;
+
+        p, td, th {
+            &.theme_dark {
+                color: $dark_elementText;
+            }
+            &.theme_light {
+                color: $light_elementText;
+            }
+        }
+
+        .resource-visual-image {
+            position: absolute;
+            right: 10px;
+            top:   10px;
+            height: 40%;
+        }
+
+        .resource-visual-formula {
+            width:  30%;
+            height: 40%;
+            margin-top: 10px;
+        }
+
+        .resource-visual-description {
+            padding-top: 5px;
+            line-height: 16px;
+        }
     }
 }
