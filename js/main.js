@@ -272,12 +272,6 @@ function setPoints(points)
     $('#points').text(points + ' Points');
 }
 
-function setPh(ph)
-{
-    $('#ph-holder').find('.bar').css('width', Math.max(0, Math.min(100, 100*((ph-6)/2))) + '%')
-        .siblings('.resource-value').text(ph.toFixed(2));
-}
-
 function setColorTheme(theme, save)
 {
     if (typeof theme === 'undefined' || theme === null) {
