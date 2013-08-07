@@ -11,7 +11,7 @@ class m130710_014626_pathways extends CDbMigration
             'limit' => 'bool',
             'color' => 'char(6)',
             'catabolic' => 'bool'
-        ));
+        ), 'ENGINE InnoDB');
     }
 
     public function down()

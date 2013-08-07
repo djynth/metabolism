@@ -13,13 +13,13 @@ class m130710_021341_resources extends CDbMigration
             'max_shown_value' => 'int',
             'global' => 'bool',
             'color' => 'char(6)'
-        ));
+        ), 'ENGINE InnoDB');
 
         $this->createTable('pathway_resources', array(
             'pathway_id' => 'smallint',
             'resource_id' => 'smallint',
             'value' => 'int'
-        ));
+        ), 'ENGINE InnoDB');
 
         $this->addForeignKey('fk_pathway_resources_pathways_pathway_id',   'pathway_resources', 'pathway_id',  'pathways',  'id', 'cascade', 'cascade');
         $this->addForeignKey('fk_pathway_resources_resources_resource_id', 'pathway_resources', 'resource_id', 'resources', 'id', 'cascade', 'cascade');
