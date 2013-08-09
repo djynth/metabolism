@@ -1,0 +1,23 @@
+/* line 1, ../sass/verify-email.scss */
+#verify-email-holder {
+  width: 500px;
+  margin: 125px auto;
+}
+/* line 5, ../sass/verify-email.scss */
+#verify-email-holder #verify-email-title {
+  margin-bottom: 20px;
+}
+/* line 9, ../sass/verify-email.scss */
+#verify-email-holder .verify-message {
+  padding-top: 15px;
+  margin-left: 180px;
+  font-size: 18px;
+}
+/* line 14, ../sass/verify-email.scss */
+#verify-email-holder .verify-message.success {
+  color: green;
+}
+/* line 17, ../sass/verify-email.scss */
+#verify-email-holder .verify-message.error {
+  color: red;
+}

@@ -1,10 +1,54 @@
 <?php
 
-class UserController extends Controller
+class UserController extends CController
 {
-    public function actions()
+    const EMAIL_VERIFICATION_LENGTH = 16;
+    const EMAIL_VERIFICATION_VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+    public function actionVerifyEmail()
     {
-        return array();
+        if (isset($_POST) && count($_POST) > 0) {
+            $username = $_POST['username'];
+            $verification = $_POST['verification'];
+
+            $success = false;
+            $message = false;
+
+            $user = User::model()->findByAttributes(array('username' => $username));
+            if ($user !== null) {
+                if (!$user->email_verified) {
+                    if ($user->email_verification === $verification) {
+                        $user->email_verified = true;
+                        if ($user->save()) {
+                            $message = 'The email address ' . $user->email . ' has been verified!';
+                            $success = true;
+                        } else {
+                            $message = 'There was an error updating your email verification status';
+                        }
+                    } else {
+                        $message = 'Incorrect verfication code';
+                    }
+                } else {
+                    $success = true;
+                    $message = 'Your email has already been verified';
+                }
+            } else {
+                $message = 'Unable to find an account with the username ' . $username;
+            }
+
+            echo CJavaScript::jsonEncode(array(
+                'success' => $success,
+                'message' => $message,
+            ));
+        } else {
+            $email = isset($_GET['email']) ? $_GET['email'] : '';
+            $username = isset($_GET['username']) ? $_GET['username'] : '';
+
+            $this->render('verify-email', array(
+                'email' => $email,
+                'username' => $username,
+            ));
+        }
     }
 
     public function actionLogin()
@@ -37,21 +81,29 @@ class UserController extends Controller
             $password = $_POST['password'];
             $confirm = $_POST['confirm'];
             $theme = $_POST['theme'];
+            $email = $_POST['email'];
 
             $message = false;
             $success = false;
             if ($password === $confirm) {
                 if (self::isValidPassword($password)) {
                     if (self::isValidUsername($username)) {     // TODO check if username exists
-                        $record = new User;
-                        $record->username = $username;
-                        $record->password = crypt($password);
-                        $record->theme = $theme;
-                        if ($record->save()) {
-                            Yii::app()->user->login(new UserIdentity($username, $password), 3600*24);
-                            $success = true;
+                        if (self::isValidEmail($email)) {       // TODO check if email exists
+                            $record = new User;
+                            $record->username = $username;
+                            $record->password = crypt($password);
+                            $record->theme = $theme;
+                            $record->email = $email;
+                            $record->email_verified = false;
+                            $record->email_verification = self::generateEmailVerification();
+                            if ($record->save()) {
+                                Yii::app()->user->login(new UserIdentity($username, $password), 3600*24);
+                                $success = true;
+                            } else {
+                                $message = 'Unable to create your account';
+                            }
                         } else {
-                            $message = 'Unable to create your account';
+                            $message = 'Invalid email address';
                         }
                     } else {
                         $message = 'Invalid username';
@@ -134,6 +186,13 @@ class UserController extends Controller
         ));
     }
 
+    public function actionValidateEmail()
+    {
+        echo CJavaScript::jsonEncode(array(
+            'valid' => self::isValidEmail($_POST['email'])
+        ));
+    }
+
     private static function isValidUsername($username)
     {
         return preg_match("/^[a-z0-9_-]{3,16}$/", $username);
@@ -142,6 +201,24 @@ class UserController extends Controller
     private static function isValidPassword($password)
     {
         return preg_match("/^[a-z0-9:punct:]{3,32}$/", $password);
+    }
+
+    private static function isValidEmail($email)
+    {
+        return preg_match("/.+\@.+\..+/", $email);
+    }
+
+    private static function generateEmailVerification()
+    {
+        $values = str_split(self::EMAIL_VERIFICATION_VALUES);
+        $keys = array_rand($values, self::EMAIL_VERIFICATION_LENGTH);
+
+        for ($i = 0; $i < self::EMAIL_VERIFICATION_LENGTH; $i++) {
+            $keys[$i] = $values[$keys[$i]];
+        }
+
+        shuffle($keys);
+        return implode('', $keys);
     }
 
     public function actionSaveTheme()
@@ -154,6 +231,48 @@ class UserController extends Controller
                 $user->theme = $theme;
                 $user->save();
             }
+        }
+    }
+
+    public function actionChangeEmail()
+    {
+        if (isset($_POST)) {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+
+            $success = false;
+            $message = false;
+            if (!Yii::app()->user->isGuest) {
+                $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id));
+                if ($user !== null) {
+                    if (self::isValidEmail($email)) {
+                        if ($user->authenticate($password)) {
+                            $user->email = $email;
+                            $user->email_verified = false;
+                            $record->email_verification = self::generateEmailVerification();
+                            if ($user->save()) {
+                                $success = true;
+                                $message = 'Successfully changed your email';
+                            } else {
+                                $message = 'Unable to update your account';
+                            }
+                        } else {
+                            $message = 'Incorrect password';
+                        }
+                    } else {
+                        $message = 'Invalid email';
+                    }
+                } else {
+                    $message = 'Unable to find your account';
+                }
+            } else {
+                $message = 'You must be logged in to change your email';
+            }
+
+            echo CJavaScript::jsonEncode(array(
+                'success' => $success,
+                'message' => $message,
+            ));
         }
     }
 }

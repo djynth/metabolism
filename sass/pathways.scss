@@ -43,6 +43,8 @@
             }
 
             p {
+                text-shadow: none;
+
                 &.theme_dark {
                     color: $dark_elementText;
                 }

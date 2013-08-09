@@ -147,7 +147,7 @@ function updateResourceVisual(organChanged)
             });
         } else {
             $.ajax({
-                url: 'index.php?r=site/resourceVisual',
+                url: 'index.php/site/resourceVisual',
                 type: 'POST',
                 dataType: 'json',
                 data: {

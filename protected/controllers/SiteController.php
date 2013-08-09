@@ -1,18 +1,18 @@
 <?php
 
-class SiteController extends Controller
+class SiteController extends CController
 {
-    public function actions()
-    {
-        return array();
-    }
-
     public function actionIndex()
     {
         Game::initGame();
         Resource::initStartingValues();
 
         $this->render('index');
+    }
+
+    public function actionError()
+    {
+        var_dump(Yii::app()->errorHandler->error);
     }
 
     public function actionPathway()

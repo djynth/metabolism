@@ -1,0 +1,21 @@
+#verify-email-holder {
+    width: 500px;
+    margin: 125px auto;
+
+    #verify-email-title {
+        margin-bottom: 20px;
+    }
+
+    .verify-message {
+        padding-top: 15px;
+        margin-left: 180px;
+        font-size: 18px;
+
+        &.success {
+            color: green;
+        }
+        &.error {
+            color: red;
+        }
+    }
+}

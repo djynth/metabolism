@@ -288,7 +288,7 @@ function updateEatButtons()
 function eat(nutrients)
 {
     $.ajax({
-        url: 'index.php?r=site/eat',
+        url: 'index.php/site/eat',
         type: 'POST',
         dataType: 'json',
         data: {
@@ -303,7 +303,7 @@ function eat(nutrients)
 function runPathway(pathwayId, times, organ)
 {
     $.ajax({
-        url: 'index.php?r=site/pathway',
+        url: 'index.php/site/pathway',
         type: 'POST',
         dataType: 'json',
         data: {

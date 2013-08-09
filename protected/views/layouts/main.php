@@ -29,8 +29,10 @@ var GLOBAL_ORGAN = <?= json_encode(Organ::GLOBAL_ID); ?>;
 var color_theme = null;
 
 <?php if (!Yii::app()->user->isGuest):
-    $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id)); ?>
-    var color_theme = <?= json_encode($user->theme); ?>;
+    $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id));
+    if ($user): ?>
+        color_theme = <?= json_encode($user->theme); ?>;
+    <?php endif ?>
 <?php endif ?>
 
 var organColors = new Array;
@@ -45,9 +47,9 @@ foreach ($organs as $organ): ?>
 <meta name="language" content="en">
 <meta name="keywords" content="Metabolism,Education,Game,Visualization,Fun">
 
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
 <body>

@@ -36,8 +36,12 @@ $guest = Yii::app()->user->getIsGuest();
                 <div class="control-group">
                     <input id="login-username" type="text"     placeholder="Username" class="input-themed">
                 </div>
-                <div class="control-group">
+                <div class="control-group" id="login-control-group">
                     <input id="login-password" type="password" placeholder="Password" class="input-themed">
+                    <div class="forgot-password">
+                        <i class="icon-question-sign"> </i>
+                        <button id="forgot-password-button" class="btn btn-mini">Forgot Password</button>
+                    </div>
                 </div>
                 <p id="login-error" class="error-info"></p>
                 <div class="button-holder">
@@ -48,6 +52,9 @@ $guest = Yii::app()->user->getIsGuest();
                 <p>Create Account</p>
                 <div class="control-group">
                     <input id="create-account-username" type="text" placeholder="Username" class="input-themed">
+                </div>
+                <div class="control-group">
+                    <input id="create-account-email" type="text" placeholder="Email Address" class="input-themed">
                 </div>
                 <div class="control-group">
                     <input id="create-account-password" type="password" placeholder="Password" class="input-themed">

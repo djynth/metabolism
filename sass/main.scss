@@ -7,10 +7,28 @@ html, body {
     margin: 0;
     font-family: Sans-serif;
     @include user-select(none);
+
+    &.theme_dark {
+        background-color: $dark_background;
+    }
+    &.theme_light {
+        background-color: $light_background;
+    }
 }
 
 p, h1, h2, h3, h4, h5, h6 {
     margin: 0;
+}
+
+p, h1, h2, h3, h4, h5, h6, label {
+    &.theme_dark {
+        color: $dark_text;
+        text-shadow: 1px 1px $dark_textShadow;
+    }
+    &.theme_light {
+        color: $light_text;
+        text-shadow: 1px 1px $light_textShadow;
+    }
 }
 
 .input-themed {
@@ -58,14 +76,10 @@ p, h1, h2, h3, h4, h5, h6 {
 
     &.theme_dark {
         background-color: $dark_background;
-        color: $dark_text;
-        text-shadow: 1px 1px $dark_textShadow;
         border-bottom: 1px solid $dark_border;
     }
     &.theme_light {
         background-color: $light_background;
-        color: $light_text;
-        text-shadow: 1px 1px $light_textShadow;
         border-bottom: 1px solid $light_border;
     }
 
@@ -230,15 +244,6 @@ p, h1, h2, h3, h4, h5, h6 {
     p {
         display: inline-block;
         margin: 4px 5px 0;
-        
-        &.theme_dark {
-            color: $dark_text;
-            text-shadow: 1px 1px $dark_textShadow;
-        }
-        &.theme_light {
-            color: $light_text;
-            text-shadow: 1px 1px $light_textShadow;
-        }
     }
 
     #settings {
@@ -248,7 +253,7 @@ p, h1, h2, h3, h4, h5, h6 {
         width: $settingsWidth;
         min-height: 100%;
         background-color: inherit;
-
+        
         &.theme_dark {
             border: 1px solid $dark_border;
             border-top: none;
@@ -331,6 +336,46 @@ p, h1, h2, h3, h4, h5, h6 {
                 width: 94%;
                 padding-right: 3%;
                 padding-left: 3%;
+            }
+
+            #login-control-group {
+                position: relative;
+
+                .forgot-password {
+                    position: absolute;
+                    width:  29px;
+                    min-width: 29px;
+                    max-width: 126px;
+                    height: 28px;
+                    right: -2px;
+                    top: 0;
+                    border: 1px solid;
+                    border-top-right-radius: 4px;
+                    border-bottom-right-radius: 4px;
+
+                    &.theme_dark {
+                        border-color: $dark_inputBorder;
+                        background: $dark_inputAddOnBackground;
+                    }
+                    &.theme_light {
+                        border-color: $light_inputBorder;
+                        background: $light_inputAddOnBackground;
+                    }
+
+                    .icon-question-sign {
+                        position: absolute;
+                        left: 6px;
+                        top:  6px;
+                    }
+
+                    #forgot-password-button {
+                        display: none;
+                        position: absolute;
+                        right: 4px;
+                        top: 4px;
+                        white-space: nowrap;
+                    }
+                }
             }
 
             p {

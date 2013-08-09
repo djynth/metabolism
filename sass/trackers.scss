@@ -12,14 +12,10 @@
         border: 1px solid;
 
         &.theme_dark {
-            color: $dark_text;
-            text-shadow: 1px 1px $dark_textShadow;
             background-color: $dark_background;
             border-color: $dark_border;
         }
         &.theme_light {
-            color: $light_text;
-            text-shadow: 1px 1px $light_textShadow;
             background-color: $light_background;
             border-color: $light_border;
         }

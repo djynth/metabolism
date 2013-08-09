@@ -29,7 +29,7 @@ $(document).ready(function() {
         setColorTheme(theme, true);
     });
 
-    $('#create-account-username, #create-account-password, #create-account-confirm').keypress(function(event) {
+    $('#create-account-username, #create-account-password, #create-account-confirm, #create-account-email').keypress(function(event) {
         if (event.which == 13) {
             $('#create-account-submit').click();
         }
@@ -50,7 +50,7 @@ $(document).ready(function() {
     $('#create-account-username').change(function() {
         var elem = $(this);
         $.ajax({
-            url: 'index.php?r=user/validateUsername',
+            url: 'index.php/user/validateUsername',
             type: 'POST',
             dataType: 'json',
             data: {
@@ -66,10 +66,29 @@ $(document).ready(function() {
         });
     });
 
+    $('#create-account-email').change(function() {
+        var elem = $(this);
+        $.ajax({
+            url: 'index.php/user/validateEmail',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                email: elem.val()
+            },
+            success: function(data) {
+                if (data.valid) {
+                    elem.parent().removeClass('error');
+                } else {
+                    elem.parent().addClass('error');
+                }
+            }
+        });
+    });
+
     $('#create-account-password, #change-password-new').change(function() {
         var elem = $(this);
         $.ajax({
-            url: 'index.php?r=user/validatePassword',
+            url: 'index.php/user/validatePassword',
             type: 'POST',
             dataType: 'json',
             data: {
@@ -121,7 +140,7 @@ $(document).ready(function() {
 
     $('#login-submit').click(function() {
         $.ajax({
-            url: 'index.php?r=user/login',
+            url: 'index.php/user/login',
             type: 'POST',
             dataType: 'json',
             data: {
@@ -143,13 +162,14 @@ $(document).ready(function() {
 
     $('#create-account-submit').click(function() {
         $.ajax({
-            url: 'index.php?r=user/createAccount',
+            url: 'index.php/user/createAccount',
             type: 'POST',
             dataType: 'json',
             data: {
                 username: $('#create-account-username').val(),
                 password: $('#create-account-password').val(),
                 confirm:  $('#create-account-confirm').val(),
+                email:    $('#create-account-email').val(),
                 theme:    color_theme ? color_theme : DEFAULT_THEME
             },
             success: function(data) {
@@ -167,7 +187,7 @@ $(document).ready(function() {
 
     $('#logout').click(function() {
         $.ajax({
-            url: 'index.php?r=user/logout',
+            url: 'index.php/user/logout',
             type: 'POST',
             dataType: 'json',
             complete: function(data) {
@@ -178,7 +198,7 @@ $(document).ready(function() {
 
     $('#change-password-submit').click(function() {
         $.ajax({
-            url: 'index.php?r=user/changePassword',
+            url: 'index.php/user/changePassword',
             type: 'POST',
             dataType: 'json',
             data: {
@@ -199,6 +219,18 @@ $(document).ready(function() {
                 }
             }
         });
+    });
+
+    $('.forgot-password').hover(function() {
+        $(this).animate({ width: $(this).css('max-width') });
+        $(this).find('#forgot-password-button').fadeIn();
+    }, function() {
+        $(this).animate({ width: $(this).css('min-width') });
+        $(this).find('#forgot-password-button').fadeOut();
+    });
+
+    $('#forgot-password-button').click(function() {
+        // TODO forgot password
     });
 });
 
@@ -279,7 +311,7 @@ function setColorTheme(theme, save)
     }
 
     color_theme = theme;
-    applyColorTheme($('#content'));
+    applyColorTheme($('body'));
 
     if (theme === 'light') {
         $('#theme-dark').addClass('btn-inverse').removeClass('active');
@@ -291,7 +323,7 @@ function setColorTheme(theme, save)
 
     if (save) {
         $.ajax({
-            url: 'index.php?r=user/saveTheme',
+            url: 'index.php/user/saveTheme',
             type: 'POST',
             dataType: 'json',
             data: {
@@ -304,10 +336,12 @@ function setColorTheme(theme, save)
 function applyColorTheme(base)
 {
     if (color_theme === 'light') {
+        base.removeClass('theme_dark').addClass('theme_light');
         base.find('*').removeClass('theme_dark').addClass('theme_light');
         base.find('i').removeClass('icon-white');
         base.find('.btn').removeClass('btn-inverse');
     } else if (color_theme === 'dark') {
+        base.removeClass('theme_light').addClass('theme_dark');
         base.find('*').removeClass('theme_light').addClass('theme_dark');
         base.find('i').addClass('icon-white');
         base.find('.btn').addClass('btn-inverse');
