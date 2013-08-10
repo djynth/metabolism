@@ -304,20 +304,24 @@ class UserController extends CController
             $success = false;
             $message = false;
 
-            $user = User::model()->findByAttributes(array('username' => $username));
-            if ($user !== null) {
-                if ($user->email_verified) {
-                    // TODO send forgot password email
+            if ($username) {
+                $user = User::model()->findByAttributes(array('username' => $username));
+                if ($user !== null) {
+                    if ($user->email_verified) {
+                        // TODO send forgot password email
 
-                    $message = 'An email was sent to your email at ' . split('@', $user->email)[1] . ' with your password';
-                    $success = true;
+                        $message = 'An email was sent to your email at ' . split('@', $user->email)[1] . ' with your password';
+                        $success = true;
+                    } else {
+                        $message = $username . ' does not have a verified email address on file. Please contact us to reset your account.';
+                    }
                 } else {
-                    $message = $username . ' does not have a verified email address on file. Please contact us to reset your account.';
+                    $message = $username . ' does not exist';
                 }
             } else {
-                $message = $username . ' does not exist';
+                $message = 'Please enter a username';
             }
-
+            
             echo CJavaScript::jsonEncode(array(
                 'success' => $success,
                 'message' => $message,

@@ -100,3 +100,5 @@ $guest = Yii::app()->user->getIsGuest();
         <?php endif ?>
     </div>
 </div>
+
+<div id="notification-top" class="notification-holder"></div>

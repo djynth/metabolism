@@ -294,71 +294,73 @@ p.theme_light, h1.theme_light, h2.theme_light, h3.theme_light, h4.theme_light, h
   width: 90%;
   padding: 10px 5%;
   background-color: inherit;
+  z-index: 3;
 }
-/* line 283, ../sass/main.scss */
+/* line 284, ../sass/main.scss */
 #header #settings .settings-dropdown p {
   margin-bottom: 5px;
   display: block;
 }
-/* line 288, ../sass/main.scss */
+/* line 289, ../sass/main.scss */
 #header #settings .settings-dropdown #theme-holder {
   width: 100%;
 }
-/* line 291, ../sass/main.scss */
+/* line 292, ../sass/main.scss */
 #header #settings .settings-dropdown #theme-holder button {
   width: 50%;
 }
-/* line 296, ../sass/main.scss */
+/* line 297, ../sass/main.scss */
 #header #settings .settings-dropdown #settings-apply {
   margin-top: 15px;
   width: 35%;
 }
-/* line 303, ../sass/main.scss */
+/* line 304, ../sass/main.scss */
 #header #account {
   float: right;
   width: 300px;
   min-height: 100%;
   background-color: inherit;
 }
-/* line 309, ../sass/main.scss */
+/* line 310, ../sass/main.scss */
 #header #account.theme_dark {
   border-left: 1px solid #232323;
   border-bottom: 1px solid #232323;
 }
-/* line 313, ../sass/main.scss */
+/* line 314, ../sass/main.scss */
 #header #account.theme_light {
   border-left: 1px solid #646464;
   border-bottom: 1px solid #646464;
 }
-/* line 318, ../sass/main.scss */
+/* line 319, ../sass/main.scss */
 #header #account .account-header {
   height: 28px;
   cursor: pointer;
 }
-/* line 323, ../sass/main.scss */
+/* line 324, ../sass/main.scss */
 #header #account .icon-user {
   position: absolute;
   top: 6px;
   right: 7px;
 }
-/* line 329, ../sass/main.scss */
+/* line 330, ../sass/main.scss */
 #header #account .login-dropdown {
   display: none;
   background-color: inherit;
   width: 90%;
   padding: 10px 5%;
+  z-index: 3;
 }
-/* line 335, ../sass/main.scss */
+/* line 337, ../sass/main.scss */
 #header #account .login-dropdown input[type=text], #header #account .login-dropdown input[type=password] {
   width: 94%;
   padding-right: 3%;
   padding-left: 3%;
 }
-/* line 341, ../sass/main.scss */
+/* line 343, ../sass/main.scss */
 #header #account .login-dropdown #login-control-group {
   position: relative;
 }
-/* line 344, ../sass/main.scss */
+/* line 346, ../sass/main.scss */
 #header #account .login-dropdown #login-control-group .forgot-password {
   position: absolute;
   width: 29px;
@@ -371,23 +373,23 @@ p.theme_light, h1.theme_light, h2.theme_light, h3.theme_light, h4.theme_light, h
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
-/* line 356, ../sass/main.scss */
+/* line 358, ../sass/main.scss */
 #header #account .login-dropdown #login-control-group .forgot-password.theme_dark {
   border-color: #121212;
   background: #323232;
 }
-/* line 360, ../sass/main.scss */
+/* line 362, ../sass/main.scss */
 #header #account .login-dropdown #login-control-group .forgot-password.theme_light {
   border-color: #787878;
   background: #e1e1e1;
 }
-/* line 365, ../sass/main.scss */
+/* line 367, ../sass/main.scss */
 #header #account .login-dropdown #login-control-group .forgot-password .icon-question-sign {
   position: absolute;
   left: 7px;
   top: 6px;
 }
-/* line 371, ../sass/main.scss */
+/* line 373, ../sass/main.scss */
 #header #account .login-dropdown #login-control-group .forgot-password #forgot-password-button {
   display: none;
   position: absolute;
@@ -395,44 +397,84 @@ p.theme_light, h1.theme_light, h2.theme_light, h3.theme_light, h4.theme_light, h
   top: 3px;
   white-space: nowrap;
 }
-/* line 381, ../sass/main.scss */
+/* line 383, ../sass/main.scss */
 #header #account .login-dropdown p {
   margin-bottom: 5px;
   display: block;
 }
-/* line 386, ../sass/main.scss */
+/* line 388, ../sass/main.scss */
 #header #account .login-dropdown .button-holder {
   width: 100%;
   text-align: right;
 }
-/* line 391, ../sass/main.scss */
+/* line 393, ../sass/main.scss */
 #header #account .login-dropdown .control-group {
   margin: 0;
 }
-/* line 395, ../sass/main.scss */
+/* line 397, ../sass/main.scss */
 #header #account .login-dropdown .dropdown-footer {
   text-align: center;
   margin: 8px 0 0;
 }
-/* line 400, ../sass/main.scss */
+/* line 402, ../sass/main.scss */
 #header #account .login-dropdown .error-info {
   color: red;
   max-width: 75%;
 }
-/* line 405, ../sass/main.scss */
+/* line 407, ../sass/main.scss */
 #header #account .login-dropdown .success-info {
   color: green;
   max-width: 75%;
 }
-/* line 410, ../sass/main.scss */
+/* line 412, ../sass/main.scss */
 #header #account .login-dropdown .logout-holder {
   margin-top: 3px;
 }
 
-/* line 417, ../sass/main.scss */
+/* line 419, ../sass/main.scss */
 #cell-canvas {
   position: absolute;
   left: 19%;
   width: 62%;
   height: 100%;
+  z-index: -1;
+}
+
+/* line 427, ../sass/main.scss */
+.notification-holder {
+  position: absolute;
+  display: none;
+  left: 19%;
+  width: 62%;
+  padding: 5px 10px;
+}
+/* line 434, ../sass/main.scss */
+.notification-holder.theme_dark {
+  background-color: #323232;
+  border-color: #232323;
+}
+/* line 438, ../sass/main.scss */
+.notification-holder.theme_light {
+  background-color: #f0f0f0;
+  border-color: #646464;
+}
+/* line 443, ../sass/main.scss */
+.notification-holder .success {
+  color: green;
+}
+/* line 447, ../sass/main.scss */
+.notification-holder .error {
+  color: red;
+}
+
+/* line 452, ../sass/main.scss */
+#notification-bottom {
+  bottom: 114px;
+  border-top: 1px solid;
+}
+
+/* line 457, ../sass/main.scss */
+#notification-top {
+  top: 29px;
+  border-bottom: 1px solid;
 }

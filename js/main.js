@@ -1,5 +1,7 @@
 var DEFAULT_THEME = 'dark';
 
+var DEFAULT_NOTIFICATION_DURATION = 5000;
+
 var pathwayContentHeight = null;
 var resourceContentHeight = null;
 
@@ -238,11 +240,10 @@ $(document).ready(function() {
                 username: $('#login-username').val()
             },
             success: function(data) {
-                if (data.success) {
-                    alert('Success: ' + data.message);
-                } else {
-                    alert('Error: ' + data.message);
-                }
+                var notification = $('<p>')
+                    .text(data.message)
+                    .addClass(data.success ? 'success' : 'error');
+                notifyBottom(notification);
             }
         });
     });
@@ -360,4 +361,43 @@ function applyColorTheme(base)
         base.find('i').addClass('icon-white');
         base.find('.btn').addClass('btn-inverse');
     }
+    return base;
+}
+
+function notifyTop(html, duration)
+{
+    if (typeof duration === 'undefined') {
+        duration = DEFAULT_NOTIFICATION_DURATION;
+    }
+
+    var elem = $('#notification-top');
+
+    elem.empty().hide();
+
+    applyColorTheme(elem.append(html)).slideDown(function() {
+        setTimeout(function() {
+            elem.slideUp(function() {
+                elem.empty();
+            });
+        }, duration);
+    });
+}
+
+function notifyBottom(html, duration)
+{
+    if (typeof duration === 'undefined') {
+        duration = DEFAULT_NOTIFICATION_DURATION;
+    }
+
+    var elem = $('#notification-bottom');
+
+    elem.empty().hide();
+
+    applyColorTheme(elem.append(html)).slideDown(function() {
+        setTimeout(function() {
+            elem.slideUp(function() {
+                elem.empty();
+            });
+        }, duration);
+    });
 }

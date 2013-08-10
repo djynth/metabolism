@@ -1,3 +1,5 @@
+<div id="notification-bottom" class="notification-holder"></div>
+
 <table id="tracker-holder">
     <?php
     $primaries = Resource::model()->findAllByAttributes(array('primary' => true));

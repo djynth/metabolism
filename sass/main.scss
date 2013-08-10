@@ -279,6 +279,7 @@ p, h1, h2, h3, h4, h5, h6, label {
             width: 90%;
             padding: 10px 5%;
             background-color: inherit;
+            z-index: 3;
 
             p {
                 margin-bottom: 5px;
@@ -331,6 +332,7 @@ p, h1, h2, h3, h4, h5, h6, label {
             background-color: inherit;
             width: 90%;
             padding: 10px 5%;
+            z-index: 3;
 
             input[type=text], input[type=password] {
                 width: 94%;
@@ -419,4 +421,40 @@ p, h1, h2, h3, h4, h5, h6, label {
     left: $sidebarWidth;
     width:  100% - 2*$sidebarWidth;
     height: 100%;
+    z-index: -1;
+}
+
+.notification-holder {
+    position: absolute;
+    display: none;
+    left: $sidebarWidth;
+    width: 100% - 2*$sidebarWidth;
+    padding: 5px 10px;
+
+    &.theme_dark {
+        background-color: $dark_background;
+        border-color: $dark_border;
+    }
+    &.theme_light {
+        background-color: $light_background;
+        border-color: $light_border;
+    }
+
+    .success {
+        color: green;
+    }
+
+    .error {
+        color: red;
+    }
+}
+
+#notification-bottom {
+    bottom: $trackerHeight;
+    border-top: 1px solid;
+}
+
+#notification-top {
+    top: $headerHeight + 1;
+    border-bottom: 1px solid;
 }
