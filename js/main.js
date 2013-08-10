@@ -230,7 +230,21 @@ $(document).ready(function() {
     });
 
     $('#forgot-password-button').click(function() {
-        // TODO forgot password
+        $.ajax({
+            url: 'index.php/user/forgotPassword',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                username: $('#login-username').val()
+            },
+            success: function(data) {
+                if (data.success) {
+                    alert('Success: ' + data.message);
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            }
+        });
     });
 });
 

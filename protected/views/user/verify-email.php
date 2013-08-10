@@ -1,10 +1,5 @@
 <?php
 
-// TODO render a page to verify an email:
-//      input for username
-//      input for verification code
-//      text response whether the code was accepted or not
-
 $this->pageTitle = 'Verify Email';
 Yii::app()->getClientScript()->registerScriptFile(Yii::app()->baseUrl . '/js/verify-email.js');
 Yii::app()->getClientScript()->registerCssFile(Yii::app()->baseUrl . '/css/verify-email.css');

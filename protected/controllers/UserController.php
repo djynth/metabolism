@@ -87,23 +87,33 @@ class UserController extends CController
             $success = false;
             if ($password === $confirm) {
                 if (self::isValidPassword($password)) {
-                    if (self::isValidUsername($username)) {     // TODO check if username exists
-                        if (self::isValidEmail($email)) {       // TODO check if email exists
-                            $record = new User;
-                            $record->username = $username;
-                            $record->password = crypt($password);
-                            $record->theme = $theme;
-                            $record->email = $email;
-                            $record->email_verified = false;
-                            $record->email_verification = self::generateEmailVerification();
-                            if ($record->save()) {
-                                Yii::app()->user->login(new UserIdentity($username, $password), 3600*24);
-                                $success = true;
+                    if (self::isValidUsername($username)) {
+                        if (!self::isUsernameTaken($username)) {
+                            if (self::isValidEmail($email)) {
+                                if (!self::isEmailTaken($email)) {
+                                    $record = new User;
+                                    $record->username = $username;
+                                    $record->password = crypt($password);
+                                    $record->theme = $theme;
+                                    $record->email = $email;
+                                    $record->email_verified = false;
+                                    $record->email_verification = self::generateEmailVerification();
+                                    if ($record->save()) {
+                                        Yii::app()->user->login(new UserIdentity($username, $password), 3600*24);
+                                        $success = true;
+
+                                        // TODO send a verification email
+                                    } else {
+                                        $message = 'Unable to create your account';
+                                    }
+                                } else {
+                                    $message = 'That email address is taken';
+                                }
                             } else {
-                                $message = 'Unable to create your account';
+                                $message = 'Invalid email address';
                             }
                         } else {
-                            $message = 'Invalid email address';
+                            $message = 'That username is taken';
                         }
                     } else {
                         $message = 'Invalid username';
@@ -208,6 +218,16 @@ class UserController extends CController
         return preg_match("/.+\@.+\..+/", $email);
     }
 
+    private static function isUsernameTaken($username)
+    {
+        return User::model()->findByAttributes(array('username' => $username)) !== null;
+    }
+
+    private static function isEmailTaken($email)
+    {
+        return User::model()->findByAttributes(array('email' => $email)) !== null;
+    }
+
     private static function generateEmailVerification()
     {
         $values = str_split(self::EMAIL_VERIFICATION_VALUES);
@@ -267,6 +287,35 @@ class UserController extends CController
                 }
             } else {
                 $message = 'You must be logged in to change your email';
+            }
+
+            echo CJavaScript::jsonEncode(array(
+                'success' => $success,
+                'message' => $message,
+            ));
+        }
+    }
+
+    public function actionForgotPassword()
+    {
+        if (isset($_POST)) {
+            $username = $_POST['username'];
+
+            $success = false;
+            $message = false;
+
+            $user = User::model()->findByAttributes(array('username' => $username));
+            if ($user !== null) {
+                if ($user->email_verified) {
+                    // TODO send forgot password email
+
+                    $message = 'An email was sent to your email at ' . split('@', $user->email)[1] . ' with your password';
+                    $success = true;
+                } else {
+                    $message = $username . ' does not have a verified email address on file. Please contact us to reset your account.';
+                }
+            } else {
+                $message = $username . ' does not exist';
             }
 
             echo CJavaScript::jsonEncode(array(

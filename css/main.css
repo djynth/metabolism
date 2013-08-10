@@ -384,7 +384,7 @@ p.theme_light, h1.theme_light, h2.theme_light, h3.theme_light, h4.theme_light, h
 /* line 365, ../sass/main.scss */
 #header #account .login-dropdown #login-control-group .forgot-password .icon-question-sign {
   position: absolute;
-  left: 6px;
+  left: 7px;
   top: 6px;
 }
 /* line 371, ../sass/main.scss */
@@ -392,7 +392,7 @@ p.theme_light, h1.theme_light, h2.theme_light, h3.theme_light, h4.theme_light, h
   display: none;
   position: absolute;
   right: 4px;
-  top: 4px;
+  top: 3px;
   white-space: nowrap;
 }
 /* line 381, ../sass/main.scss */
