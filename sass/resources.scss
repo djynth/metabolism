@@ -110,12 +110,14 @@
         height: 170px;
         padding: 5px 4%;
 
-        p, td, th {
+        p {
             &.theme_dark {
                 color: $dark_elementText;
+                text-shadow: none;
             }
             &.theme_light {
                 color: $light_elementText;
+                text-shadow: none;
             }
         }
 

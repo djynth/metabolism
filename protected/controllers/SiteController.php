@@ -12,23 +12,25 @@ class SiteController extends CController
 
     public function actionError()
     {
-        var_dump(Yii::app()->errorHandler->error);
+        if ($error = Yii::app()->errorHandler->error) {
+            var_dump($error);
+            die;
+        }
     }
 
     public function actionPathway()
     {
-        if (isset($_POST) && count($_POST) > 0) {
-            $times = $_POST['times'];
-            $organ = Organ::model()->findByAttributes(array('id' => $_POST['organ']));
-
+        if (isset($_POST['pathway_id'], $_POST['organ'], $_POST['times'])) {
             $pathway = Pathway::model()->findByAttributes(array('id' => $_POST['pathway_id']));
+            $organ = Organ::model()->findByAttributes(array('id' => $_POST['organ']));
+            $times = $_POST['times'];
 
             if ($pathway->run($times, $organ)) {
                 $success = true;
                 $turn = Game::incrementTurn();
                 $points = Game::addPoints($pathway->points * $times);
             } else {
-                $succress = false;
+                $success = false;
                 $turn = Game::getTurn();
                 $points = Game::getPoints();
             }
@@ -46,7 +48,7 @@ class SiteController extends CController
 
     public function actionEat()
     {
-        if (isset($_POST) && count($_POST) > 0) {
+        if (isset($_POST['nutrients'])) {
             if (Pathway::eat($_POST['nutrients'])) {
                 $success = true;
                 $turn = Game::incrementTurn();
@@ -70,7 +72,7 @@ class SiteController extends CController
 
     public function actionResourceVisual()
     {
-        if (isset($_POST) && count($_POST) > 0) {
+        if (isset($_POST['resource'])) {
             $resource = Resource::model()->findByAttributes(array('id' => $_POST['resource']));
             echo CJavaScript::jsonEncode(array(
                 'visual' => $this->renderPartial('resource-visual', array('resource' => $resource), true),
@@ -79,14 +81,6 @@ class SiteController extends CController
                 'sources' => $resource->getSources(),
                 'destinations' => $resource->getDestinations(),
             ));
-        }
-    }
-
-    public function actionErro()
-    {
-        if ($error=Yii::app()->errorHandler->error) {
-            var_dump($error);
-            die;
         }
     }
 }

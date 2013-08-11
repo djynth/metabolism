@@ -21,4 +21,33 @@ class User extends CActiveRecord
     {
         return $this->password === crypt($password, $this->password);
     }
+
+    public function getEmailDomain()
+    {
+        return split('@', $this->email)[1];
+    }
+
+    public static function getCurrentUser()
+    {
+        if (Yii::app()->user->isGuest) {
+            return null;
+        }
+
+        return self::findByUsername(Yii::app()->user->id);
+    }
+
+    public static function findByUsername($username)
+    {
+        return self::model()->findByAttributes(array('username' => $username));
+    }
+
+    public static function isUsernameTaken($username)
+    {
+        return self::model()->findByAttributes(array('username' => $username)) !== null;
+    }
+
+    public static function isEmailTaken($email)
+    {
+        return self::model()->findByAttributes(array('email' => $email)) !== null;
+    }
 }

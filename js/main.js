@@ -71,9 +71,9 @@ function updateScrollbars(updateHeight)
     });
 }
 
-function setTurn(turn, maxTurns)
+function setTurn(turn)
 {
-    $('#turns').text(turn + '/' + maxTurns + ' Turns Remaining');
+    $('#turns').text(turn + '/' + MAX_TURNS + ' Turns Remaining');
 }
 
 function setPoints(points)
@@ -123,6 +123,11 @@ function applyColorTheme(base)
         base.find('i').addClass('icon-white');
         base.find('.btn').addClass('btn-inverse');
     }
+
+    base.find('.organ-image').each(function() {
+        $(this).attr('src', baseUrl + 'img/organs/' + color_theme + '/' + $(this).parents('.header-text').attr('value') + '.png');
+    });
+
     return base;
 }
 
