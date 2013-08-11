@@ -6,7 +6,7 @@ class UserController extends CController
     const VERIFICATION_VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const MAX_RECOVER_PASSWORD_ATTEMPTS = 10;
 
-    const MESSAGE_INTERNAL_ERROR = 'An internal error occurred. Please try again.'
+    const MESSAGE_INTERNAL_ERROR = 'An internal error occurred. Please try again.';
 
     public function actionVerifyEmail()
     {
@@ -199,6 +199,10 @@ class UserController extends CController
     public function actionLogout()
     {
         Yii::app()->user->logout();
+
+        echo CJavaScript::jsonEncode(array(
+            'success' => true,
+        ));
     }
 
     public function actionChangePassword()

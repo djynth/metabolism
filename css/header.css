@@ -268,21 +268,10 @@
   margin: 8px 0 0;
 }
 /* line 262, ../sass/header.scss */
-#header #account .login-dropdown .error-info {
-  color: red;
-  max-width: 75%;
-}
-/* line 267, ../sass/header.scss */
-#header #account .login-dropdown .success-info {
-  color: green;
-  max-width: 75%;
-}
-/* line 272, ../sass/header.scss */
 #header #account .login-dropdown .logout-holder {
   margin-top: 3px;
 }
-/* line 276, ../sass/header.scss */
+/* line 266, ../sass/header.scss */
 #header #account .login-dropdown .edit-email-holder {
   display: none;
-  overflow: visible;
 }

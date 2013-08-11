@@ -128,11 +128,11 @@ $(document).ready(function() {
                 if (data.success) {
                     location.reload();
                 } else {
-                    if (!data.message) {
-                        data.message = 'Unknown Error';
-                    }
-                    $('#login-error').text(data.message);
+                    notifyBottom(createNotification(data.message, false));
                 }
+            },
+            error: function() {
+                notifyBottom(createNotification('An internal error occurred.', false));
             }
         });
     });
@@ -153,11 +153,11 @@ $(document).ready(function() {
                 if (data.success) {
                     location.reload();
                 } else {
-                    if (!data.message) {
-                        data.message = 'Unknown Error';
-                    }
-                    $('#create-account-error').text(data.message);
+                    notifyBottom(createNotification(data.message, false));
                 }
+            },
+            error: function() {
+                notifyBottom(createNotification('An internal error occurred.', false));
             }
         });
     });
@@ -167,8 +167,11 @@ $(document).ready(function() {
             url: 'index.php/user/logout',
             type: 'POST',
             dataType: 'json',
-            complete: function(data) {
+            success: function(data) {
                 location.reload();
+            },
+            error: function() {
+                notifyBottom(createNotification('An internal error occurred.', false));
             }
         });
     });
@@ -184,37 +187,17 @@ $(document).ready(function() {
                 confirm:  $('#change-password-confirm').val()
             },
             success: function(data) {
+                notifyBottom(createNotification(data.message, data.success));
                 if (data.success) {
-                    $('#change-password-success').text(data.message);
-                    $('#change-password-error').text('');
                     $('#change-password-current').val('');
                     $('#change-password-new').val('');
                     $('#change-password-confirm').val('');
-                } else {
-                    $('#change-password-error').text(data.message);
-                    $('#change-password-success').text('');
                 }
             }
         });
     });
 
-    $('.forgot-password').hover(function() {
-        $(this).animate({ width: $(this).css('max-width') });
-        $(this).find('*').fadeIn();
-    }, function() {
-        $(this).animate({ width: $(this).css('min-width') });
-        $(this).find('p, button').fadeOut();
-    });
-
-    $('.email-verified').hover(function() {
-        $(this).animate({ width: $(this).css('max-width') });
-        $(this).find('*').fadeIn();
-    }, function() {
-        $(this).animate({ width: $(this).css('min-width') });
-        $(this).find('p, button').fadeOut();
-    });
-
-    $('.edit-email').hover(function() {
+    $('.forgot-password, .email-verified, .edit-email').hover(function() {
         $(this).animate({ width: $(this).css('max-width') });
         $(this).find('*').fadeIn();
     }, function() {
@@ -231,10 +214,10 @@ $(document).ready(function() {
                 username: $('#login-username').val()
             },
             success: function(data) {
-                var notification = $('<p>')
-                    .text(data.message)
-                    .addClass(data.success ? 'success' : 'error');
-                notifyBottom(notification);
+                notifyBottom(createNotification(data.message, data.success));
+            },
+            error: function() {
+                notifyBottom(createNotification('An internal error occurred.', false));
             }
         });
     });
@@ -244,10 +227,10 @@ $(document).ready(function() {
             url: 'index.php/user/resendEmailVerification',
             type: 'POST',
             success: function(data) {
-                var notification = $('<p>')
-                    .text('Sent a verification email.')
-                    .addClass('success');
-                notifyBottom(notification);
+                notifyBottom(createNotification('A verification email was sent to your email address.', true));
+            },
+            error: function() {
+                notifyBottom(createNotification('An internal error occurred.', false));
             }
         });
     });
@@ -266,14 +249,19 @@ $(document).ready(function() {
                 password: $('#edit-email-password').val()
             },
             success: function(data) {
-                var notification = $('<p>')
-                    .text(data.message)
-                    .addClass(data.success ? 'success' : 'error');
-                notifyBottom(notification);
+                notifyBottom(createNotification(data.message, data.success));
                 if (data.success) {
                     $('#email-info').val($('#edit-email-email').val());
                 }
+            },
+            error: function() {
+                notifyBottom(createNotification('An internal error occurred.', false));
             }
         });
     });
 });
+
+function createNotification(message, success)
+{
+    return $('<p>').text(message).addClass(success ? 'success' : 'error');
+}
