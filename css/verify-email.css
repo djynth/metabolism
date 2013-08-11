@@ -5,20 +5,20 @@
   padding-top: 125px;
 }
 /* line 6, ../sass/verify-email.scss */
-#verify-email-holder #verify-email-title {
+#verify-email-holder #title {
   margin-bottom: 20px;
 }
 /* line 10, ../sass/verify-email.scss */
-#verify-email-holder .verify-message {
+#verify-email-holder #message {
   padding-top: 15px;
   margin-left: 180px;
   font-size: 18px;
 }
 /* line 15, ../sass/verify-email.scss */
-#verify-email-holder .verify-message.success {
+#verify-email-holder #message.success {
   color: green;
 }
 /* line 18, ../sass/verify-email.scss */
-#verify-email-holder .verify-message.error {
+#verify-email-holder #message.error {
   color: red;
 }

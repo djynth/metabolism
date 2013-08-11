@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/pathways.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/resources.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/trackers.css">
+<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/header.css">
 
 <!-- JavaScript -->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/lib/jquery-1.10.1.min.js"></script>
@@ -22,6 +23,7 @@
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/resources.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/pathways.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/organs.js"></script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/header.js"></script>
 
 <script>
 var baseUrl = <?= json_encode(Yii::app()->request->baseUrl); ?>;

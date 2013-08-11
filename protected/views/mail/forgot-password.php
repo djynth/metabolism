@@ -10,9 +10,11 @@ $url = Yii::app()->params['url'];
 <p>
 Dear <?= $username ?>,<br>
 You've requested to recover your password on <a href="<?= $url ?>">metabolismfun.com</a>.
+To reset your password to a new one of your choosing, follow the link below and enter the verification code given below:
 </p>
 
-<h3>Your password is: <?= $password ?></h3>
+<h3>Verification Code: <?= $verification ?></h3>
+<h3><a href="<?= $resetPage ?>">Reset Your Password</a></h3>
 
 <p>
 Sincerely,<br>

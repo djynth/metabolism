@@ -1,5 +1,6 @@
 <?php
 $guest = Yii::app()->user->getIsGuest();
+$user = User::model()->findByAttributes(array('username' => Yii::app()->user->id));
 ?>
 
 <div id="header">
@@ -25,7 +26,7 @@ $guest = Yii::app()->user->getIsGuest();
 
     <div id="account">
         <div class="account-header">
-            <p class="login-text"><?= $guest ? 'Not logged in' : 'Logged in as ' . Yii::app()->user->name ?></p>
+            <p class="login-text"><?= $guest ? 'Not logged in' : 'Logged in as ' . $user->username ?></p>
             <i class="icon-user icon-white"></i>
         </div>
 
@@ -45,26 +46,26 @@ $guest = Yii::app()->user->getIsGuest();
                 </div>
                 <p id="login-error" class="error-info"></p>
                 <div class="button-holder">
-                    <button id="login-submit" class="btn btn-inverse btn-small">Submit</button>
+                    <input type="submit" id="login-submit" class="btn btn-inverse btn-small" value="Submit">
                 </div>
             </div>
             <div class="create-account-holder">
                 <p>Create Account</p>
                 <div class="control-group">
-                    <input id="create-account-username" type="text" placeholder="Username" class="input-themed">
+                    <input id="create-account-username" type="text" placeholder="Username" class="input-themed check-username">
                 </div>
                 <div class="control-group">
-                    <input id="create-account-email" type="text" placeholder="Email Address" class="input-themed">
+                    <input id="create-account-email" type="text" placeholder="Email Address" class="input-themed check-email">
                 </div>
                 <div class="control-group">
-                    <input id="create-account-password" type="password" placeholder="Password" class="input-themed">
+                    <input id="create-account-password" type="password" placeholder="Password" class="input-themed check-password">
                 </div>
                 <div class="control-group">
                     <input id="create-account-confirm" type="password" placeholder="Confirm Password" class="input-themed">
                 </div>
                 <p id="create-account-error" class="error-info"></p>
                 <div class="button-holder">
-                    <button id="create-account-submit" class="btn btn-inverse btn-small">Submit</button>
+                    <input type="submit" id="create-account-submit" class="btn btn-inverse btn-small" value="Submit">
                 </div>
             </div>
 
@@ -79,7 +80,7 @@ $guest = Yii::app()->user->getIsGuest();
                     <input id="change-password-current" type="password" placeholder="Current Password" class="input-themed">
                 </div>
                 <div class="control-group">
-                    <input id="change-password-new" type="password" placeholder="New Password" class="input-themed">
+                    <input id="change-password-new" type="password" placeholder="New Password" class="input-themed check-password">
                 </div>
                 <div class="control-group">
                     <input id="change-password-confirm" type="password" placeholder="Confirm New Password" class="input-themed">
@@ -87,7 +88,44 @@ $guest = Yii::app()->user->getIsGuest();
                 <p id="change-password-error" class="error-info"></p>
                 <p id="change-password-success" class="success-info"></p>
                 <div class="button-holder">
-                    <button id="change-password-submit" class="btn btn-inverse btn-small">Submit</button>
+                    <input type="submit" id="change-password-submit" class="btn btn-inverse btn-small" value="Submit">
+                </div>
+            </div>
+
+            <div class="email-holder">
+                <p>Email</p>
+                <div class="control-group" id="email-control-group">
+                    <input id="email-info" type="text" placeholder="Email" class="input-themed" value="<?= $user->email ?>" disabled="disabled">
+                    <?php if ($user->email_verified): ?>
+                        <div class="email-verified" verified="true">
+                            <i class="icon-ok"> </i>
+                            <p>Email Verified</p>
+                        </div>
+                    <?php else: ?>
+                        <div class="email-verified" verified="false">
+                            <i class="icon-remove"> </i>
+                            <button id="resend-verification-email" class="btn btn-mini">Resend Verification Email</button>
+                        </div>
+                    <?php endif ?>
+                    <div class="edit-email">
+                        <i class="icon-edit"> </i>
+                        <button id="edit-email" class="btn btn-mini">Edit</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="edit-email-holder">
+                <p>Edit Email</p>
+                <div class="control-group">
+                    <input id="edit-email-password" type="password" placeholder="Current Password" class="input-themed">
+                </div>
+                <div class="control-group">
+                    <input id="edit-email-email" type="text" placeholder="New Email" class="input-themed check-email">
+                </div>
+                <p id="edit-email-error" class="error-info"></p>
+                <p id="edit-email-success" class="success-info"></p>
+                <div class="button-holder">
+                    <input type="submit" id="edit-email-submit" class="btn btn-inverse btn-small" value="Submit">
                 </div>
             </div>
 

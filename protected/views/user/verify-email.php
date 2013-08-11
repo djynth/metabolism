@@ -6,33 +6,33 @@ Yii::app()->getClientScript()->registerCssFile(Yii::app()->baseUrl . '/css/verif
 ?>
 
 <div id="verify-email-holder">
-    <h3 id="verify-email-title">Verify Your Email Address</h3>
+    <h3 id="title">Verify Your Email Address</h3>
 
     <form class="form-horizontal" id="verify-email-form">
         <div class="control-group">
-            <label class="control-label" for="verify-email">Email</label>
+            <label class="control-label" for="email">Email</label>
             <div class="controls">
-                <input type="text" id="verify-email" class="input-themed" placeholder="Email Address" value="<?= $email ?>" disabled='disabled'>
+                <input type="text" id="email" class="input-themed" placeholder="Email Address" value="<?= $email ?>">
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="verify-username">Username</label>
+            <label class="control-label" for="username">Username</label>
             <div class="controls">
-                <input type="text" id="verify-username" class="input-themed" placeholder="Username" value="<?= $username ?>" disabled='disabled'>
+                <input type="text" id="username" class="input-themed" placeholder="Username" value="<?= $username ?>">
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="verify-code">Verification Code</label>
+            <label class="control-label" for="code">Verification Code</label>
             <div class="controls">
-                <input type="text" id="verify-code" class="input-themed" placeholder="Verification Code">
+                <input type="text" id="code" class="input-themed" placeholder="Verification Code">
             </div>
         </div>
         <div class="control-group">
             <div class="controls">
-                <input type="submit" id="verify-submit" class="btn" value="Submit">
+                <input type="submit" id="submit" class="btn" value="Submit">
             </div>
         </div>
     </form>
 
-    <p class="verify-message"></p>
+    <p id="message"></p>
 </div>

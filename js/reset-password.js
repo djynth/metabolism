@@ -5,12 +5,14 @@ $(document).ready(function() {
         event.preventDefault();
 
         $.ajax({
-            url: 'verifyEmail',
+            url: 'resetPassword',
             type: 'POST',
             dataType: 'json',
             data: {
                 username: $('#username').val(),
-                verification: $('#code').val()
+                verification: $('#code').val(),
+                new_password: $('#new').val(),
+                confirm: $('#confirm').val() 
             },
             success: function(data) {
                 if (data.success) {
@@ -20,7 +22,7 @@ $(document).ready(function() {
                 }
             },
             error: function() {
-                $('#message').addClass('error').removeClass('success').text('There was an unknown error trying to validate your email.');
+                $('#message').addClass('error').removeClass('success').text('There was an unknown error trying to reset your password.');
             }
         });
     });

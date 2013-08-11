@@ -4,6 +4,7 @@ class UserController extends CController
 {
     const EMAIL_VERIFICATION_LENGTH = 16;
     const EMAIL_VERIFICATION_VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const MAX_RECOVER_PASSWORD_ATTEMPTS = 10;
 
     public function actionVerifyEmail()
     {
@@ -46,6 +47,67 @@ class UserController extends CController
 
             $this->render('verify-email', array(
                 'email' => $email,
+                'username' => $username,
+            ));
+        }
+    }
+
+    public function actionResetPassword()
+    {
+        if (isset($_POST) && count($_POST) > 0) {
+            $username = $_POST['username'];
+            $verification = $_POST['verification'];
+            $new = $_POST['new_password'];
+            $confirm = $_POST['confirm'];
+
+            $success = false;
+            $message = false;
+
+            if ($username) {
+                if ($new === $confirm) {
+                    $user = User::model()->findByAttributes(array('username' => $username));
+                    if ($user !== null) {
+                        $request = RecoverPassword::model()->findByAttributes(array('user_id' => $user->id));
+                        if ($request !== null) {
+                            if ($verification === $request->verification) {
+                                $user->password = crypt($new, self::blowfishSalt());
+                                if ($user->save()) {
+                                    $request->delete();
+                                    $success = true;
+                                    $message = 'Your password has been reset';
+                                } else {
+                                    $message = 'Unable to update your password';
+                                }
+                            } else {
+                                $request->attempts++;
+                                $request->save();
+                                if ($request->attempts > self::MAX_RECOVER_PASSWORD_ATTEMPTS) {
+                                    $request->delete();
+                                }
+
+                                $message = 'Incorrect verification code';
+                            }
+                        } else {
+                            $message = 'There is no recover password request currently open for ' . $username;
+                        }
+                    } else {
+                        $message = 'User with username ' . $username . ' not found';
+                    }
+                } else {
+                    $message = 'The new password and confirmation password do not match';
+                }
+            } else {
+                $message = 'No username given';
+            }
+
+            echo CJavaScript::jsonEncode(array(
+                'success' => $success,
+                'message' => $message,
+            ));
+        } else {
+            $username = isset($_GET['username']) ? $_GET['username'] : '';
+
+            $this->render('reset-password', array(
                 'username' => $username,
             ));
         }
@@ -102,26 +164,7 @@ class UserController extends CController
                                         Yii::app()->user->login(new UserIdentity($username, $password), 3600*24);
                                         $success = true;
 
-                                        $params = array(
-                                            'username' => $username,
-                                            'verification' => $record->email_verification,
-                                            'email' => $email,
-                                            'verifyPage' => Yii::app()->params['url'] . $this->createUrl('user/verifyemail', array(
-                                                'email' => $email,
-                                                'username' => $username,
-                                            )),
-                                        );
-
-                                        $message = new YiiMailMessage;
-                                        $message->view = 'verify-email';
-                                        $message->subject = 'Welcome to Metabolism Fun!';
-                                        $message->setBody($params, 'text/html');
-                                        $message->addTo($email);
-                                        $message->from = Yii::app()->params['email'];
-
-                                        try {
-                                            Yii::app()->mail->send($message);
-                                        } catch (Exception $e) { }
+                                        $this->sendEmailVerification();
                                     } else {
                                         $message = 'Unable to create your account';
                                     }
@@ -171,7 +214,7 @@ class UserController extends CController
                     if ($new === $confirm) {
                         if (self::isValidPassword($new)) {
                             if ($user->authenticate($current)) {
-                                $user->password = crypt($new);
+                                $user->password = crypt($new, self::blowfishSalt());
                                 if ($user->save()) {
                                     $success = true;
                                     $message = 'Successfully changed your password';
@@ -288,10 +331,12 @@ class UserController extends CController
                         if ($user->authenticate($password)) {
                             $user->email = $email;
                             $user->email_verified = false;
-                            $record->email_verification = self::generateEmailVerification();
+                            $user->email_verification = self::generateEmailVerification();
                             if ($user->save()) {
                                 $success = true;
                                 $message = 'Successfully changed your email';
+
+                                $this->sendEmailVerification();
                             } else {
                                 $message = 'Unable to update your account';
                             }
@@ -315,6 +360,11 @@ class UserController extends CController
         }
     }
 
+    public function actionResendEmailVerification()
+    {
+        $this->sendEmailVerification();
+    }
+
     public function actionForgotPassword()
     {
         if (isset($_POST)) {
@@ -327,9 +377,20 @@ class UserController extends CController
                 $user = User::model()->findByAttributes(array('username' => $username));
                 if ($user !== null) {
                     if ($user->email_verified) {
+                        $request = RecoverPassword::model()->findByAttributes(array('user_id' => $user->id));
+                        if ($request === null) {
+                            $request = new RecoverPassword;
+                            $request->user_id = $user->id;
+                            $request->verification = self::generateEmailVerification();
+                            $request->save();
+                        }
+                        
                         $params = array(
                             'username' => $user->username,
-                            'password' => '<password>',
+                            'verification' => $request->verification,
+                            'resetPage' => Yii::app()->params['url'] . $this->createUrl('user/resetpassword', array(
+                                'username' => $username,
+                            )),
                         );
 
                         $message = new YiiMailMessage;
@@ -384,5 +445,31 @@ class UserController extends CController
         $salt = '$2a$' . sprintf('%02d', $cost) . '$';
         $salt .= strtr(substr(base64_encode($rand), 0, 22), array('+' => '.'));
         return $salt;
+    }
+
+    private function sendEmailVerification()
+    {
+        $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id));
+
+        $params = array(
+            'username' => $user->username,
+            'verification' => $user->email_verification,
+            'email' => $user->email,
+            'verifyPage' => Yii::app()->params['url'] . $this->createUrl('user/verifyemail', array(
+                'email' => $user->email,
+                'username' => $user->username,
+            )),
+        );
+
+        $message = new YiiMailMessage;
+        $message->view = 'verify-email';
+        $message->subject = 'Welcome to Metabolism Fun!';
+        $message->setBody($params, 'text/html');
+        $message->addTo($user->email);
+        $message->from = Yii::app()->params['email'];
+
+        try {
+            Yii::app()->mail->send($message);
+        } catch (Exception $e) { }
     }
 }
