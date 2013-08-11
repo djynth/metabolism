@@ -16,6 +16,7 @@ return array(
     'import'=>array(
         'application.models.*',
         'application.components.*',
+        'ext.yii-mail.YiiMailMessage',
     ),
 
     'modules'=>array(
@@ -33,8 +34,7 @@ return array(
     // application components
     'components'=>array(
         'user'=>array(
-            // enable cookie-based authentication
-            'allowAutoLogin'=>true,
+            'allowAutoLogin'=>true,     // enable cookie-based authentication
         ),
         'urlManager'=>array(
             'urlFormat'=>'path',
@@ -63,8 +63,26 @@ return array(
                 ),
             ),
         ),
+        'mail' => array(
+            'class' => 'ext.yii-mail.YiiMail',
+            'transportType'=>'smtp',
+            'transportOptions'=>array(
+                    'host'=>'smtp.gmail.com',
+                    'username'=>'metabolismfun@gmail.com',
+                    'password'=>'\vU5EM}hhUq7wop[zbUBkj0Y|',
+                    'port'=>'465',
+                    'encryption'=>'tls',
+            ),
+            'viewPath' => 'application.views.mail',
+            'logging'=>true,
+            'dryRun'=>false,
+        ),
     ),
 
     // application-level parameters that can be accessed using Yii::app()->params['paramName']
-    'params'=>array(),
+    'params'=>array(
+        'email' => 'metabolismfun@gmail.com',
+        //'url' => 'http://www.metabolismfun.com/',
+        'url' => 'localhost/'
+    ),
 );

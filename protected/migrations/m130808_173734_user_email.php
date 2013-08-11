@@ -4,7 +4,7 @@ class m130808_173734_user_email extends CDbMigration
 {
     public function up()
     {
-        $this->addColumn('user', 'email', 'varchar(80)');
+        $this->addColumn('user', 'email', 'varchar(80) unique');
         $this->addColumn('user', 'email_verified', 'tinyint(1)');
         $this->addColumn('user', 'email_verification', 'varchar(16)');
     }

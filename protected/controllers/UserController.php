@@ -93,7 +93,7 @@ class UserController extends CController
                                 if (!self::isEmailTaken($email)) {
                                     $record = new User;
                                     $record->username = $username;
-                                    $record->password = crypt($password);
+                                    $record->password = crypt($password, self::blowfishSalt());
                                     $record->theme = $theme;
                                     $record->email = $email;
                                     $record->email_verified = false;
@@ -102,7 +102,26 @@ class UserController extends CController
                                         Yii::app()->user->login(new UserIdentity($username, $password), 3600*24);
                                         $success = true;
 
-                                        // TODO send a verification email
+                                        $params = array(
+                                            'username' => $username,
+                                            'verification' => $record->email_verification,
+                                            'email' => $email,
+                                            'verifyPage' => Yii::app()->params['url'] . $this->createUrl('user/verifyemail', array(
+                                                'email' => $email,
+                                                'username' => $username,
+                                            )),
+                                        );
+
+                                        $message = new YiiMailMessage;
+                                        $message->view = 'verify-email';
+                                        $message->subject = 'Welcome to Metabolism Fun!';
+                                        $message->setBody($params, 'text/html');
+                                        $message->addTo($email);
+                                        $message->from = Yii::app()->params['email'];
+
+                                        try {
+                                            Yii::app()->mail->send($message);
+                                        } catch (Exception $e) { }
                                     } else {
                                         $message = 'Unable to create your account';
                                     }
@@ -308,7 +327,21 @@ class UserController extends CController
                 $user = User::model()->findByAttributes(array('username' => $username));
                 if ($user !== null) {
                     if ($user->email_verified) {
-                        // TODO send forgot password email
+                        $params = array(
+                            'username' => $user->username,
+                            'password' => '<password>',
+                        );
+
+                        $message = new YiiMailMessage;
+                        $message->view = 'forgot-password';
+                        $message->subject = 'Recover Your Password';
+                        $message->setBody($params, 'text/html');
+                        $message->addTo($user->email);
+                        $message->from = Yii::app()->params['email'];
+
+                        try {
+                            Yii::app()->mail->send($message);
+                        } catch (Exception $e) { }
 
                         $message = 'An email was sent to your email at ' . split('@', $user->email)[1] . ' with your password';
                         $success = true;
@@ -327,5 +360,29 @@ class UserController extends CController
                 'message' => $message,
             ));
         }
+    }
+
+    /**
+     * Generate a random salt in the crypt(3) standard Blowfish format.
+     * Source code attribution belongs to "fsb" <yiiframework.com/wiki/425/use-crypt-for-password-storage>.
+     *
+     * @param int $cost Cost parameter from 4 to 31, default 13
+     * @return string A Blowfish hash salt for use in PHP's crypt()
+     * @throws Exception on invalid cost parameter
+     */
+    private static function blowfishSalt($cost = 13)
+    {
+        if (!is_numeric($cost) || $cost < 4 || $cost > 31) {
+            throw new Exception("cost parameter must be between 4 and 31");
+        }
+        $rand = array();
+        for ($i = 0; $i < 8; $i += 1) {
+            $rand[] = pack('S', mt_rand(0, 0xffff));
+        }
+        $rand[] = substr(microtime(), 2, 6);
+        $rand = sha1(implode('', $rand), true);
+        $salt = '$2a$' . sprintf('%02d', $cost) . '$';
+        $salt .= strtr(substr(base64_encode($rand), 0, 22), array('+' => '.'));
+        return $salt;
     }
 }
