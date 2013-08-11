@@ -151,91 +151,92 @@ p.theme_light, h1.theme_light, h2.theme_light, h3.theme_light, h4.theme_light, h
 .sidebar .accordian-header .accordian-title {
   display: inline-block;
   cursor: pointer;
+  width: 80%;
 }
-/* line 145, ../sass/main.scss */
+/* line 146, ../sass/main.scss */
 .sidebar .header-text .organ-popup {
   position: absolute;
   display: none;
   min-height: 20px;
   z-index: 2;
 }
-/* line 151, ../sass/main.scss */
+/* line 152, ../sass/main.scss */
 .sidebar .header-text .organ-popup.theme_dark {
   background-color: #323232;
   border: 1px solid #232323;
 }
-/* line 155, ../sass/main.scss */
+/* line 156, ../sass/main.scss */
 .sidebar .header-text .organ-popup.theme_light {
   background-color: #f0f0f0;
   border: 1px solid #646464;
 }
-/* line 160, ../sass/main.scss */
+/* line 161, ../sass/main.scss */
 .sidebar .header-text .organ-popup .organ-cover {
   position: absolute;
   background-color: inherit;
   width: 1px;
   height: 20px;
 }
-/* line 167, ../sass/main.scss */
+/* line 168, ../sass/main.scss */
 .sidebar .header-text .organ-popup .organ-image {
   display: block;
   height: 150px;
   margin: 25px auto;
 }
-/* line 173, ../sass/main.scss */
+/* line 174, ../sass/main.scss */
 .sidebar .header-text .organ-popup .organ-description {
   padding: 5px 10px;
 }
-/* line 178, ../sass/main.scss */
+/* line 179, ../sass/main.scss */
 .sidebar .header-text .organ-popup-up {
   bottom: -1px;
 }
-/* line 181, ../sass/main.scss */
+/* line 182, ../sass/main.scss */
 .sidebar .header-text .organ-popup-up .organ-cover {
   bottom: 0px;
 }
-/* line 186, ../sass/main.scss */
+/* line 187, ../sass/main.scss */
 .sidebar .header-text .organ-popup-down {
   top: -1px;
 }
-/* line 189, ../sass/main.scss */
+/* line 190, ../sass/main.scss */
 .sidebar .header-text .organ-popup-down .organ-cover {
   top: 0px;
 }
-/* line 194, ../sass/main.scss */
+/* line 195, ../sass/main.scss */
 .sidebar .header-text .right {
   left: 100%;
   text-align: right;
 }
-/* line 198, ../sass/main.scss */
+/* line 199, ../sass/main.scss */
 .sidebar .header-text .right .organ-cover {
   left: -1px;
 }
-/* line 203, ../sass/main.scss */
+/* line 204, ../sass/main.scss */
 .sidebar .header-text .left {
   right: 100%;
   text-align: left;
 }
-/* line 207, ../sass/main.scss */
+/* line 208, ../sass/main.scss */
 .sidebar .header-text .left .organ-cover {
   right: -1px;
 }
-/* line 213, ../sass/main.scss */
+/* line 214, ../sass/main.scss */
 .sidebar .accordian-content, .sidebar .global {
   padding: 0 6px;
 }
-/* line 217, ../sass/main.scss */
+/* line 218, ../sass/main.scss */
 .sidebar .mCSB_container {
   margin-right: 6px;
 }
-/* line 221, ../sass/main.scss */
+/* line 222, ../sass/main.scss */
 .sidebar .mCSB_scrollTools {
   width: 4px !important;
   height: 95% !important;
   margin-top: 5%;
 }
 
-/* line 228, ../sass/main.scss */
+/* line 229, ../sass/main.scss */
 #cell-canvas {
   position: absolute;
   left: 19%;
@@ -244,7 +245,7 @@ p.theme_light, h1.theme_light, h2.theme_light, h3.theme_light, h4.theme_light, h
   z-index: -1;
 }
 
-/* line 236, ../sass/main.scss */
+/* line 237, ../sass/main.scss */
 .notification-holder {
   position: absolute;
   display: none;
@@ -252,32 +253,32 @@ p.theme_light, h1.theme_light, h2.theme_light, h3.theme_light, h4.theme_light, h
   width: 62%;
   padding: 5px 10px;
 }
-/* line 243, ../sass/main.scss */
+/* line 244, ../sass/main.scss */
 .notification-holder.theme_dark {
   background-color: #323232;
   border-color: #232323;
 }
-/* line 247, ../sass/main.scss */
+/* line 248, ../sass/main.scss */
 .notification-holder.theme_light {
   background-color: #f0f0f0;
   border-color: #646464;
 }
-/* line 252, ../sass/main.scss */
+/* line 253, ../sass/main.scss */
 .notification-holder .success {
   color: green;
 }
-/* line 256, ../sass/main.scss */
+/* line 257, ../sass/main.scss */
 .notification-holder .error {
   color: red;
 }
 
-/* line 261, ../sass/main.scss */
+/* line 262, ../sass/main.scss */
 #notification-bottom {
   bottom: 114px;
   border-top: 1px solid;
 }
 
-/* line 266, ../sass/main.scss */
+/* line 267, ../sass/main.scss */
 #notification-top {
   top: 29px;
   border-bottom: 1px solid;
