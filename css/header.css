@@ -107,6 +107,7 @@
 }
 /* line 105, ../sass/header.scss */
 #header #account .login-dropdown {
+  display: none;
   background-color: inherit;
   width: 90%;
   padding: 10px 5%;

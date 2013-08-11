@@ -180,7 +180,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: {
                 current: $('#change-password-current').val(),
-                newPassword: $('#change-password-new').val(),
+                new_password: $('#change-password-new').val(),
                 confirm:  $('#change-password-confirm').val()
             },
             success: function(data) {

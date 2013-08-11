@@ -71,9 +71,9 @@ function updateScrollbars(updateHeight)
     });
 }
 
-function setTurn(turn, maxTurns)
+function setTurn(turn)
 {
-    $('#turns').text(turn + '/' + maxTurns + ' Turns Remaining');
+    $('#turns').text(turn + '/' + MAX_TURNS + ' Turns Remaining');
 }
 
 function setPoints(points)

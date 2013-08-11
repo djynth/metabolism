@@ -2,20 +2,20 @@
 
 class UserController extends CController
 {
-    const EMAIL_VERIFICATION_LENGTH = 16;
-    const EMAIL_VERIFICATION_VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const VERIFICATION_LENGTH = 16;
+    const VERIFICATION_VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const MAX_RECOVER_PASSWORD_ATTEMPTS = 10;
 
     public function actionVerifyEmail()
     {
-        if (isset($_POST) && count($_POST) > 0) {
-            $username = $_POST['username'];
+        if (isset($_POST['username'], $_POST['verification'])) {
+            $username     = $_POST['username'];
             $verification = $_POST['verification'];
 
             $success = false;
             $message = false;
 
-            $user = User::model()->findByAttributes(array('username' => $username));
+            $user = User::findByUsername($username);
             if ($user !== null) {
                 if (!$user->email_verified) {
                     if ($user->email_verification === $verification) {
@@ -54,18 +54,18 @@ class UserController extends CController
 
     public function actionResetPassword()
     {
-        if (isset($_POST) && count($_POST) > 0) {
-            $username = $_POST['username'];
+        if (isset($_POST['username'], $_POST['verification'], $_POST['new_password'], $_POST['confirm'])) {
+            $username     = $_POST['username'];
             $verification = $_POST['verification'];
-            $new = $_POST['new_password'];
-            $confirm = $_POST['confirm'];
+            $new          = $_POST['new_password'];
+            $confirm      = $_POST['confirm'];
 
             $success = false;
             $message = false;
 
             if ($username) {
                 if ($new === $confirm) {
-                    $user = User::model()->findByAttributes(array('username' => $username));
+                    $user = User::findByUsername($username);
                     if ($user !== null) {
                         $request = RecoverPassword::model()->findByAttributes(array('user_id' => $user->id));
                         if ($request !== null) {
@@ -115,7 +115,7 @@ class UserController extends CController
 
     public function actionLogin()
     {
-        if (isset($_POST)) {
+        if (isset($_POST['username'], $_POST['password'])) {
             $username = $_POST['username'];
             $password = $_POST['password'];
 
@@ -138,29 +138,29 @@ class UserController extends CController
 
     public function actionCreateAccount()
     {
-        if (isset($_POST)) {
+        if (isset($_POST['username'], $_POST['password'], $_POST['confirm'], $_POST['theme'], $_POST['email'])) {
             $username = $_POST['username'];
             $password = $_POST['password'];
-            $confirm = $_POST['confirm'];
-            $theme = $_POST['theme'];
-            $email = $_POST['email'];
+            $confirm  = $_POST['confirm'];
+            $theme    = $_POST['theme'];
+            $email    = $_POST['email'];
 
             $message = false;
             $success = false;
             if ($password === $confirm) {
                 if (self::isValidPassword($password)) {
                     if (self::isValidUsername($username)) {
-                        if (!self::isUsernameTaken($username)) {
+                        if (!User::isUsernameTaken($username)) {
                             if (self::isValidEmail($email)) {
-                                if (!self::isEmailTaken($email)) {
-                                    $record = new User;
-                                    $record->username = $username;
-                                    $record->password = crypt($password, self::blowfishSalt());
-                                    $record->theme = $theme;
-                                    $record->email = $email;
-                                    $record->email_verified = false;
-                                    $record->email_verification = self::generateEmailVerification();
-                                    if ($record->save()) {
+                                if (!User::isEmailTaken($email)) {
+                                    $user = new User;
+                                    $user->username = $username;
+                                    $user->password = crypt($password, self::blowfishSalt());
+                                    $user->theme = $theme;
+                                    $user->email = $email;
+                                    $user->email_verified = false;
+                                    $user->email_verification = self::generateVerificationCode();
+                                    if ($user->save()) {
                                         Yii::app()->user->login(new UserIdentity($username, $password), 3600*24);
                                         $success = true;
 
@@ -201,40 +201,37 @@ class UserController extends CController
 
     public function actionChangePassword()
     {
-        if (isset($_POST)) {
+        if (isset($_POST['current'], $_POST['new_password'], $_POST['confirm'])) {
             $current = $_POST['current'];
-            $new = $_POST['newPassword'];
+            $new     = $_POST['new_password'];
             $confirm = $_POST['confirm'];
 
             $success = false;
             $message = false;
-            if (!Yii::app()->user->isGuest) {
-                $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id));
-                if ($user !== null) {
-                    if ($new === $confirm) {
-                        if (self::isValidPassword($new)) {
-                            if ($user->authenticate($current)) {
-                                $user->password = crypt($new, self::blowfishSalt());
-                                if ($user->save()) {
-                                    $success = true;
-                                    $message = 'Successfully changed your password';
-                                } else {
-                                    $message = 'Unable to update your account';
-                                }
+
+            $user = User::getCurrentUser();
+            if ($user !== null) {
+                if ($new === $confirm) {
+                    if (self::isValidPassword($new)) {
+                        if ($user->authenticate($current)) {
+                            $user->password = crypt($new, self::blowfishSalt());
+                            if ($user->save()) {
+                                $success = true;
+                                $message = 'Successfully changed your password';
                             } else {
-                                $message = 'Incorrect password';
+                                $message = 'Unable to update your account';
                             }
                         } else {
-                            $message = 'Invalid password';
+                            $message = 'Incorrect password';
                         }
                     } else {
-                        $message = 'New password and confirmation do not match';
+                        $message = 'Invalid password';
                     }
                 } else {
-                    $message = 'Unable to find your account';
+                    $message = 'New password and confirmation do not match';
                 }
             } else {
-                $message = 'You must be logged in to change your password';
+                $message = 'Unable to find your account';
             }
 
             echo CJavaScript::jsonEncode(array(
@@ -246,71 +243,37 @@ class UserController extends CController
 
     public function actionValidateUsername()
     {
-        echo CJavaScript::jsonEncode(array(
-            'valid' => self::isValidUsername($_POST['username'])
-        ));
+        if (isset($_POST['username'])) {
+            echo CJavaScript::jsonEncode(array(
+                'valid' => self::isValidUsername($_POST['username'])
+            ));
+        }
     }
 
     public function actionValidatePassword()
     {
-        echo CJavaScript::jsonEncode(array(
-            'valid' => self::isValidPassword($_POST['password'])
-        ));
+        if (isset($_POST['password'])) {
+            echo CJavaScript::jsonEncode(array(
+                'valid' => self::isValidPassword($_POST['password'])
+            ));
+        }
     }
 
     public function actionValidateEmail()
     {
-        echo CJavaScript::jsonEncode(array(
-            'valid' => self::isValidEmail($_POST['email'])
-        ));
-    }
-
-    private static function isValidUsername($username)
-    {
-        return preg_match("/^[a-z0-9_-]{3,16}$/", $username);
-    }
-
-    private static function isValidPassword($password)
-    {
-        return preg_match("/^[a-z0-9:punct:]{3,32}$/", $password);
-    }
-
-    private static function isValidEmail($email)
-    {
-        return preg_match("/.+\@.+\..+/", $email);
-    }
-
-    private static function isUsernameTaken($username)
-    {
-        return User::model()->findByAttributes(array('username' => $username)) !== null;
-    }
-
-    private static function isEmailTaken($email)
-    {
-        return User::model()->findByAttributes(array('email' => $email)) !== null;
-    }
-
-    private static function generateEmailVerification()
-    {
-        $values = str_split(self::EMAIL_VERIFICATION_VALUES);
-        $keys = array_rand($values, self::EMAIL_VERIFICATION_LENGTH);
-
-        for ($i = 0; $i < self::EMAIL_VERIFICATION_LENGTH; $i++) {
-            $keys[$i] = $values[$keys[$i]];
+        if (isset($_POST['email'])) {
+            echo CJavaScript::jsonEncode(array(
+                'valid' => self::isValidEmail($_POST['email'])
+            ));
         }
-
-        shuffle($keys);
-        return implode('', $keys);
     }
 
     public function actionSaveTheme()
     {
-        if (isset($_POST)) {
-            $theme = $_POST['theme'];
-
-            if (!Yii::app()->user->isGuest) {
-                $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id));
-                $user->theme = $theme;
+        if (isset($_POST['theme'])) {
+            $user = User::getCurrentUser();
+            if ($user !== null) {
+                $user->theme = $_POST['theme'];
                 $user->save();
             }
         }
@@ -318,20 +281,21 @@ class UserController extends CController
 
     public function actionChangeEmail()
     {
-        if (isset($_POST)) {
-            $email = $_POST['email'];
+        if (isset($_POST['email'], $_POST['password'])) {
+            $email    = $_POST['email'];
             $password = $_POST['password'];
 
             $success = false;
             $message = false;
-            if (!Yii::app()->user->isGuest) {
-                $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id));
-                if ($user !== null) {
-                    if (self::isValidEmail($email)) {
+
+            $user = User::getCurrentUser();
+            if ($user !== null) {
+                if (self::isValidEmail($email)) {
+                    if (!User::isEmailTaken()) {
                         if ($user->authenticate($password)) {
                             $user->email = $email;
                             $user->email_verified = false;
-                            $user->email_verification = self::generateEmailVerification();
+                            $user->email_verification = self::generateVerificationCode();
                             if ($user->save()) {
                                 $success = true;
                                 $message = 'Successfully changed your email';
@@ -344,13 +308,13 @@ class UserController extends CController
                             $message = 'Incorrect password';
                         }
                     } else {
-                        $message = 'Invalid email';
+                        $message = 'That email is taken';
                     }
                 } else {
-                    $message = 'Unable to find your account';
+                    $message = 'Invalid email';
                 }
             } else {
-                $message = 'You must be logged in to change your email';
+                $message = 'Unable to find your account';
             }
 
             echo CJavaScript::jsonEncode(array(
@@ -367,21 +331,21 @@ class UserController extends CController
 
     public function actionForgotPassword()
     {
-        if (isset($_POST)) {
+        if (isset($_POST['username'])) {
             $username = $_POST['username'];
 
             $success = false;
             $message = false;
 
             if ($username) {
-                $user = User::model()->findByAttributes(array('username' => $username));
+                $user = User::findByUsername($username);
                 if ($user !== null) {
                     if ($user->email_verified) {
                         $request = RecoverPassword::model()->findByAttributes(array('user_id' => $user->id));
                         if ($request === null) {
                             $request = new RecoverPassword;
                             $request->user_id = $user->id;
-                            $request->verification = self::generateEmailVerification();
+                            $request->verification = self::generateVerificationCode();
                             $request->save();
                         }
                         
@@ -404,7 +368,7 @@ class UserController extends CController
                             Yii::app()->mail->send($message);
                         } catch (Exception $e) { }
 
-                        $message = 'An email was sent to your email at ' . split('@', $user->email)[1] . ' with your password';
+                        $message = 'An email was sent to your email at ' . $user->getEmailDomain() . ' with your password';
                         $success = true;
                     } else {
                         $message = $username . ' does not have a verified email address on file. Please contact us to reset your account.';
@@ -421,6 +385,34 @@ class UserController extends CController
                 'message' => $message,
             ));
         }
+    }
+
+    private static function isValidUsername($username)
+    {
+        return preg_match("/^[a-z0-9_-]{3,16}$/", $username);
+    }
+
+    private static function isValidPassword($password)
+    {
+        return preg_match("/^[a-z0-9:punct:]{3,32}$/", $password);
+    }
+
+    private static function isValidEmail($email)
+    {
+        return preg_match("/.+\@.+\..+/", $email);
+    }
+
+    private static function generateVerificationCode()
+    {
+        $values = str_split(self::VERIFICATION_VALUES);
+        $keys = array_rand($values, self::VERIFICATION_LENGTH);
+
+        for ($i = 0; $i < self::VERIFICATION_LENGTH; $i++) {
+            $keys[$i] = $values[$keys[$i]];
+        }
+
+        shuffle($keys);
+        return implode('', $keys);
     }
 
     /**
@@ -449,7 +441,7 @@ class UserController extends CController
 
     private function sendEmailVerification()
     {
-        $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id));
+        $user = User::getCurrentUser();
 
         $params = array(
             'username' => $user->username,

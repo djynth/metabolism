@@ -320,7 +320,7 @@ function runPathway(pathwayId, times, organ)
 function onPathwaySuccess(data)
 {
     if (data.success) {
-        setTurn(data.turn, data.max_turns);
+        setTurn(data.turn);
         setPoints(data.points);
         refreshResources(data.resources);
     }
