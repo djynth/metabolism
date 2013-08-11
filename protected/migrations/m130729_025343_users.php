@@ -9,7 +9,7 @@ class m130729_025343_users extends CDbMigration
             'username' => 'string not null unique',
             'password' => 'string not null',
             'created' => 'timestamp not null default current_timestamp'
-        ));
+        ), 'ENGINE InnoDB');
     }
 
     public function down()

@@ -88,30 +88,26 @@
 /* line 82, ../sass/resources.scss */
 #resource-visual .resource-visual-header.theme_dark {
   background-color: #323232;
-  color: #afafaf;
-  text-shadow: 1px 1px #0a0a0a;
   border-bottom: 1px solid #232323;
 }
-/* line 88, ../sass/resources.scss */
+/* line 86, ../sass/resources.scss */
 #resource-visual .resource-visual-header.theme_light {
   background-color: #f0f0f0;
-  color: #505050;
-  text-shadow: 1px 1px #c8c8c8;
   border-bottom: 1px solid #646464;
 }
-/* line 95, ../sass/resources.scss */
+/* line 91, ../sass/resources.scss */
 #resource-visual .resource-visual-header p, #resource-visual .resource-visual-header h3 {
   font-size: 16px;
   line-height: 20px;
   padding-top: 1px;
 }
-/* line 101, ../sass/resources.scss */
+/* line 97, ../sass/resources.scss */
 #resource-visual .resource-visual-header .resource-visual-amount {
   position: absolute;
   right: 6px;
   top: 0;
 }
-/* line 108, ../sass/resources.scss */
+/* line 104, ../sass/resources.scss */
 #resource-visual .resource-visual-content {
   position: absolute;
   display: none;
@@ -121,28 +117,28 @@
   height: 170px;
   padding: 5px 4%;
 }
-/* line 118, ../sass/resources.scss */
+/* line 114, ../sass/resources.scss */
 #resource-visual .resource-visual-content p.theme_dark, #resource-visual .resource-visual-content td.theme_dark, #resource-visual .resource-visual-content th.theme_dark {
   color: #060606;
 }
-/* line 121, ../sass/resources.scss */
+/* line 117, ../sass/resources.scss */
 #resource-visual .resource-visual-content p.theme_light, #resource-visual .resource-visual-content td.theme_light, #resource-visual .resource-visual-content th.theme_light {
   color: #060606;
 }
-/* line 126, ../sass/resources.scss */
+/* line 122, ../sass/resources.scss */
 #resource-visual .resource-visual-content .resource-visual-image {
   position: absolute;
   right: 10px;
   top: 10px;
   height: 40%;
 }
-/* line 133, ../sass/resources.scss */
+/* line 129, ../sass/resources.scss */
 #resource-visual .resource-visual-content .resource-visual-formula {
   width: 30%;
   height: 40%;
   margin-top: 10px;
 }
-/* line 139, ../sass/resources.scss */
+/* line 135, ../sass/resources.scss */
 #resource-visual .resource-visual-content .resource-visual-description {
   padding-top: 5px;
   line-height: 16px;

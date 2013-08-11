@@ -81,14 +81,10 @@
 
         &.theme_dark {
             background-color: $dark_background;
-            color: $dark_text;
-            text-shadow: 1px 1px $dark_textShadow;
             border-bottom: 1px solid $dark_border;
         }
         &.theme_light {
             background-color: $light_background;
-            color: $light_text;
-            text-shadow: 1px 1px $light_textShadow;
             border-bottom: 1px solid $light_border;
         }
 

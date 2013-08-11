@@ -1,0 +1,282 @@
+@import "base";
+
+#header {
+    position: absolute;
+    left: $sidebarWidth;
+    width: 100% - 2*$sidebarWidth;
+    height: $headerHeight;
+    z-index: 1;
+
+    &.theme_dark {
+        background-color: $dark_background;
+        border-bottom: 1px solid $dark_border;
+    }
+    &.theme_light {
+        background-color: $light_background;
+        border-bottom: 1px solid $light_border;
+    }
+
+    p {
+        display: inline-block;
+        margin: 4px 5px 0;
+    }
+
+    #settings {
+        position: absolute;
+        right: $accountWidth;
+        top: 0;
+        width: $settingsWidth;
+        min-height: 100%;
+        background-color: inherit;
+        
+        &.theme_dark {
+            border: 1px solid $dark_border;
+            border-top: none;
+        }
+        &.theme_light {
+            border: 1px solid $light_border;
+            border-top: none;
+        }
+
+        .settings-header {
+            height: $headerHeight;
+            cursor: pointer;
+        }
+
+        .icon-cog {
+            position: absolute;
+            top: 6px;
+            right: 7px;
+        }
+
+        .settings-dropdown {
+            display: none;
+            width: 90%;
+            padding: 10px 5%;
+            background-color: inherit;
+            z-index: 3;
+
+            p {
+                margin-bottom: 5px;
+                display: block;
+            }
+
+            #theme-holder {
+                width: 100%;
+
+                button {
+                    width: 50%;
+                }
+            }
+
+            #settings-apply {
+                margin-top: 15px;
+                width: 35%;
+            }
+        }
+    }
+
+    #account {
+        float: right;
+        width:  $accountWidth;
+        min-height: 100%;
+        background-color: inherit;
+
+        &.theme_dark {
+            border-left: 1px solid $dark_border;
+            border-bottom: 1px solid $dark_border;
+        }
+        &.theme_light {
+            border-left: 1px solid $light_border;
+            border-bottom: 1px solid $light_border; 
+        }
+
+        .account-header {
+            height: $headerHeight;
+            cursor: pointer;
+        }
+
+        .icon-user {
+            position: absolute;
+            top: 6px;
+            right: 7px;
+        }
+
+        .login-dropdown {
+            //display: none;
+            background-color: inherit;
+            width: 90%;
+            padding: 10px 5%;
+            z-index: 3;
+
+            input[type=text], input[type=password] {
+                width: 94%;
+                padding-right: 3%;
+                padding-left: 3%;
+            }
+
+            #login-control-group {
+                position: relative;
+
+                .forgot-password {
+                    position: absolute;
+                    width:  29px;
+                    min-width: 29px;
+                    max-width: 126px;
+                    height: 28px;
+                    right: -2px;
+                    top: 0;
+                    border: 1px solid;
+                    border-top-right-radius: 4px;
+                    border-bottom-right-radius: 4px;
+
+                    &.theme_dark {
+                        border-color: $dark_inputBorder;
+                        background: $dark_inputAddOnBackground;
+                    }
+                    &.theme_light {
+                        border-color: $light_inputBorder;
+                        background: $light_inputAddOnBackground;
+                    }
+
+                    .icon-question-sign {
+                        position: absolute;
+                        left: 7px;
+                        top:  6px;
+                    }
+
+                    #forgot-password-button {
+                        display: none;
+                        position: absolute;
+                        right: 4px;
+                        top: 3px;
+                        white-space: nowrap;
+                    }
+                }
+            }
+
+            #email-control-group {
+                position: relative;
+
+                .email-verified {
+                    position: absolute;
+                    width:  29px;
+                    min-width: 29px;
+                    height: 28px;
+                    right: -2px;
+                    top: 0;
+                    border: 1px solid;
+                    border-top-right-radius: 4px;
+                    border-bottom-right-radius: 4px;
+                    z-index: 1;
+
+                    &.theme_dark {
+                        border-color: $dark_inputBorder;
+                        background: $dark_inputAddOnBackground;
+                    }
+                    &.theme_light {
+                        border-color: $light_inputBorder;
+                        background: $light_inputAddOnBackground;
+                    }
+
+                    &[verified=true] {
+                        max-width: 124px;
+                    }
+                    &[verified=false] {
+                        max-width: 165px;
+                    }
+
+                    i {
+                        position: absolute;
+                        left: 7px;
+                        top:  6px;
+                    }
+
+                    p, button {
+                        display: none;
+                        position: absolute;
+                        right: 4px;
+                        top: 3px;
+                        white-space: nowrap;
+                    }
+
+                    p {
+                        margin: 2px 4px;
+                    }
+                }
+
+                .edit-email {
+                    position: absolute;
+                    width:  29px;
+                    min-width: 29px;
+                    max-width: 64px;
+                    height: 28px;
+                    right: 27px;
+                    top: 0;
+                    border: 1px solid;
+
+                    &.theme_dark {
+                        border-color: $dark_inputBorder;
+                        background: $dark_inputAddOnBackground;
+                    }
+                    &.theme_light {
+                        border-color: $light_inputBorder;
+                        background: $light_inputAddOnBackground;
+                    }
+
+                    i {
+                        position: absolute;
+                        left: 7px;
+                        top:  6px;
+                    }
+
+                    button {
+                        display: none;
+                        position: absolute;
+                        right: 4px;
+                        top: 3px;
+                        white-space: nowrap;
+                    }
+                }
+            }
+
+            p {
+                margin-bottom: 5px;
+                display: block;
+            }
+
+            .button-holder {
+                width: 100%;
+                text-align: right;
+            }
+
+            .control-group {
+                margin: 0;
+            }
+
+            .dropdown-footer {
+                text-align: center;
+                margin: 8px 0 0;
+            }
+
+            .error-info {
+                color: red;
+                max-width: 75%;
+            }
+
+            .success-info {
+                color: green;
+                max-width: 75%;
+            }
+
+            .logout-holder {
+                margin-top: 3px;
+            }
+
+            .edit-email-holder {
+                display: none;
+                overflow: visible;
+            }
+        }
+    }
+}
