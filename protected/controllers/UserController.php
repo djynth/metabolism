@@ -6,6 +6,8 @@ class UserController extends CController
     const VERIFICATION_VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const MAX_RECOVER_PASSWORD_ATTEMPTS = 10;
 
+    const MESSAGE_INTERNAL_ERROR = 'An internal error occurred. Please try again.'
+
     public function actionVerifyEmail()
     {
         if (isset($_POST['username'], $_POST['verification'])) {
@@ -21,20 +23,20 @@ class UserController extends CController
                     if ($user->email_verification === $verification) {
                         $user->email_verified = true;
                         if ($user->save()) {
-                            $message = 'The email address ' . $user->email . ' has been verified!';
+                            $message = 'The email address ' . $user->email . ' has been verified.';
                             $success = true;
                         } else {
-                            $message = 'There was an error updating your email verification status';
+                            $message = self::MESSAGE_INTERNAL_ERROR;
                         }
                     } else {
-                        $message = 'Incorrect verfication code';
+                        $message = 'Incorrect verfication code.';
                     }
                 } else {
                     $success = true;
-                    $message = 'Your email has already been verified';
+                    $message = 'Your email has already been verified.';
                 }
             } else {
-                $message = 'Unable to find an account with the username ' . $username;
+                $message = 'Account "' . $username . '" not found.';
             }
 
             echo CJavaScript::jsonEncode(array(
@@ -74,9 +76,9 @@ class UserController extends CController
                                 if ($user->save()) {
                                     $request->delete();
                                     $success = true;
-                                    $message = 'Your password has been reset';
+                                    $message = 'Your password has been reset.';
                                 } else {
-                                    $message = 'Unable to update your password';
+                                    $message = self::MESSAGE_INTERNAL_ERROR;
                                 }
                             } else {
                                 $request->attempts++;
@@ -85,19 +87,19 @@ class UserController extends CController
                                     $request->delete();
                                 }
 
-                                $message = 'Incorrect verification code';
+                                $message = 'Incorrect verification code.';
                             }
                         } else {
-                            $message = 'There is no recover password request currently open for ' . $username;
+                            $message = 'There is no password recovery request open for ' . $username . '.';
                         }
                     } else {
-                        $message = 'User with username ' . $username . ' not found';
+                        $message = 'Account "' . $username . '"" not found.';
                     }
                 } else {
-                    $message = 'The new password and confirmation password do not match';
+                    $message = 'The new and confirmation passwords do not match.';
                 }
             } else {
-                $message = 'No username given';
+                $message = 'No username given.';
             }
 
             echo CJavaScript::jsonEncode(array(
@@ -126,7 +128,7 @@ class UserController extends CController
                 Yii::app()->user->login($identity, 3600*24);
                 $success = true;
             } else {
-                $message = 'Invalid username or password';
+                $message = 'Incorrect username or password.';
             }
 
             echo CJavaScript::jsonEncode(array(
@@ -166,25 +168,25 @@ class UserController extends CController
 
                                         $this->sendEmailVerification();
                                     } else {
-                                        $message = 'Unable to create your account';
+                                        $message = self::MESSAGE_INTERNAL_ERROR;
                                     }
                                 } else {
-                                    $message = 'That email address is taken';
+                                    $message = 'That email address is taken.';
                                 }
                             } else {
-                                $message = 'Invalid email address';
+                                $message = 'Invalid email address.';
                             }
                         } else {
-                            $message = 'That username is taken';
+                            $message = 'That username is taken.';
                         }
                     } else {
-                        $message = 'Invalid username';
+                        $message = 'Invalid username.';
                     }
                 } else {
-                    $message = 'Invalid password';
+                    $message = 'Invalid password.';
                 }
             } else {
-                $message = 'Password and confirmation do not match';
+                $message = 'Password and confirmation do not match.';
             }
             
             echo CJavaScript::jsonEncode(array(
@@ -217,21 +219,66 @@ class UserController extends CController
                             $user->password = crypt($new, self::blowfishSalt());
                             if ($user->save()) {
                                 $success = true;
-                                $message = 'Successfully changed your password';
+                                $message = 'Your password has been updated.';
                             } else {
-                                $message = 'Unable to update your account';
+                                $message = self::MESSAGE_INTERNAL_ERROR;
                             }
                         } else {
-                            $message = 'Incorrect password';
+                            $message = 'Incorrect current password.';
                         }
                     } else {
-                        $message = 'Invalid password';
+                        $message = 'Invalid new password.';
                     }
                 } else {
-                    $message = 'New password and confirmation do not match';
+                    $message = 'New password and confirmation do not match.';
                 }
             } else {
-                $message = 'Unable to find your account';
+                $message = 'You must be logged in to change your password.';
+            }
+
+            echo CJavaScript::jsonEncode(array(
+                'success' => $success,
+                'message' => $message,
+            ));
+        }
+    }
+
+    public function actionChangeEmail()
+    {
+        if (isset($_POST['email'], $_POST['password'])) {
+            $email    = $_POST['email'];
+            $password = $_POST['password'];
+
+            $success = false;
+            $message = false;
+
+            $user = User::getCurrentUser();
+            if ($user !== null) {
+                if (self::isValidEmail($email)) {
+                    if (!User::isEmailTaken()) {
+                        if ($user->authenticate($password)) {
+                            $user->email = $email;
+                            $user->email_verified = false;
+                            $user->email_verification = self::generateVerificationCode();
+                            if ($user->save()) {
+                                $success = true;
+                                $message = 'Your email has been updated.';
+
+                                $this->sendEmailVerification();
+                            } else {
+                                $message = self::MESSAGE_INTERNAL_ERROR;
+                            }
+                        } else {
+                            $message = 'Incorrect password.';
+                        }
+                    } else {
+                        $message = 'That email address is taken.';
+                    }
+                } else {
+                    $message = 'Invalid email address.';
+                }
+            } else {
+                $message = 'You must be logged in to change your email address.';
             }
 
             echo CJavaScript::jsonEncode(array(
@@ -279,51 +326,6 @@ class UserController extends CController
         }
     }
 
-    public function actionChangeEmail()
-    {
-        if (isset($_POST['email'], $_POST['password'])) {
-            $email    = $_POST['email'];
-            $password = $_POST['password'];
-
-            $success = false;
-            $message = false;
-
-            $user = User::getCurrentUser();
-            if ($user !== null) {
-                if (self::isValidEmail($email)) {
-                    if (!User::isEmailTaken()) {
-                        if ($user->authenticate($password)) {
-                            $user->email = $email;
-                            $user->email_verified = false;
-                            $user->email_verification = self::generateVerificationCode();
-                            if ($user->save()) {
-                                $success = true;
-                                $message = 'Successfully changed your email';
-
-                                $this->sendEmailVerification();
-                            } else {
-                                $message = 'Unable to update your account';
-                            }
-                        } else {
-                            $message = 'Incorrect password';
-                        }
-                    } else {
-                        $message = 'That email is taken';
-                    }
-                } else {
-                    $message = 'Invalid email';
-                }
-            } else {
-                $message = 'Unable to find your account';
-            }
-
-            echo CJavaScript::jsonEncode(array(
-                'success' => $success,
-                'message' => $message,
-            ));
-        }
-    }
-
     public function actionResendEmailVerification()
     {
         $this->sendEmailVerification();
@@ -368,16 +370,16 @@ class UserController extends CController
                             Yii::app()->mail->send($message);
                         } catch (Exception $e) { }
 
-                        $message = 'An email was sent to your email at ' . $user->getEmailDomain() . ' with your password';
+                        $message = 'A password recovery email was sent to your email address at ' . $user->getEmailDomain() . '.';
                         $success = true;
                     } else {
-                        $message = $username . ' does not have a verified email address on file. Please contact us to reset your account.';
+                        $message = 'You do not have a verified email address on file. Please contact us to reset your account.';
                     }
                 } else {
-                    $message = $username . ' does not exist';
+                    $message = 'Account "' . $username . '"" not found.';
                 }
             } else {
-                $message = 'Please enter a username';
+                $message = 'Please enter a username.';
             }
             
             echo CJavaScript::jsonEncode(array(
