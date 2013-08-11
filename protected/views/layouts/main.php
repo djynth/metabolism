@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/pathways.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/resources.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/trackers.css">
+<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/header.css">
 
 <!-- JavaScript -->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/lib/jquery-1.10.1.min.js"></script>
@@ -22,6 +23,7 @@
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/resources.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/pathways.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/organs.js"></script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/header.js"></script>
 
 <script>
 var baseUrl = <?= json_encode(Yii::app()->request->baseUrl); ?>;
@@ -29,8 +31,10 @@ var GLOBAL_ORGAN = <?= json_encode(Organ::GLOBAL_ID); ?>;
 var color_theme = null;
 
 <?php if (!Yii::app()->user->isGuest):
-    $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id)); ?>
-    var color_theme = <?= json_encode($user->theme); ?>;
+    $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id));
+    if ($user): ?>
+        color_theme = <?= json_encode($user->theme); ?>;
+    <?php endif ?>
 <?php endif ?>
 
 var organColors = new Array;
@@ -45,9 +49,9 @@ foreach ($organs as $organ): ?>
 <meta name="language" content="en">
 <meta name="keywords" content="Metabolism,Education,Game,Visualization,Fun">
 
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
 <body>

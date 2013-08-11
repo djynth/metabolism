@@ -7,10 +7,28 @@ html, body {
     margin: 0;
     font-family: Sans-serif;
     @include user-select(none);
+
+    &.theme_dark {
+        background-color: $dark_background;
+    }
+    &.theme_light {
+        background-color: $light_background;
+    }
 }
 
 p, h1, h2, h3, h4, h5, h6 {
     margin: 0;
+}
+
+p, h1, h2, h3, h4, h5, h6, label {
+    &.theme_dark {
+        color: $dark_text;
+        text-shadow: 1px 1px $dark_textShadow;
+    }
+    &.theme_light {
+        color: $light_text;
+        text-shadow: 1px 1px $light_textShadow;
+    }
 }
 
 .input-themed {
@@ -58,14 +76,10 @@ p, h1, h2, h3, h4, h5, h6 {
 
     &.theme_dark {
         background-color: $dark_background;
-        color: $dark_text;
-        text-shadow: 1px 1px $dark_textShadow;
         border-bottom: 1px solid $dark_border;
     }
     &.theme_light {
         background-color: $light_background;
-        color: $light_text;
-        text-shadow: 1px 1px $light_textShadow;
         border-bottom: 1px solid $light_border;
     }
 
@@ -211,167 +225,45 @@ p, h1, h2, h3, h4, h5, h6 {
     }
 }
 
-#header {
-    position: absolute;
-    left: $sidebarWidth;
-    width: 100% - 2*$sidebarWidth;
-    height: $headerHeight;
-    z-index: 1;
-
-    &.theme_dark {
-        background-color: $dark_background;
-        border-bottom: 1px solid $dark_border;
-    }
-    &.theme_light {
-        background-color: $light_background;
-        border-bottom: 1px solid $light_border;
-    }
-
-    p {
-        display: inline-block;
-        margin: 4px 5px 0;
-        
-        &.theme_dark {
-            color: $dark_text;
-            text-shadow: 1px 1px $dark_textShadow;
-        }
-        &.theme_light {
-            color: $light_text;
-            text-shadow: 1px 1px $light_textShadow;
-        }
-    }
-
-    #settings {
-        position: absolute;
-        right: $accountWidth;
-        top: 0;
-        width: $settingsWidth;
-        min-height: 100%;
-        background-color: inherit;
-
-        &.theme_dark {
-            border: 1px solid $dark_border;
-            border-top: none;
-        }
-        &.theme_light {
-            border: 1px solid $light_border;
-            border-top: none;
-        }
-
-        .settings-header {
-            height: $headerHeight;
-            cursor: pointer;
-        }
-
-        .icon-cog {
-            position: absolute;
-            top: 6px;
-            right: 7px;
-        }
-
-        .settings-dropdown {
-            display: none;
-            width: 90%;
-            padding: 10px 5%;
-            background-color: inherit;
-
-            p {
-                margin-bottom: 5px;
-                display: block;
-            }
-
-            #theme-holder {
-                width: 100%;
-
-                button {
-                    width: 50%;
-                }
-            }
-
-            #settings-apply {
-                margin-top: 15px;
-                width: 35%;
-            }
-        }
-    }
-
-    #account {
-        float: right;
-        width:  $accountWidth;
-        min-height: 100%;
-        background-color: inherit;
-
-        &.theme_dark {
-            border-left: 1px solid $dark_border;
-            border-bottom: 1px solid $dark_border;
-        }
-        &.theme_light {
-            border-left: 1px solid $light_border;
-            border-bottom: 1px solid $light_border; 
-        }
-
-        .account-header {
-            height: $headerHeight;
-            cursor: pointer;
-        }
-
-        .icon-user {
-            position: absolute;
-            top: 6px;
-            right: 7px;
-        }
-
-        .login-dropdown {
-            display: none;
-            background-color: inherit;
-            width: 90%;
-            padding: 10px 5%;
-
-            input[type=text],input[type=password] {
-                width: 94%;
-                padding-right: 3%;
-                padding-left: 3%;
-            }
-
-            p {
-                margin-bottom: 5px;
-                display: block;
-            }
-
-            .button-holder {
-                width: 100%;
-                text-align: right;
-            }
-
-            .control-group {
-                margin: 0;
-            }
-
-            .dropdown-footer {
-                text-align: center;
-                margin: 8px 0 0;
-            }
-
-            .error-info {
-                color: red;
-                max-width: 75%;
-            }
-
-            .success-info {
-                color: green;
-                max-width: 75%;
-            }
-
-            .logout-holder {
-                margin-top: 3px;
-            }
-        }
-    }
-}
-
 #cell-canvas {
     position: absolute;
     left: $sidebarWidth;
     width:  100% - 2*$sidebarWidth;
     height: 100%;
+    z-index: -1;
+}
+
+.notification-holder {
+    position: absolute;
+    display: none;
+    left: $sidebarWidth;
+    width: 100% - 2*$sidebarWidth;
+    padding: 5px 10px;
+
+    &.theme_dark {
+        background-color: $dark_background;
+        border-color: $dark_border;
+    }
+    &.theme_light {
+        background-color: $light_background;
+        border-color: $light_border;
+    }
+
+    .success {
+        color: green;
+    }
+
+    .error {
+        color: red;
+    }
+}
+
+#notification-bottom {
+    bottom: $trackerHeight;
+    border-top: 1px solid;
+}
+
+#notification-top {
+    top: $headerHeight + 1;
+    border-bottom: 1px solid;
 }

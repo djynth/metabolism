@@ -1,10 +1,116 @@
 <?php
 
-class UserController extends Controller
+class UserController extends CController
 {
-    public function actions()
+    const EMAIL_VERIFICATION_LENGTH = 16;
+    const EMAIL_VERIFICATION_VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const MAX_RECOVER_PASSWORD_ATTEMPTS = 10;
+
+    public function actionVerifyEmail()
     {
-        return array();
+        if (isset($_POST) && count($_POST) > 0) {
+            $username = $_POST['username'];
+            $verification = $_POST['verification'];
+
+            $success = false;
+            $message = false;
+
+            $user = User::model()->findByAttributes(array('username' => $username));
+            if ($user !== null) {
+                if (!$user->email_verified) {
+                    if ($user->email_verification === $verification) {
+                        $user->email_verified = true;
+                        if ($user->save()) {
+                            $message = 'The email address ' . $user->email . ' has been verified!';
+                            $success = true;
+                        } else {
+                            $message = 'There was an error updating your email verification status';
+                        }
+                    } else {
+                        $message = 'Incorrect verfication code';
+                    }
+                } else {
+                    $success = true;
+                    $message = 'Your email has already been verified';
+                }
+            } else {
+                $message = 'Unable to find an account with the username ' . $username;
+            }
+
+            echo CJavaScript::jsonEncode(array(
+                'success' => $success,
+                'message' => $message,
+            ));
+        } else {
+            $email = isset($_GET['email']) ? $_GET['email'] : '';
+            $username = isset($_GET['username']) ? $_GET['username'] : '';
+
+            $this->render('verify-email', array(
+                'email' => $email,
+                'username' => $username,
+            ));
+        }
+    }
+
+    public function actionResetPassword()
+    {
+        if (isset($_POST) && count($_POST) > 0) {
+            $username = $_POST['username'];
+            $verification = $_POST['verification'];
+            $new = $_POST['new_password'];
+            $confirm = $_POST['confirm'];
+
+            $success = false;
+            $message = false;
+
+            if ($username) {
+                if ($new === $confirm) {
+                    $user = User::model()->findByAttributes(array('username' => $username));
+                    if ($user !== null) {
+                        $request = RecoverPassword::model()->findByAttributes(array('user_id' => $user->id));
+                        if ($request !== null) {
+                            if ($verification === $request->verification) {
+                                $user->password = crypt($new, self::blowfishSalt());
+                                if ($user->save()) {
+                                    $request->delete();
+                                    $success = true;
+                                    $message = 'Your password has been reset';
+                                } else {
+                                    $message = 'Unable to update your password';
+                                }
+                            } else {
+                                $request->attempts++;
+                                $request->save();
+                                if ($request->attempts > self::MAX_RECOVER_PASSWORD_ATTEMPTS) {
+                                    $request->delete();
+                                }
+
+                                $message = 'Incorrect verification code';
+                            }
+                        } else {
+                            $message = 'There is no recover password request currently open for ' . $username;
+                        }
+                    } else {
+                        $message = 'User with username ' . $username . ' not found';
+                    }
+                } else {
+                    $message = 'The new password and confirmation password do not match';
+                }
+            } else {
+                $message = 'No username given';
+            }
+
+            echo CJavaScript::jsonEncode(array(
+                'success' => $success,
+                'message' => $message,
+            ));
+        } else {
+            $username = isset($_GET['username']) ? $_GET['username'] : '';
+
+            $this->render('reset-password', array(
+                'username' => $username,
+            ));
+        }
     }
 
     public function actionLogin()
@@ -37,21 +143,39 @@ class UserController extends Controller
             $password = $_POST['password'];
             $confirm = $_POST['confirm'];
             $theme = $_POST['theme'];
+            $email = $_POST['email'];
 
             $message = false;
             $success = false;
             if ($password === $confirm) {
                 if (self::isValidPassword($password)) {
-                    if (self::isValidUsername($username)) {     // TODO check if username exists
-                        $record = new User;
-                        $record->username = $username;
-                        $record->password = crypt($password);
-                        $record->theme = $theme;
-                        if ($record->save()) {
-                            Yii::app()->user->login(new UserIdentity($username, $password), 3600*24);
-                            $success = true;
+                    if (self::isValidUsername($username)) {
+                        if (!self::isUsernameTaken($username)) {
+                            if (self::isValidEmail($email)) {
+                                if (!self::isEmailTaken($email)) {
+                                    $record = new User;
+                                    $record->username = $username;
+                                    $record->password = crypt($password, self::blowfishSalt());
+                                    $record->theme = $theme;
+                                    $record->email = $email;
+                                    $record->email_verified = false;
+                                    $record->email_verification = self::generateEmailVerification();
+                                    if ($record->save()) {
+                                        Yii::app()->user->login(new UserIdentity($username, $password), 3600*24);
+                                        $success = true;
+
+                                        $this->sendEmailVerification();
+                                    } else {
+                                        $message = 'Unable to create your account';
+                                    }
+                                } else {
+                                    $message = 'That email address is taken';
+                                }
+                            } else {
+                                $message = 'Invalid email address';
+                            }
                         } else {
-                            $message = 'Unable to create your account';
+                            $message = 'That username is taken';
                         }
                     } else {
                         $message = 'Invalid username';
@@ -90,7 +214,7 @@ class UserController extends Controller
                     if ($new === $confirm) {
                         if (self::isValidPassword($new)) {
                             if ($user->authenticate($current)) {
-                                $user->password = crypt($new);
+                                $user->password = crypt($new, self::blowfishSalt());
                                 if ($user->save()) {
                                     $success = true;
                                     $message = 'Successfully changed your password';
@@ -134,6 +258,13 @@ class UserController extends Controller
         ));
     }
 
+    public function actionValidateEmail()
+    {
+        echo CJavaScript::jsonEncode(array(
+            'valid' => self::isValidEmail($_POST['email'])
+        ));
+    }
+
     private static function isValidUsername($username)
     {
         return preg_match("/^[a-z0-9_-]{3,16}$/", $username);
@@ -142,6 +273,34 @@ class UserController extends Controller
     private static function isValidPassword($password)
     {
         return preg_match("/^[a-z0-9:punct:]{3,32}$/", $password);
+    }
+
+    private static function isValidEmail($email)
+    {
+        return preg_match("/.+\@.+\..+/", $email);
+    }
+
+    private static function isUsernameTaken($username)
+    {
+        return User::model()->findByAttributes(array('username' => $username)) !== null;
+    }
+
+    private static function isEmailTaken($email)
+    {
+        return User::model()->findByAttributes(array('email' => $email)) !== null;
+    }
+
+    private static function generateEmailVerification()
+    {
+        $values = str_split(self::EMAIL_VERIFICATION_VALUES);
+        $keys = array_rand($values, self::EMAIL_VERIFICATION_LENGTH);
+
+        for ($i = 0; $i < self::EMAIL_VERIFICATION_LENGTH; $i++) {
+            $keys[$i] = $values[$keys[$i]];
+        }
+
+        shuffle($keys);
+        return implode('', $keys);
     }
 
     public function actionSaveTheme()
@@ -155,5 +314,162 @@ class UserController extends Controller
                 $user->save();
             }
         }
+    }
+
+    public function actionChangeEmail()
+    {
+        if (isset($_POST)) {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+
+            $success = false;
+            $message = false;
+            if (!Yii::app()->user->isGuest) {
+                $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id));
+                if ($user !== null) {
+                    if (self::isValidEmail($email)) {
+                        if ($user->authenticate($password)) {
+                            $user->email = $email;
+                            $user->email_verified = false;
+                            $user->email_verification = self::generateEmailVerification();
+                            if ($user->save()) {
+                                $success = true;
+                                $message = 'Successfully changed your email';
+
+                                $this->sendEmailVerification();
+                            } else {
+                                $message = 'Unable to update your account';
+                            }
+                        } else {
+                            $message = 'Incorrect password';
+                        }
+                    } else {
+                        $message = 'Invalid email';
+                    }
+                } else {
+                    $message = 'Unable to find your account';
+                }
+            } else {
+                $message = 'You must be logged in to change your email';
+            }
+
+            echo CJavaScript::jsonEncode(array(
+                'success' => $success,
+                'message' => $message,
+            ));
+        }
+    }
+
+    public function actionResendEmailVerification()
+    {
+        $this->sendEmailVerification();
+    }
+
+    public function actionForgotPassword()
+    {
+        if (isset($_POST)) {
+            $username = $_POST['username'];
+
+            $success = false;
+            $message = false;
+
+            if ($username) {
+                $user = User::model()->findByAttributes(array('username' => $username));
+                if ($user !== null) {
+                    if ($user->email_verified) {
+                        $request = RecoverPassword::model()->findByAttributes(array('user_id' => $user->id));
+                        if ($request === null) {
+                            $request = new RecoverPassword;
+                            $request->user_id = $user->id;
+                            $request->verification = self::generateEmailVerification();
+                            $request->save();
+                        }
+                        
+                        $params = array(
+                            'username' => $user->username,
+                            'verification' => $request->verification,
+                            'resetPage' => Yii::app()->params['url'] . $this->createUrl('user/resetpassword', array(
+                                'username' => $username,
+                            )),
+                        );
+
+                        $message = new YiiMailMessage;
+                        $message->view = 'forgot-password';
+                        $message->subject = 'Recover Your Password';
+                        $message->setBody($params, 'text/html');
+                        $message->addTo($user->email);
+                        $message->from = Yii::app()->params['email'];
+
+                        try {
+                            Yii::app()->mail->send($message);
+                        } catch (Exception $e) { }
+
+                        $message = 'An email was sent to your email at ' . split('@', $user->email)[1] . ' with your password';
+                        $success = true;
+                    } else {
+                        $message = $username . ' does not have a verified email address on file. Please contact us to reset your account.';
+                    }
+                } else {
+                    $message = $username . ' does not exist';
+                }
+            } else {
+                $message = 'Please enter a username';
+            }
+            
+            echo CJavaScript::jsonEncode(array(
+                'success' => $success,
+                'message' => $message,
+            ));
+        }
+    }
+
+    /**
+     * Generate a random salt in the crypt(3) standard Blowfish format.
+     * Source code attribution belongs to "fsb" <yiiframework.com/wiki/425/use-crypt-for-password-storage>.
+     *
+     * @param int $cost Cost parameter from 4 to 31, default 13
+     * @return string A Blowfish hash salt for use in PHP's crypt()
+     * @throws Exception on invalid cost parameter
+     */
+    private static function blowfishSalt($cost = 13)
+    {
+        if (!is_numeric($cost) || $cost < 4 || $cost > 31) {
+            throw new Exception("cost parameter must be between 4 and 31");
+        }
+        $rand = array();
+        for ($i = 0; $i < 8; $i += 1) {
+            $rand[] = pack('S', mt_rand(0, 0xffff));
+        }
+        $rand[] = substr(microtime(), 2, 6);
+        $rand = sha1(implode('', $rand), true);
+        $salt = '$2a$' . sprintf('%02d', $cost) . '$';
+        $salt .= strtr(substr(base64_encode($rand), 0, 22), array('+' => '.'));
+        return $salt;
+    }
+
+    private function sendEmailVerification()
+    {
+        $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id));
+
+        $params = array(
+            'username' => $user->username,
+            'verification' => $user->email_verification,
+            'email' => $user->email,
+            'verifyPage' => Yii::app()->params['url'] . $this->createUrl('user/verifyemail', array(
+                'email' => $user->email,
+                'username' => $user->username,
+            )),
+        );
+
+        $message = new YiiMailMessage;
+        $message->view = 'verify-email';
+        $message->subject = 'Welcome to Metabolism Fun!';
+        $message->setBody($params, 'text/html');
+        $message->addTo($user->email);
+        $message->from = Yii::app()->params['email'];
+
+        try {
+            Yii::app()->mail->send($message);
+        } catch (Exception $e) { }
     }
 }
