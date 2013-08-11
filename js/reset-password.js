@@ -22,7 +22,7 @@ $(document).ready(function() {
                 }
             },
             error: function() {
-                $('#message').addClass('error').removeClass('success').text('There was an unknown error trying to reset your password.');
+                $('#message').addClass('error').removeClass('success').text('An internal error occurred. Please try again.');
             }
         });
     });

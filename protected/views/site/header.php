@@ -44,7 +44,6 @@ $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id
                         <button id="forgot-password-button" class="btn btn-mini">Forgot Password</button>
                     </div>
                 </div>
-                <p id="login-error" class="error-info"></p>
                 <div class="button-holder">
                     <input type="submit" id="login-submit" class="btn btn-inverse btn-small" value="Submit">
                 </div>
@@ -63,13 +62,12 @@ $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id
                 <div class="control-group">
                     <input id="create-account-confirm" type="password" placeholder="Confirm Password" class="input-themed">
                 </div>
-                <p id="create-account-error" class="error-info"></p>
                 <div class="button-holder">
                     <input type="submit" id="create-account-submit" class="btn btn-inverse btn-small" value="Submit">
                 </div>
             </div>
 
-            <p class="dropdown-footer">Note: logging in or creating an account will restart your game</p>
+            <p class="dropdown-footer">Logging in or creating an account will restart your game.</p>
         </div>
 
         <?php else: ?>
@@ -85,8 +83,6 @@ $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id
                 <div class="control-group">
                     <input id="change-password-confirm" type="password" placeholder="Confirm New Password" class="input-themed">
                 </div>
-                <p id="change-password-error" class="error-info"></p>
-                <p id="change-password-success" class="success-info"></p>
                 <div class="button-holder">
                     <input type="submit" id="change-password-submit" class="btn btn-inverse btn-small" value="Submit">
                 </div>
@@ -133,7 +129,7 @@ $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id
                 <button id="logout" class="btn btn-small btn-inverse">Logout</button>
             </div>
 
-            <p class="dropdown-footer">Note: logging out will restart your game</p>
+            <p class="dropdown-footer">Logging out will restart your game.</p>
         </div>
         <?php endif ?>
     </div>

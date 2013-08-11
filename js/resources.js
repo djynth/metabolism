@@ -98,15 +98,18 @@ function onResourceChange(resource, organ, value)
 
 function getResourceElement(resource, organ)
 {
+    var holder;
     if (typeof organ === 'undefined') {
         if (isResourceGlobal(resource)) {
-            organ = GLOBAL_ORGAN;
+            holder = $('.resource-holder.global');
         } else {
-            organ = getSelectedOrgan();
+            holder = $('.resource-holder[value="' + getSelectedOrgan() + '"]');
         }
+    } else {
+        holder = $('.resource-holder[value="' + organ + '"]');
     }
 
-    return $('.resource-holder[value="' + organ + '"]').find('.resource-data[value="' + resource + '"]');
+    return holder.find('.resource-data[value="' + resource + '"]');
 }
 
 function getResourceValue(resource, organ)
