@@ -198,9 +198,15 @@ $(document).ready(function() {
     });
 
     $('.forgot-password, .email-verified, .edit-email').hover(function() {
-        $(this).animate({ width: $(this).css('max-width') });
-        $(this).find('*').fadeIn();
+        var elem = $(this);
+        var t = setTimeout(function() {
+            console.log(elem);
+            elem.animate({ width: elem.css('max-width') });
+            elem.find('*').fadeIn();
+        }, 250);
+        $(this).data('timeout', t);
     }, function() {
+        clearTimeout($(this).data('timeout'));
         $(this).animate({ width: $(this).css('min-width') });
         $(this).find('p, button').fadeOut();
     });

@@ -135,24 +135,25 @@
   border: 1px solid;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
+  cursor: pointer;
 }
-/* line 133, ../sass/header.scss */
+/* line 134, ../sass/header.scss */
 #header #account .login-dropdown #login-control-group .forgot-password.theme_dark {
   border-color: #121212;
   background: #323232;
 }
-/* line 137, ../sass/header.scss */
+/* line 138, ../sass/header.scss */
 #header #account .login-dropdown #login-control-group .forgot-password.theme_light {
   border-color: #787878;
   background: #e1e1e1;
 }
-/* line 142, ../sass/header.scss */
+/* line 143, ../sass/header.scss */
 #header #account .login-dropdown #login-control-group .forgot-password .icon-question-sign {
   position: absolute;
   left: 7px;
   top: 6px;
 }
-/* line 148, ../sass/header.scss */
+/* line 149, ../sass/header.scss */
 #header #account .login-dropdown #login-control-group .forgot-password #forgot-password-button {
   display: none;
   position: absolute;
@@ -160,11 +161,11 @@
   top: 3px;
   white-space: nowrap;
 }
-/* line 158, ../sass/header.scss */
+/* line 159, ../sass/header.scss */
 #header #account .login-dropdown #email-control-group {
   position: relative;
 }
-/* line 161, ../sass/header.scss */
+/* line 162, ../sass/header.scss */
 #header #account .login-dropdown #email-control-group .email-verified {
   position: absolute;
   width: 29px;
@@ -176,32 +177,33 @@
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
   z-index: 1;
+  cursor: pointer;
 }
-/* line 173, ../sass/header.scss */
+/* line 175, ../sass/header.scss */
 #header #account .login-dropdown #email-control-group .email-verified.theme_dark {
   border-color: #121212;
   background: #323232;
 }
-/* line 177, ../sass/header.scss */
+/* line 179, ../sass/header.scss */
 #header #account .login-dropdown #email-control-group .email-verified.theme_light {
   border-color: #787878;
   background: #e1e1e1;
 }
-/* line 182, ../sass/header.scss */
+/* line 184, ../sass/header.scss */
 #header #account .login-dropdown #email-control-group .email-verified[verified=true] {
   max-width: 124px;
 }
-/* line 185, ../sass/header.scss */
+/* line 187, ../sass/header.scss */
 #header #account .login-dropdown #email-control-group .email-verified[verified=false] {
   max-width: 165px;
 }
-/* line 189, ../sass/header.scss */
+/* line 191, ../sass/header.scss */
 #header #account .login-dropdown #email-control-group .email-verified i {
   position: absolute;
   left: 7px;
   top: 6px;
 }
-/* line 195, ../sass/header.scss */
+/* line 197, ../sass/header.scss */
 #header #account .login-dropdown #email-control-group .email-verified p, #header #account .login-dropdown #email-control-group .email-verified button {
   display: none;
   position: absolute;
@@ -209,11 +211,11 @@
   top: 3px;
   white-space: nowrap;
 }
-/* line 203, ../sass/header.scss */
+/* line 205, ../sass/header.scss */
 #header #account .login-dropdown #email-control-group .email-verified p {
   margin: 2px 4px;
 }
-/* line 208, ../sass/header.scss */
+/* line 210, ../sass/header.scss */
 #header #account .login-dropdown #email-control-group .edit-email {
   position: absolute;
   width: 29px;
@@ -223,24 +225,25 @@
   right: 27px;
   top: 0;
   border: 1px solid;
+  cursor: pointer;
 }
-/* line 218, ../sass/header.scss */
+/* line 221, ../sass/header.scss */
 #header #account .login-dropdown #email-control-group .edit-email.theme_dark {
   border-color: #121212;
   background: #323232;
 }
-/* line 222, ../sass/header.scss */
+/* line 225, ../sass/header.scss */
 #header #account .login-dropdown #email-control-group .edit-email.theme_light {
   border-color: #787878;
   background: #e1e1e1;
 }
-/* line 227, ../sass/header.scss */
+/* line 230, ../sass/header.scss */
 #header #account .login-dropdown #email-control-group .edit-email i {
   position: absolute;
   left: 7px;
   top: 6px;
 }
-/* line 233, ../sass/header.scss */
+/* line 236, ../sass/header.scss */
 #header #account .login-dropdown #email-control-group .edit-email button {
   display: none;
   position: absolute;
@@ -248,30 +251,30 @@
   top: 3px;
   white-space: nowrap;
 }
-/* line 243, ../sass/header.scss */
+/* line 246, ../sass/header.scss */
 #header #account .login-dropdown p {
   margin-bottom: 5px;
   display: block;
 }
-/* line 248, ../sass/header.scss */
+/* line 251, ../sass/header.scss */
 #header #account .login-dropdown .button-holder {
   width: 100%;
   text-align: right;
 }
-/* line 253, ../sass/header.scss */
+/* line 256, ../sass/header.scss */
 #header #account .login-dropdown .control-group {
   margin: 0;
 }
-/* line 257, ../sass/header.scss */
+/* line 260, ../sass/header.scss */
 #header #account .login-dropdown .dropdown-footer {
   text-align: center;
   margin: 8px 0 0;
 }
-/* line 262, ../sass/header.scss */
+/* line 265, ../sass/header.scss */
 #header #account .login-dropdown .logout-holder {
   margin-top: 3px;
 }
-/* line 266, ../sass/header.scss */
+/* line 269, ../sass/header.scss */
 #header #account .login-dropdown .edit-email-holder {
   display: none;
 }
