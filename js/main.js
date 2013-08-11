@@ -123,6 +123,11 @@ function applyColorTheme(base)
         base.find('i').addClass('icon-white');
         base.find('.btn').addClass('btn-inverse');
     }
+
+    base.find('.organ-image').each(function() {
+        $(this).attr('src', baseUrl + 'img/organs/' + color_theme + '/' + $(this).parents('.header-text').attr('value') + '.png');
+    });
+
     return base;
 }
 
