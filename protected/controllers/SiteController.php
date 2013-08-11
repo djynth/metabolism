@@ -48,7 +48,7 @@ class SiteController extends CController
 
     public function actionEat()
     {
-        if (isset($_POST) && count($_POST) > 0) {
+        if (isset($_POST['nutrients'])) {
             if (Pathway::eat($_POST['nutrients'])) {
                 $success = true;
                 $turn = Game::incrementTurn();
@@ -72,7 +72,7 @@ class SiteController extends CController
 
     public function actionResourceVisual()
     {
-        if (isset($_POST) && count($_POST) > 0) {
+        if (isset($_POST['resource'])) {
             $resource = Resource::model()->findByAttributes(array('id' => $_POST['resource']));
             echo CJavaScript::jsonEncode(array(
                 'visual' => $this->renderPartial('resource-visual', array('resource' => $resource), true),

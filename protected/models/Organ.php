@@ -58,7 +58,8 @@ class Organ extends CActiveRecord
         return Organ::model()->findAll(array(
             'condition' => 'id != :id',
             'params' => array(':id' => Organ::GLOBAL_ID),
-            'order' => 'id'));
+            'order' => 'id',
+        ));
     }
 
     public function getResources()
