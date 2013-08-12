@@ -105,14 +105,15 @@
         .login-dropdown {
             display: none;
             background-color: inherit;
-            width: 90%;
-            padding: 10px 5%;
+            width: $accountWidth - 26px;
+            padding: 10px 13px;
             z-index: 3;
 
             input[type=text], input[type=password] {
-                width: 94%;
-                padding-right: 3%;
-                padding-left: 3%;
+                width: $accountWidth - 26px - 10px - 2px;
+                padding-right: 5px;
+                padding-left: 5px;
+                margin: 0;
             }
 
             #login-control-group {
@@ -254,7 +255,7 @@
             }
 
             .control-group {
-                margin: 0;
+                margin: 8px 0px;
             }
 
             .dropdown-footer {
@@ -268,6 +269,7 @@
 
             .edit-email-holder {
                 display: none;
+                overflow: hidden;
             }
         }
     }

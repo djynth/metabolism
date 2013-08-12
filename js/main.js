@@ -9,6 +9,8 @@ $(document).ready(function() {
     setColorTheme(color_theme);
 
     $(window).resize(function() { updateScrollbars(true); });
+
+    $('.tooltip-holder').tooltip();
 });
 
 function initScrollbars()
