@@ -330,6 +330,17 @@ class UserController extends CController
         }
     }
 
+    public function actionSaveHelp()
+    {
+        if (isset($_POST['help'])) {
+            $user = User::getCurrentUser();
+            if ($user !== null) {
+                $user->help = filter_var($_POST['help'], FILTER_VALIDATE_BOOLEAN);
+                $user->save();
+            }
+        }
+    }
+
     public function actionResendEmailVerification()
     {
         $this->sendEmailVerification();

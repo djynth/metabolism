@@ -63,15 +63,20 @@
 
             #theme-holder {
                 width: 100%;
+                margin-bottom: 10px;
 
                 button {
                     width: 50%;
                 }
             }
 
+            #help-toggle {
+                width: 100%;
+            }
+
             #settings-apply {
-                margin-top: 15px;
                 width: 35%;
+                margin-top: 15px;
             }
         }
     }

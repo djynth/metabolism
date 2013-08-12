@@ -263,7 +263,7 @@ function updateEatButtons()
             full = true;
         }
 
-        eat.html(eat.attr('full-name') + ' x' + eat.attr('value'));
+        eat.html(getResourceName(eat.attr('res-id')) + ' x' + eat.attr('value'));
 
         if (eat.attr('value') <= 0) {
             $(this).find('.eat-minus').addClass('disabled').attr('disabled', 'disabled');

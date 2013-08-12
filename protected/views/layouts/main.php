@@ -9,6 +9,7 @@ $baseUrl = Yii::app()->request->baseUrl;
 
 <!-- CSS -->
 <link rel="stylesheet" tyle="text/css" href="<?= $baseUrl ?>/lib/bootstrap.min.css">
+<link rel="stylesheet" tyle="text/css" href="<?= $baseUrl ?>/lib/bootstrap-switch.css">
 <link rel="stylesheet" tyle="text/css" href="<?= $baseUrl ?>/lib/jquery.mCustomScrollbar.css">
 <link rel="stylesheet" type="text/css" href="<?= $baseUrl ?>/css/main.css">
 <link rel="stylesheet" type="text/css" href="<?= $baseUrl ?>/css/pathways.css">
@@ -22,6 +23,7 @@ $baseUrl = Yii::app()->request->baseUrl;
 <script src="<?= $baseUrl ?>/lib/jquery.animate-shadow.js"></script>
 <script src="<?= $baseUrl ?>/lib/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="<?= $baseUrl ?>/lib/jquery.hoverIntent.min.js"></script>
+<script src="<?= $baseUrl ?>/lib/bootstrap-switch.js"></script>
 <script src="<?= $baseUrl ?>/lib/bootstrap.min.js"></script>
 <script src="<?= $baseUrl ?>/js/main.js"></script>
 <script src="<?= $baseUrl ?>/js/resources.js"></script>
@@ -33,7 +35,6 @@ $baseUrl = Yii::app()->request->baseUrl;
 var baseUrl = <?= json_encode($baseUrl); ?>;
 var MAX_TURNS = <?= json_encode(Game::MAX_TURNS); ?>;
 var color_theme = null;
-var help = true;
 
 <?php if (($user = User::getCurrentUser()) !== null): ?>
     color_theme = <?= json_encode($user->theme); ?>;
@@ -49,6 +50,12 @@ foreach ($organs as $organ): ?>
 $(document).ready(function() {
     setPoints(<?= Game::STARTING_POINTS ?>);
     setTurn(<?= Game::STARTING_TURN ?>);
+
+    <?php if (($user = User::getCurrentUser()) !== null): ?>
+        setHelpTooltips(parseInt(<?= json_encode($user->help); ?>));
+    <?php else: ?>
+        setHelpTooltips(true);
+    <?php endif ?>
 });
 </script>
 

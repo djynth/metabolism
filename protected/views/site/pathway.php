@@ -12,7 +12,7 @@
                 <div class="btn-group">
                     <button class="btn btn-mini btn-inverse eat-bottom"><i class="icon-chevron-down icon-white"></i> </button>;
                     <button class="btn btn-mini btn-inverse eat-minus"><i class="icon-minus icon-white"></i> </button>;
-                    <button class="btn btn-mini btn-inverse eat" id="<?= $resource->getResource()->id ?>" value="<?= $resource->value ?>" full-name="<?= $resource->getResource()->name ?>"> </button>;
+                    <button class="btn btn-mini btn-inverse eat" res-id="<?= $resource->getResource()->id ?>" value="<?= $resource->value ?>"> </button>;
                     <button class="btn btn-mini btn-inverse eat-plus disabled"><i class="icon-plus icon-white"></i> </button>;
                     <button class="btn btn-mini btn-inverse eat-top disabled"><i class="icon-chevron-up icon-white"></i> </button>;
                 </div>
@@ -26,13 +26,17 @@
             for ($i = 0; $i < max(count($reactants), count($products)); $i++): ?>
                 <tr>
                     <?php if ($i < count($reactants)): ?>
-                        <td class="reactant<?= $reactants[$i]->getResource()->global ? ' global' : '' ?>" value="<?= $reactants[$i]->value ?>" res-id="<?= $reactants[$i]->getResource()->id ?>" abbr="<?= $reactants[$i]->getResource()->abbr ?>"><?= $reactants[$i]->getResource()->name . ' ' . $reactants[$i]->value ?></td>
+                        <td class="reactant<?= $reactants[$i]->getResource()->global ? ' global' : '' ?>" value="<?= $reactants[$i]->value ?>" res-id="<?= $reactants[$i]->getResource()->id ?>">
+                            <?= $reactants[$i]->getResource()->name . ' ' . $reactants[$i]->value ?>
+                        </td>
                     <?php else: ?>
                         <td></td>
                     <?php endif ?>
 
                     <?php if ($i < count($products)): ?>
-                        <td class="product<?= $products[$i]->getResource()->global ? ' global' : '' ?>" value="<?= $products[$i]->value ?>" res-id="<?= $products[$i]->getResource()->id ?>" abbr="<?= $products[$i]->getResource()->abbr ?>"><?= $products[$i]->getResource()->name . ' ' . $products[$i]->value ?></td>
+                        <td class="product<?= $products[$i]->getResource()->global ? ' global' : '' ?>" value="<?= $products[$i]->value ?>" res-id="<?= $products[$i]->getResource()->id ?>">
+                            <?= $products[$i]->getResource()->name . ' ' . $products[$i]->value ?>
+                        </td>
                     <?php else: ?>
                         <td></td>
                     <?php endif ?>

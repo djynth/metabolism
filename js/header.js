@@ -15,7 +15,8 @@ $(document).ready(function() {
     });
 
     $('#settings-apply').click(function() {
-        setColorTheme($(this).siblings('#theme-holder').find('.btn.active').attr('value'), true);
+        setColorTheme($('#theme-holder').find('.btn.active').attr('value'), true);
+        setHelpTooltips($('#help-toggle').find('input[type="checkbox"]').is(':checked'), true);
     });
 
     $('input[type=text], input[type=password]').keypress(function(event) {

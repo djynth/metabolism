@@ -133,6 +133,29 @@ function applyColorTheme(base)
     return base;
 }
 
+function setHelpTooltips(active, save)
+{
+    $('#help-toggle').bootstrapSwitch('setState', active);
+    if (active) {
+        $('.help-tooltip').tooltip();
+    } else {
+        $('.help-tooltip').tooltip('destroy');
+    }
+
+    console.log(active);
+
+    if (save) {
+        $.ajax({
+            url: 'index.php/user/saveHelp',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                help: active
+            }
+        });
+    }
+}
+
 function notifyTop(html, duration)
 {
     if (typeof duration === 'undefined') {

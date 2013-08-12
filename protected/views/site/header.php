@@ -1,6 +1,5 @@
 <?php
-$guest = Yii::app()->user->getIsGuest();
-$user = User::model()->findByAttributes(array('username' => Yii::app()->user->id));
+$user = User::getCurrentUser();
 ?>
 
 <div id="header">
@@ -20,17 +19,22 @@ $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id
                 <button id="theme-light" value="light" class="btn btn-small">Light</button>
             </div>
 
+            <p>Show Help Tooltips</p>
+            <div class="make-switch" id="help-toggle" data-on="info" data-off="danger">
+                <input type="checkbox">
+            </div>
+
             <button id="settings-apply" class="btn btn-small btn-inverse">Apply</button>
         </div>
     </div>
 
     <div id="account">
         <div class="account-header">
-            <p class="login-text"><?= $guest ? 'Not logged in' : 'Logged in as ' . $user->username ?></p>
+            <p class="login-text"><?= $user === null ? 'Not logged in' : 'Logged in as ' . $user->username ?></p>
             <i class="icon-user icon-white"></i>
         </div>
 
-        <?php if ($guest): ?>
+        <?php if ($user === null): ?>
         <div class="login-dropdown">
             <div class="login-holder">
                 <p>Login</p>
