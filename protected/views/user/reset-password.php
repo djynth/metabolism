@@ -12,25 +12,33 @@ Yii::app()->getClientScript()->registerCssFile(Yii::app()->baseUrl . '/css/reset
         <div class="control-group">
             <label class="control-label" for="username">Username</label>
             <div class="controls">
-                <input type="text" id="username" class="input-themed" placeholder="Username" value="<?= $username ?>">
+                <input type="text" id="username" placeholder="Username" value="<?= $username ?>" class="input-themed tooltip-holder"
+                        data-placement="right" data-trigger="focus"
+                        title="Enter your username to identify yourself.">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="code">Verification Code</label>
             <div class="controls">
-                <input type="text" id="code" class="input-themed" placeholder="Verification Code">
+                <input type="text" id="code" placeholder="Verification Code" class="input-themed tooltip-holder"
+                       data-placement="right" data-trigger="focus"
+                       title="Enter the verification code from the password recovery email we sent you.">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="new">New Password</label>
             <div class="controls">
-                <input type="password" id="new" class="input-themed" placeholder="New Password">
+                <input type="password" id="new" placeholder="New Password" class="input-themed tooltip-holder"
+                       data-placement="right" data-trigger="focus"
+                       title="Enter the new password for your account. Passwords must be 3-32 alphanumeric or punctuation characters.">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="confirm">Confirm Password</label>
             <div class="controls">
-                <input type="password" id="confirm" class="input-themed" placeholder="Confirm Password">
+                <input type="password" id="confirm" placeholder="Confirm Password" class="input-themed tooltip-holder"
+                       data-placement="right" data-trigger="focus"
+                       title="Repeat the password you entered above to confirm that it was entered correctly.">
             </div>
         </div>
         <div class="control-group">

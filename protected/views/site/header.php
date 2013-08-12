@@ -50,30 +50,26 @@ $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id
             </div>
             <div class="create-account-holder">
                 <p>Create Account</p>
-                <div class="control-group">
-                    <input id="create-account-username" type="text" placeholder="Username" class="input-themed check-username tooltip-holder"
-                           title="A username uniquely identifies you to other players.
-                                  Usernames must be 3-16 alphanumeric characters, dashes and underscores allowed.
-                                  You may not change your username."
-                           data-placement="left" data-trigger="focus">
+                <div class="control-group account-tooltip-holder" data-placement="left" data-trigger="focus"
+                     title="A username uniquely identifies you to other players.
+                            Usernames must be 3-16 alphanumeric characters, dashes and underscores allowed.
+                            You may not change your username.">
+                    <input id="create-account-username" type="text" placeholder="Username" class="input-themed check-username">
                 </div>
-                <div class="control-group">
-                    <input id="create-account-email" type="text" placeholder="Email Address" class="input-themed check-email tooltip-holder"
-                           title="Enter a valid email address which can be used to contact you.
-                                  We will only use your email address to allow you to recover your password if you forget it."
-                           data-placement="left" data-trigger="focus">
+                <div class="control-group account-tooltip-holder" data-placement="left" data-trigger="focus"
+                     title="Enter a valid email address which can be used to contact you.
+                            We will only use your email address to allow you to recover your password if you forget it.">
+                    <input id="create-account-email" type="text" placeholder="Email Address" class="input-themed check-email">
                 </div>
-                <div class="control-group">
-                    <input id="create-account-password" type="password" placeholder="Password" class="input-themed check-password tooltip-holder"
-                           title="A password is used to authenticate your identity.
-                                  Strong passwords contain a variety of characters and should not be repeated accross other services.
-                                  Passwords must be 3-32 alphanumeric or punctuation characters."
-                           data-placement="left" data-trigger="focus">
+                <div class="control-group account-tooltip-holder" data-placement="left" data-trigger="focus"
+                     title="A password is used to authenticate your identity.
+                            Strong passwords contain a variety of characters and should not be repeated accross other services.
+                            Passwords must be 3-32 alphanumeric or punctuation characters.">
+                    <input id="create-account-password" type="password" placeholder="Password" class="input-themed check-password">
                 </div>
-                <div class="control-group">
-                    <input id="create-account-confirm" type="password" placeholder="Confirm Password" class="input-themed tooltip-holder"
-                           title="Repeat your password to confirm that you typed it correctly."
-                           data-placement="left" data-trigger="focus">
+                <div class="control-group account-tooltip-holder" data-placement="left" data-trigger="focus"
+                     title="Repeat your password to confirm that you typed it correctly.">
+                    <input id="create-account-confirm" type="password" placeholder="Confirm Password" class="input-themed">
                 </div>
                 <div class="button-holder">
                     <input type="submit" id="create-account-submit" class="btn btn-inverse btn-small" value="Submit">
