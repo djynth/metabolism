@@ -269,7 +269,10 @@
 
             .edit-email-holder {
                 display: none;
-                overflow: hidden;
+
+                p {
+                    margin-top: 0;
+                }
             }
         }
     }

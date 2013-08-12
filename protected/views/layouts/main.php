@@ -33,6 +33,7 @@ $baseUrl = Yii::app()->request->baseUrl;
 var baseUrl = <?= json_encode($baseUrl); ?>;
 var MAX_TURNS = <?= json_encode(Game::MAX_TURNS); ?>;
 var color_theme = null;
+var help = true;
 
 <?php if (($user = User::getCurrentUser()) !== null): ?>
     color_theme = <?= json_encode($user->theme); ?>;

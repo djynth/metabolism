@@ -104,12 +104,19 @@ $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id
                     <?php if ($user->email_verified): ?>
                         <div class="email-verified" verified="true">
                             <i class="icon-ok"> </i>
-                            <p>Email Verified</p>
+                            <p class="tooltip-holder" data-placement="bottom" data-container="#email-control-group"
+                               title="This email has been verified, so we can use it to help you recover your account if your password is lost or stolen.">
+                                Email Verified
+                            </p>
                         </div>
                     <?php else: ?>
                         <div class="email-verified" verified="false">
                             <i class="icon-remove"> </i>
-                            <button id="resend-verification-email" class="btn btn-mini">Resend Verification Email</button>
+                            <button id="resend-verification-email" class="btn btn-mini tooltip-holder" data-placement="bottom" data-container="#email-control-group"
+                                    title="This email has not been verified as belonging to you, meaning we can't use it to help you recover your password if it is lost or stolen.
+                                           You should have received a verification email when you signed up; click this button if you need another one.">
+                                Resend Verification Email
+                            </button>
                         </div>
                     <?php endif ?>
                     <div class="edit-email">
@@ -127,8 +134,6 @@ $user = User::model()->findByAttributes(array('username' => Yii::app()->user->id
                 <div class="control-group">
                     <input id="edit-email-email" type="text" placeholder="New Email" class="input-themed check-email">
                 </div>
-                <p id="edit-email-error" class="error-info"></p>
-                <p id="edit-email-success" class="success-info"></p>
                 <div class="button-holder">
                     <input type="submit" id="edit-email-submit" class="btn btn-inverse btn-small" value="Submit">
                 </div>
