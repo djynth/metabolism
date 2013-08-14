@@ -43,7 +43,9 @@
             }
 
             p {
+                position: relative;
                 text-shadow: none;
+                z-index: 3;
 
                 &.theme_dark {
                     color: $dark_elementText;
@@ -69,8 +71,10 @@
             }
 
             .reaction {
+                position: relative;
                 width: 80%;
                 margin: 3px auto;
+                z-index: 3;
 
                 &.theme_dark {
                     color: $dark_elementText;

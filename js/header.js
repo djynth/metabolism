@@ -15,13 +15,20 @@ $(document).ready(function() {
     });
 
     $('#settings-apply').click(function() {
-        setColorTheme($(this).siblings('#theme-holder').find('.btn.active').attr('value'), true);
+        setColorTheme($('#theme-holder').find('.btn.active').attr('value'), true);
+        setHelpTooltips($('#help-toggle').find('input[type="checkbox"]').is(':checked'), true);
     });
 
     $('input[type=text], input[type=password]').keypress(function(event) {
         if (event.which == 13) {
             $(this).parent().siblings().find('input[type=submit]').click();
         }
+    }).focus(function() {
+        $(this).parent().tooltip('show');
+        var tooltip = $(this).parent().next();
+        tooltip.css('left', parseInt(tooltip.css('left')) - 10);
+    }).blur(function() {
+        $(this).parent().tooltip('hide');
     });
 
     $('.check-username').change(function() {

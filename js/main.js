@@ -9,6 +9,10 @@ $(document).ready(function() {
     setColorTheme(color_theme);
 
     $(window).resize(function() { updateScrollbars(true); });
+
+    $('.tooltip-holder').tooltip({
+        delay: { show: 250, hide: 100 }
+    });
 });
 
 function initScrollbars()
@@ -129,6 +133,29 @@ function applyColorTheme(base)
     });
 
     return base;
+}
+
+function setHelpTooltips(active, save)
+{
+    $('#help-toggle').bootstrapSwitch('setState', active);
+    if (active) {
+        $('.help-tooltip').tooltip({
+            delay: { show: 250, hide: 100 }
+        });
+    } else {
+        $('.help-tooltip').tooltip('destroy');
+    }
+
+    if (save) {
+        $.ajax({
+            url: 'index.php/user/saveHelp',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                help: active
+            }
+        });
+    }
 }
 
 function notifyTop(html, duration)
