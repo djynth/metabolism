@@ -27,8 +27,6 @@ $user = User::getCurrentUser();
             <div class="make-switch" id="help-toggle" data-on="info" data-off="danger">
                 <input type="checkbox">
             </div>
-
-            <button id="settings-apply" class="btn btn-small btn-inverse">Apply</button>
         </div>
     </div>
 
