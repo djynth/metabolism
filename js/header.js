@@ -14,9 +14,12 @@ $(document).ready(function() {
         $('.settings-dropdown').slideToggle();
     });
 
-    $('#settings-apply').click(function() {
-        setColorTheme($('#theme-holder').find('.btn.active').attr('value'), true);
-        setHelpTooltips($('#help-toggle').find('input[type="checkbox"]').is(':checked'), true);
+    $('#theme-dark, #theme-light').click(function() {
+        setTimeout(function() { setColorTheme($('#theme-holder').find('.btn.active').attr('value'), true) }, 0);
+    });
+
+    $('#help-toggle').on('switch-change', function() {
+        setHelpTooltips($(this).find('input[type="checkbox"]').is(':checked'), true);
     });
 
     $('input[type=text], input[type=password]').keypress(function(event) {
