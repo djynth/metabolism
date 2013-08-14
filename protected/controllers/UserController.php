@@ -330,6 +330,17 @@ class UserController extends CController
         }
     }
 
+    public function actionSaveHelp()
+    {
+        if (isset($_POST['help'])) {
+            $user = User::getCurrentUser();
+            if ($user !== null) {
+                $user->help = filter_var($_POST['help'], FILTER_VALIDATE_BOOLEAN);
+                $user->save();
+            }
+        }
+    }
+
     public function actionResendEmailVerification()
     {
         $this->sendEmailVerification();
@@ -395,12 +406,12 @@ class UserController extends CController
 
     private static function isValidUsername($username)
     {
-        return preg_match("/^[a-z0-9_-]{3,16}$/", $username);
+        return preg_match("/^[a-zA-Z0-9_-]{3,16}$/", $username);
     }
 
     private static function isValidPassword($password)
     {
-        return preg_match("/^[a-z0-9:punct:]{3,32}$/", $password);
+        return preg_match("/^[a-zA-Z0-9:punct:]{3,32}$/", $password);
     }
 
     private static function isValidEmail($email)

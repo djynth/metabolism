@@ -2,9 +2,9 @@
 
 class Game
 {
-    const MAX_TURNS = 50;
+    const MAX_TURNS = 100;
     const STARTING_POINTS = 0;
-    const STARTING_TURN = 50;
+    const STARTING_TURN = self::MAX_TURNS;
 
     public static function initGame()
     {

@@ -40,7 +40,6 @@ class SiteController extends CController
                 'pathway_name' => $pathway->name,
                 'points' => $points,
                 'turn' => $turn,
-                'max_turns' => Game::MAX_TURNS,
                 'resources' => Resource::getAmounts(),
             ));
         }
@@ -64,7 +63,6 @@ class SiteController extends CController
                 'pathway_name' => Pathway::EAT_NAME,
                 'points' => $points,
                 'turn' => $turn,
-                'max_turns' => Game::MAX_TURNS,
                 'resources' => Resource::getAmounts(),
             ));
         }

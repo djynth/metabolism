@@ -12,19 +12,26 @@ Yii::app()->getClientScript()->registerCssFile(Yii::app()->baseUrl . '/css/verif
         <div class="control-group">
             <label class="control-label" for="email">Email</label>
             <div class="controls">
-                <input type="text" id="email" class="input-themed" placeholder="Email Address" value="<?= $email ?>">
+                <input type="text" id="email" placeholder="Email Address" value="<?= $email ?>" class="input-themed tooltip-holder"
+                       data-placement="right" data-trigger="focus"
+                       title="This is the email address being verified; do not edit it.
+                              If it is incorrect it can be changed in the account dropdown when you log in to Metabolism Fun.">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="username">Username</label>
             <div class="controls">
-                <input type="text" id="username" class="input-themed" placeholder="Username" value="<?= $username ?>">
+                <input type="text" id="username" placeholder="Username" value="<?= $username ?>" class="input-themed tooltip-holder"
+                       data-placement="right" data-trigger="focus"
+                       title="If you would like to edit your username, do not change it here; rather, contact us.">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="code">Verification Code</label>
             <div class="controls">
-                <input type="text" id="code" class="input-themed" placeholder="Verification Code">
+                <input type="text" id="code" placeholder="Verification Code" class="input-themed tooltip-holder"
+                       data-placement="right" data-trigger="focus"
+                       title="Enter the verification code from the registration email we sent you when you created your account.">
             </div>
         </div>
         <div class="control-group">

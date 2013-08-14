@@ -84,7 +84,11 @@ function selectOrgan(organ, firstTime)
         }
     });
 
-    $('#cell-canvas').animate({ backgroundColor: '#' + organColors[organ] }, ORGAN_TRANSITION);
+    if (firstTime) {
+        $('#cell-canvas').css('backgroundColor', '#' + organColors[organ]);
+    } else {
+        $('#cell-canvas').animate({ backgroundColor: '#' + organColors[organ] }, ORGAN_TRANSITION);
+    }
 }
 
 function getSelectedOrgan()
