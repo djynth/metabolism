@@ -1,6 +1,14 @@
 <div class="header-text <?= $organ->isGlobal() ? '' : 'accordian-header' ?>" value="<?= $organ->id ?>">
-    <p class="<?= $organ->isGlobal() ? '' : 'accordian-title' ?>"><?= $organ->name ?></p>
-    <i class="icon-info-sign icon-white organ-info"></i>
+    <?php if ($organ->isGlobal()): ?>
+        <p><?= $organ->name ?></p>
+    <?php else: ?>
+        <p class="accordian-title help-tooltip" data-placement="top"
+           title="Click here to switch to viewing the pathways and resources contained in this organ.">
+            <?= $organ->name ?>
+        </p>
+    <?php endif ?>
+    
+    <i class="icon-info-sign organ-info"></i>
 
     <div class="organ-popup <?= $right ? 'right' : 'left' ?>">
         <div class="organ-cover"></div>

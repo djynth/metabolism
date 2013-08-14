@@ -3,13 +3,17 @@ $user = User::getCurrentUser();
 ?>
 
 <div id="header">
-    <p id="points"></p>
-    <p id="turns" ></p>
+    <p id="points" class="help-tooltip" data-placement="bottom" data-container="body"
+       title="The number of points you have accumulated by running valuable pathways.
+              Running some pathways earns points, so try to concentrate on them."></p>
+    <p id="turns" class="help-tooltip" data-placement="bottom" data-container="body"
+       title="The number of turns you have remaining.
+              Each time you run a pathway, even if you run it with a multiplier greater than 1, it consumes one turn."></p>
 
     <div id="settings">
         <div class="settings-header">
             <p class="settings-text">Settings</p>
-            <i class="icon-cog icon-white"></i>
+            <i class="icon-cog"></i>
         </div>
 
         <div class="settings-dropdown">
@@ -31,7 +35,7 @@ $user = User::getCurrentUser();
     <div id="account">
         <div class="account-header">
             <p class="login-text"><?= $user === null ? 'Not logged in' : 'Logged in as ' . $user->username ?></p>
-            <i class="icon-user icon-white"></i>
+            <i class="icon-user"></i>
         </div>
 
         <?php if ($user === null): ?>
@@ -45,7 +49,11 @@ $user = User::getCurrentUser();
                     <input id="login-password" type="password" placeholder="Password" class="input-themed">
                     <div class="forgot-password">
                         <i class="icon-question-sign"> </i>
-                        <button id="forgot-password-button" class="btn btn-mini">Forgot Password</button>
+                        <button id="forgot-password-button" class="btn btn-mini help-tooltip" data-placement="bottom"
+                                title="If you've forgotten your password, enter your username above and press this button.
+                                       A password recovery email will be sent the email address you have on file.">
+                            Forgot Password
+                        </button>
                     </div>
                 </div>
                 <div class="button-holder">

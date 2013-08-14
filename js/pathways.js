@@ -39,7 +39,7 @@ $(document).ready(function() {
         var nutrients = new Array();
         foodHolder.find('.eat').each(function() {
             total += Math.max(0, parseInt($(this).attr('value')));
-            nutrients[parseInt($(this).attr('id'))] = parseInt($(this).attr('value'));
+            nutrients[parseInt($(this).attr('res-id'))] = parseInt($(this).attr('value'));
         });
         var eatMax = parseInt(foodHolder.attr('eat-max'));
 
@@ -292,7 +292,7 @@ function eat(nutrients)
         type: 'POST',
         dataType: 'json',
         data: {
-            nutrients: nutrients,
+            nutrients: nutrients
         },
         success: function(data) {
             onPathwaySuccess(data);
@@ -309,7 +309,7 @@ function runPathway(pathwayId, times, organ)
         data: {
             pathway_id: pathwayId,
             times: times,
-            organ: organ,
+            organ: organ
         },
         success: function(data) {
             onPathwaySuccess(data);

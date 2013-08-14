@@ -10,7 +10,9 @@ $(document).ready(function() {
 
     $(window).resize(function() { updateScrollbars(true); });
 
-    $('.tooltip-holder').tooltip();
+    $('.tooltip-holder').tooltip({
+        delay: { show: 250, hide: 100 }
+    });
 });
 
 function initScrollbars()
@@ -137,12 +139,12 @@ function setHelpTooltips(active, save)
 {
     $('#help-toggle').bootstrapSwitch('setState', active);
     if (active) {
-        $('.help-tooltip').tooltip();
+        $('.help-tooltip').tooltip({
+            delay: { show: 250, hide: 100 }
+        });
     } else {
         $('.help-tooltip').tooltip('destroy');
     }
-
-    console.log(active);
 
     if (save) {
         $.ajax({
