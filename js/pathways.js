@@ -44,20 +44,25 @@ $(document).ready(function() {
         var eatMax = parseInt(foodHolder.attr('eat-max'));
 
         if (total < eatMax) {
-            $('#modal-header').text('Are You Sure?');
-            $('#modal-content').text('You are eating less than you could! Your total nutrient intake of ' + 
-                total + ' is less than the maximum of ' + eatMax);
-            $('#modal-cancel').text('Cancel');
-            $('#modal-confirm').text('Confirm');
-            $('#modal-cancel').click(function() {
-                $('.modal').modal('hide');
-            });
-            $('#modal-confirm').click(function() {
-                $(this).unbind('click');
-                $('.modal').modal('hide');
-                eat(nutrients);
-            });
-            $('.modal').modal('show');
+            var eatConfirm = $('<div>')
+                .addClass('eat-confirm')
+                .append($('<p>')
+                    .text('You are eating less than you could! Your total nutrient intake of ' + total + ' is less than the maximum of ' + eatMax))
+                .append($('<button>')
+                    .text('Cancel')
+                    .addClass('btn')
+                    .click(function() {
+                        notifyBottom(false);
+                    }))
+                .append($('<button>')
+                    .text('Confirm')
+                    .addClass('btn')
+                    .click(function() {
+                        notifyBottom(false);
+                        eat(nutrients);
+                    }));
+
+            notifyBottom(eatConfirm, -1);
         } else {
             eat(nutrients);
         }
