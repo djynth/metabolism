@@ -18,6 +18,10 @@
         font-size:   14px;
         line-height: 14px;
 
+        &.primary {
+            display: none;
+        }
+
         .progress {
             background-image: none;
             border: 1px solid;
