@@ -185,13 +185,21 @@ function notifyBottom(html, duration)
 
     var elem = $('#notification-bottom');
 
-    elem.empty().hide();
+    if (html) {
+        elem.empty().hide();
 
-    applyColorTheme(elem.append(html)).slideDown(function() {
-        setTimeout(function() {
-            elem.slideUp(function() {
-                elem.empty();
-            });
-        }, duration);
-    });
+        applyColorTheme(elem.append(html)).slideDown(function() {
+            if (duration > 0) {
+                setTimeout(function() {
+                    elem.slideUp(function() {
+                        elem.empty();
+                    });
+                }, duration);
+            }
+        });
+    } else {
+        elem.slideUp(function() {
+            elem.empty();
+        });
+    }
 }
