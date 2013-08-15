@@ -82,3 +82,57 @@ Stack trace:
 #12 /home/zirbinator/workspace/metabolism/protected/yiic(4): require_once('/home/zirbinato...')
 #13 {main}
 ---
+2013/08/15 00:05:23 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1217 Cannot delete or update a parent row: a foreign key constraint fails. The SQL statement executed was: DROP TABLE `games`.
+2013/08/15 00:05:23 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23000]: Integrity constraint violation: 1217 Cannot delete or update a parent row: a foreign key constraint fails. The SQL statement executed was: DROP TABLE `games`' in /home/zirbinator/yii/framework/db/CDbCommand.php:357
+Stack trace:
+#0 /home/zirbinator/yii/framework/db/CDbCommand.php(1344): CDbCommand->execute()
+#1 /home/zirbinator/yii/framework/db/CDbMigration.php(253): CDbCommand->dropTable('games')
+#2 /home/zirbinator/workspace/metabolism/protected/migrations/m130815_034022_user_data.php(41): CDbMigration->dropTable('games')
+#3 /home/zirbinator/yii/framework/cli/commands/MigrateCommand.php(410): m130815_034022_user_data->down()
+#4 /home/zirbinator/yii/framework/cli/commands/MigrateCommand.php(145): MigrateCommand->migrateDown('m130815_034022_...')
+#5 [internal function]: MigrateCommand->actionDown(Array)
+#6 /home/zirbinator/yii/framework/console/CConsoleCommand.php(172): ReflectionMethod->invokeArgs(Object(MigrateCommand), Array)
+#7 /home/zirbinator/yii/framework/console/CConsoleCommandRunner.php(67): CConsoleCommand->run(Array)
+#8 /home/zirbinator/yii/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run(Array)
+#9 /home/zirbinator/yii/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#10 /home/zirbinator/yii/framework/yiic.php(33): CApplication->run()
+#11 /home/zirbinator/workspace/metabolism/protected/yiic.php(7): require_once('/home/zirbinato...')
+#12 /home/zirbinator/workspace/metabolism/protected/yiic(4): require_once('/home/zirbinato...')
+#13 {main}
+---
+2013/08/15 00:06:03 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[42S02]: Base table or view not found: 1051 Unknown table 'user_games'. The SQL statement executed was: DROP TABLE `user_games`.
+2013/08/15 00:06:03 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42S02]: Base table or view not found: 1051 Unknown table 'user_games'. The SQL statement executed was: DROP TABLE `user_games`' in /home/zirbinator/yii/framework/db/CDbCommand.php:357
+Stack trace:
+#0 /home/zirbinator/yii/framework/db/CDbCommand.php(1344): CDbCommand->execute()
+#1 /home/zirbinator/yii/framework/db/CDbMigration.php(253): CDbCommand->dropTable('user_games')
+#2 /home/zirbinator/workspace/metabolism/protected/migrations/m130815_034022_user_data.php(40): CDbMigration->dropTable('user_games')
+#3 /home/zirbinator/yii/framework/cli/commands/MigrateCommand.php(410): m130815_034022_user_data->down()
+#4 /home/zirbinator/yii/framework/cli/commands/MigrateCommand.php(145): MigrateCommand->migrateDown('m130815_034022_...')
+#5 [internal function]: MigrateCommand->actionDown(Array)
+#6 /home/zirbinator/yii/framework/console/CConsoleCommand.php(172): ReflectionMethod->invokeArgs(Object(MigrateCommand), Array)
+#7 /home/zirbinator/yii/framework/console/CConsoleCommandRunner.php(67): CConsoleCommand->run(Array)
+#8 /home/zirbinator/yii/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run(Array)
+#9 /home/zirbinator/yii/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#10 /home/zirbinator/yii/framework/yiic.php(33): CApplication->run()
+#11 /home/zirbinator/workspace/metabolism/protected/yiic.php(7): require_once('/home/zirbinato...')
+#12 /home/zirbinator/workspace/metabolism/protected/yiic(4): require_once('/home/zirbinato...')
+#13 {main}
+---
+2013/08/15 00:06:22 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1217 Cannot delete or update a parent row: a foreign key constraint fails. The SQL statement executed was: DROP TABLE `moves`.
+2013/08/15 00:06:22 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23000]: Integrity constraint violation: 1217 Cannot delete or update a parent row: a foreign key constraint fails. The SQL statement executed was: DROP TABLE `moves`' in /home/zirbinator/yii/framework/db/CDbCommand.php:357
+Stack trace:
+#0 /home/zirbinator/yii/framework/db/CDbCommand.php(1344): CDbCommand->execute()
+#1 /home/zirbinator/yii/framework/db/CDbMigration.php(253): CDbCommand->dropTable('moves')
+#2 /home/zirbinator/workspace/metabolism/protected/migrations/m130815_034022_user_data.php(41): CDbMigration->dropTable('moves')
+#3 /home/zirbinator/yii/framework/cli/commands/MigrateCommand.php(410): m130815_034022_user_data->down()
+#4 /home/zirbinator/yii/framework/cli/commands/MigrateCommand.php(145): MigrateCommand->migrateDown('m130815_034022_...')
+#5 [internal function]: MigrateCommand->actionDown(Array)
+#6 /home/zirbinator/yii/framework/console/CConsoleCommand.php(172): ReflectionMethod->invokeArgs(Object(MigrateCommand), Array)
+#7 /home/zirbinator/yii/framework/console/CConsoleCommandRunner.php(67): CConsoleCommand->run(Array)
+#8 /home/zirbinator/yii/framework/console/CConsoleApplication.php(91): CConsoleCommandRunner->run(Array)
+#9 /home/zirbinator/yii/framework/base/CApplication.php(169): CConsoleApplication->processRequest()
+#10 /home/zirbinator/yii/framework/yiic.php(33): CApplication->run()
+#11 /home/zirbinator/workspace/metabolism/protected/yiic.php(7): require_once('/home/zirbinato...')
+#12 /home/zirbinator/workspace/metabolism/protected/yiic(4): require_once('/home/zirbinato...')
+#13 {main}
+---
