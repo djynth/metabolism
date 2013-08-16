@@ -6,6 +6,7 @@ var pathwayContentHeight = null;
 var resourceContentHeight = null;
 
 $(document).ready(function() {
+    $('#notification-bottom').css('bottom', $('#tracker-holder').outerHeight(true));
     setColorTheme(color_theme);
 
     $(window).resize(function() { updateScrollbars(true); });
