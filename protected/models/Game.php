@@ -2,7 +2,7 @@
 
 class Game extends CActiveRecord
 {
-    const MAX_TURNS = 100;
+    const MAX_TURNS = 3;
     const STARTING_POINTS = 0;
     const STARTING_TURN = self::MAX_TURNS;
 
@@ -41,6 +41,11 @@ class Game extends CActiveRecord
     public static function incrementTurn()
     {
         return self::setTurn(self::getTurn() - 1);
+    }
+
+    public static function isGameOver()
+    {
+        return self::getTurn() === 0;
     }
 
     public static function getPoints()

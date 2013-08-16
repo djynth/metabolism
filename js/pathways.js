@@ -292,34 +292,38 @@ function updateEatButtons()
 
 function eat(nutrients)
 {
-    $.ajax({
-        url: 'index.php/site/eat',
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            nutrients: nutrients
-        },
-        success: function(data) {
-            onPathwaySuccess(data);
-        }
-    });
+    if (!gameOver) {
+        $.ajax({
+            url: 'index.php/site/eat',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                nutrients: nutrients
+            },
+            success: function(data) {
+                onPathwaySuccess(data);
+            }
+        });
+    }
 }
 
 function runPathway(pathwayId, times, organ)
 {
-    $.ajax({
-        url: 'index.php/site/pathway',
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            pathway_id: pathwayId,
-            times: times,
-            organ: organ
-        },
-        success: function(data) {
-            onPathwaySuccess(data);
-        }
-    });
+    if (!gameOver) {
+        $.ajax({
+            url: 'index.php/site/pathway',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                pathway_id: pathwayId,
+                times: times,
+                organ: organ
+            },
+            success: function(data) {
+                onPathwaySuccess(data);
+            }
+        });
+    }
 }
 
 function onPathwaySuccess(data)
@@ -328,6 +332,11 @@ function onPathwaySuccess(data)
         setTurn(data.turn);
         setPoints(data.points);
         refreshResources(data.resources);
+
+        if (data.game_over) {
+            gameOver = true;
+            setTimeout(onGameOver, 1500);
+        }
     }
 }
 

@@ -10,6 +10,11 @@ class SiteController extends CController
         $this->render('index');
     }
 
+    public function actionResult()
+    {
+        $this->render('result');
+    }
+
     public function actionError()
     {
         if ($error = Yii::app()->errorHandler->error) {
@@ -30,6 +35,7 @@ class SiteController extends CController
                 'points' => Game::getPoints(),
                 'turn' => Game::getTurn(),
                 'resources' => Resource::getAmounts(),
+                'game_over' => Game::isGameOver(),
             ));
         }
     }
@@ -45,6 +51,7 @@ class SiteController extends CController
                 'points' => Game::getPoints(),
                 'turn' => Game::getTurn(),
                 'resources' => Resource::getAmounts(),
+                'game_over' => Game::isGameOver(),
             ));
         }
     }

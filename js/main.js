@@ -5,6 +5,8 @@ var DEFAULT_NOTIFICATION_DURATION = 5000;
 var pathwayContentHeight = null;
 var resourceContentHeight = null;
 
+var gameOver = false;
+
 $(document).ready(function() {
     setColorTheme(color_theme);
 
@@ -202,4 +204,11 @@ function notifyBottom(html, duration)
             elem.empty();
         });
     }
+}
+
+function onGameOver()
+{
+    $('.result-cover').fadeIn(650, function() {
+        window.location.replace(baseUrl + 'index.php/site/result');
+    });
 }
