@@ -208,7 +208,7 @@ function notifyBottom(html, duration)
 
 function onGameOver()
 {
-    $('.result-cover').fadeIn(650, function() {
+    $('.result-cover').fadeIn(function() {
         window.location.replace(baseUrl + 'index.php/site/result');
     });
 }

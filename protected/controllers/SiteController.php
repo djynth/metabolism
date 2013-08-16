@@ -12,7 +12,13 @@ class SiteController extends CController
 
     public function actionResult()
     {
-        $this->render('result');
+        if (Game::isGameOver()) {
+            // TODO do something if the current user is not allowed to view info about this game
+
+            $this->render('result', array(
+                'game_id' => Game::getGameId()
+            ));
+        }
     }
 
     public function actionError()
