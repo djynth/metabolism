@@ -127,9 +127,19 @@ class Pathway extends CActiveRecord
                 return false;
             }
 
+            $glycerol = new PathwayResource;
+            $glycerol->pathway_id = $this->id;
+            $glycerol->resource_id = Resource::model()->findByAttributes(array('name' => 'Glycerol'))->id;
+
             foreach ($resources as $resource) {
                 $resource->value = $nutrients[$resource->getResource()->id];
+
+                if ($resource->getResource()->name === 'Palmitate') {
+                    $glycerol->value = floor(intval($resource->value)/3);
+                }
             }
+
+            $resources[] = $glycerol;
         }
 
         foreach ($resources as $resource) {

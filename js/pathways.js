@@ -268,7 +268,17 @@ function updateEatButtons()
             full = true;
         }
 
-        eat.html(getResourceName(eat.attr('res-id')) + ' x' + eat.attr('value'));
+        var resId = parseInt(eat.attr('res-id'));
+        var resName = '';
+        if (resId === 3) {              // glucose
+            resName = 'Carbohydrate (Glucose)'
+        } else if (resId === 4) {      // alanine
+            resName = 'Protein (Alanine)';
+        } else if (resId === 5) {
+            resName = 'Fat (TAGs)';
+        }
+
+        eat.html(resName + ' x' + eat.attr('value'));
 
         if (eat.attr('value') <= 0) {
             $(this).find('.eat-minus').addClass('disabled').attr('disabled', 'disabled');

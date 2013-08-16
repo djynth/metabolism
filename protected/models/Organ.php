@@ -28,7 +28,8 @@ class Organ extends CActiveRecord
     public function relations()
     {
         return array(
-            'pathways' => array(self::MANY_MANY, 'Pathway', 'pathway_organs(pathway_id, organ_id)'),
+            'pathways' => array(self::MANY_MANY, 'Pathway', 'pathway_organs(pathway_id, organ_id)',
+                'order' => 'pathways.id asc'),
         );
     }
 

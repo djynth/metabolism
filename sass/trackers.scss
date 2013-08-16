@@ -55,12 +55,17 @@
             position: relative;
             width: 100%;
             height: $trackerOrganHeight;
+            border-bottom: 1px solid;
 
             &.theme_dark {
-                border-bottom: 1px solid $dark_trackerOrganBorder;
+                border-color: $dark_trackerOrganBorder;
             }
             &.theme_light {
-                border-bottom: 1px solid $light_trackerOrganBorder;
+                border-color: $light_trackerOrganBorder;
+            }
+
+            &:last-child {
+                border-bottom: none;
             }
 
             p {
