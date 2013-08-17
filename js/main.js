@@ -5,6 +5,8 @@ var DEFAULT_NOTIFICATION_DURATION = 5000;
 var pathwayContentHeight = null;
 var resourceContentHeight = null;
 
+var gameOver = false;
+
 $(document).ready(function() {
     $('#notification-bottom').css('bottom', $('#tracker-holder').outerHeight(true));
     setColorTheme(color_theme);
@@ -203,4 +205,11 @@ function notifyBottom(html, duration)
             elem.empty();
         });
     }
+}
+
+function onGameOver()
+{
+    $('.result-cover').fadeIn(function() {
+        window.location.replace(baseUrl + 'index.php/site/result');
+    });
 }

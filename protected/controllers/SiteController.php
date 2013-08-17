@@ -10,6 +10,17 @@ class SiteController extends CController
         $this->render('index');
     }
 
+    public function actionResult()
+    {
+        if (Game::isGameOver()) {
+            // TODO do something if the current user is not allowed to view info about this game
+
+            $this->render('result', array(
+                'game_id' => Game::getGameId()
+            ));
+        }
+    }
+
     public function actionError()
     {
         if ($error = Yii::app()->errorHandler->error) {
@@ -21,26 +32,16 @@ class SiteController extends CController
     public function actionPathway()
     {
         if (isset($_POST['pathway_id'], $_POST['organ'], $_POST['times'])) {
-            $pathway = Pathway::model()->findByAttributes(array('id' => $_POST['pathway_id']));
-            $organ = Organ::model()->findByAttributes(array('id' => $_POST['organ']));
-            $times = $_POST['times'];
-
-            if ($pathway->run($times, $organ)) {
-                $success = true;
-                $turn = Game::incrementTurn();
-                $points = Game::addPoints($pathway->points * $times);
-            } else {
-                $success = false;
-                $turn = Game::getTurn();
-                $points = Game::getPoints();
-            }
+            $pathway = Pathway::model()->findByPk($_POST['pathway_id']);
+            $success = $pathway->run($_POST['times'], Organ::model()->findByPk($_POST['organ']));
 
             echo CJavaScript::jsonEncode(array(
                 'success' => $success,
                 'pathway_name' => $pathway->name,
-                'points' => $points,
-                'turn' => $turn,
+                'points' => Game::getPoints(),
+                'turn' => Game::getTurn(),
                 'resources' => Resource::getAmounts(),
+                'game_over' => Game::isGameOver(),
             ));
         }
     }
@@ -48,22 +49,15 @@ class SiteController extends CController
     public function actionEat()
     {
         if (isset($_POST['nutrients'])) {
-            if (Pathway::eat($_POST['nutrients'])) {
-                $success = true;
-                $turn = Game::incrementTurn();
-                $points = Game::addPoints(Pathway::getEat()->points);
-            } else {
-                $success = false;
-                $turn = Game::getTurn();
-                $points = Game::getPoints();
-            }
+            $success = Pathway::eat($_POST['nutrients']);
 
             echo CJavaScript::jsonEncode(array(
                 'success' => $success,
                 'pathway_name' => Pathway::EAT_NAME,
-                'points' => $points,
-                'turn' => $turn,
+                'points' => Game::getPoints(),
+                'turn' => Game::getTurn(),
                 'resources' => Resource::getAmounts(),
+                'game_over' => Game::isGameOver(),
             ));
         }
     }

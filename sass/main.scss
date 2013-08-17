@@ -31,6 +31,23 @@ p, h1, h2, h3, h4, h5, h6, label {
     }
 }
 
+.result-cover {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+
+    &.theme_dark {
+        background-color: black;
+    }
+    &.theme_light {
+        background-color: white;
+    }
+}
+
 .input-themed {
     &.theme_dark {
         border-color: $dark_inputBorder !important;

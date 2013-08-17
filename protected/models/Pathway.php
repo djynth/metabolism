@@ -113,6 +113,9 @@ class Pathway extends CActiveRecord
 
     public function run($times, $organ, $nutrients=null)
     {
+        if (Game::isGameOver()) {
+            return false;
+        }
         if (!$this->hasOrgan($organ)) {
             return false;
         }
@@ -151,6 +154,8 @@ class Pathway extends CActiveRecord
         foreach ($resources as $resource) {
             $resource->modify($times, $organ);
         }
+
+        Game::onTurnSuccess($this, $organ, $times);
         
         return true;
     }
