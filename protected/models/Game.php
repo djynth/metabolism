@@ -48,6 +48,11 @@ class Game extends CActiveRecord
         return self::getTurn() === 0;
     }
 
+    public static function isGameStarted()
+    {
+        return self::getTurn() !== self::STARTING_TURN;
+    }
+
     public static function getPoints()
     {
         return Yii::app()->session['points'];
