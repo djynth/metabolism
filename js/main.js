@@ -8,13 +8,14 @@ var resourceContentHeight = null;
 var gameOver = false;
 
 $(document).ready(function() {
+    initScrollbars();
     $('#notification-bottom').css('bottom', $('#tracker-holder').outerHeight(true));
     setColorTheme(color_theme);
 
-    $(window).resize(function() { updateScrollbars(true); });
+    $(window).resize(function() { updateScrollbars(true, true, true); });
 
     $('.tooltip-holder').tooltip({
-        delay: { show: 250, hide: 100 }
+        delay: { show: 150, hide: 100 }
     });
 });
 
@@ -23,17 +24,22 @@ function initScrollbars()
     $('.scrollbar-content').each(function() {
         $(this).mCustomScrollbar({
             autoHideScrollbar: true,
-            scrollInertia: 350,
-            theme: "dark",
+            scrollInertia: 200,
+            theme: "dark"
         });
     });
 }
 
-function getPathwayContentHeight()
+function getPathwayContentHeight(reset)
 {
+    if (reset) {
+        pathwayContentHeight = null;
+    }
+
     if (pathwayContentHeight === null) {
-        pathwayContentHeight = $(window).height() - $('#pathway-holder').find('.accordian-header').first().offset().top;
-        $('#pathway-holder .accordian-header').each(function() {
+        var headers = $('#pathway-holder').find('.accordian-header');
+        pathwayContentHeight = $(window).height() - headers.first().offset().top;
+        headers.each(function() {
             pathwayContentHeight -= $(this).outerHeight();
         });
     }
@@ -41,12 +47,16 @@ function getPathwayContentHeight()
     return pathwayContentHeight;
 }
 
-function getResourceContentHeight()
+function getResourceContentHeight(reset)
 {
+    if (reset) {
+        resourceContentHeight = null;
+    }
+
     if (resourceContentHeight === null) {
-        resourceContentHeight = $(window).height() - 
-            $('#resource-holder').find('.accordian-header').first().offset().top - $('#resource-visual').outerHeight();
-        $('#resource-holder .accordian-header').each(function() {
+        var headers = $('#resource-holder').find('.accordian-header');
+        resourceContentHeight = $(window).height() - headers.first().offset().top - $('#resource-visual').outerHeight();
+        headers.each(function() {
             resourceContentHeight -= $(this).outerHeight();
         });
     }
@@ -54,27 +64,25 @@ function getResourceContentHeight()
     return resourceContentHeight;
 }
 
-function updateScrollbars(updateHeight, updateCustomScrollbars)
+function updateScrollbars(updatePathwayHeight, updateResourceHeight, updateScrollbars)
 {
-    if (updateHeight) {
-        pathwayContentHeight = null;
-        resourceContentHeight = null;
+    updateScrollbars = updateScrollbars || typeof updateScrollbars === 'undefined';
+    if (updatePathwayHeight) {
+        getPathwayContentHeight(true);
+    }
+    if (updateResourceHeight) {
+        getResourceContentHeight(true);
     }
 
     $('.scrollbar-content').each(function() {
-        if (updateHeight) {
-            if ($(this).hasClass('active')) {
-                if ($(this).hasClass('pathway-holder')) {
-                    $(this).height(getPathwayContentHeight());
-                } else {
-                    $(this).height(getResourceContentHeight());
-                }
-            } else {
-                $(this).height(0);
-            }
+        if (updatePathwayHeight && $(this).hasClass('pathway-holder') && $(this).hasClass('active')) {
+            $(this).height(getPathwayContentHeight());
+        }
+        if (updateResourceHeight && $(this).hasClass('resource-holder') && $(this).hasClass('active')) {
+            $(this).height(getResourceContentHeight());
         }
         
-        if (updateCustomScrollbars || typeof updateCustomScrollbars === 'undefined') {
+        if (updateScrollbars) {
             $(this).mCustomScrollbar('update');
         }
     });
@@ -145,7 +153,7 @@ function setHelpTooltips(active, save)
     $('#help-toggle').bootstrapSwitch('setState', active);
     if (active) {
         $('.help-tooltip').tooltip({
-            delay: { show: 250, hide: 100 }
+            delay: { show: 600, hide: 100 }
         });
     } else {
         $('.help-tooltip').tooltip('destroy');

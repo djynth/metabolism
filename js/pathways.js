@@ -92,14 +92,14 @@ $(document).ready(function() {
         var resizedFilter = false;
         $('#pathway-filter').slideToggle({
             progress: function() {
-                updateScrollbars(true, false);
+                updateScrollbars(true, false, false);
                 if (!resizedFilter) {
                     resizeFilter();
                     resizedFilter = true;
                 }
             },
             complete: function() {
-                updateScrollbars(true);
+                updateScrollbars(true, false, true);
             }
         });
     });
@@ -190,7 +190,6 @@ function refreshPathways()
     });
 
     updateEatButtons();
-    updateScrollbars();
 }
 
 function updatePathwayButtons(pathway)
@@ -451,7 +450,7 @@ function onFilterChange()
             $(this).slideUp();
         }
     }).promise().done(function() {
-        updateScrollbars(true);
+        updateScrollbars(true, false, true);
     });
 }
 
