@@ -12,12 +12,16 @@ class SiteController extends CController
 
     public function actionResult()
     {
-        if (Game::isGameOver()) {
-            // TODO do something if the current user is not allowed to view info about this game
-
+        $user = User::getCurrentUser();
+        if ($user !== null || Game::isGameOver()) {
             $this->render('result', array(
                 'game_id' => Game::getGameId()
             ));
+        } elseif ($user !== null && !Game::isGameStarted()) {
+            $lastGame = Game::model()->findByAttributes(array(''));
+            // TODO view the last played game
+        } elseif (isset($_GET['game'])) {
+            // TODO view the game with id in GET if the current user is allowed to
         }
     }
 
