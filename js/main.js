@@ -13,10 +13,6 @@ $(document).ready(function() {
     setColorTheme(color_theme);
 
     $(window).resize(function() { updateScrollbars(true, true, true); });
-
-    $('.tooltip-holder').tooltip({
-        delay: { show: 150, hide: 100 }
-    });
 });
 
 function initScrollbars()

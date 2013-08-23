@@ -27,9 +27,7 @@ $(document).ready(function() {
             $(this).parent().siblings().find('input[type=submit]').click();
         }
     }).focus(function() {
-        $(this).parent().tooltip('show');
-        var tooltip = $(this).parent().next();
-        tooltip.css('left', parseInt(tooltip.css('left')) - 10);
+        $(this).parent().tooltip('show').next().css('left', parseInt(tooltip.css('left')) - 10);
     }).blur(function() {
         $(this).parent().tooltip('hide');
     });
