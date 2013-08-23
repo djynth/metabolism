@@ -54,7 +54,7 @@ function getResourceContentHeight()
     return resourceContentHeight;
 }
 
-function updateScrollbars(updateHeight)
+function updateScrollbars(updateHeight, updateCustomScrollbars)
 {
     if (updateHeight) {
         pathwayContentHeight = null;
@@ -74,7 +74,9 @@ function updateScrollbars(updateHeight)
             }
         }
         
-        $(this).mCustomScrollbar('update');
+        if (updateCustomScrollbars || typeof updateCustomScrollbars === 'undefined') {
+            $(this).mCustomScrollbar('update');
+        }
     });
 }
 

@@ -103,7 +103,7 @@ class Game extends CActiveRecord
             $move = new Move;
             $move->game_id = $game->id;
             $move->score = self::STARTING_POINTS;
-            if (!$move->save() || !self::saveMoveLevels($move)) {
+            if (!$move->save() || self::saveMoveLevels($move) === 0) {
                 return false;
             }
         }
@@ -115,7 +115,7 @@ class Game extends CActiveRecord
         $move->times_run = $times;
         $move->organ_id = $organ->id;
         $move->score = self::getPoints();
-        if (!$move->save() || !self::saveMoveLevels($move)) {
+        if (!$move->save() || self::saveMoveLevels($move) === 0) {
             return false;
         }
 
@@ -132,16 +132,14 @@ class Game extends CActiveRecord
         foreach ($amounts as $resource_id => $organs) {
             foreach ($organs as $organ_id => $amount) {
                 $data[] = array(
-                    'move_id' => $move->id,
+                    'move_id'     => $move->id,
                     'resource_id' => $resource_id,
-                    'organ_id' => $organ_id,
-                    'amount' => $amount,
+                    'organ_id'    => $organ_id,
+                    'amount'      => $amount,
                 );
             }
         }
 
-        Yii::app()->db->getCommandBuilder()->createMultipleInsertCommand('move_levels', $data)->execute();
-
-        return true;
+        return Yii::app()->db->getCommandBuilder()->createMultipleInsertCommand('move_levels', $data)->execute();
     }
 }

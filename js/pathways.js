@@ -92,11 +92,14 @@ $(document).ready(function() {
         var resizedFilter = false;
         $('#pathway-filter').slideToggle({
             progress: function() {
-                updateScrollbars(true);
+                updateScrollbars(true, false);
                 if (!resizedFilter) {
                     resizeFilter();
                     resizedFilter = true;
                 }
+            },
+            complete: function() {
+                updateScrollbars(true);
             }
         });
     });

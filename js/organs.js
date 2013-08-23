@@ -60,12 +60,11 @@ function selectOrgan(organ, firstTime)
             } else {
                 $(this).animate({ height: height }, {
                     duration: ORGAN_TRANSITION,
-                    progress: function() {
+                    complete: function() {
                         $(this).mCustomScrollbar('update');
                     }
                 });
             }
-            
         } else {                                    // unselect this tab
             $(this).removeClass('active');
             if (firstTime) {
