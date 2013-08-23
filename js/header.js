@@ -25,53 +25,53 @@ $(document).ready(function() {
         }
     }).focus(function() {
         $(this).parent().tooltip('show');
-        var tooltip = $(this).parent().next();
+        var tooltip = $(this).parent().next();      // finds the tooltip which was created in the previous line
         tooltip.css('left', parseInt(tooltip.css('left')) - 10);
     }).blur(function() {
         $(this).parent().tooltip('hide');
     });
 
     $('.check-username').change(function() {
-        var username = $(this).val();
         $.ajax({
             url: 'index.php/user/validateUsername',
             type: 'POST',
             dataType: 'json',
+            context: $(this),
             data: {
-                username: username
+                username: $(this).val()
             },
             success: function(data) {
-                elem.parent().toggleClass('error', !data.valid);
+                $(this).parent().toggleClass('error', !data.valid);
             }
         });
     });
 
     $('.check-email').change(function() {
-        var email = $(this).val();
         $.ajax({
             url: 'index.php/user/validateEmail',
             type: 'POST',
             dataType: 'json',
+            context: $(this),
             data: {
-                email: email
+                email: $(this).val()
             },
             success: function(data) {
-                elem.parent().toggleClass('error', !data.valid);
+                $(this).parent().toggleClass('error', !data.valid);
             }
         });
     });
 
     $('.check-password').change(function() {
-        var password = $(this).val();
         $.ajax({
             url: 'index.php/user/validatePassword',
             type: 'POST',
             dataType: 'json',
+            context: $(this),
             data: {
-                password: password
+                password: $(this).val()
             },
             success: function(data) {
-                elem.parent().toggleClass('error', !data.valid);
+                $(this).parent().toggleClass('error', !data.valid);
             }
         });
     });

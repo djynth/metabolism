@@ -126,13 +126,11 @@ function setColorTheme(theme, save)
 function applyColorTheme(base)
 {
     if (color_theme === 'light') {
-        base.removeClass('theme_dark').addClass('theme_light');
-        base.find('*').removeClass('theme_dark').addClass('theme_light');
+        base.find('*').addBack().removeClass('theme_dark').addClass('theme_light');
         base.find('i').removeClass('icon-white');
         base.find('.btn').removeClass('btn-inverse');
     } else if (color_theme === 'dark') {
-        base.removeClass('theme_light').addClass('theme_dark');
-        base.find('*').removeClass('theme_light').addClass('theme_dark');
+        base.find('*').addBack().removeClass('theme_light').addClass('theme_dark');
         base.find('i').addClass('icon-white');
         base.find('.btn').addClass('btn-inverse');
     }
@@ -169,30 +167,19 @@ function setHelpTooltips(active, save)
 
 function notifyTop(html, duration)
 {
-    if (typeof duration === 'undefined') {
-        duration = DEFAULT_NOTIFICATION_DURATION;
-    }
-
-    var elem = $('#notification-top');
-
-    elem.empty().hide();
-
-    applyColorTheme(elem.append(html)).slideDown(function() {
-        setTimeout(function() {
-            elem.slideUp(function() {
-                elem.empty();
-            });
-        }, duration);
-    });
+    notify($('#notification-top'), html, duration);
 }
 
 function notifyBottom(html, duration)
 {
+    notify($('#notification-bottom'), html, duration);
+}
+
+function notify(elem, html, duration)
+{
     if (typeof duration === 'undefined') {
         duration = DEFAULT_NOTIFICATION_DURATION;
     }
-
-    var elem = $('#notification-bottom');
 
     if (html) {
         elem.empty().hide();
