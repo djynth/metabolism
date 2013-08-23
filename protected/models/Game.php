@@ -2,7 +2,7 @@
 
 class Game extends CActiveRecord
 {
-    const MAX_TURNS = 3;
+    const MAX_TURNS = 100;
     const STARTING_POINTS = 0;
     const STARTING_TURN = self::MAX_TURNS;
 
@@ -127,19 +127,21 @@ class Game extends CActiveRecord
 
     private static function saveMoveLevels($move)
     {
+        $data = array();
         $amounts = Resource::getAmounts();
         foreach ($amounts as $resource_id => $organs) {
             foreach ($organs as $organ_id => $amount) {
-                $moveLevel = new MoveLevel;
-                $moveLevel->move_id = $move->id;
-                $moveLevel->resource_id = $resource_id;
-                $moveLevel->organ_id = $organ_id;
-                $moveLevel->amount = $amount;
-                if (!$moveLevel->save()) {
-                    return false;
-                }
+                $data[] = array(
+                    'move_id' => $move->id,
+                    'resource_id' => $resource_id,
+                    'organ_id' => $organ_id,
+                    'amount' => $amount,
+                );
             }
         }
+
+        Yii::app()->db->getCommandBuilder()->createMultipleInsertCommand('move_levels', $data)->execute();
+
         return true;
     }
 }
