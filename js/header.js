@@ -29,7 +29,9 @@ $(document).ready(function() {
             $(this).parent().siblings().find('input[type=submit]').click();
         }
     }).focus(function() {
-        $(this).parent().tooltip('show').next().css('left', parseInt(tooltip.css('left')) - 10);
+        $(this).parent().tooltip('show');
+        var tooltip = $(this).parent().next();
+        tooltip.css('left', parseInt(tooltip.css('left')) - 10);
     }).blur(function() {
         $(this).parent().tooltip('hide');
     });
@@ -209,12 +211,10 @@ $(document).ready(function() {
 
     $('.forgot-password, .email-verified, .edit-email').hover(function() {
         var elem = $(this);
-        var t = setTimeout(function() {
-            console.log(elem);
+        $(this).data('timeout', setTimeout(function() {
             elem.animate({ width: elem.css('max-width') });
             elem.find('*').fadeIn();
-        }, 250);
-        $(this).data('timeout', t);
+        }, 250));
     }, function() {
         clearTimeout($(this).data('timeout'));
         $(this).animate({ width: $(this).css('min-width') });
