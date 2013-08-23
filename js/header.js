@@ -1,13 +1,8 @@
 $(document).ready(function() {
     $('.account-header').click(function() {
-        var dropdown = $('.login-dropdown');
-        if (dropdown.is(':visible')) {
-            dropdown.slideUp();
-        } else {
-            dropdown.slideDown(function() {
-                dropdown.find('input').first().focus();
-            });
-        }
+        $('.login-dropdown').slideToggle(function() {
+            $(this).find('input').first().focus();
+        });
     });
 
     $('.settings-header').click(function() {
@@ -46,11 +41,7 @@ $(document).ready(function() {
                 username: username
             },
             success: function(data) {
-                if (data.valid) {
-                    elem.parent().removeClass('error');
-                } else {
-                    elem.parent().addClass('error');
-                }
+                elem.parent().toggleClass('error', !data.valid);
             }
         });
     });
@@ -65,11 +56,7 @@ $(document).ready(function() {
                 email: email
             },
             success: function(data) {
-                if (data.valid) {
-                    elem.parent().removeClass('error');
-                } else {
-                    elem.parent().addClass('error');
-                }
+                elem.parent().toggleClass('error', !data.valid);
             }
         });
     });
@@ -84,47 +71,27 @@ $(document).ready(function() {
                 password: password
             },
             success: function(data) {
-                if (data.valid) {
-                    elem.parent().removeClass('error');
-                } else {
-                    elem.parent().addClass('error');
-                }
+                elem.parent().toggleClass('error', !data.valid);
             }
         });
     });
 
     $('#create-account-password').change(function() {
         var confirm = $('#create-account-confirm');
-        if (confirm.val() && $(this).val() != confirm.val()) {
-            confirm.parent().addClass('error');
-        } else {
-            confirm.parent().removeClass('error');
-        }
+        confirm.parent().toggleClass('error', confirm.val() && $(this).val() != confirm.val());
     });
 
     $('#change-password-new').change(function() {
         var confirm = $('#change-password-confirm');
-        if (confirm.val() && $(this).val() != confirm.val()) {
-            confirm.parent().addClass('error');
-        } else {
-            confirm.parent().removeClass('error');
-        }
+        confirm.parent().toggleClass('error', confirm.val() && $(this).val() != confirm.val());
     });
 
     $('#create-account-confirm').change(function() {
-        if ($(this).val() && $(this).val() != $('#create-account-password').val()) {
-            $(this).parent().addClass('error');
-        } else {
-            $(this).parent().removeClass('error');
-        }
+        $(this).parent().toggleClass('error', $(this).val() && $(this).val() != $('#create-account-password').val());
     });
 
     $('#change-password-confirm').change(function() {
-        if ($(this).val() && $(this).val() != $('#change-password-new').val()) {
-            $(this).parent().addClass('error');
-        } else {
-            $(this).parent().removeClass('error');
-        }
+        $(this).parent().toggleClass('error', $(this).val() && $(this).val() != $('#change-password-new').val());
     });
 
     $('#login-submit').click(function() {
