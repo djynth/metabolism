@@ -15,6 +15,8 @@ $(document).ready(function() {
     });
 
     $('#theme-dark, #theme-light').click(function() {
+        // wait for all other callbacks bound to this event complete
+        // so that the 'active' class is correctly assigned to the new theme choice button
         setTimeout(function() { setColorTheme($('#theme-holder').find('.btn.active').attr('value'), true) }, 0);
     });
 
@@ -33,13 +35,13 @@ $(document).ready(function() {
     });
 
     $('.check-username').change(function() {
-        var elem = $(this);
+        var username = $(this).val();
         $.ajax({
             url: 'index.php/user/validateUsername',
             type: 'POST',
             dataType: 'json',
             data: {
-                username: $(this).val()
+                username: username
             },
             success: function(data) {
                 if (data.valid) {
@@ -52,13 +54,13 @@ $(document).ready(function() {
     });
 
     $('.check-email').change(function() {
-        var elem = $(this);
+        var email = $(this).val();
         $.ajax({
             url: 'index.php/user/validateEmail',
             type: 'POST',
             dataType: 'json',
             data: {
-                email: elem.val()
+                email: email
             },
             success: function(data) {
                 if (data.valid) {
@@ -71,13 +73,13 @@ $(document).ready(function() {
     });
 
     $('.check-password').change(function() {
-        var elem = $(this);
+        var password = $(this).val();
         $.ajax({
             url: 'index.php/user/validatePassword',
             type: 'POST',
             dataType: 'json',
             data: {
-                password: $(this).val()
+                password: password
             },
             success: function(data) {
                 if (data.valid) {
