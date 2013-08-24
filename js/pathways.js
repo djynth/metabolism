@@ -107,7 +107,7 @@ $(document).ready(function() {
     $('#filter-name, #filter-reactant, #filter-product').change(onFilterChange);
 
     $('#filter-available, #filter-unavailable, #filter-catabolic, #filter-anabolic').click(function() {
-        window.setTimeout(onFilterChange, 0);   // wait for other events bound to the button to finish so that buttons
+        window.setTimeout(onFilterChange, 0);   // wait for other events bound to the button to finish so that buttons'
                                                 // 'active' property is accurately set
     });
 

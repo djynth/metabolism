@@ -28,11 +28,7 @@ function initScrollbars()
 
 function getPathwayContentHeight(reset)
 {
-    if (reset) {
-        pathwayContentHeight = null;
-    }
-
-    if (pathwayContentHeight === null) {
+    if (reset || pathwayContentHeight === null) {
         var headers = $('#pathway-holder').find('.accordian-header');
         pathwayContentHeight = $(window).height() - headers.first().offset().top;
         headers.each(function() {
@@ -45,11 +41,7 @@ function getPathwayContentHeight(reset)
 
 function getResourceContentHeight(reset)
 {
-    if (reset) {
-        resourceContentHeight = null;
-    }
-
-    if (resourceContentHeight === null) {
+    if (reset || resourceContentHeight === null) {
         var headers = $('#resource-holder').find('.accordian-header');
         resourceContentHeight = $(window).height() - headers.first().offset().top - $('#resource-visual').outerHeight();
         headers.each(function() {

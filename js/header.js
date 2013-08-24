@@ -1,3 +1,5 @@
+var ACCOUNT_TOOLTIP_OFFSET = -10;       // move the tooltips associated with each text input by a certain px amount
+
 $(document).ready(function() {
     $('.account-header').click(function() {
         $('.login-dropdown').slideToggle(function() {
@@ -10,9 +12,7 @@ $(document).ready(function() {
     });
 
     $('#theme-dark, #theme-light').click(function() {
-        // wait for all other callbacks bound to this event complete
-        // so that the 'active' class is correctly assigned to the new theme choice button
-        setTimeout(function() { setColorTheme($('#theme-holder').find('.btn.active').attr('value'), true) }, 0);
+        setColorTheme($(this).attr('value'), true);
     });
 
     $('#help-toggle').on('switch-change', function() {
@@ -25,8 +25,9 @@ $(document).ready(function() {
         }
     }).focus(function() {
         $(this).parent().tooltip('show');
-        var tooltip = $(this).parent().next();      // finds the tooltip which was created in the previous line
-        tooltip.css('left', parseInt(tooltip.css('left')) - 10);
+        var tooltip = $(this).parent().next();      // gets the tooltip which was created in the previous line
+        // adjusts the tooltip so that it is better placed relaitve to the edge of the account dropdown
+        tooltip.css('left', parseInt(tooltip.css('left')) + ACCOUNT_TOOLTIP_OFFSET);
     }).blur(function() {
         $(this).parent().tooltip('hide');
     });
@@ -62,36 +63,33 @@ $(document).ready(function() {
     });
 
     $('.check-password').change(function() {
-        $.ajax({
-            url: 'index.php/user/validatePassword',
-            type: 'POST',
-            dataType: 'json',
-            context: $(this),
-            data: {
-                password: $(this).val()
-            },
-            success: function(data) {
-                $(this).parent().toggleClass('error', !data.valid);
-            }
+        var confirm = $($(this).attr('confirm'));
+        confirm.parent().toggleClass('error', confirmMatch($(this), confirm));
+
+        if ($(this).val()) {
+            $.ajax({
+                url: 'index.php/user/validatePassword',
+                type: 'POST',
+                dataType: 'json',
+                context: $(this),
+                data: {
+                    password: $(this).val()
+                },
+                success: function(data) {
+                    $(this).parent().toggleClass('error', !data.valid);
+                }
+            });    
+        } else {
+            $(this).parent().removeClass('error');
+        }
+    });
+
+    $('.check-password').each(function() {
+        var password = $(this);
+        var confirm = $($(this).attr('confirm'));
+        confirm.change(function() {
+            confirm.parent().toggleClass('error', confirmMatch(password, confirm));
         });
-    });
-
-    $('#create-account-password').change(function() {
-        var confirm = $('#create-account-confirm');
-        confirm.parent().toggleClass('error', confirm.val() && $(this).val() != confirm.val());
-    });
-
-    $('#change-password-new').change(function() {
-        var confirm = $('#change-password-confirm');
-        confirm.parent().toggleClass('error', confirm.val() && $(this).val() != confirm.val());
-    });
-
-    $('#create-account-confirm').change(function() {
-        $(this).parent().toggleClass('error', $(this).val() && $(this).val() != $('#create-account-password').val());
-    });
-
-    $('#change-password-confirm').change(function() {
-        $(this).parent().toggleClass('error', $(this).val() && $(this).val() != $('#change-password-new').val());
     });
 
     $('#login-submit').click(function() {
@@ -247,4 +245,9 @@ $(document).ready(function() {
 function createNotification(message, success)
 {
     return $('<p>').text(message).addClass(success ? 'success' : 'error');
+}
+
+function confirmMatch(password, confirm)
+{
+    return password.val() == confirm.val() || !password.val() || !confirm.val();
 }

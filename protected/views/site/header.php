@@ -75,7 +75,8 @@ $user = User::getCurrentUser();
                      title="A password is used to authenticate your identity.
                             Strong passwords contain a variety of characters and should not be repeated accross other services.
                             Passwords must be 3-32 alphanumeric or punctuation characters.">
-                    <input id="create-account-password" type="password" placeholder="Password" class="input-themed check-password">
+                    <input id="create-account-password" type="password" placeholder="Password"
+                           class="input-themed check-password" confirm="#create-account-confirm">
                 </div>
                 <div class="control-group account-tooltip-holder" data-placement="left" data-trigger="focus"
                      title="Repeat your password to confirm that you typed it correctly.">
@@ -97,7 +98,8 @@ $user = User::getCurrentUser();
                     <input id="change-password-current" type="password" placeholder="Current Password" class="input-themed">
                 </div>
                 <div class="control-group">
-                    <input id="change-password-new" type="password" placeholder="New Password" class="input-themed check-password">
+                    <input id="change-password-new" type="password" placeholder="New Password" class="input-themed check-password"
+                           confirm="#change-password-confirm">
                 </div>
                 <div class="control-group">
                     <input id="change-password-confirm" type="password" placeholder="Confirm New Password" class="input-themed">
