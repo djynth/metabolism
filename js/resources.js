@@ -96,15 +96,14 @@ function onResourceChange(resource, organ, value)
 
 function getResourceElement(resource, organ)
 {
-    var holder;
     if (typeof organ === 'undefined') {
         if (isResourceGlobal(resource)) {
-            holder = $('.resource-holder.global');
+            var holder = $('.resource-holder.global');
         } else {
-            holder = $('.resource-holder[value="' + getSelectedOrgan() + '"]');
+            var holder = $('.resource-holder[value="' + $('.accordian-content.active').attr('value') + '"]');
         }
     } else {
-        holder = $('.resource-holder[value="' + organ + '"]');
+        var holder = $('.resource-holder[value="' + organ + '"]');
     }
 
     return holder.find('.resource-data[value="' + resource + '"]');
@@ -125,11 +124,11 @@ function isResourceGlobal(resource)
     return $('.resource-holder.global').find('.resource-data[value="' + resource + '"]').length > 0;
 }
 
-function updateResourceVisual(organChanged)
+function updateResourceVisual(newOrgan)
 {
-    if (organChanged) {
+    if (newOrgan) {
         if (activeResource !== null && !isResourceGlobal(activeResource)) {
-            $('#resource-visual').find('.resource-visual-amount').text(getResourceValue(activeResource, getSelectedOrgan()));
+            $('#resource-visual').find('.resource-visual-amount').text(getResourceValue(activeResource, newOrgan));
         }
     } else {
         if (activeResource === null) {

@@ -109,7 +109,7 @@ $(document).ready(function() {
                 }
             },
             error: function() {
-                notifyBottom(createNotification('An internal error occurred.', false));
+                notifyInternalError();
             }
         });
     });
@@ -134,7 +134,7 @@ $(document).ready(function() {
                 }
             },
             error: function() {
-                notifyBottom(createNotification('An internal error occurred.', false));
+                notifyInternalError();
             }
         });
     });
@@ -148,7 +148,7 @@ $(document).ready(function() {
                 location.reload();
             },
             error: function() {
-                notifyBottom(createNotification('An internal error occurred.', false));
+                notifyInternalError();
             }
         });
     });
@@ -198,7 +198,7 @@ $(document).ready(function() {
                 notifyBottom(createNotification(data.message, data.success));
             },
             error: function() {
-                notifyBottom(createNotification('An internal error occurred.', false));
+                notifyInternalError();
             }
         });
     });
@@ -211,7 +211,7 @@ $(document).ready(function() {
                 notifyBottom(createNotification('A verification email was sent to your email address.', true));
             },
             error: function() {
-                notifyBottom(createNotification('An internal error occurred.', false));
+                notifyInternalError();
             }
         });
     });
@@ -236,11 +236,16 @@ $(document).ready(function() {
                 }
             },
             error: function() {
-                notifyBottom(createNotification('An internal error occurred.', false));
+                notifyInternalError();
             }
         });
     });
 });
+
+function notifyInternalError()
+{
+    notifyBottom(createNotification('An internal error occurred.', false));
+}
 
 function createNotification(message, success)
 {

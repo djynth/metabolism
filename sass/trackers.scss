@@ -103,7 +103,7 @@
         }
     }
 
-    .selected-organ {
+    .active {
         &.theme_dark {
             background-color: lighten($dark_background, 1.25%);
         }
