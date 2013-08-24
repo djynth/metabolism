@@ -24,9 +24,9 @@ $(document).ready(function() {
         var content = popup.find('.organ-image, .organ-description');
         if (!popup.is(':visible')) {
             if ($(window).height() - $(this).offset().top > ORGAN_INFO_PADDING_BOTTOM) {
-                popup.addClass('organ-popup-down');
+                popup.addClass('organ-popup-down').removeClass('organ-popup-up');
             } else {
-                popup.addClass('organ-popup-up');
+                popup.addClass('organ-popup-up').removeClass('organ-popup-down');
             }
 
             popup.css('width', 0).show();
@@ -38,7 +38,7 @@ $(document).ready(function() {
         } else {
             content.slideUp(ORGAN_SLIDE_DOWN_DURATION, function() {
                 popup.animate({ width: 0 }, ORGAN_SLIDE_OUT_DURATION, function() {
-                    popup.removeClass('organ-popup-up organ-popup-down').hide();
+                    popup.hide();
                 });
             });
         }

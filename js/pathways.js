@@ -14,12 +14,14 @@ $(document).ready(function() {
     });
 
     $('.pathway-plus').click(function() {
-        $(this).siblings('.pathway-run').attr('value', parseInt($(this).siblings('.pathway-run').attr('value')) + 1);
+        var run = $(this).siblings('.pathway-run');
+        run.attr('value', parseInt(run.attr('value')) + 1);
         updatePathwayButtons($(this).parents('.pathway'));
     });
 
     $('.pathway-minus').click(function() {
-        $(this).siblings('.pathway-run').attr('value', parseInt($(this).siblings('.pathway-run').attr('value')) - 1);
+        var run = $(this).siblings('.pathway-run');
+        run.attr('value', parseInt(run.attr('value')) - 1);
         updatePathwayButtons($(this).parents('.pathway'));
     });
 
@@ -44,10 +46,11 @@ $(document).ready(function() {
         var eatMax = parseInt(foodHolder.attr('eat-max'));
 
         if (total < eatMax) {
-            var eatConfirm = $('<div>')
+            notifyBottom($('<div>')
                 .addClass('eat-confirm')
                 .append($('<p>')
-                    .text('You are eating less than you could! Your total nutrient intake of ' + total + ' is less than the maximum of ' + eatMax))
+                    .text('You are eating less than you could! Your total nutrient intake of ' + total + 
+                          ' is less than the maximum of ' + eatMax))
                 .append($('<button>')
                     .text('Cancel')
                     .addClass('btn')
@@ -60,9 +63,7 @@ $(document).ready(function() {
                     .click(function() {
                         notifyBottom(false);
                         eat(nutrients);
-                    }));
-
-            notifyBottom(eatConfirm, -1);
+                    })), -1);
         } else {
             eat(nutrients);
         }
