@@ -70,12 +70,14 @@ $(document).ready(function() {
     });
 
     $('.eat-plus').click(function() {
-        $(this).siblings('.eat').attr('value', parseInt($(this).siblings('.eat').attr('value')) + 1);
+        var eat = $(this).siblings('.eat');
+        eat.attr('value', parseInt(eat.attr('value')) + 1);
         updateEatButtons($(this).parents('.food-holder'));
     });
 
     $('.eat-minus').click(function() {
-        $(this).siblings('.eat').attr('value', parseInt($(this).siblings('.eat').attr('value')) - 1);
+        var eat = $(this).siblings('.eat');
+        eat.attr('value', parseInt(eat.attr('value')) - 1);
         updateEatButtons($(this).parents('.food-holder'));
     });
 
@@ -150,15 +152,14 @@ function refreshPathways()
         var lackingReactants = new Array();
         var organ = $(this).parents('.pathway-holder').attr('value');
 
-        $(this).find('.reaction .reactant').each(function() {
+        $(this).find('.reactant').each(function() {
             var resId = $(this).attr('res-id');
             var value = Math.abs(parseInt($(this).attr('value')));
             var actualOrgan = $(this).hasClass('global') ? '1' : organ;
-            var amountAvailable = getResourceValue(resId, actualOrgan);
 
-            if (value > amountAvailable) {
+            if (value > getResourceValue(resId, actualOrgan)) {
                 $(this).addClass('lacking');
-                lackingReactants.push(getResourceName(resId, actualOrgan));
+                lackingReactants[] = getResourceName(resId, actualOrgan);
             } else {
                 $(this).removeClass('lacking');
             }
@@ -166,28 +167,30 @@ function refreshPathways()
 
         if (lackingReactants.length > 0) {
             $(this).find('.run-holder').hide();
-            $(this).find('.lacking').show();
+            $(this).find('p.lacking').show();
 
             var lackingList = 'Not enough ';
             for (var i = 0; i < lackingReactants.length; i++) {
                 lackingList += lackingReactants[i];
-                if (i != lackingReactants.length - 1) {
+                if (i == lackingReactants.length - 1) {
+                    lackingList += '.';
+                } else {
                     lackingList += ', ';
                 }
             }
-            $(this).find('p.lacking').text(lackingList + '.');
+            $(this).find('p.lacking').text(lackingList);
 
             $(this).css('box-shadow', '0 0');
             $(this).attr('available', 'false')
         } else {
             $(this).find('.run-holder').show();
-            $(this).find('.lacking').hide();
+            $(this).find('p.lacking').hide();
 
             $(this).css('box-shadow', '0 0 7px #' + $(this).attr('color'));
             $(this).attr('available', 'true');
         }
 
-        updatePathwayButtons($(this), organ);
+        updatePathwayButtons($(this));
     });
 
     updateEatButtons();
@@ -273,9 +276,9 @@ function updateEatButtons()
 
         var resId = parseInt(eat.attr('res-id'));
         var resName = '';
-        if (resId === 3) {              // glucose
-            resName = 'Carbohydrate (Glucose)'
-        } else if (resId === 4) {      // alanine
+        if (resId === 3) {
+            resName = 'Carbohydrate (Glucose)';
+        } else if (resId === 4) {
             resName = 'Protein (Alanine)';
         } else if (resId === 5) {
             resName = 'Fat (TAGs)';
@@ -382,7 +385,7 @@ function onFilterChange()
     }
 
     $('.pathway').attr('filter', 'true').each(function() {
-        var pathwayName = $(this).find('.title').html();
+        var pathwayName = $(this).find('.title').text();
         if (name && !name.test(pathwayName)) {
             $(this).attr('filter', 'false');
             return;
