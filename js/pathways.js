@@ -159,7 +159,7 @@ function refreshPathways()
 
             if (value > getResourceValue(resId, actualOrgan)) {
                 $(this).addClass('lacking');
-                lackingReactants[] = getResourceName(resId, actualOrgan);
+                lackingReactants.push(getResourceName(resId, actualOrgan));
             } else {
                 $(this).removeClass('lacking');
             }
