@@ -4,3 +4,6 @@ img/molecules/pdf/
 protected/runtime/
 css/
 protected/config/
+yii/
+index.php
+protected/yiic.php
