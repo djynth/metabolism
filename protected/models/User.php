@@ -24,7 +24,8 @@ class User extends CActiveRecord
 
     public function getEmailDomain()
     {
-        return split('@', $this->email)[1];
+        $split = split('@', $this->email);
+        return $split[1];
     }
 
     public static function getCurrentUser()
