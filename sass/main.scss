@@ -247,8 +247,11 @@ p, h1, h2, h3, h4, h5, h6, label {
     position: absolute;
     left: $sidebarWidth;
     width:  100% - 2*$sidebarWidth;
-    height: 100%;
     z-index: -1;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
 }
 
 .notification-holder {

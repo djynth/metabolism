@@ -10,7 +10,7 @@ $this->pageTitle = Yii::app()->name;
 
 <?php $this->renderPartial('header'); ?>
 
-<canvas id="cell-canvas"></canvas>
+<div id="cell-canvas"></div>
 
 <?php $this->renderPartial('trackers'); ?>
 
