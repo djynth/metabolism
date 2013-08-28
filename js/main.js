@@ -9,10 +9,14 @@ var gameOver = false;
 
 $(document).ready(function() {
     initScrollbars();
+    initCenterGraphic()
     $('#notification-bottom').css('bottom', $('#tracker-holder').outerHeight(true));
     setColorTheme(color_theme);
 
-    $(window).resize(function() { updateScrollbars(true, true, true); });
+    $(window).resize(function() {
+        updateScrollbars(true, true, true);
+        updateCenterGraphic();
+    });
 });
 
 function initScrollbars()
@@ -74,6 +78,20 @@ function updateScrollbars(updatePathwayHeight, updateResourceHeight, updateScrol
             $(this).mCustomScrollbar('update');
         }
     });
+}
+
+function initCenterGraphic()
+{
+    $('#cell-canvas').css('background-image', 'url(' + baseUrl + 'img/overview.png)');
+
+    updateCenterGraphic();
+}
+
+function updateCenterGraphic()
+{
+    var top = $('#header').height();
+    var bottom = $('#tracker-holder').height();
+    $('#cell-canvas').height($(window).height() - top - bottom).offset({ top: top });
 }
 
 function setTurn(turn)
