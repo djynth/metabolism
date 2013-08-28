@@ -91,8 +91,7 @@ function updateCenterGraphic()
 {
     var top = $('#header').height();
     var bottom = $('#tracker-holder').height();
-    var height = $(window).height() - top - bottom;
-    $('#cell-canvas').height(height).offset({ top: top });
+    $('#cell-canvas').height($(window).height() - top - bottom).offset({ top: top });
 }
 
 function setTurn(turn)
