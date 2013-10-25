@@ -1,4 +1,4 @@
-var DEFAULT_THEME = 'dark';
+var DEFAULT_THEME = 'light';
 
 var DEFAULT_NOTIFICATION_DURATION = 5000;
 
