@@ -3,13 +3,6 @@
 #pathway-holder {
     left: 0;
 
-    &.theme_dark {
-        border-right: 1px solid $dark_border;
-    }
-    &.theme_light {
-        border-right: 1px solid $light_border;
-    }
-
     .pathway-holder {
         .pathway {
             position: relative;
@@ -18,15 +11,6 @@
             border-radius: 7px;
             font-size:   12px;
             line-height: 12px;
-
-            &.theme_dark {
-                background-color: $dark_elementBackground;
-                border: 1px solid $dark_elementBorder;
-            }
-            &.theme_light {
-                background-color: $light_elementBackground;
-                border: 1px solid $light_elementBorder;
-            }
 
             .pathway-inner {
                 position: absolute;
@@ -46,13 +30,6 @@
                 position: relative;
                 text-shadow: none;
                 z-index: 3;
-
-                &.theme_dark {
-                    color: $dark_elementText;
-                }
-                &.theme_light {
-                    color: $light_elementText;
-                }
             }
 
             .title {
@@ -76,13 +53,6 @@
                 margin: 3px auto;
                 z-index: 3;
 
-                &.theme_dark {
-                    color: $dark_elementText;
-                }
-                &.theme_light {
-                    color: $light_elementText;
-                }
-
                 td {
                     width: 40%;
                     padding: 1px 0;
@@ -100,15 +70,6 @@
 
                 .header {
                     font-weight: bold;
-                }
-
-                .lacking {
-                    &.theme_dark {
-                        color: $dark_lackingText;
-                    }
-                    &.theme_light {
-                        color: $light_lackingText;
-                    }
                 }
 
                 .global {

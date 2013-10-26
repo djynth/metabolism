@@ -1,0 +1,187 @@
+$text:                 rgb(80,  80,  80);
+$textShadow:           rgb(200, 200, 200);
+$border:               rgb(100, 100, 100);
+$background:           rgb(240, 240, 240);
+$sidebarBackground:    rgb(220, 220, 220);
+$elementBackground:    rgb(200, 200, 200);
+$elementBorder:        rgb(160, 160, 160);
+$elementText:          rgb(6,   6,   6);
+$inputBackground:      rgb(225, 225, 225);
+$inputAddOnBackground: rgb(225, 225, 225);
+$inputBorder:          rgb(120, 120, 120);
+$trackerHeaderBorder:  rgb(140, 140, 140);
+$trackerOrganBorder:   rgb(160, 160, 160);
+$lackingText:          rgb(111, 12,  12);
+$resultCover:          rgb(255, 255, 255);
+$trackerActive:        darken($background, 12.5%);
+
+html, body {
+    background-color: $background;
+}
+
+p, h1, h2, h3, h4, h5, h6, label {
+    color: $text;
+    text-shadow: 1px 1px $textShadow;
+}
+
+.result-cover {
+    background-color: $resultCover;
+}
+
+.input-themed {
+    border-color: $inputBorder !important;
+    background: $inputBackground !important;
+}
+
+.input-themed-add-on {
+    border-color: $inputBorder;
+
+    .add-on {
+        border-color: inherit !important;
+        background: $inputAddOnBackground !important;
+    }
+
+    input {
+        border-color: inherit !important;
+        background: $inputBackground !important;
+    }
+}
+
+.header-text {
+    background-color: $background;
+    border-bottom: 1px solid $border;
+}
+
+#header {
+    background-color: $background;
+    border-bottom: 1px solid $border;
+
+    #settings {
+        background-color: inherit;
+        border: 1px solid $border;
+        border-top: none;
+
+        .settings-dropdown {
+            background-color: inherit;
+        }
+    }
+
+    #account {
+        background-color: inherit;
+
+        border-left: 1px solid $border;
+        border-bottom: 1px solid $border;
+
+        .login-dropdown {
+            background-color: inherit;
+        }
+
+        .forgot-password {
+            border-color: $inputBorder;
+            background: $inputAddOnBackground;
+        }
+
+        .email-verified {
+            border-color: $inputBorder;
+            background: $inputAddOnBackground;
+        }
+
+        .edit-email {
+            border-color: $inputBorder;
+            background: $inputAddOnBackground;
+        }
+    }
+}
+
+.sidebar {
+    background-color: $sidebarBackground;
+
+    .accordian-header {
+        border-top: 1px solid $border;
+    }
+
+    .organ-popup {
+        background-color: $background;
+        border: 1px solid $border;
+    }
+}
+
+.notification-holder {
+    background-color: $background;
+    border-color: $border;
+}
+
+#pathway-holder {
+    border-right: 1px solid $border;
+
+    .pathway {
+        background-color: $elementBackground;
+        border: 1px solid $elementBorder;
+
+        p {
+            color: $elementText;
+        }
+
+        .reaction {
+            color: $elementText;
+
+            .lacking {
+                color: $lackingText;
+            }
+        }
+    }
+}
+
+#resource-holder {
+    border-left: 1px solid $border;
+
+    .resource-data {
+        .progress {
+            background-image: none;
+            border: 1px solid;
+
+            background-color: $elementBackground;
+            border-color: $elementBorder;
+        }
+
+        span {
+            color: $elementText;
+        }
+    }
+}
+
+#resource-visual {
+    background-color: $sidebarBackground;
+    border-top: 1px solid $border;
+
+    .resource-visual-header {
+        background-color: $background;
+        border-bottom: 1px solid $border;
+    }
+
+    .resource-visual-content {
+        p {
+            color: $elementText;
+            text-shadow: none;
+        }
+    }
+}
+
+#tracker-holder {
+    .tracker {
+        background-color: $background;
+        border-color: $border;
+    }
+
+    .tracker-header {
+        border-bottom: 1px solid $trackerHeaderBorder;
+    }
+
+    .tracker-organ {
+        border-color: $trackerOrganBorder;
+    }
+
+    .active {
+        background-color: $trackerActive;
+    }
+}

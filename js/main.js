@@ -135,12 +135,13 @@ function setColorTheme(theme, save)
 
 function applyColorTheme(base)
 {
+    $('head').find('.theme-stylesheet').remove();
+    $('head').append('<link rel="stylesheet" href="css/themes/' + color_theme + '" type="text/css" class="theme-stylesheet" />');
+
     if (color_theme === 'light') {
-        base.find('*').addBack().removeClass('theme_dark').addClass('theme_light');
         base.find('i').removeClass('icon-white');
         base.find('.btn').removeClass('btn-inverse');
     } else if (color_theme === 'dark') {
-        base.find('*').addBack().removeClass('theme_light').addClass('theme_dark');
         base.find('i').addClass('icon-white');
         base.find('.btn').addClass('btn-inverse');
     }
@@ -194,7 +195,7 @@ function notify(elem, html, duration)
     if (html) {
         elem.empty().hide();
 
-        applyColorTheme(elem.append(html)).slideDown(function() {
+        elem.append(html).slideDown(function() {
             if (duration > 0) {
                 setTimeout(function() {
                     elem.slideUp(function() {
