@@ -11,6 +11,8 @@ $(document).ready(function() {
         $('.settings-dropdown').slideToggle();
     });
 
+    $('.theme-option').outerWidth(100/$('.theme-option').length + '%');
+
     $('.theme-option').click(function() {
         setColorTheme($(this).attr('value'), $(this).attr('theme-type'), true);
     });
