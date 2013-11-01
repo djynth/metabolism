@@ -15,173 +15,173 @@ $lackingText:          rgb(111, 12,  12);
 $resultCover:          rgb(0,   0,   0);
 $trackerActive:        lighten($background, 1.25%);
 
-html, body {
+body[theme=dark] {
     background-color: $background;
-}
 
-p, h1, h2, h3, h4, h5, h6, label {
-    color: $text;
-    text-shadow: 1px 1px $textShadow;
-}
-
-.result-cover {
-    background-color: $resultCover;
-}
-
-.input-themed {
-    border-color: $inputBorder !important;
-    background: $inputBackground !important;
-}
-
-.input-themed-add-on {
-    border-color: $inputBorder;
-
-    .add-on {
-        border-color: inherit !important;
-        background: $inputAddOnBackground !important;
+    p, h1, h2, h3, h4, h5, h6, label {
+        color: $text;
+        text-shadow: 1px 1px $textShadow;
     }
 
-    input {
-        border-color: inherit !important;
+    .result-cover {
+        background-color: $resultCover;
+    }
+
+    .input-themed {
+        border-color: $inputBorder !important;
         background: $inputBackground !important;
     }
-}
 
-.header-text {
-    background-color: $background;
-    border-bottom: 1px solid $border;
-}
+    .input-themed-add-on {
+        border-color: $inputBorder;
 
-#header {
-    background-color: $background;
-    border-bottom: 1px solid $border;
+        .add-on {
+            border-color: inherit !important;
+            background: $inputAddOnBackground !important;
+        }
 
-    #settings {
-        background-color: inherit;
-        border: 1px solid $border;
-        border-top: none;
-
-        .settings-dropdown {
-            background-color: inherit;
+        input {
+            border-color: inherit !important;
+            background: $inputBackground !important;
         }
     }
 
-    #account {
-        background-color: inherit;
+    .header-text {
+        background-color: $background;
+        border-bottom: 1px solid $border;
+    }
 
-        border-left: 1px solid $border;
+    #header {
+        background-color: $background;
         border-bottom: 1px solid $border;
 
-        .login-dropdown {
+        #settings {
             background-color: inherit;
+            border: 1px solid $border;
+            border-top: none;
+
+            .settings-dropdown {
+                background-color: inherit;
+            }
         }
 
-        .forgot-password {
-            border-color: $inputBorder;
-            background: $inputAddOnBackground;
-        }
+        #account {
+            background-color: inherit;
 
-        .email-verified {
-            border-color: $inputBorder;
-            background: $inputAddOnBackground;
-        }
+            border-left: 1px solid $border;
+            border-bottom: 1px solid $border;
 
-        .edit-email {
-            border-color: $inputBorder;
-            background: $inputAddOnBackground;
-        }
-    }
-}
+            .login-dropdown {
+                background-color: inherit;
+            }
 
-.sidebar {
-    background-color: $sidebarBackground;
+            .forgot-password {
+                border-color: $inputBorder;
+                background: $inputAddOnBackground;
+            }
 
-    .accordian-header {
-        border-top: 1px solid $border;
-    }
+            .email-verified {
+                border-color: $inputBorder;
+                background: $inputAddOnBackground;
+            }
 
-    .organ-popup {
-        background-color: $background;
-        border: 1px solid $border;
-    }
-}
-
-.notification-holder {
-    background-color: $background;
-    border-color: $border;
-}
-
-#pathway-holder {
-    border-right: 1px solid $border;
-
-    .pathway {
-        background-color: $elementBackground;
-        border: 1px solid $elementBorder;
-
-        p {
-            color: $elementText;
-        }
-
-        .reaction {
-            color: $elementText;
-
-            .lacking {
-                color: $lackingText;
+            .edit-email {
+                border-color: $inputBorder;
+                background: $inputAddOnBackground;
             }
         }
     }
-}
 
-#resource-holder {
-    border-left: 1px solid $border;
+    .sidebar {
+        background-color: $sidebarBackground;
 
-    .resource-data {
-        .progress {
-            background-image: none;
-            border: 1px solid;
-
-            background-color: $elementBackground;
-            border-color: $elementBorder;
+        .accordian-header {
+            border-top: 1px solid $border;
         }
 
-        span {
-            color: $elementText;
+        .organ-popup {
+            background-color: $background;
+            border: 1px solid $border;
         }
     }
-}
 
-#resource-visual {
-    background-color: $sidebarBackground;
-    border-top: 1px solid $border;
-
-    .resource-visual-header {
-        background-color: $background;
-        border-bottom: 1px solid $border;
-    }
-
-    .resource-visual-content {
-        p {
-            color: $elementText;
-            text-shadow: none;
-        }
-    }
-}
-
-#tracker-holder {
-    .tracker {
+    .notification-holder {
         background-color: $background;
         border-color: $border;
     }
 
-    .tracker-header {
-        border-bottom: 1px solid $trackerHeaderBorder;
+    #pathway-holder {
+        border-right: 1px solid $border;
+
+        .pathway {
+            background-color: $elementBackground;
+            border: 1px solid $elementBorder;
+
+            p {
+                color: $elementText;
+            }
+
+            .reaction {
+                color: $elementText;
+
+                .lacking {
+                    color: $lackingText;
+                }
+            }
+        }
     }
 
-    .tracker-organ {
-        border-color: $trackerOrganBorder;
+    #resource-holder {
+        border-left: 1px solid $border;
+
+        .resource-data {
+            .progress {
+                background-image: none;
+                border: 1px solid;
+
+                background-color: $elementBackground;
+                border-color: $elementBorder;
+            }
+
+            span {
+                color: $elementText;
+            }
+        }
     }
 
-    .active {
-        background-color: $trackerActive;
+    #resource-visual {
+        background-color: $sidebarBackground;
+        border-top: 1px solid $border;
+
+        .resource-visual-header {
+            background-color: $background;
+            border-bottom: 1px solid $border;
+        }
+
+        .resource-visual-content {
+            p {
+                color: $elementText;
+                text-shadow: none;
+            }
+        }
+    }
+
+    #tracker-holder {
+        .tracker {
+            background-color: $background;
+            border-color: $border;
+        }
+
+        .tracker-header {
+            border-bottom: 1px solid $trackerHeaderBorder;
+        }
+
+        .tracker-organ {
+            border-color: $trackerOrganBorder;
+        }
+
+        .active {
+            background-color: $trackerActive;
+        }
     }
 }

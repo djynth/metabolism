@@ -11,7 +11,7 @@ $(document).ready(function() {
     initScrollbars();
     initCenterGraphic()
     $('#notification-bottom').css('bottom', $('#tracker-holder').outerHeight(true));
-    setColorTheme(color_theme);
+    setColorTheme(colorTheme);
 
     $(window).resize(function() {
         updateScrollbars(true, true, true);
@@ -110,16 +110,8 @@ function setColorTheme(theme, save)
         theme = DEFAULT_THEME;
     }
 
-    color_theme = theme;
-    applyColorTheme($('body'));
-
-    if (theme === 'light') {
-        $('#theme-dark').addClass('btn-inverse').removeClass('active');
-        $('#theme-light').addClass('active');
-    } else if (theme === 'dark') {
-        $('#theme-light').removeClass('btn-inverse').removeClass('active');
-        $('#theme-dark').addClass('active');
-    }
+    colorTheme = theme;
+    applyColorTheme($('body').attr('theme', colorTheme));
 
     if (save) {
         $.ajax({
@@ -135,19 +127,20 @@ function setColorTheme(theme, save)
 
 function applyColorTheme(base)
 {
-    $('head').find('.theme-stylesheet').remove();
-    $('head').append('<link rel="stylesheet" href="css/themes/' + color_theme + '" type="text/css" class="theme-stylesheet" />');
-
-    if (color_theme === 'light') {
+    if (colorTheme === 'light') {
         base.find('i').removeClass('icon-white');
         base.find('.btn').removeClass('btn-inverse');
-    } else if (color_theme === 'dark') {
+    } else if (colorTheme === 'dark') {
         base.find('i').addClass('icon-white');
         base.find('.btn').addClass('btn-inverse');
     }
 
+    base.find('button.theme-option').each(function() {
+        $(this).toggleClass('active', $(this).attr('id') === 'theme-' + colorTheme)
+    })
+
     base.find('.organ-image').each(function() {
-        $(this).attr('src', baseUrl + 'img/organs/' + color_theme + '/' + $(this).parents('.header-text').attr('value') + '.png');
+        $(this).attr('src', baseUrl + 'img/organs/' + colorTheme + '/' + $(this).parents('.header-text').attr('value') + '.png');
     });
 
     return base;
@@ -155,7 +148,7 @@ function applyColorTheme(base)
 
 function setHelpTooltips(active, save)
 {
-    $('#help-toggle').bootstrapSwitch('setState', active);
+    $('#help-toggle').prop('checked', active)
     if (active) {
         $('.help-tooltip').tooltip({
             delay: { show: 600, hide: 100 }

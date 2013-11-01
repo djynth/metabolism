@@ -15,8 +15,8 @@ $(document).ready(function() {
         setColorTheme($(this).attr('value'), true);
     });
 
-    $('#help-toggle').on('switch-change', function() {
-        setHelpTooltips($(this).find('input[type="checkbox"]').is(':checked'), true);
+    $('#help-toggle').on('change', function() {
+        setHelpTooltips($(this).prop('checked'), true);
     });
 
     $('input[type=text], input[type=password]').keypress(function(event) {
@@ -124,7 +124,7 @@ $(document).ready(function() {
                 password: $('#create-account-password').val(),
                 confirm:  $('#create-account-confirm').val(),
                 email:    $('#create-account-email').val(),
-                theme:    color_theme ? color_theme : DEFAULT_THEME
+                theme:    colorTheme ? colorTheme : DEFAULT_THEME
             },
             success: function(data) {
                 if (data.success) {

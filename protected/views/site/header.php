@@ -19,13 +19,13 @@ $user = User::getCurrentUser();
         <div class="settings-dropdown">
             <p>Color Theme</p>
             <div id="theme-holder" class="btn-group" data-toggle="buttons-radio">
-                <button id="theme-dark"  value="dark"  class="btn btn-small btn-inverse active">Dark</button>
-                <button id="theme-light" value="light" class="btn btn-small">Light</button>
+                <button id="theme-dark"  value="dark"  class="btn btn-small theme-option">Dark</button>
+                <button id="theme-light" value="light" class="btn btn-small theme-option">Light</button>
             </div>
 
             <p>Show Help Tooltips</p>
-            <div class="make-switch" id="help-toggle" data-on="info" data-off="danger">
-                <input type="checkbox">
+            <div class="make-switch" data-on="info" data-off="danger">
+                <input id="help-toggle" type="checkbox">
             </div>
         </div>
     </div>
