@@ -7,12 +7,11 @@
 $baseUrl = Yii::app()->request->baseUrl;
 
 // TODO: combine these for loops
-// TODO: resolve JS dependencies
 
 foreach (glob("css/*.css") as $css): ?>
     <link type='text/css' rel='stylesheet' href='<?= $css ?>'>
 <?php endforeach;
-foreach (glob("css/themes/*.css") as $css): ?>
+foreach (glob("css/themes/*/*.css") as $css): ?>
     <link type='text/css' rel='stylesheet' href='<?= $css ?>'>
 <?php endforeach;
 foreach (glob("lib/*.css") as $css): ?>
@@ -28,7 +27,8 @@ foreach (glob("js/*.js") as $js): ?>
 <script>
 var baseUrl = <?= json_encode($baseUrl); ?>;
 var MAX_TURNS = <?= json_encode(Game::MAX_TURNS); ?>;
-var colorTheme = null;
+var colorTheme = 'light';
+var colorThemeType = 'light';
 
 <?php if (($user = User::getCurrentUser()) !== null): ?>
     colorTheme = <?= json_encode($user->theme); ?>;

@@ -19,8 +19,14 @@ $user = User::getCurrentUser();
         <div class="settings-dropdown">
             <p>Color Theme</p>
             <div id="theme-holder" class="btn-group" data-toggle="buttons-radio">
-                <button id="theme-dark"  value="dark"  class="btn btn-small theme-option">Dark</button>
-                <button id="theme-light" value="light" class="btn btn-small theme-option">Light</button>
+                <?php foreach (glob("css/themes/light/*.css") as $css):
+                    $theme = basename($css, '.css'); ?>
+                    <button value="<?= $theme ?>" theme-type="light" class="btn btn-small theme-option"><?= ucfirst($theme) ?></button>
+                <?php endforeach;
+                foreach (glob("css/themes/dark/*.css") as $css):
+                    $theme = basename($css, '.css'); ?>
+                    <button value="<?= $theme ?>" theme-type="dark" class="btn btn-small theme-option"><?= ucfirst($theme) ?></button>
+                <?php endforeach ?>
             </div>
 
             <p>Show Help Tooltips</p>

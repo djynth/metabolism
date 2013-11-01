@@ -1,5 +1,3 @@
-var DEFAULT_THEME = 'light';
-
 var DEFAULT_NOTIFICATION_DURATION = 5000;
 
 var pathwayContentHeight = null;
@@ -11,7 +9,7 @@ $(document).ready(function() {
     initScrollbars();
     initCenterGraphic()
     $('#notification-bottom').css('bottom', $('#tracker-holder').outerHeight(true));
-    setColorTheme(colorTheme);
+    setColorTheme(colorTheme, colorThemeType);
 
     $(window).resize(function() {
         updateScrollbars(true, true, true);
@@ -104,13 +102,10 @@ function setPoints(points)
     $('#points').text(points + ' Points');
 }
 
-function setColorTheme(theme, save)
+function setColorTheme(theme, type, save)
 {
-    if (typeof theme === 'undefined' || theme === null) {
-        theme = DEFAULT_THEME;
-    }
-
     colorTheme = theme;
+    colorThemeType = type;
     applyColorTheme($('body').attr('theme', colorTheme));
 
     if (save) {
@@ -127,20 +122,20 @@ function setColorTheme(theme, save)
 
 function applyColorTheme(base)
 {
-    if (colorTheme === 'light') {
+    if (colorThemeType === 'light') {
         base.find('i').removeClass('icon-white');
         base.find('.btn').removeClass('btn-inverse');
-    } else if (colorTheme === 'dark') {
+    } else /* colorThemeType === 'dark' */ {
         base.find('i').addClass('icon-white');
         base.find('.btn').addClass('btn-inverse');
     }
 
     base.find('button.theme-option').each(function() {
-        $(this).toggleClass('active', $(this).attr('id') === 'theme-' + colorTheme)
-    })
+        $(this).toggleClass('active', $(this).attr('value') === colorTheme)
+    });
 
     base.find('.organ-image').each(function() {
-        $(this).attr('src', baseUrl + 'img/organs/' + colorTheme + '/' + $(this).parents('.header-text').attr('value') + '.png');
+        $(this).attr('src', baseUrl + 'img/organs/' + colorThemeType + '/' + $(this).parents('.header-text').attr('value') + '.png');
     });
 
     return base;

@@ -11,8 +11,8 @@ $(document).ready(function() {
         $('.settings-dropdown').slideToggle();
     });
 
-    $('#theme-dark, #theme-light').click(function() {
-        setColorTheme($(this).attr('value'), true);
+    $('.theme-option').click(function() {
+        setColorTheme($(this).attr('value'), $(this).attr('theme-type'), true);
     });
 
     $('#help-toggle').on('change', function() {
