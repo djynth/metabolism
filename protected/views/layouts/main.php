@@ -8,13 +8,13 @@ $baseUrl = Yii::app()->request->baseUrl;
 
 // TODO: combine these for loops
 
+foreach (glob("lib/*.css") as $css): ?>
+    <link type='text/css' rel='stylesheet' href='<?= $css ?>'>
+<?php endforeach;
 foreach (glob("css/*.css") as $css): ?>
     <link type='text/css' rel='stylesheet' href='<?= $css ?>'>
 <?php endforeach;
 foreach (glob("css/themes/*/*.css") as $css): ?>
-    <link type='text/css' rel='stylesheet' href='<?= $css ?>'>
-<?php endforeach;
-foreach (glob("lib/*.css") as $css): ?>
     <link type='text/css' rel='stylesheet' href='<?= $css ?>'>
 <?php endforeach;
 foreach (glob("lib/*.js") as $js): ?>
