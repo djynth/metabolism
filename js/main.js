@@ -56,7 +56,6 @@ function getResourceContentHeight(reset)
 
 function updateScrollbars(updatePathwayHeight, updateResourceHeight, updateScrollbars)
 {
-    updateScrollbars = updateScrollbars || typeof updateScrollbars === 'undefined';
     if (updatePathwayHeight) {
         getPathwayContentHeight(true);
     }
@@ -72,7 +71,7 @@ function updateScrollbars(updatePathwayHeight, updateResourceHeight, updateScrol
             $(this).height(getResourceContentHeight());
         }
         
-        if (updateScrollbars) {
+        if (updateScrollbars || typeof updateScrollbars === 'undefined') {
             $(this).mCustomScrollbar('update');
         }
     });
