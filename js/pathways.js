@@ -2,8 +2,6 @@ var SOURCE_HIGHLIGHT_COLOR      = '82,117,255';
 var DESTINATION_HIGHLIGHT_COLOR = '233,25,44';
 
 $(document).ready(function() {
-    resizeFilter();
-
     $(window).resize(resizeFilter);
 
     $('.pathway-run').click(function() {

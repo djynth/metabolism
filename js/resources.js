@@ -155,7 +155,7 @@ function updateResourceVisual(newOrgan)
                 },
                 success: function(data) {
                     if (activeResource == data.resource) {
-                        applyColorTheme($('#resource-visual').append(data.visual));
+                        $('#resource-visual').append(data.visual);
                         $('.resource-visual-content[value="' + data.resource + '"]').fadeIn();
                         $('#resource-visual').find('.resource-visual-title').text(data.resource_name);
                         $('#resource-visual').find('.resource-visual-amount').text(getResourceValue(data.resource));

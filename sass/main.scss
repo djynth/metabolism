@@ -7,98 +7,24 @@ html, body {
     margin: 0;
     font-family: Sans-serif;
     @include user-select(none);
-
-    &.theme_dark {
-        background-color: $dark_background;
-    }
-    &.theme_light {
-        background-color: $light_background;
-    }
 }
 
 p, h1, h2, h3, h4, h5, h6 {
     margin: 0;
 }
 
-p, h1, h2, h3, h4, h5, h6, label {
-    &.theme_dark {
-        color: $dark_text;
-        text-shadow: 1px 1px $dark_textShadow;
-    }
-    &.theme_light {
-        color: $light_text;
-        text-shadow: 1px 1px $light_textShadow;
-    }
-}
-
 .result-cover {
     display: none;
     position: absolute;
     left: 0;
-    top: 0;
-    width: 100%;
+    top:  0;
+    width:  100%;
     height: 100%;
     z-index: 10000;
-
-    &.theme_dark {
-        background-color: black;
-    }
-    &.theme_light {
-        background-color: white;
-    }
-}
-
-.input-themed {
-    &.theme_dark {
-        border-color: $dark_inputBorder !important;
-        background: $dark_inputBackground !important;
-    }
-    &.theme_light {
-        border-color: $light_inputBorder !important;
-        background: $light_inputBackground !important;
-    }
-}
-
-.input-themed-add-on {
-    &.theme_dark {
-        border-color: $dark_inputBorder;
-    }
-    &.theme_light {
-        border-color: $light_inputBorder;
-    }
-
-    .add-on {
-        border-color: inherit !important;
-        &.theme_dark {
-            background: $dark_inputAddOnBackground !important;
-        }
-        &.theme_light {
-            background: $light_inputAddOnBackground !important;
-        }
-    }
-
-    input {
-        border-color: inherit !important;
-        &.theme_dark {
-            background: $dark_inputBackground !important;
-        }
-        &.theme_light {
-            background: $light_inputBackground !important;
-        }
-    }
 }
 
 .header-text {
     position: relative;
-
-    &.theme_dark {
-        background-color: $dark_background;
-        border-bottom: 1px solid $dark_border;
-    }
-    &.theme_light {
-        background-color: $light_background;
-        border-bottom: 1px solid $light_border;
-    }
 
     .organ-info {
         position: absolute;
@@ -117,13 +43,6 @@ p, h1, h2, h3, h4, h5, h6, label {
     width:  $sidebarWidth;
     height: 100%;
     z-index: 2;
-
-    &.theme_dark {
-        background-color: $dark_sidebarBackground;
-    }
-    &.theme_light {
-        background-color: $light_sidebarBackground;
-    }
 
     .sidebar-title {
         min-height: $headerHeight;
@@ -145,13 +64,6 @@ p, h1, h2, h3, h4, h5, h6, label {
     .accordian-header {
         height: $accordianHeaderHeight;
 
-        &.theme_dark {
-            border-top: 1px solid $dark_border;
-        }
-        &.theme_light {
-            border-top: 1px solid $light_border;
-        }
-
         .accordian-title {
             display: inline-block;
             cursor: pointer;
@@ -165,15 +77,6 @@ p, h1, h2, h3, h4, h5, h6, label {
             display: none;
             min-height: $accordianHeaderHeight;
             z-index: 2;
-
-            &.theme_dark {
-                background-color: $dark_background;
-                border: 1px solid $dark_border;
-            }
-            &.theme_light {
-                background-color: $light_background;
-                border: 1px solid $light_border;
-            }
 
             .organ-cover {
                 position: absolute;
@@ -247,7 +150,6 @@ p, h1, h2, h3, h4, h5, h6, label {
     position: absolute;
     left: $sidebarWidth;
     width:  100% - 2*$sidebarWidth;
-    z-index: -1;
 
     background-size: cover;
     background-repeat: no-repeat;
@@ -260,15 +162,6 @@ p, h1, h2, h3, h4, h5, h6, label {
     left: $sidebarWidth;
     width: 100% - 2*$sidebarWidth;
     padding: 5px 10px;
-
-    &.theme_dark {
-        background-color: $dark_background;
-        border-color: $dark_border;
-    }
-    &.theme_light {
-        background-color: $light_background;
-        border-color: $light_border;
-    }
 
     .success {
         color: green;
