@@ -14,6 +14,7 @@ $inputBorder:          rgb(18,  18,  18);
 $trackerHeaderBorder:  rgb(81,  81,  81);
 $trackerOrganBorder:   rgb(60,  60,  60);
 $lackingText:          rgb(60,  0,   0);
+$limitingReagent:      rgb(0,   0,   80);
 $resultCover:          rgb(0,   0,   0);
 $trackerActive:        lighten($background, 1.25%);
 
@@ -123,6 +124,10 @@ body[theme=night] {
 
                 .lacking {
                     color: $lackingText;
+                }
+
+                .limiting-reagent {
+                    color: $limitingReagent;
                 }
             }
         }
