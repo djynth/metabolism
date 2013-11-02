@@ -1,21 +1,23 @@
-$text:                 rgb(0,  0,  240);
-$textShadow:           rgb(200, 200, 200);
-$border:               rgb(100, 100, 100);
-$background:           rgb(240, 240, 240);
-$sidebarBackground:    rgb(220, 220, 220);
-$elementBackground:    rgb(200, 200, 200);
-$elementBorder:        rgb(160, 160, 160);
-$elementText:          rgb(6,   6,   6);
-$inputBackground:      rgb(225, 225, 225);
-$inputAddOnBackground: rgb(225, 225, 225);
-$inputBorder:          rgb(120, 120, 120);
-$trackerHeaderBorder:  rgb(140, 140, 140);
-$trackerOrganBorder:   rgb(160, 160, 160);
-$lackingText:          rgb(111, 12,  12);
-$resultCover:          rgb(255, 255, 255);
-$trackerActive:        darken($background, 12.5%);
+@import "base";
 
-body[theme=blue] {
+$text:                 rgb(200, 200, 200);
+$textShadow:           rgb(10,  10,  10);
+$border:               rgb(7,   7,   7);
+$background:           rgb(50,  50,  50);
+$sidebarBackground:    rgb(92,  92,  92);
+$elementBackground:    rgb(73,  73,  73);
+$elementBorder:        rgb(62,  62,  62);
+$elementText:          rgb(2,   2,   2);
+$inputBackground:      rgb(38,  38,  38);
+$inputAddOnBackground: rgb(50,  50,  50);
+$inputBorder:          rgb(18,  18,  18);
+$trackerHeaderBorder:  rgb(81,  81,  81);
+$trackerOrganBorder:   rgb(60,  60,  60);
+$lackingText:          rgb(60,  0,   0);
+$resultCover:          rgb(0,   0,   0);
+$trackerActive:        lighten($background, 1.25%);
+
+body[theme=night] {
     background-color: $background;
 
     p, h1, h2, h3, h4, h5, h6, label {
@@ -75,18 +77,8 @@ body[theme=blue] {
                 background-color: inherit;
             }
 
-            .forgot-password {
-                border-color: $inputBorder;
-                background: $inputAddOnBackground;
-            }
-
-            .email-verified {
-                border-color: $inputBorder;
-                background: $inputAddOnBackground;
-            }
-
-            .edit-email {
-                border-color: $inputBorder;
+            .forgot-password, .email-verified, .edit-email {
+                border: 1px solid $inputBorder;
                 background: $inputAddOnBackground;
             }
         }
@@ -97,6 +89,11 @@ body[theme=blue] {
 
         .accordian-header {
             border-top: 1px solid $border;
+            border-bottom: none;
+        }
+
+        .accordian-header.active {
+            border-bottom: 1px solid $border;
         }
 
         .organ-popup {

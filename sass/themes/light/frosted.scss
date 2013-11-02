@@ -1,21 +1,24 @@
-$text:                 rgb(175, 175, 175);
-$textShadow:           rgb(10,  10,  10);
-$border:               rgb(35,  35,  35);
-$background:           rgb(50,  50,  50);
-$sidebarBackground:    rgb(80,  80,  80);
-$elementBackground:    rgb(66,  66,  66);
-$elementBorder:        rgb(63,  63,  63);
-$elementText:          rgb(6,   6,   6);
-$inputBackground:      rgb(34,  34,  34);
-$inputAddOnBackground: rgb(50,  50,  50);
-$inputBorder:          rgb(18,  18,  18);
-$trackerHeaderBorder:  rgb(81,  81,  81);
-$trackerOrganBorder:   rgb(60,  60,  60);
-$lackingText:          rgb(111, 12,  12);
-$resultCover:          rgb(0,   0,   0);
-$trackerActive:        lighten($background, 1.25%);
+@import "base";
 
-body[theme=dark] {
+$text:                 rgb(80,  80,  80);
+$textShadow:           rgb(230, 230, 230);
+$border:               rgb(70,  70,  70);
+$background:           rgb(240, 240, 240);
+$sidebarBackground:    rgb(225, 225, 225);
+$elementBackground:    rgb(200, 200, 200);
+$elementBorder:        rgb(170, 170, 170);
+$elementText:          rgb(55,  55,  55);
+$inputBackground:      rgb(220, 220, 220);
+$inputAddOnBackground: rgb(225, 225, 225);
+$inputBorder:          rgb(135, 135, 135);
+$inputPlaceholder:     rgb(125, 125, 125);
+$trackerHeaderBorder:  rgb(140, 140, 140);
+$trackerOrganBorder:   rgb(160, 160, 160);
+$lackingText:          rgb(111, 12,  12);
+$resultCover:          rgb(255, 255, 255);
+$trackerActive:        darken($background, 9%);
+
+body[theme=frosted] {
     background-color: $background;
 
     p, h1, h2, h3, h4, h5, h6, label {
@@ -30,18 +33,21 @@ body[theme=dark] {
     .input-themed {
         border-color: $inputBorder !important;
         background: $inputBackground !important;
+        @include input-placeholder {
+            color: $inputPlaceholder;
+        }
     }
 
     .input-themed-add-on {
         border-color: $inputBorder;
 
         .add-on {
-            border-color: inherit !important;
+            border-color: $inputBorder !important;
             background: $inputAddOnBackground !important;
         }
 
         input {
-            border-color: inherit !important;
+            border-color: $inputBorder !important;
             background: $inputBackground !important;
         }
     }
@@ -75,18 +81,8 @@ body[theme=dark] {
                 background-color: inherit;
             }
 
-            .forgot-password {
-                border-color: $inputBorder;
-                background: $inputAddOnBackground;
-            }
-
-            .email-verified {
-                border-color: $inputBorder;
-                background: $inputAddOnBackground;
-            }
-
-            .edit-email {
-                border-color: $inputBorder;
+            .forgot-password, .email-verified, .edit-email {
+                border: 1px solid $inputBorder;
                 background: $inputAddOnBackground;
             }
         }
@@ -97,6 +93,11 @@ body[theme=dark] {
 
         .accordian-header {
             border-top: 1px solid $border;
+            border-bottom: none;
+        }
+
+        .accordian-header.active {
+            border-bottom: 1px solid $border;
         }
 
         .organ-popup {
