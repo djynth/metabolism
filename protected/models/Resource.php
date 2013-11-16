@@ -151,4 +151,25 @@ class Resource extends CActiveRecord
         }
         return $sources;
     }
+
+    public function getFormattedFormula()
+    {
+        $formatted = '';
+        $subscript = false;
+
+        for ($i = 0; $i < strlen($this->formula); $i++) {
+            $char = substr($this->formula, $i, 1);
+            if (!$subscript && is_numeric($char)) {
+                $formatted .= '<sub>';
+                $subscript = true;
+            } elseif ($subscript && !is_numeric($char)) {
+                $formatted .= '</sub>';
+                $subscript = false;
+            }
+
+            $formatted .= $char;
+        }
+
+        return $formatted;
+    }
 }
