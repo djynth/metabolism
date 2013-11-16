@@ -59,7 +59,7 @@ $global = Organ::getGlobal();
         </div>
 
         <div id="filter-row-clear" class="filter-row">
-            <input type="button" class="btn btn-small btn-inverse" id="filter-clear" value="Clear Filter">
+            <input type="button" class="btn btn-small btn-inverse" id="filter-clear" value="Display All">
         </div>
     </div>
 </div>

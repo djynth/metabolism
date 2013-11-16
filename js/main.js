@@ -151,7 +151,7 @@ function setHelpTooltips(active, save)
     });
     if (active) {
         $('.help-tooltip').tooltip({
-            delay: { show: 600, hide: 100 }
+            delay: { show: 1500, hide: 60 }
         });
     } else {
         $('.help-tooltip').tooltip('destroy');
