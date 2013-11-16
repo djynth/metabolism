@@ -29,9 +29,10 @@ $user = User::getCurrentUser();
                 <?php endforeach ?>
             </div>
 
-            <p>Show Help Tooltips</p>
-            <div class="make-switch" data-on="info" data-off="danger">
-                <input id="help-toggle" type="checkbox">
+            <p>Help Tooltips</p>
+            <div id="tooltip-toggle" class="btn-group" data-toggle="buttons-radio">
+                <button value="on" class="btn btn-small">On</button>
+                <button value="off" class="btn btn-small">Off</button>
             </div>
         </div>
     </div>

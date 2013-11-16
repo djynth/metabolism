@@ -46,8 +46,12 @@
                 margin-bottom: 10px;
             }
 
-            #help-toggle {
+            #tooltip-toggle {
                 width: 100%;
+
+                button {
+                    width: 50%;
+                }
             }
         }
     }
