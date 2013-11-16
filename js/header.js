@@ -17,8 +17,8 @@ $(document).ready(function() {
         setColorTheme($(this).attr('value'), $(this).attr('theme-type'), true);
     });
 
-    $('#help-toggle').on('change', function() {
-        setHelpTooltips($(this).prop('checked'), true);
+    $('#tooltip-toggle').children().click(function() {
+        setHelpTooltips($(this).attr('value') === 'on');
     });
 
     $('input[type=text], input[type=password]').keypress(function(event) {

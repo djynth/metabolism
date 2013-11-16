@@ -142,7 +142,13 @@ function applyColorTheme(base)
 
 function setHelpTooltips(active, save)
 {
-    $('#help-toggle').prop('checked', active)
+    $('#tooltip-toggle').children().each(function() {
+        if ($(this).attr('value') === 'on') {
+            $(this).toggleClass('active', active);
+        } else {
+            $(this).toggleClass('active', !active);
+        }
+    });
     if (active) {
         $('.help-tooltip').tooltip({
             delay: { show: 600, hide: 100 }
