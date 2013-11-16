@@ -13,6 +13,7 @@
  * @property primary
  * @property formula
  * @property description
+ * @property group
  */
 class Resource extends CActiveRecord
 {
@@ -29,11 +30,6 @@ class Resource extends CActiveRecord
     public function primaryKey()
     {
         return 'id';
-    }
-
-    public function relations()
-    {
-        return array();
     }
 
     public function hasName($name)

@@ -15,6 +15,7 @@ $inputPlaceholder:     rgb(125, 125, 125);
 $trackerHeaderBorder:  rgb(140, 140, 140);
 $trackerOrganBorder:   rgb(160, 160, 160);
 $lackingText:          rgb(111, 12,  12);
+$limitingReagent:      rgb(12,  12,  111);
 $resultCover:          rgb(255, 255, 255);
 $trackerActive:        darken($background, 9%);
 
@@ -127,6 +128,10 @@ body[theme=frosted] {
 
                 .lacking {
                     color: $lackingText;
+                }
+
+                .limiting-reagent {
+                    color: $limitingReagent;
                 }
             }
         }

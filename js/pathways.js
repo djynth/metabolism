@@ -147,21 +147,43 @@ function resizeFilter()
 function refreshPathways()
 {
     $('.pathway').each(function() {
+        var limitingReagents = new Array();
+        var limitingReagentMult;
         var lackingReactants = new Array();
         var organ = $(this).parents('.pathway-holder').attr('value');
 
         $(this).find('.reactant').each(function() {
             var resId = $(this).attr('res-id');
-            var value = Math.abs(parseInt($(this).attr('value')));
             var actualOrgan = $(this).hasClass('global') ? '1' : organ;
+            var requiredAmount = Math.abs(parseInt($(this).attr('value')));
+            var actualAmount = getResourceValue(resId, actualOrgan);
 
-            if (value > getResourceValue(resId, actualOrgan)) {
+            var mult = Math.floor(actualAmount/requiredAmount);
+            if (limitingReagents.length == 0 || mult < limitingReagentMult) {
+                limitingReagents = new Array();
+                limitingReagentMult = mult;
+            }
+            if (mult <= limitingReagentMult) {
+                limitingReagents.push(resId);
+            }
+
+            if (requiredAmount > actualAmount) {
                 $(this).addClass('lacking');
                 lackingReactants.push(getResourceName(resId, actualOrgan));
             } else {
                 $(this).removeClass('lacking');
             }
+
+            $(this).removeClass('limiting-reagent');
         });
+
+        for (var i = 0; i < limitingReagents.length; i++) {
+            $(this).find('.reactant[res-id="' + limitingReagents[i] + '"]:not(.lacking)').addClass('limiting-reagent');
+        }
+
+        if (limitingReagents.length > 0) {
+            $(this).find('.reactant')
+        }
 
         if (lackingReactants.length > 0) {
             $(this).find('.run-holder').hide();
@@ -274,11 +296,11 @@ function updateEatButtons()
 
         var resId = parseInt(eat.attr('res-id'));
         var resName = '';
-        if (resId === 3) {
+        if (resId === 4) {
             resName = 'Carbohydrate (Glucose)';
-        } else if (resId === 4) {
-            resName = 'Protein (Alanine)';
         } else if (resId === 5) {
+            resName = 'Protein (Alanine)';
+        } else if (resId === 6) {
             resName = 'Fat (TAGs)';
         }
 
