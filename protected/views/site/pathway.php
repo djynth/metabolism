@@ -24,11 +24,19 @@
         </div>
     <?php else: ?>
         <table class="reaction">
+            <tr class="header">
+                <td colspan="4">
+                    <p class="header-reactants">Reactants</p>
+                    <i class="icon-arrow-right always-black"></i>
+                    <p class="header-products">Products</p>
+                </td>
+            </tr>
+
             <?php
             $reactants = $pathway->getReactants();
             $products = $pathway->getProducts();
 
-            // balance the reactants and products by filling blanks with the empty string (not NULL since this will not splice into array correctly)
+            // balance the reactants and products by filling blanks with the empty string (NULL will not splice into array correctly)
             for ($i = 0; $i < max(count($reactants), count($products)); $i++) {
                 if ($i >= count($reactants)) {
                     array_push($reactants, '');
@@ -44,19 +52,25 @@
             for ($i = 0; $i < count($products); $i++): ?>
                 <tr>
                     <?php if ($reactants[$i] !== ''): ?>
-                        <td class="reactant<?= $reactants[$i]->resource->global ? ' global' : '' ?>" value="<?= $reactants[$i]->value ?>" res-id="<?= $reactants[$i]->resource->id ?>">
-                            <?= $reactants[$i]->resource->name . ' ' . $reactants[$i]->value ?>
+                        <td class="reactant value">
+                            <?= $reactants[$i]->value ?>
+                        </td>
+                        <td class="reactant name <?= $reactants[$i]->resource->global ? 'global' : '' ?>" res-id="<?= $reactants[$i]->resource->id ?>">
+                            <?= $reactants[$i]->resource->name ?>
                         </td>
                     <?php else: ?>
-                        <td></td>
+                        <td class="empty" colspan="2"></td>
                     <?php endif ?>
 
                     <?php if ($products[$i] !== ''): ?>
-                        <td class="product<?= $products[$i]->resource->global ? ' global' : '' ?>" value="<?= $products[$i]->value ?>" res-id="<?= $products[$i]->resource->id ?>">
-                            <?= $products[$i]->resource->name . ' ' . $products[$i]->value ?>
+                        <td class="product name <?= $products[$i]->resource->global ? 'global' : '' ?>" res-id="<?= $products[$i]->resource->id ?>">
+                            <?= $products[$i]->resource->name ?>
+                        </td>
+                        <td class="product value">
+                            <?= $products[$i]->value ?>
                         </td>
                     <?php else: ?>
-                        <td></td>
+                        <td class="empty" colspan="2"></td>
                     <?php endif ?>
                 </tr>
             <?php endfor ?>

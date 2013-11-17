@@ -122,10 +122,10 @@ function setColorTheme(theme, type, save)
 function applyColorTheme(base)
 {
     if (colorThemeType === 'light') {
-        base.find('i').removeClass('icon-white');
+        base.find('i:not(.always-white)').removeClass('icon-white');
         base.find('.btn').removeClass('btn-inverse');
     } else /* colorThemeType === 'dark' */ {
-        base.find('i').addClass('icon-white');
+        base.find('i:not(.always-black)').addClass('icon-white');
         base.find('.btn').addClass('btn-inverse');
     }
 

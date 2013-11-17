@@ -8,6 +8,7 @@ $sidebarBackground:    rgb(92,  92,  92);
 $elementBackground:    rgb(73,  73,  73);
 $elementBorder:        rgb(62,  62,  62);
 $elementText:          rgb(2,   2,   2);
+$reactionBorder:       rgb(48,  48,  48);
 $inputBackground:      rgb(38,  38,  38);
 $inputAddOnBackground: rgb(50,  50,  50);
 $inputBorder:          rgb(18,  18,  18);
@@ -121,6 +122,10 @@ body[theme=night] {
 
             .reaction {
                 color: $elementText;
+
+                td {
+                    border: 1px solid $reactionBorder;
+                }
 
                 .lacking {
                     color: $lackingText;

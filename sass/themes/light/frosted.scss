@@ -8,6 +8,7 @@ $sidebarBackground:    rgb(225, 225, 225);
 $elementBackground:    rgb(200, 200, 200);
 $elementBorder:        rgb(170, 170, 170);
 $elementText:          rgb(55,  55,  55);
+$reactionBorder:       rgb(130, 130, 130);
 $inputBackground:      rgb(220, 220, 220);
 $inputAddOnBackground: rgb(225, 225, 225);
 $inputBorder:          rgb(135, 135, 135);
@@ -125,6 +126,10 @@ body[theme=frosted] {
 
             .reaction {
                 color: $elementText;
+
+                td {
+                    border: 1px solid $reactionBorder;
+                }
 
                 .lacking {
                     color: $lackingText;

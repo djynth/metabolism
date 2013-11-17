@@ -152,10 +152,10 @@ function refreshPathways()
         var lackingReactants = new Array();
         var organ = $(this).parents('.pathway-holder').attr('value');
 
-        $(this).find('.reactant').each(function() {
+        $(this).find('.reactant.name').each(function() {
             var resId = $(this).attr('res-id');
             var actualOrgan = $(this).hasClass('global') ? '1' : organ;
-            var requiredAmount = Math.abs(parseInt($(this).attr('value')));
+            var requiredAmount = Math.abs(parseInt($(this).siblings('.value').text()));
             var actualAmount = getResourceValue(resId, actualOrgan);
 
             var mult = Math.floor(actualAmount/requiredAmount);
@@ -259,10 +259,10 @@ function updatePathwayButtons(pathway)
 function getMaxRuns(pathway, organ)
 {
     var maxRuns = -1;
-    $('.pathway[value="' + pathway + '"]').find('.reactant').each(function() {
+    $('.pathway[value="' + pathway + '"]').find('.reactant.name').each(function() {
         var actualOrgan = $(this).hasClass('global') ? '1' : organ;
         var resId = parseInt($(this).attr('res-id'));
-        var value = Math.abs(parseInt($(this).attr('value')));
+        var value = Math.abs(parseInt($(this).siblings('.value').text()));
         var amountAvailable = getResourceValue(resId, actualOrgan);
         var limit = Math.floor(amountAvailable/value);
         if (maxRuns == -1 || limit < maxRuns) {
