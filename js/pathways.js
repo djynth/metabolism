@@ -225,21 +225,16 @@ function updatePathwayButtons(pathway)
     var organ = pathway.parents('.pathway-holder').attr('value');
     var runButton = pathway.find('.pathway-run');
     var times = parseInt(runButton.attr('value'));
-    if (typeof times === 'undefined' || isNaN(times)) {
-        times = 1;
+    var maxRuns = getMaxRuns(pathway.attr('value'), organ);
+    if (typeof times === 'undefined' || isNaN(times) || 
+        times < 1 || times > maxRuns) {
+        times = maxRuns;
     }
     
-    var maxRuns = getMaxRuns(pathway.attr('value'), organ);
     var plus   = runButton.siblings('.pathway-plus');
     var minus  = runButton.siblings('.pathway-minus');
     var top    = runButton.siblings('.pathway-top');
     var bottom = runButton.siblings('.pathway-bottom');
-
-    if (times == -1 || times > maxRuns) {
-        times = maxRuns;
-    } else if (times < 1) {
-        times = 1;
-    }
 
     runButton.attr('value', times);
     runButton.html('Run x' + times);

@@ -123,9 +123,9 @@ class Pathway extends CActiveRecord
             $glycerol->resource_id = Resource::model()->findByAttributes(array('name' => 'Glycerol'))->id;
 
             foreach ($resources as $resource) {
-                $resource->value = $nutrients[$resource->getResource()->id];
+                $resource->value = $nutrients[$resource->resource->id];
 
-                if ($resource->getResource()->name === 'Palmitate') {
+                if ($resource->resource->name === 'Palmitate') {
                     $glycerol->value = floor(intval($resource->value)/3);
                 }
             }
