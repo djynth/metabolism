@@ -79,6 +79,13 @@ p, h1, h2, h3, h4, h5, h6 {
             min-height: $accordianHeaderHeight;
             z-index: 2;
 
+            .close-popup {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                cursor: pointer;
+            }
+
             .organ-cover {
                 position: absolute;
                 background-color: inherit;

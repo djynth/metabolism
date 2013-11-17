@@ -43,6 +43,10 @@ $(document).ready(function() {
             });
         }
     });
+
+    $('.close-popup').click(function() {
+        $(this).parent().siblings('.organ-info').click();
+    })
 });
 
 function selectOrgan(organ, firstTime)
