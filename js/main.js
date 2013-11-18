@@ -45,7 +45,7 @@ function getResourceContentHeight(reset)
 {
     if (reset || resourceContentHeight === null) {
         var headers = $('#resource-holder').find('.accordian-header');
-        resourceContentHeight = $(window).height() - headers.first().offset().top - $('#resource-visual').outerHeight();
+        resourceContentHeight = $(window).height() - headers.first().offset().top - $('#resource-visual').outerHeight() - $('#resource-visual-header').outerHeight();
         headers.each(function() {
             resourceContentHeight -= $(this).outerHeight();
         });

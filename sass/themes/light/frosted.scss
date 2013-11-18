@@ -160,14 +160,14 @@ body[theme=frosted] {
         }
     }
 
+    #resource-visual-header {
+        background-color: $background;
+        border-top: 1px solid $border;
+    }
+
     #resource-visual {
         background-color: $sidebarBackground;
         border-top: 1px solid $border;
-
-        .resource-visual-header {
-            background-color: $background;
-            border-bottom: 1px solid $border;
-        }
 
         .resource-visual-content {
             p {

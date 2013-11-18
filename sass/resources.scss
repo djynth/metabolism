@@ -33,55 +33,54 @@
     }
 }
 
-#ph-holder {
-    padding-top: 4px;
+#resource-visual-header {
+    padding-left: 10px;
+    cursor: pointer;
+    position: relative;
+
+    p, h3 {
+        font-size: 16px;
+        line-height: 20px;
+        padding-top: 1px;
+        display: inline-block;
+    }
+
+    #resource-visual-close {
+        position: absolute;
+        top: 3px;
+        right: 10px;
+    }
 }
 
 #resource-visual {
     position: relative;
+    bottom: 0px;
     width:  100%;
     height: $resourceVisualHeight;
     overflow: hidden;
 
-    .resource-visual-header {
-        padding-left: 10px;
-
-        p, h3 {
-            font-size: 16px;
-            line-height: 20px;
-            padding-top: 1px;
-        }
-
-        .resource-visual-amount {
-            position: absolute;
-            right: 6px;
-            top: 0;
-        }
-    }
-
     .resource-visual-content {
-        position: absolute;
         display: none;
-        left: 0;
-        top: 20px;
         width: 92%;
-        height: 170px;
+        height: $resourceVisualHeight - 15px;
         padding: 5px 4%;
 
         .resource-visual-image {
             position: absolute;
             right: 10px;
             top:   10px;
-            height: 40%;
+            max-height: 80%;
+            max-width: 40%;
         }
 
         .resource-visual-formula {
-            width:  30%;
+            width:  40%;
             height: 40%;
             margin-top: 10px;
         }
 
         .resource-visual-description {
+            width: 40%;
             padding-top: 5px;
             line-height: 16px;
         }

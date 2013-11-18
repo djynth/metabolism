@@ -33,9 +33,10 @@ $this->renderPartial('organ-header', array('organ' => $global, 'right' => false)
     </div>
 <?php endforeach ?>
 
-<div id="resource-visual">
-    <div class="resource-visual-header">
-        <h3 class="resource-visual-title">Resource</h3>
-        <p class="resource-visual-amount"></p>
-    </div>
+<div id="resource-visual-header">
+    <h3 class="resource-visual-title">Resource</h3>
+    <p class="resource-visual-amount"></p>
+    <i id="resource-visual-close" class="icon-remove"> </i>
 </div>
+
+<div id="resource-visual"></div>

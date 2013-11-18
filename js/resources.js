@@ -42,6 +42,23 @@ $(document).ready(function() {
         }
         updateResourceVisual();
     });
+
+    $('#resource-visual-close').click(function(e) {
+        activeResource = null;
+        updateResourceVisual();
+        e.stopPropagation();
+    });
+
+    $('#resource-visual-header').click(function() {
+        $(this).siblings('#resource-visual').slideToggle({
+            progress: function() {
+                updateScrollbars(false, true, false);
+            },
+            complete: function() {
+                updateScrollbars(false, false, true);
+            }
+        });
+    });
 });
 
 function refreshResources(resources)
@@ -126,17 +143,20 @@ function isResourceGlobal(resource)
 
 function updateResourceVisual(newOrgan)
 {
+    var visual = $('#resource-visual');
+    var header = $('#resource-visual-header');
+
     if (newOrgan) {
         if (activeResource !== null && !isResourceGlobal(activeResource)) {
-            $('#resource-visual').find('.resource-visual-amount').text(getResourceValue(activeResource, newOrgan));
+            header.find('.resource-visual-amount').text(getResourceValue(activeResource, newOrgan));
         }
     } else {
         if (activeResource === null) {
             $('.resource-visual-content').fadeOut(function() {
                 $(this).remove();
             });
-            $('#resource-visual').find('.resource-visual-title').text('Resource');
-            $('#resource-visual').find('.resource-visual-amount').text('');
+            header.find('.resource-visual-title').text('Resource');
+            header.find('.resource-visual-amount').text('');
 
             $('.pathway.source').each(function() {
                 highlightSource($(this).attr('value'), false);
@@ -155,10 +175,10 @@ function updateResourceVisual(newOrgan)
                 },
                 success: function(data) {
                     if (activeResource == data.resource) {
-                        $('#resource-visual').append(data.visual);
+                        visual.append(data.visual);
                         $('.resource-visual-content[value="' + data.resource + '"]').fadeIn();
-                        $('#resource-visual').find('.resource-visual-title').text(data.resource_name);
-                        $('#resource-visual').find('.resource-visual-amount').text(getResourceValue(data.resource));
+                        header.find('.resource-visual-title').text(data.resource_name);
+                        header.find('.resource-visual-amount').text(getResourceValue(data.resource));
 
                         for (var i = 0; i < data.sources.length; i++) {
                             highlightSource(data.sources[i].id, true);
