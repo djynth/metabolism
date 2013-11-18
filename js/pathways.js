@@ -89,7 +89,7 @@ $(document).ready(function() {
         updateEatButtons($(this).parents('.food-holder'));
     });
 
-    $('#pathway-filter-icon').click(function() {
+    $('#pathway-filter-toggle').click(function() {
         var resizedFilter = false;
         $('#pathway-filter').slideToggle({
             progress: function() {

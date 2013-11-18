@@ -5,7 +5,7 @@ $global = Organ::getGlobal();
 
 <div class="sidebar-title header-text">
     <p>Cellular Pathways</p>
-    <i id="pathway-filter-icon" class="icon-cog"></i>
+    <button id="pathway-filter-toggle" class="btn btn-mini"><i class="icon-filter"> </i> Filter</button>
 
     <div id="pathway-filter">
         <div id="filter-row-search" class="filter-row">

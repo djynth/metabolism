@@ -53,10 +53,10 @@ p, h1, h2, h3, h4, h5, h6 {
             font-size: $headerHeight - 10px;
         }
 
-        #pathway-filter-icon {
+        #pathway-filter-toggle {
             position: absolute;
-            right: 10px;
-            top: 7px;
+            right: 7px;
+            top: 4px;
             margin: 0;
             cursor: pointer;
         }
