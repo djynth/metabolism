@@ -5,39 +5,45 @@
 
 <?php
 $baseUrl = Yii::app()->request->baseUrl;
-?>
 
-<!-- CSS -->
-<link rel="stylesheet" tyle="text/css" href="<?= $baseUrl ?>/lib/bootstrap.min.css">
-<link rel="stylesheet" tyle="text/css" href="<?= $baseUrl ?>/lib/bootstrap-switch.css">
-<link rel="stylesheet" tyle="text/css" href="<?= $baseUrl ?>/lib/jquery.mCustomScrollbar.css">
-<link rel="stylesheet" type="text/css" href="<?= $baseUrl ?>/css/main.css">
-<link rel="stylesheet" type="text/css" href="<?= $baseUrl ?>/css/pathways.css">
-<link rel="stylesheet" type="text/css" href="<?= $baseUrl ?>/css/resources.css">
-<link rel="stylesheet" type="text/css" href="<?= $baseUrl ?>/css/trackers.css">
-<link rel="stylesheet" type="text/css" href="<?= $baseUrl ?>/css/header.css">
-
-<!-- JavaScript -->
-<script src="<?= $baseUrl ?>/lib/jquery-1.10.1.min.js"></script>
-<script src="<?= $baseUrl ?>/lib/jquery.animate-colors-min.js"></script>
-<script src="<?= $baseUrl ?>/lib/jquery.animate-shadow.js"></script>
-<script src="<?= $baseUrl ?>/lib/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="<?= $baseUrl ?>/lib/jquery.hoverIntent.min.js"></script>
-<script src="<?= $baseUrl ?>/lib/bootstrap-switch.js"></script>
-<script src="<?= $baseUrl ?>/lib/bootstrap.min.js"></script>
-<script src="<?= $baseUrl ?>/js/main.js"></script>
-<script src="<?= $baseUrl ?>/js/resources.js"></script>
-<script src="<?= $baseUrl ?>/js/pathways.js"></script>
-<script src="<?= $baseUrl ?>/js/organs.js"></script>
-<script src="<?= $baseUrl ?>/js/header.js"></script>
+foreach (glob("lib/*.css") as $css): ?>
+    <link type='text/css' rel='stylesheet' href='<?= $css ?>'>
+<?php endforeach;
+foreach (glob("css/*.css") as $css): ?>
+    <link type='text/css' rel='stylesheet' href='<?= $css ?>'>
+<?php endforeach;
+foreach (glob("css/themes/*/*.css") as $css): ?>
+    <link type='text/css' rel='stylesheet' href='<?= $css ?>'>
+<?php endforeach;
+foreach (glob("lib/*.js") as $js): ?>
+    <script src='<?= $js ?>'></script>
+<?php endforeach;
+foreach (glob("js/*.js") as $js): ?>
+    <script src='<?= $js ?>'></script>
+<?php endforeach; ?>
 
 <script>
 var baseUrl = <?= json_encode($baseUrl); ?>;
 var MAX_TURNS = <?= json_encode(Game::MAX_TURNS); ?>;
-var color_theme = null;
+var colorTheme = 'frosted';
+var colorThemeType = 'light';
 
 <?php if (($user = User::getCurrentUser()) !== null): ?>
-    color_theme = <?= json_encode($user->theme); ?>;
+    <?php foreach (glob("css/themes/light/*.css") as $css): 
+        $theme = basename($css, '.css');
+        if ($user->theme = $theme): ?>
+            colorTheme = <?= json_encode($user->theme); ?>;
+            colorThemeType = 'light';
+        <?php endif;
+    endforeach; ?>
+
+    <?php foreach (glob("css/themes/dark/*.css") as $css): 
+        $theme = basename($css, '.css');
+        if ($user->theme = $theme): ?>
+            colorTheme = <?= json_encode($user->theme); ?>;
+            colorThemeType = 'dark';
+        <?php endif;
+    endforeach; ?>
 <?php endif ?>
 
 var organColors = new Array;

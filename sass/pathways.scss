@@ -3,13 +3,6 @@
 #pathway-holder {
     left: 0;
 
-    &.theme_dark {
-        border-right: 1px solid $dark_border;
-    }
-    &.theme_light {
-        border-right: 1px solid $light_border;
-    }
-
     .pathway-holder {
         .pathway {
             position: relative;
@@ -18,15 +11,6 @@
             border-radius: 7px;
             font-size:   12px;
             line-height: 12px;
-
-            &.theme_dark {
-                background-color: $dark_elementBackground;
-                border: 1px solid $dark_elementBorder;
-            }
-            &.theme_light {
-                background-color: $light_elementBackground;
-                border: 1px solid $light_elementBorder;
-            }
 
             .pathway-inner {
                 position: absolute;
@@ -46,13 +30,6 @@
                 position: relative;
                 text-shadow: none;
                 z-index: 3;
-
-                &.theme_dark {
-                    color: $dark_elementText;
-                }
-                &.theme_light {
-                    color: $light_elementText;
-                }
             }
 
             .title {
@@ -72,47 +49,50 @@
 
             .reaction {
                 position: relative;
-                width: 80%;
+                width: 90%;
                 margin: 3px auto;
                 z-index: 3;
 
-                &.theme_dark {
-                    color: $dark_elementText;
-                }
-                &.theme_light {
-                    color: $light_elementText;
+                .value {
+                    width: 13%;
+                    padding-right: 4px;
+                    padding-left: 4px;
                 }
 
-                td {
-                    width: 40%;
-                    padding: 1px 0;
+                .name {
+                    width: 37%;
+                    padding-right: 5px;
+                    padding-left: 5px;
                 }
 
                 .reactant {
-                    text-align: right;
-                    padding-right: 3px;
+                    text-align: left;
                 }
 
                 .product {
-                    text-align: left;
-                    padding-left: 3px;
+                    text-align: right;
+                }
+
+                .empty {
+                    width: 50%;
                 }
 
                 .header {
-                    font-weight: bold;
-                }
-
-                .lacking {
-                    &.theme_dark {
-                        color: $dark_lackingText;
+                    .header-reactants {
+                        display: inline-block;
+                        width: 46.5%;
+                        text-align: center;
                     }
-                    &.theme_light {
-                        color: $light_lackingText;
-                    }
-                }
 
-                .global {
-                    font-weight: bold;
+                    .header-products {
+                        display: inline-block;
+                        width: 40%;
+                        text-align: center;
+                    }
+
+                    .icon-arrow-right {
+                        width: 5%;
+                    }
                 }
             }
 
@@ -145,7 +125,8 @@
 
 #pathway-filter {
     width: 100%;
-    padding-bottom: 6px;
+    padding-top: 3px;
+    padding-bottom: 5px;
     display: none;
 
     .filter-row {

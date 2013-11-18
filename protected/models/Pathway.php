@@ -33,7 +33,7 @@ class Pathway extends CActiveRecord
     {
         return array(
             'organs' => array(self::MANY_MANY, 'Organ', 'pathway_organs(pathway_id, organ_id)'),
-            'resources' => array(self::HAS_MANY, 'PathwayResource', 'pathway_id'),
+            'resources' => array(self::HAS_MANY, 'PathwayResource', 'pathway_id', 'with'=>'resource', 'order'=>'resource.group'),
         );
     }
 
@@ -77,21 +77,10 @@ class Pathway extends CActiveRecord
         return $this->name == self::EAT_NAME;
     }
 
-    public function getResources()
-    {
-        $pathwayResources = $this->resources;
-        $resources = array();
-        foreach ($pathwayResources as $pathwayResource) {
-            $resources[] = $pathwayResource->getResource();
-        }
-        return $resources;
-    }
-
     public function getReactants()
     {
-        $resources = $this->resources;
         $reactants = array();
-        foreach ($resources as $resource) {
+        foreach ($this->resources as $resource) {
             if (intval($resource->value) < 0) {
                 $reactants[] = $resource;
             }
@@ -101,9 +90,8 @@ class Pathway extends CActiveRecord
 
     public function getProducts()
     {
-        $resources = $this->resources;
         $products = array();
-        foreach ($resources as $resource) {
+        foreach ($this->resources as $resource) {
             if (intval($resource->value) > 0) {
                 $products[] = $resource;
             }
@@ -135,9 +123,9 @@ class Pathway extends CActiveRecord
             $glycerol->resource_id = Resource::model()->findByAttributes(array('name' => 'Glycerol'))->id;
 
             foreach ($resources as $resource) {
-                $resource->value = $nutrients[$resource->getResource()->id];
+                $resource->value = $nutrients[$resource->resource->id];
 
-                if ($resource->getResource()->name === 'Palmitate') {
+                if ($resource->resource->name === 'Palmitate') {
                     $glycerol->value = floor(intval($resource->value)/3);
                 }
             }

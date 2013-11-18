@@ -13,6 +13,7 @@
  * @property primary
  * @property formula
  * @property description
+ * @property group
  */
 class Resource extends CActiveRecord
 {
@@ -29,11 +30,6 @@ class Resource extends CActiveRecord
     public function primaryKey()
     {
         return 'id';
-    }
-
-    public function relations()
-    {
-        return array();
     }
 
     public function hasName($name)
@@ -154,5 +150,26 @@ class Resource extends CActiveRecord
             }
         }
         return $sources;
+    }
+
+    public function getFormattedFormula()
+    {
+        $formatted = '';
+        $subscript = false;
+
+        for ($i = 0; $i < strlen($this->formula); $i++) {
+            $char = substr($this->formula, $i, 1);
+            if (!$subscript && is_numeric($char)) {
+                $formatted .= '<sub>';
+                $subscript = true;
+            } elseif ($subscript && !is_numeric($char)) {
+                $formatted .= '</sub>';
+                $subscript = false;
+            }
+
+            $formatted .= $char;
+        }
+
+        return $formatted;
     }
 }

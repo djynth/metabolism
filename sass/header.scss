@@ -3,22 +3,13 @@
 #header {
     position: absolute;
     left: $sidebarWidth;
-    width: 100% - 2*$sidebarWidth;
+    width:  100% - 2*$sidebarWidth;
     height: $headerHeight;
     z-index: 1;
 
-    &.theme_dark {
-        background-color: $dark_background;
-        border-bottom: 1px solid $dark_border;
-    }
-    &.theme_light {
-        background-color: $light_background;
-        border-bottom: 1px solid $light_border;
-    }
-
     p {
         display: inline-block;
-        margin: 4px 5px 0;
+        margin: 6px 7px 0;
     }
 
     #settings {
@@ -27,16 +18,6 @@
         top: 0;
         width: $settingsWidth;
         min-height: 100%;
-        background-color: inherit;
-        
-        &.theme_dark {
-            border: 1px solid $dark_border;
-            border-top: none;
-        }
-        &.theme_light {
-            border: 1px solid $light_border;
-            border-top: none;
-        }
 
         .settings-header {
             height: $headerHeight;
@@ -45,7 +26,7 @@
 
         .icon-cog {
             position: absolute;
-            top: 6px;
+            top: 7px;
             right: 7px;
         }
 
@@ -53,7 +34,6 @@
             display: none;
             width: 90%;
             padding: 10px 5%;
-            background-color: inherit;
             z-index: 3;
 
             p {
@@ -64,14 +44,14 @@
             #theme-holder {
                 width: 100%;
                 margin-bottom: 10px;
+            }
+
+            #tooltip-toggle {
+                width: 100%;
 
                 button {
                     width: 50%;
                 }
-            }
-
-            #help-toggle {
-                width: 100%;
             }
         }
     }
@@ -80,16 +60,6 @@
         float: right;
         width:  $accountWidth;
         min-height: 100%;
-        background-color: inherit;
-
-        &.theme_dark {
-            border-left: 1px solid $dark_border;
-            border-bottom: 1px solid $dark_border;
-        }
-        &.theme_light {
-            border-left: 1px solid $light_border;
-            border-bottom: 1px solid $light_border; 
-        }
 
         .account-header {
             height: $headerHeight;
@@ -98,13 +68,12 @@
 
         .icon-user {
             position: absolute;
-            top: 6px;
+            top: 7px;
             right: 7px;
         }
 
         .login-dropdown {
             display: none;
-            background-color: inherit;
             width: $accountWidth - 26px;
             padding: 10px 13px;
             z-index: 3;
@@ -127,19 +96,9 @@
                     height: 28px;
                     right: 0;
                     top: 0;
-                    border: 1px solid;
                     border-top-right-radius: 4px;
                     border-bottom-right-radius: 4px;
                     cursor: pointer;
-
-                    &.theme_dark {
-                        border-color: $dark_inputBorder;
-                        background: $dark_inputAddOnBackground;
-                    }
-                    &.theme_light {
-                        border-color: $light_inputBorder;
-                        background: $light_inputAddOnBackground;
-                    }
 
                     .icon-question-sign {
                         position: absolute;
@@ -167,20 +126,10 @@
                     height: 28px;
                     right: 0;
                     top: 0;
-                    border: 1px solid;
                     border-top-right-radius: 4px;
                     border-bottom-right-radius: 4px;
                     z-index: 1;
                     cursor: pointer;
-
-                    &.theme_dark {
-                        border-color: $dark_inputBorder;
-                        background: $dark_inputAddOnBackground;
-                    }
-                    &.theme_light {
-                        border-color: $light_inputBorder;
-                        background: $light_inputAddOnBackground;
-                    }
 
                     &[verified=true] {
                         max-width: 124px;
@@ -216,17 +165,7 @@
                     height: 28px;
                     right: 29px;
                     top: 0;
-                    border: 1px solid;
                     cursor: pointer;
-
-                    &.theme_dark {
-                        border-color: $dark_inputBorder;
-                        background: $dark_inputAddOnBackground;
-                    }
-                    &.theme_light {
-                        border-color: $light_inputBorder;
-                        background: $light_inputAddOnBackground;
-                    }
 
                     i {
                         position: absolute;

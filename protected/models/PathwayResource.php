@@ -26,36 +26,25 @@ class PathwayResource extends CActiveRecord
     {
         return array(
             'pathway' => array(self::BELONGS_TO, 'Pathway', 'id'),
+            'resource' => array(self::BELONGS_TO, 'Resource', array('resource_id'=>'id')),
         );
-    }
-
-    public function getPathway()
-    {
-        return Pathway::model()->findByPk($this->pathway_id);
-    }
-
-    public function getResource()
-    {
-        return Resource::model()->findByPk($this->resource_id);
     }
 
     public function canModify($times, $organ)
     {
-        $resource = $this->getResource();
-        if ($resource->global && !$organ->isGlobal()) {
+        if ($this->resource->global && !$organ->isGlobal()) {
             $organ = Organ::getGlobal();
         }
 
-        return $resource->isValidChange($organ, $this->value * $times);
+        return $this->resource->isValidChange($organ, $this->value * $times);
     }
 
     public function modify($times, $organ)
     {
-        $resource = $this->getResource();
-        if ($resource->global && !$organ->isGlobal()) {
+        if ($this->resource->global && !$organ->isGlobal()) {
             $organ = Organ::getGlobal();
         }
 
-        return $resource->changeAmount($organ, $this->value * $times);
+        return $this->resource->changeAmount($organ, $this->value * $times);
     }
 }

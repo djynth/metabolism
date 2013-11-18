@@ -2,8 +2,6 @@ var SOURCE_HIGHLIGHT_COLOR      = '82,117,255';
 var DESTINATION_HIGHLIGHT_COLOR = '233,25,44';
 
 $(document).ready(function() {
-    resizeFilter();
-
     $(window).resize(resizeFilter);
 
     $('.pathway-run').click(function() {
@@ -91,7 +89,7 @@ $(document).ready(function() {
         updateEatButtons($(this).parents('.food-holder'));
     });
 
-    $('#pathway-filter-icon').click(function() {
+    $('#pathway-filter-toggle').click(function() {
         var resizedFilter = false;
         $('#pathway-filter').slideToggle({
             progress: function() {
@@ -149,21 +147,43 @@ function resizeFilter()
 function refreshPathways()
 {
     $('.pathway').each(function() {
+        var limitingReagents = new Array();
+        var limitingReagentMult;
         var lackingReactants = new Array();
         var organ = $(this).parents('.pathway-holder').attr('value');
 
-        $(this).find('.reactant').each(function() {
+        $(this).find('.reactant.name').each(function() {
             var resId = $(this).attr('res-id');
-            var value = Math.abs(parseInt($(this).attr('value')));
             var actualOrgan = $(this).hasClass('global') ? '1' : organ;
+            var requiredAmount = Math.abs(parseInt($(this).siblings('.value').text()));
+            var actualAmount = getResourceValue(resId, actualOrgan);
 
-            if (value > getResourceValue(resId, actualOrgan)) {
+            var mult = Math.floor(actualAmount/requiredAmount);
+            if (limitingReagents.length == 0 || mult < limitingReagentMult) {
+                limitingReagents = new Array();
+                limitingReagentMult = mult;
+            }
+            if (mult <= limitingReagentMult) {
+                limitingReagents.push(resId);
+            }
+
+            if (requiredAmount > actualAmount) {
                 $(this).addClass('lacking');
                 lackingReactants.push(getResourceName(resId, actualOrgan));
             } else {
                 $(this).removeClass('lacking');
             }
+
+            $(this).removeClass('limiting-reagent');
         });
+
+        for (var i = 0; i < limitingReagents.length; i++) {
+            $(this).find('.reactant[res-id="' + limitingReagents[i] + '"]:not(.lacking)').addClass('limiting-reagent');
+        }
+
+        if (limitingReagents.length > 0) {
+            $(this).find('.reactant')
+        }
 
         if (lackingReactants.length > 0) {
             $(this).find('.run-holder').hide();
@@ -205,21 +225,16 @@ function updatePathwayButtons(pathway)
     var organ = pathway.parents('.pathway-holder').attr('value');
     var runButton = pathway.find('.pathway-run');
     var times = parseInt(runButton.attr('value'));
-    if (typeof times === 'undefined' || isNaN(times)) {
-        times = 1;
+    var maxRuns = getMaxRuns(pathway.attr('value'), organ);
+    if (typeof times === 'undefined' || isNaN(times) || 
+        times < 1 || times > maxRuns) {
+        times = maxRuns;
     }
     
-    var maxRuns = getMaxRuns(pathway.attr('value'), organ);
     var plus   = runButton.siblings('.pathway-plus');
     var minus  = runButton.siblings('.pathway-minus');
     var top    = runButton.siblings('.pathway-top');
     var bottom = runButton.siblings('.pathway-bottom');
-
-    if (times == -1 || times > maxRuns) {
-        times = maxRuns;
-    } else if (times < 1) {
-        times = 1;
-    }
 
     runButton.attr('value', times);
     runButton.html('Run x' + times);
@@ -244,10 +259,10 @@ function updatePathwayButtons(pathway)
 function getMaxRuns(pathway, organ)
 {
     var maxRuns = -1;
-    $('.pathway[value="' + pathway + '"]').find('.reactant').each(function() {
+    $('.pathway[value="' + pathway + '"]').find('.reactant.name').each(function() {
         var actualOrgan = $(this).hasClass('global') ? '1' : organ;
         var resId = parseInt($(this).attr('res-id'));
-        var value = Math.abs(parseInt($(this).attr('value')));
+        var value = Math.abs(parseInt($(this).siblings('.value').text()));
         var amountAvailable = getResourceValue(resId, actualOrgan);
         var limit = Math.floor(amountAvailable/value);
         if (maxRuns == -1 || limit < maxRuns) {
@@ -276,11 +291,11 @@ function updateEatButtons()
 
         var resId = parseInt(eat.attr('res-id'));
         var resName = '';
-        if (resId === 3) {
+        if (resId === 4) {
             resName = 'Carbohydrate (Glucose)';
-        } else if (resId === 4) {
-            resName = 'Protein (Alanine)';
         } else if (resId === 5) {
+            resName = 'Protein (Alanine)';
+        } else if (resId === 6) {
             resName = 'Fat (TAGs)';
         }
 
