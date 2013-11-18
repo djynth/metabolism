@@ -1,4 +1,4 @@
-<div class="header-text <?= $organ->isGlobal() ? '' : 'accordian-header' ?>" value="<?= $organ->id ?>">
+<div class="header-text <?= $organ->isGlobal() ? 'global-header' : 'accordian-header' ?>" value="<?= $organ->id ?>">
     <?php if ($organ->isGlobal()): ?>
         <p><?= $organ->name ?></p>
     <?php else: ?>

@@ -12,6 +12,25 @@ var ORGAN_SLIDE_DOWN_DURATION = 300;    // the time for an organ info popup to s
 $(document).ready(function() {
     selectOrgan($('.accordian-header').first().attr('value'), true);
 
+    $('.global-header').click(function() {
+        $(this).siblings('.pathway-holder.global').slideToggle({
+            progress: function() {
+                updateScrollbars(true, false, false);
+            },
+            complete: function() {
+                updateScrollbars(false, false, true);
+            }
+        });
+        $(this).siblings('.resource-holder.global').slideToggle({
+            progress: function() {
+                updateScrollbars(false, true, false);
+            },
+            complete: function() {
+                updateScrollbars(false, false, true);
+            }
+        });
+    });
+
     $('.accordian-title').click(function() {
         var header = $(this).parents('.accordian-header');
         if (!header.hasClass('active')) {

@@ -62,14 +62,8 @@ p, h1, h2, h3, h4, h5, h6 {
         }
     }
 
-    .accordian-header {
-        height: $accordianHeaderHeight;
-
-        .accordian-title {
-            display: inline-block;
-            cursor: pointer;
-            width: 80%;
-        }
+    .header-text {
+        cursor: pointer;
     }
 
     .header-text {
