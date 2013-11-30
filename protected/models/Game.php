@@ -115,7 +115,7 @@ class Game extends CActiveRecord
         $move->times_run = $times;
         $move->organ_id = $organ->id;
         $move->score = self::getPoints();
-        $move->reverse = $reverse
+        $move->reverse = $reverse;
         if (!$move->save() || self::saveMoveLevels($move) === 0) {
             return false;
         }

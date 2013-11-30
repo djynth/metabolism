@@ -41,7 +41,7 @@ class SiteController extends CController
             $success = $pathway->run(
                 $_POST['times'],
                 Organ::model()->findByPk($_POST['organ']),
-                $_POST['reverse'],
+                $_POST['reverse']
             );
 
             echo CJavaScript::jsonEncode(array(

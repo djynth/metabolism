@@ -110,6 +110,7 @@
             }
 
             p.lacking {
+                display: inline-block;
                 position: relative;
                 left:   2px;
                 bottom: -7px;
@@ -121,9 +122,10 @@
             }
 
             .pathway-reverse {
+                display: inline-block;
                 position: absolute;
-                right: 6px;
-                bottom: 3px;
+                right: 5px;
+                bottom: 4px;
             }
         }
     }
