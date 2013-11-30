@@ -60,7 +60,7 @@ class Pathway extends CActiveRecord
     // nutrients: id => value
     public static function eat($nutrients)
     {
-        return self::getEat()->run(1, Organ::getGlobal(), $nutrients);
+        return self::getEat()->run(1, Organ::getGlobal(), $nutrients, false);
     }
 
     public static function areValidNutrients($nutrients)
@@ -99,7 +99,7 @@ class Pathway extends CActiveRecord
         return $products;
     }
 
-    public function run($times, $organ, $nutrients=null)
+    public function run($times, $organ, $nutrients=null, $reverse=false)
     {
         if (Game::isGameOver()) {
             return false;
@@ -108,6 +108,9 @@ class Pathway extends CActiveRecord
             return false;
         }
         if ($this->limit && $times > 1) {
+            return false;
+        }
+        if (!$this->reversible && $reverse) {
             return false;
         }
 
@@ -134,16 +137,16 @@ class Pathway extends CActiveRecord
         }
 
         foreach ($resources as $resource) {
-            if (!$resource->canModify($times, $organ)) {
+            if (!$resource->canModify($times, $organ, $reverse)) {
                 return false;
             }
         }
 
         foreach ($resources as $resource) {
-            $resource->modify($times, $organ);
+            $resource->modify($times, $organ, $reverse);
         }
 
-        Game::onTurnSuccess($this, $organ, $times);
+        Game::onTurnSuccess($this, $organ, $times, $reverse);
         
         return true;
     }

@@ -87,11 +87,15 @@
              title="Adjust the number of times to run this pathway.
                     No matter how many times you run it, it counts as one turn.
                     Click the center button to run it once you're ready.">
-            <button class="btn btn-mini btn-inverse pathway-bottom"><i class="icon-chevron-down"></i></button>
-            <button class="btn btn-mini btn-inverse pathway-minus"><i class="icon-minus"></i></button>
-            <button class="btn btn-mini btn-inverse pathway-run"></button>
-            <button class="btn btn-mini btn-inverse pathway-plus"><i class="icon-plus"></i></button>
-            <button class="btn btn-mini btn-inverse pathway-top"><i class="icon-chevron-up"></i></button>
+            <button class="btn btn-mini pathway-bottom"><i class="icon-chevron-down"></i></button>
+            <button class="btn btn-mini pathway-minus"><i class="icon-minus"></i></button>
+            <button class="btn btn-mini pathway-run"></button>
+            <button class="btn btn-mini pathway-plus"><i class="icon-plus"></i></button>
+            <button class="btn btn-mini pathway-top"><i class="icon-chevron-up"></i></button>
         </div>
+    <?php endif ?>
+
+    <?php if ($pathway->reversible): ?>
+        <button type="button" class="btn btn-mini pathway-reverse" data-toggle="button"> <i class="icon-random"></i></button>
     <?php endif ?>
 </div>

@@ -35,9 +35,14 @@ class SiteController extends CController
 
     public function actionPathway()
     {
-        if (isset($_POST['pathway_id'], $_POST['organ'], $_POST['times'])) {
+        if (isset($_POST['pathway_id'], $_POST['organ'], $_POST['times'],
+                  $_POST['reverse'])) {
             $pathway = Pathway::model()->findByPk($_POST['pathway_id']);
-            $success = $pathway->run($_POST['times'], Organ::model()->findByPk($_POST['organ']));
+            $success = $pathway->run(
+                $_POST['times'],
+                Organ::model()->findByPk($_POST['organ']),
+                $_POST['reverse'],
+            );
 
             echo CJavaScript::jsonEncode(array(
                 'success' => $success,

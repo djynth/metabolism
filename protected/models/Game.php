@@ -78,9 +78,9 @@ class Game extends CActiveRecord
         return Yii::app()->session['game_id'] = $id;
     }
 
-    public static function onTurnSuccess($pathway, $organ, $times)
+    public static function onTurnSuccess($pathway, $organ, $times, $reverse)
     {
-        $points = $pathway->points * $times;
+        $points = ($reverse ? -1 : 1) * $pathway->points * $times;
 
         if (self::getGameId() === -1) {     // the game has just begun, create db entries and assign a valid game id
             $game = new Game;
@@ -115,6 +115,7 @@ class Game extends CActiveRecord
         $move->times_run = $times;
         $move->organ_id = $organ->id;
         $move->score = self::getPoints();
+        $move->reverse = $reverse
         if (!$move->save() || self::saveMoveLevels($move) === 0) {
             return false;
         }

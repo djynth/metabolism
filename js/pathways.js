@@ -8,6 +8,8 @@ $(document).ready(function() {
         var id = parseInt($(this).parents('.pathway').attr('value'));
         var organ = parseInt($(this).parents('.pathway-holder').attr('value'));
         var times = parseInt($(this).attr('value'));
+        var reverse = $(this).parents('.pathway-holder')
+            .find('.pathway-reverse').hasClass('active')
         runPathway(id, times, organ);
     });
 
@@ -87,6 +89,10 @@ $(document).ready(function() {
     $('.eat-bottom').click(function() {
         $(this).siblings('.eat').attr('value', 0);
         updateEatButtons($(this).parents('.food-holder'));
+    });
+
+    $('.pathway-reverse').click(function() {
+        // TODO
     });
 
     $('#pathway-filter-toggle').click(function() {
@@ -338,7 +344,7 @@ function eat(nutrients)
     }
 }
 
-function runPathway(pathwayId, times, organ)
+function runPathway(pathwayId, times, organ, reverse)
 {
     if (!gameOver) {
         $.ajax({
