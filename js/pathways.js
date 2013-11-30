@@ -10,7 +10,7 @@ $(document).ready(function() {
         var times = parseInt($(this).attr('value'));
         var reverse = $(this).parents('.pathway-holder')
             .find('.pathway-reverse').hasClass('active')
-        runPathway(id, times, organ);
+        runPathway(id, times, organ, reverse);
     });
 
     $('.pathway-plus').click(function() {
@@ -89,10 +89,6 @@ $(document).ready(function() {
     $('.eat-bottom').click(function() {
         $(this).siblings('.eat').attr('value', 0);
         updateEatButtons($(this).parents('.food-holder'));
-    });
-
-    $('.pathway-reverse').click(function() {
-        // TODO
     });
 
     $('#pathway-filter-toggle').click(function() {
@@ -354,7 +350,8 @@ function runPathway(pathwayId, times, organ, reverse)
             data: {
                 pathway_id: pathwayId,
                 times: times,
-                organ: organ
+                organ: organ,
+                reverse: reverse,
             },
             success: function(data) {
                 onPathwaySuccess(data);

@@ -38,6 +38,7 @@ class SiteController extends CController
         if (isset($_POST['pathway_id'], $_POST['organ'], $_POST['times'],
                   $_POST['reverse'])) {
             $pathway = Pathway::model()->findByPk($_POST['pathway_id']);
+
             $success = $pathway->run(
                 $_POST['times'],
                 Organ::model()->findByPk($_POST['organ']),
