@@ -54,8 +54,8 @@ foreach ($organs as $organ): ?>
 <?php endforeach ?>
 
 $(document).ready(function() {
-    setPoints(<?= Game::STARTING_POINTS ?>);
-    setTurn(<?= Game::STARTING_TURN ?>);
+    setPoints(<?= Game::getScore() ?>);
+    setTurn(<?= Game::getTurn() ?>);
 
     <?php if (($user = User::getCurrentUser()) !== null): ?>
         setHelpTooltips(parseInt(<?= json_encode($user->help); ?>));

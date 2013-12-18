@@ -72,6 +72,11 @@ class Resource extends CActiveRecord
         }
     }
 
+    public static function setResourceAmount($resource, $organ, $amount)
+    {
+        // TODO
+    }
+
     public function setAmount($organ, $amount)
     {
         if (!$this->isValidAmount($organ, $amount)) {

@@ -9,7 +9,7 @@ class User extends CActiveRecord
 
     public function tableName()
     {
-        return 'user';
+        return 'users';
     }
 
     public function primaryKey()

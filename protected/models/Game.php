@@ -1,10 +1,30 @@
 <?php
 
+/**
+ * @db id        int(11)     a unique game ID
+ * @db completed tinyint(1)  whether the game has been finished
+ * @db score     smallint(6) the current number of points earned by the player
+ * @db name      varchar(20) a non-unique user-chosen name for the game
+ * @db turn      smallint(6) the current turn, i.e. the number of times the
+ *                           player has made a move (indexed from 0)
+ * @db user_id   int(11)     the user ID of the owner of this game, -1 if the
+ *                           owner has not signed in
+ * @fk user      User
+ * @fk moves     array(Move) ordered by turn, descending
+ */
 class Game extends CActiveRecord
 {
+    public $completed = 0;
+    public $score = 0;
+    public $name = "New Game";
+    public $turn = 0;
+    public $user_id = -1;
+    /**
+     * The maximum number of turns in a game.
+     * The turn counter begins with this value and decrements to 0, at which
+     *  point the game ends.
+     */
     const MAX_TURNS = 100;
-    const STARTING_POINTS = 0;
-    const STARTING_TURN = self::MAX_TURNS;
 
     public static function model($className = __CLASS__)
     {
@@ -21,126 +41,335 @@ class Game extends CActiveRecord
         return 'id';
     }
 
+    public function relations()
+    {
+        return array(
+            'user' => array(self::BELONGS_TO, 'User', array('user_id' => 'id')),
+            'moves' =>  array(
+                            self::HAS_MANY,
+                            'Move',
+                            array('id' => 'game_id'),
+                            'order' => 'moves.turn desc',
+                        ),
+        );
+    }
+
+    /**
+     * Gets the database record corresponding to the game currently being played
+     *  by the user.
+     * Returns null if no database record has been created for the current game.
+     *
+     * @return the current Game
+     */
+    public static function getGameInstance()
+    {
+        return Yii::app()->session['game'];
+    }
+
+    /**
+     * Determines whether a database record for the game currently being played
+     *  by the user has been created.
+     * If this returns false, Game::getGameInstance() will return null.
+     *
+     * @return true if there is a database record for the current game, false
+     *         otherwise
+     */
+    public static function gameExists()
+    {
+        return Game::getGameInstance() !== null;
+    }
+
+    /**
+     * Initializes a new game and sets it as the current game.
+     * An empty database record for the game is created and saved.
+     */
     public static function initGame()
     {
-        self::setTurn(self::STARTING_TURN);
-        self::setPoints(self::STARTING_POINTS);
-        self::setGameId(-1);
-    }
-
-    public static function getTurn()
-    {
-        return Yii::app()->session['turn'];
-    }
-
-    public static function setTurn($turn)
-    {
-        return Yii::app()->session['turn'] = $turn;
-    }
-
-    public static function incrementTurn()
-    {
-        return self::setTurn(self::getTurn() - 1);
-    }
-
-    public static function isGameOver()
-    {
-        return self::getTurn() === 0;
-    }
-
-    public static function isGameStarted()
-    {
-        return self::getTurn() !== self::STARTING_TURN;
-    }
-
-    public static function getPoints()
-    {
-        return Yii::app()->session['points'];
-    }
-
-    public static function setPoints($points)
-    {
-        return Yii::app()->session['points'] = $points;
-    }
-
-    public static function addPoints($points)
-    {
-        return self::setPoints(self::getPoints() + $points);
-    }
-
-    public static function getGameId()
-    {
-        return Yii::app()->session['game_id'];
-    }
-
-    private static function setGameId($id)
-    {
-        return Yii::app()->session['game_id'] = $id;
-    }
-
-    public static function onTurnSuccess($pathway, $organ, $times, $reverse)
-    {
-        $points = ($reverse ? -1 : 1) * $pathway->points * $times;
-
-        if (self::getGameId() === -1) {     // the game has just begun, create db entries and assign a valid game id
-            $game = new Game;
-            $game->score = self::STARTING_POINTS;
-            if (!$game->save()) {
-                return false;
-            }
-
-            self::setGameId($game->id);
-
-            if (($user = User::getCurrentUser()) !== null) {
-                $userGame = new UserGame;
-                $userGame->user_id = $user->id;
-                $userGame->game_id = $game->id;
-                if (!$userGame->save()) {
-                    return false;
-                }
-            }
-
-            $move = new Move;
-            $move->game_id = $game->id;
-            $move->score = self::STARTING_POINTS;
-            if (!$move->save() || self::saveMoveLevels($move) === 0) {
-                return false;
-            }
+        Yii::app()->session['game'] = new Game;
+        Game::getGameInstance()->save();    // save the game so that the game_id
+                                            // is set
+        if (($user = User::getCurrentUser()) !== null) {
+            Game::getGameInstance()->user_id = $user->id;
         }
 
-        $move = new Move;
-        $move->game_id = self::getGameId();
-        $move->move_number = self::getTurn();
-        $move->pathway_id = $pathway->id;
-        $move->times_run = $times;
-        $move->organ_id = $organ->id;
-        $move->score = self::getPoints();
-        $move->reverse = $reverse;
-        if (!$move->save() || self::saveMoveLevels($move) === 0) {
+        Game::createMove();
+    }
+
+    /**
+     * Loads the game with the given ID from the database.
+     * The most recent resource levels are set to be active.
+     *
+     * @param game_id number the ID of the game to be loaded
+     * @return true if the game was loaded successfully, false otherwise
+     */
+    public static function loadGame($game_id)
+    {
+        $game = Game::model()->findByPk($game_id);
+        if ($game !== null && count($game->moves) > 0) {
+            Yii::app()->session['game'] = $game;
+            foreach ($game->moves[0]->levels as $level) {
+                Resource::setResourceAmount(
+                    $level->resource_id,
+                    $level->organ_id,
+                    $level->amount
+                );
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Saves the current game to the database, including the associated moves
+     *  and move levels.
+     * Games with no owner (i.e. the user was not logged in when the game was
+     *  created) cannot be saved.
+     *
+     * @return true if the game was saved sucessfully, false otherwise
+     */
+    public static function saveGame()
+    {
+        if (!Game::hasOwner()) {
             return false;
         }
 
-        self::incrementTurn();
-        self::addPoints($points);
+        Game::getGameInstance()->save();
+
+        foreach (Yii::app()->session['moves'] as $move_data) {
+            $move = $move_data['move'];
+            $amount_data = $move_data['amounts'];
+
+            $move->save();
+            $move_levels = array();
+            foreach ($amount_data as $resource_id => $levels) {
+                foreach ($levels as $organ_id => $amount) {
+                    $move_levels[] = array(
+                        'move_id' => $move->id,
+                        'resource_id' => $resource_id,
+                        'organ_id' => $organ_id,
+                        'amount' => $amount,
+                    );
+                }
+            }
+            Yii::app()->db->getCommandBuilder()->createMultipleInsertCommand(
+                'move_levels',
+                $move_levels
+            )->execute();
+        }
+        Yii::app()->session['moves'] = array();
 
         return true;
     }
 
-    private static function saveMoveLevels($move)
+    /**
+     * Resets the current game to an empty state.
+     * Note that and changes to the game state or moves that has not yet been
+     *  saved will be lost.
+     */
+    public static function resetGame()
     {
-        $data = array();
-        $amounts = Resource::getAmounts();
-        foreach ($amounts as $resource_id => $organs) {
-            foreach ($organs as $organ_id => $amount) {
-                $data[] = array(
-                    'move_id'     => $move->id,
-                    'resource_id' => $resource_id,
-                    'organ_id'    => $organ_id,
-                    'amount'      => $amount,
-                );
-            }
+        unset(Yii::app()->session['game']);
+        Yii::app()->session['moves'] = array();
+        Resource::initStartingValues();
+    }
+
+    /**
+     * Determines whether the current game as an associated owner; that is,
+     *  whether the user was logged in when the game was started or has logged
+     *  in since.
+     *
+     * @return true if the current game exists and has an owner, false otherwise
+     */
+    public static function hasOwner()
+    {
+        if (!Game::gameExists()) {
+            return false;
         }
 
-        return Yii::app()->db->getCommandBuilder()->createMultipleInsertCommand('move_levels', $data)->execute();
+        return Game::getGameInstance()->user_id !== -1;
+    }
+
+    /**
+     * Gets the owner of the current game.
+     *
+     * @return the owner of the current game, or null if the game does not exist
+     *         or does not have an owner
+     */
+    public static function getOwner()
+    {
+        if (!Game::hasOwner()) {
+            return null;
+        }
+        return Game::getGameInstance()->user;
+    }
+
+    /**
+     * Gets the turn of the current game.
+     *
+     * @return the turn, or 0 if the game does not exist
+     */
+    public static function getTurn()
+    {
+        if (!Game::gameExists()) {
+            return 0;
+        }
+
+        return Game::getGameInstance()->turn;
+    }
+
+    /**
+     * Sets the turn of the current game.
+     *
+     * @param turn number the new turn
+     * @return true if the game exists and the turn was set, false otherwise
+     */
+    public static function setTurn($turn)
+    {
+        if (!Game::gameExists()) {
+            return false;
+        }
+
+        return Game::getGameInstance()->turn = $turn;
+    }
+
+    /**
+     * Increments the turn of the current game, increasing it by one.
+     *
+     * @return true if the game exists and the turn was incremented, false
+     *         othwerise
+     */
+    public static function incrementTurn()
+    {
+        return Game::setTurn(Game::getTurn() + 1);
+    }
+
+    /**
+     * Determines whether the current game has been completed; if so, no more
+     *  actions can be taken.
+     *
+     * @return true if the current game exists and has been completed, false
+     *         otherwise
+     */
+    public static function isGameCompleted()
+    {
+        if (!Game::gameExists()) {
+            return false;
+        }
+
+        return Game::getGameInstance()->completed;
+    }
+
+    /**
+     * Gets the score for the current game.
+     * 
+     * @return the score, or 0 if the game does not exist
+     */
+    public static function getScore()
+    {
+        if (!Game::gameExists()) {
+            return 0;
+        }
+
+        return Game::getGameInstance()->score;
+    }
+
+    /**
+     * Sets the score for the current game.
+     *
+     * @param score number the new score
+     * @return true if the score was set successfully, false otherwise
+     */
+    public static function setScore($score)
+    {
+        if (!Game::gameExists()) {
+            return false;
+        }
+
+        Game::getGameInstance()->score = $score;
+        return true;
+    }
+
+    /**
+     * Adds points to the current game.
+     *
+     * @param points number the number of points to be added
+     * @return true if the points were added successfully, false otherwise
+     */
+    public static function addPoints($points)
+    {
+        return Game::setScore(Game::getScore() + $points);
+    }
+
+    /**
+     * Gets the name of the current game.
+     *
+     * @return the name of the current game, or null if it does not exist
+     */
+    public static function getGameName()
+    {
+        if (!Game::gameExists()) {
+            return null;
+        }
+
+        return Game::getGameInstance()->name;
+    }
+
+    /**
+     * This function should be invoked whenever a turn is successfully
+     *  completed and updates the game state based on the action taken by the
+     *  player.
+     */
+    public static function onTurnSuccess($pathway, $organ, $times, $reverse)
+    {
+        if (!Game::gameExists()) {
+            Game::initGame();
+        }
+
+        Game::addPoints(($reverse ? -1 : 1) * $times * $pathway->points);
+        Game::incrementTurn();
+
+        Game::createMove($pathway, $organ, $times, $reverse);
+    }
+
+    /**
+     * Creates a new Move for the given action and adds it to the array of moves
+     *  held in the session.
+     * The Move is not saved to the database.
+     * 
+     * @param pathway Pathway|null the Pathway which was run, null by default
+     * @param organ   Organ|null   the Organ in which the Pathway was run, null
+     *                             by default
+     * @param times   number|null  the number of times the Pathway was run, null
+     *                             by default
+     * @param reverse boolean|null whether the Pathway was reversed, null by
+     *                             default
+     */
+    private static function createMove($pathway=null, $organ=null,
+                                       $times=null, $reverse=null)
+    {
+        $game = Game::getGameInstance();
+        $move = new Move;
+        $move->game_id = $game->id;
+        $move->score = $game->score;
+        $move->turn = $game->turn;
+        if ($pathway !== null) {
+            $move->pathway_id = $pathway->id;
+        }
+        if ($organ !== null) {
+            $move->organ_id = $organ->id;
+        }
+        if ($times !== null) {
+            $move->times_run = $times;
+        }
+        if ($reverse !== null) {
+            $move->reverse = $reverse;
+        }
+
+        $moves = Yii::app()->session['moves'];
+        $moves[] = array(
+            'move' => $move,
+            'amounts' => Resource::getAmounts(),
+        );
+        Yii::app()->session['moves'] = $moves;
     }
 }

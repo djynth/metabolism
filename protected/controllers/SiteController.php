@@ -4,8 +4,7 @@ class SiteController extends CController
 {
     public function actionIndex()
     {
-        Game::initGame();
-        Resource::initStartingValues();
+        Game::resetGame();
 
         $this->render('index');
     }
@@ -13,15 +12,10 @@ class SiteController extends CController
     public function actionResult()
     {
         $user = User::getCurrentUser();
-        if ($user !== null || Game::isGameOver()) {
+        if ($user !== null || Game::isGameCompleted()) {
             $this->render('result', array(
-                'game_id' => Game::getGameId()
+                'game_id' => Game::getGameInstance()->id,
             ));
-        } elseif ($user !== null && !Game::isGameStarted()) {
-            $lastGame = Game::model()->findByAttributes(array(''));
-            // TODO view the last played game
-        } elseif (isset($_GET['game'])) {
-            // TODO view the game with id in GET if the current user is allowed to
         }
     }
 
@@ -50,10 +44,10 @@ class SiteController extends CController
             echo CJavaScript::jsonEncode(array(
                 'success' => $success,
                 'pathway_name' => $pathway->name,
-                'points' => Game::getPoints(),
+                'points' => Game::getScore(),
                 'turn' => Game::getTurn(),
                 'resources' => Resource::getAmounts(),
-                'game_over' => Game::isGameOver(),
+                'game_over' => Game::isGameCompleted(),
             ));
         }
     }
@@ -66,10 +60,10 @@ class SiteController extends CController
             echo CJavaScript::jsonEncode(array(
                 'success' => $success,
                 'pathway_name' => Pathway::EAT_NAME,
-                'points' => Game::getPoints(),
+                'points' => Game::getScore(),
                 'turn' => Game::getTurn(),
                 'resources' => Resource::getAmounts(),
-                'game_over' => Game::isGameOver(),
+                'game_over' => Game::isGameCompleted(),
             ));
         }
     }
