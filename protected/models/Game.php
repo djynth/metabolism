@@ -76,7 +76,7 @@ class Game extends CActiveRecord
      */
     public static function gameExists()
     {
-        return Game::getGameInstance() !== null;
+        return self::getGameInstance() !== null;
     }
 
     /**
@@ -86,13 +86,13 @@ class Game extends CActiveRecord
     public static function initGame()
     {
         Yii::app()->session['game'] = new Game;
-        Game::getGameInstance()->save();    // save the game so that the game_id
+        self::getGameInstance()->save();    // save the game so that the game_id
                                             // is set
         if (($user = User::getCurrentUser()) !== null) {
-            Game::getGameInstance()->user_id = $user->id;
+            self::getGameInstance()->user_id = $user->id;
         }
 
-        Game::createMove();
+        self::createMove();
     }
 
     /**
@@ -104,7 +104,7 @@ class Game extends CActiveRecord
      */
     public static function loadGame($game_id)
     {
-        $game = Game::model()->findByPk($game_id);
+        $game = self::model()->findByPk($game_id);
         if ($game !== null && count($game->moves) > 0) {
             Yii::app()->session['game'] = $game;
             foreach ($game->moves[0]->levels as $level) {
@@ -129,11 +129,11 @@ class Game extends CActiveRecord
      */
     public static function saveGame()
     {
-        if (!Game::hasOwner()) {
+        if (!self::hasOwner()) {
             return false;
         }
 
-        Game::getGameInstance()->save();
+        self::getGameInstance()->save();
 
         foreach (Yii::app()->session['moves'] as $move_data) {
             $move = $move_data['move'];
@@ -182,11 +182,11 @@ class Game extends CActiveRecord
      */
     public static function hasOwner()
     {
-        if (!Game::gameExists()) {
+        if (!self::gameExists()) {
             return false;
         }
 
-        return Game::getGameInstance()->user_id !== -1;
+        return self::getGameInstance()->user_id !== -1;
     }
 
     /**
@@ -197,10 +197,10 @@ class Game extends CActiveRecord
      */
     public static function getOwner()
     {
-        if (!Game::hasOwner()) {
+        if (!self::hasOwner()) {
             return null;
         }
-        return Game::getGameInstance()->user;
+        return self::getGameInstance()->user;
     }
 
     /**
@@ -210,11 +210,11 @@ class Game extends CActiveRecord
      */
     public static function getTurn()
     {
-        if (!Game::gameExists()) {
+        if (!self::gameExists()) {
             return 0;
         }
 
-        return Game::getGameInstance()->turn;
+        return self::getGameInstance()->turn;
     }
 
     /**
@@ -225,11 +225,11 @@ class Game extends CActiveRecord
      */
     public static function setTurn($turn)
     {
-        if (!Game::gameExists()) {
+        if (!self::gameExists()) {
             return false;
         }
 
-        return Game::getGameInstance()->turn = $turn;
+        return self::getGameInstance()->turn = $turn;
     }
 
     /**
@@ -240,7 +240,7 @@ class Game extends CActiveRecord
      */
     public static function incrementTurn()
     {
-        return Game::setTurn(Game::getTurn() + 1);
+        return self::setTurn(self::getTurn() + 1);
     }
 
     /**
@@ -252,11 +252,11 @@ class Game extends CActiveRecord
      */
     public static function isGameCompleted()
     {
-        if (!Game::gameExists()) {
+        if (!self::gameExists()) {
             return false;
         }
 
-        return Game::getGameInstance()->completed;
+        return self::getGameInstance()->completed;
     }
 
     /**
@@ -266,11 +266,11 @@ class Game extends CActiveRecord
      */
     public static function getScore()
     {
-        if (!Game::gameExists()) {
+        if (!self::gameExists()) {
             return 0;
         }
 
-        return Game::getGameInstance()->score;
+        return self::getGameInstance()->score;
     }
 
     /**
@@ -281,11 +281,11 @@ class Game extends CActiveRecord
      */
     public static function setScore($score)
     {
-        if (!Game::gameExists()) {
+        if (!self::gameExists()) {
             return false;
         }
 
-        Game::getGameInstance()->score = $score;
+        self::getGameInstance()->score = $score;
         return true;
     }
 
@@ -297,7 +297,7 @@ class Game extends CActiveRecord
      */
     public static function addPoints($points)
     {
-        return Game::setScore(Game::getScore() + $points);
+        return self::setScore(self::getScore() + $points);
     }
 
     /**
@@ -307,11 +307,11 @@ class Game extends CActiveRecord
      */
     public static function getGameName()
     {
-        if (!Game::gameExists()) {
+        if (!self::gameExists()) {
             return null;
         }
 
-        return Game::getGameInstance()->name;
+        return self::getGameInstance()->name;
     }
 
     /**
@@ -321,14 +321,14 @@ class Game extends CActiveRecord
      */
     public static function onTurnSuccess($pathway, $organ, $times, $reverse)
     {
-        if (!Game::gameExists()) {
-            Game::initGame();
+        if (!self::gameExists()) {
+            self::initGame();
         }
 
-        Game::addPoints(($reverse ? -1 : 1) * $times * $pathway->points);
-        Game::incrementTurn();
+        self::addPoints(($reverse ? -1 : 1) * $times * $pathway->points);
+        self::incrementTurn();
 
-        Game::createMove($pathway, $organ, $times, $reverse);
+        self::createMove($pathway, $organ, $times, $reverse);
     }
 
     /**
@@ -347,7 +347,7 @@ class Game extends CActiveRecord
     private static function createMove($pathway=null, $organ=null,
                                        $times=null, $reverse=null)
     {
-        $game = Game::getGameInstance();
+        $game = self::getGameInstance();
         $move = new Move;
         $move->game_id = $game->id;
         $move->score = $game->score;
