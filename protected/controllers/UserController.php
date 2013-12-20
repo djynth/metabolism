@@ -321,10 +321,11 @@ class UserController extends CController
 
     public function actionSaveTheme()
     {
-        if (isset($_POST['theme'])) {
+        if (isset($_POST['theme']) && isset($_POST['theme_type'])) {
             $user = User::getCurrentUser();
             if ($user !== null) {
                 $user->theme = $_POST['theme'];
+                $user->theme_type = $_POST['theme_type'];
                 $user->save();
             }
         }

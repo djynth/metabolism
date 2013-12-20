@@ -6,7 +6,7 @@ $user = User::getCurrentUser();
     <p id="points" class="help-tooltip" data-placement="bottom" data-container="body"
        title="The number of points you have accumulated by running valuable pathways.
               Running some pathways earns points, so try to concentrate on them."></p>
-    <p id="turns" class="help-tooltip" data-placement="bottom" data-container="body"
+    <p id="turns" class="help-tooltip" data-placement="bottom" data-container="body" max-turns="<?= Game::MAX_TURNS ?>"
        title="The number of turns you have remaining.
               Each time you run a pathway, even if you run it with a multiplier greater than 1, it consumes one turn."></p>
 

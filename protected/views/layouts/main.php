@@ -6,6 +6,7 @@
 <?php
 $baseUrl = Yii::app()->request->baseUrl;
 
+// load all the CSS and JS assets
 foreach (glob("lib/*.css") as $css): ?>
     <link type='text/css' rel='stylesheet' href='<?= $css ?>'>
 <?php endforeach;
@@ -24,26 +25,13 @@ foreach (glob("js/*.js") as $js): ?>
 
 <script>
 var baseUrl = <?= json_encode($baseUrl); ?>;
-var MAX_TURNS = <?= json_encode(Game::MAX_TURNS); ?>;
+
+// TODO: set external default theme
 var colorTheme = 'frosted';
 var colorThemeType = 'light';
-
 <?php if (($user = User::getCurrentUser()) !== null): ?>
-    <?php foreach (glob("css/themes/light/*.css") as $css): 
-        $theme = basename($css, '.css');
-        if ($user->theme = $theme): ?>
-            colorTheme = <?= json_encode($user->theme); ?>;
-            colorThemeType = 'light';
-        <?php endif;
-    endforeach; ?>
-
-    <?php foreach (glob("css/themes/dark/*.css") as $css): 
-        $theme = basename($css, '.css');
-        if ($user->theme = $theme): ?>
-            colorTheme = <?= json_encode($user->theme); ?>;
-            colorThemeType = 'dark';
-        <?php endif;
-    endforeach; ?>
+    colorTheme = <?= json_encode($user->theme) ?>;
+    colorThemeType = <?= json_encode($user->theme_type) ?>;
 <?php endif ?>
 
 var organColors = new Array;
@@ -60,7 +48,7 @@ $(document).ready(function() {
     <?php if (($user = User::getCurrentUser()) !== null): ?>
         setHelpTooltips(parseInt(<?= json_encode($user->help); ?>));
     <?php else: ?>
-        setHelpTooltips(true);
+        setHelpTooltips(true);  // help tooltips are on by default
     <?php endif ?>
 });
 </script>

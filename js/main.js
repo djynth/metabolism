@@ -93,7 +93,8 @@ function updateCenterGraphic()
 
 function setTurn(turn)
 {
-    $('#turns').text(turn + '/' + MAX_TURNS + ' Turns Remaining');
+    var turns = $('#turns');
+    turns.text(turn + '/' + turns.attr('max-turns') + ' Turns Remaining');
 }
 
 function setPoints(points)
@@ -113,7 +114,8 @@ function setColorTheme(theme, type, save)
             type: 'POST',
             dataType: 'json',
             data: {
-                theme: theme
+                theme: theme,
+                theme_type: type
             }
         });
     }
