@@ -307,4 +307,19 @@ class Resource extends CActiveRecord
 
         return $this->formatted_formula;
     }
+
+    /**
+     * Determines whether this Resource is global, i.e. if it only exists in the
+     *  special global organ.
+     *
+     * @return true if this Resource is global, false otherwise
+     */
+    public function isGlobal()
+    {
+        if (count($this->organs) !== 1) {
+            return false;
+        }
+
+        return $this->organs[0]->isGlobal();
+    }
 }

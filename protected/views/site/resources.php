@@ -13,7 +13,7 @@ $this->renderPartial('organ-header', array('organ' => $global, 'right' => false)
 
 <div class="resource-holder global" value="<?= $global->id ?>">
     <?php
-    $resources = $global->getResources();
+    $resources = $global->resources;
     foreach ($resources as $resource) {
         $this->renderPartial('resource', array('resource' => $resource, 'organ' => $global));
     }
@@ -25,7 +25,7 @@ $this->renderPartial('organ-header', array('organ' => $global, 'right' => false)
 
     <div class="accordian-content resource-holder scrollbar-content" value="<?= $organ->id ?>">
         <?php
-        $resources = $organ->getResources();
+        $resources = $organ->resources;
         foreach ($resources as $resource) {
             $this->renderPartial('resource', array('resource' => $resource, 'organ' => $organ));
         }

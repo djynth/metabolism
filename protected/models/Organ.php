@@ -43,7 +43,7 @@ class Organ extends CActiveRecord
                 self::MANY_MANY,
                 'Resource',
                 'resource_organs(resource_id, organ_id)',
-                'order' => 'resource.id asc',
+                'order' => 'resources.id asc',
             ),
         );
     }
@@ -80,7 +80,7 @@ class Organ extends CActiveRecord
      *
      * @return an array of all the organs which are not the special global organ
      */
-    public static function getNotGloabl()
+    public static function getNotGlobal()
     {
         if (self::$not_global === null) {
             self::$not_global = self::model()->findAll(

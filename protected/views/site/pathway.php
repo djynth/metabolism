@@ -1,8 +1,11 @@
 <div class="pathway" value="<?= $pathway->id ?>" <?= $pathway->limit ? ' limit="limit"' : '' ?> color="<?= $pathway->color ?>" catabolic="<?= $pathway->catabolic ? 'true' : 'false' ?>">
     <div class="pathway-inner"></div>
     <p class="title"><?= $pathway->name ?></p>
-    <?php if (!$pathway->isGlobal()): ?>
-        <p class="catabolic"><?= $pathway->catabolic ? 'Catabolic' : 'Anabolic' ?></p>
+    <?php if (!$pathway->catabolic): ?>
+        <p class="catabolic">Catabolic</p>
+    <?php endif ?>
+    <?php if (!$pathway->anabolic): ?>
+        <p class="anabolic">Anabolic</p>
     <?php endif ?>
     <p class="points help-tooltip" data-placement="right" data-container="body"
        title="The number of points earned each time you run this reaction.">
@@ -55,7 +58,7 @@
                         <td class="reactant value">
                             <?= $reactants[$i]->value ?>
                         </td>
-                        <td class="reactant name <?= $reactants[$i]->resource->global ? 'global' : '' ?>" res-id="<?= $reactants[$i]->resource->id ?>">
+                        <td class="reactant name <?= $reactants[$i]->resource->isGlobal() ? 'global' : '' ?>" res-id="<?= $reactants[$i]->resource->id ?>">
                             <?= $reactants[$i]->resource->name ?>
                         </td>
                     <?php else: ?>
@@ -63,7 +66,7 @@
                     <?php endif ?>
 
                     <?php if ($products[$i] !== ''): ?>
-                        <td class="product name <?= $products[$i]->resource->global ? 'global' : '' ?>" res-id="<?= $products[$i]->resource->id ?>">
+                        <td class="product name <?= $products[$i]->resource->isGlobal() ? 'global' : '' ?>" res-id="<?= $products[$i]->resource->id ?>">
                             <?= $products[$i]->resource->name ?>
                         </td>
                         <td class="product value">

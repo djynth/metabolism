@@ -55,7 +55,7 @@ class Pathway extends CActiveRecord
             'resources' => array(
                 self::HAS_MANY,
                 'PathwayResource',
-                array('id' => 'pathway_id'),
+                array('pathway_id' => 'id'),
                 'with' => 'resource',
                 'order' => 'resource.group',
             ),

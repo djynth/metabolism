@@ -36,7 +36,7 @@ class PathwayResource extends CActiveRecord
             'resource' => array(
                 self::BELONGS_TO,
                 'Resource',
-                array('resource_id'=>'id'),
+                array('resource_id' => 'id'),
             ),
         );
     }
