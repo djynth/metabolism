@@ -23,7 +23,7 @@ $this->renderPartial('organ-header', array('organ' => $global, 'right' => false)
 <?php foreach($organs as $organ):
     $this->renderPartial('organ-header', array('organ' => $organ, 'right' => false)); ?>
 
-    <div class="accordian-content resource-holder scrollbar-content" value="<?= $organ->id ?>">
+    <div class="accordian-content resource-holder scrollbar-content" value="<?= $organ->id ?>" color="<?= $organ->color ?>">
         <?php
         $resources = $organ->resources;
         foreach ($resources as $resource) {

@@ -26,7 +26,7 @@ foreach (glob("js/*.js") as $js): ?>
 <script>
 var baseUrl = <?= json_encode($baseUrl); ?>;
 
-// TODO: set external default theme
+// TODO: set the default theme externally
 var colorTheme = 'frosted';
 var colorThemeType = 'light';
 <?php if (($user = User::getCurrentUser()) !== null): ?>

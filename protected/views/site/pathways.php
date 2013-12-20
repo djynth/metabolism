@@ -81,7 +81,7 @@ $this->renderPartial('organ-header', array('organ' => $global, 'right' => true))
     $this->renderPartial('organ-header', array('organ' => $organ, 'right' => true));
     ?>
 
-    <div class="accordian-content pathway-holder scrollbar-content" value="<?= $organ->id ?>">
+    <div class="accordian-content pathway-holder scrollbar-content" value="<?= $organ->id ?>" color="<?= $organ->color ?>">
         <?php
         $pathways = $organ->pathways;
         foreach ($pathways as $pathway) {
