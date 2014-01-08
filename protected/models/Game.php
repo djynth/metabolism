@@ -55,9 +55,40 @@ class Game extends CActiveRecord
     }
 
     /**
+     * Determines whether this Game has an owner associated with it.
+     *
+     * @return true if this Game has an owner, false otherwise
+     */
+    public function hasOwner()
+    {
+        return $this->user_id !== -1;
+    }
+
+    /**
+     * Sets the turn of this Game to the given value, if it is a valid turn.
+     *
+     * @param turn number the new turn for this game, in the range between 0 and
+     *                    Game::MAX_TURNS, inclusive
+     * @return true if the turn was successfully set, false otherwise
+     */
+    public function setTurn($turn)
+    {
+        if ($turn > self::MAX_TURNS || $turn < 0) {
+            return false;
+        }
+        $this->turn = $turn;
+        if ($this->turn == self::MAX_TURNS) {
+            $this->completed = true;
+        }
+        return true;
+    }
+
+    /**
      * Gets the database record corresponding to the game currently being played
      *  by the user.
-     * Returns null if no database record has been created for the current game.
+     * Returns null if no database record has been created for the current game
+     *  (although note that this can return a value if a record has been created
+     *  but has not yet been saved to the database).
      *
      * @return the current Game
      */
@@ -85,19 +116,19 @@ class Game extends CActiveRecord
      */
     public static function initGame()
     {
-        Yii::app()->session['game'] = new Game;
-        self::getGameInstance()->save();    // save the game so that the game_id
-                                            // is set
+        $game = Yii::app()->session['game'] = new Game;
         if (($user = User::getCurrentUser()) !== null) {
-            self::getGameInstance()->user_id = $user->id;
+            $game->user_id = $user->id;
         }
+        $game->save();    // save the game so that the game_id is set
 
         self::createMove();
     }
 
     /**
      * Loads the game with the given ID from the database.
-     * The most recent resource levels are set to be active.
+     * The current resource levels are set to the levels from the most recent
+     *  move.
      *
      * @param game_id number the ID of the game to be loaded
      * @return true if the game was loaded successfully, false otherwise
@@ -105,7 +136,7 @@ class Game extends CActiveRecord
     public static function loadGame($game_id)
     {
         $game = self::model()->findByPk($game_id);
-        if ($game !== null && count($game->moves) > 0) {
+        if ($game !== null && !$game->completed) {
             Yii::app()->session['game'] = $game;
             foreach ($game->moves[0]->levels as $level) {
                 Resource::setResourceAmount(
@@ -129,40 +160,41 @@ class Game extends CActiveRecord
      */
     public static function saveGame()
     {
-        if (!self::hasOwner()) {
-            return false;
-        }
+        if (($game = self::getGameInstance()) !== null && $game->hasOwner()) {
+            $game->save();
 
-        self::getGameInstance()->save();
+            foreach (Yii::app()->session['moves'] as $move_data) {
+                $move = $move_data['move'];
+                $amount_data = $move_data['amounts'];
 
-        foreach (Yii::app()->session['moves'] as $move_data) {
-            $move = $move_data['move'];
-            $amount_data = $move_data['amounts'];
-
-            $move->save();
-            $move_levels = array();
-            foreach ($amount_data as $resource_id => $levels) {
-                foreach ($levels as $organ_id => $amount) {
-                    $move_levels[] = array(
-                        'move_id' => $move->id,
-                        'resource_id' => $resource_id,
-                        'organ_id' => $organ_id,
-                        'amount' => $amount,
-                    );
+                $move->save();
+                $move_levels = array();
+                foreach ($amount_data as $resource_id => $levels) {
+                    foreach ($levels as $organ_id => $amount) {
+                        $move_levels[] = array(
+                            'move_id' => $move->id,
+                            'resource_id' => $resource_id,
+                            'organ_id' => $organ_id,
+                            'amount' => $amount,
+                        );
+                    }
                 }
+                Yii::app()->db->getCommandBuilder()->createMultipleInsertCommand(
+                    'move_levels',
+                    $move_levels
+                )->execute();
             }
-            Yii::app()->db->getCommandBuilder()->createMultipleInsertCommand(
-                'move_levels',
-                $move_levels
-            )->execute();
-        }
-        Yii::app()->session['moves'] = array();
+            Yii::app()->session['moves'] = array();
 
-        return true;
+            return true;
+        }
+
+        return false;
     }
 
     /**
-     * Resets the current game to an empty state.
+     * Resets the current game to an empty state and the current resource levels
+     *  to their starting values.
      * Note that and changes to the game state or moves that has not yet been
      *  saved will be lost.
      */
@@ -174,65 +206,6 @@ class Game extends CActiveRecord
     }
 
     /**
-     * Determines whether the current game as an associated owner; that is,
-     *  whether the user was logged in when the game was started or has logged
-     *  in since.
-     *
-     * @return true if the current game exists and has an owner, false otherwise
-     */
-    public static function hasOwner()
-    {
-        if (!self::gameExists()) {
-            return false;
-        }
-
-        return self::getGameInstance()->user_id !== -1;
-    }
-
-    /**
-     * Gets the owner of the current game.
-     *
-     * @return the owner of the current game, or null if the game does not exist
-     *         or does not have an owner
-     */
-    public static function getOwner()
-    {
-        if (!self::hasOwner()) {
-            return null;
-        }
-        return self::getGameInstance()->user;
-    }
-
-    /**
-     * Gets the turn of the current game.
-     *
-     * @return the turn, or 0 if the game does not exist
-     */
-    public static function getTurn()
-    {
-        if (!self::gameExists()) {
-            return 0;
-        }
-
-        return self::getGameInstance()->turn;
-    }
-
-    /**
-     * Sets the turn of the current game.
-     *
-     * @param turn number the new turn
-     * @return true if the game exists and the turn was set, false otherwise
-     */
-    public static function setTurn($turn)
-    {
-        if (!self::gameExists()) {
-            return false;
-        }
-
-        return self::getGameInstance()->turn = $turn;
-    }
-
-    /**
      * Increments the turn of the current game, increasing it by one.
      *
      * @return true if the game exists and the turn was incremented, false
@@ -240,78 +213,49 @@ class Game extends CActiveRecord
      */
     public static function incrementTurn()
     {
-        return self::setTurn(self::getTurn() + 1);
-    }
-
-    /**
-     * Determines whether the current game has been completed; if so, no more
-     *  actions can be taken.
-     *
-     * @return true if the current game exists and has been completed, false
-     *         otherwise
-     */
-    public static function isGameCompleted()
-    {
-        if (!self::gameExists()) {
-            return false;
+        if (($game = self::getGameInstance()) !== null) {
+            return $game->setTurn($game->turn + 1);
         }
 
-        return self::getGameInstance()->completed;
+        return false;
     }
 
     /**
-     * Gets the score for the current game.
-     * 
-     * @return the score, or 0 if the game does not exist
-     */
-    public static function getScore()
-    {
-        if (!self::gameExists()) {
-            return 0;
-        }
-
-        return self::getGameInstance()->score;
-    }
-
-    /**
-     * Sets the score for the current game.
+     * Adds the given number of points to the current game.
      *
-     * @param score number the new score
-     * @return true if the score was set successfully, false otherwise
+     * @param points number the number of points to add
+     * @return true if the game's points were updated, false otherwise
      */
-    public static function setScore($score)
-    {
-        if (!self::gameExists()) {
-            return false;
+    public static function addPoints($points) {
+        if (($game = self::getGameInstance()) !== null) {
+            $game->score += $points;
+            return true;
         }
-
-        self::getGameInstance()->score = $score;
-        return true;
+        return false;
     }
 
     /**
-     * Adds points to the current game.
+     * Gets the current score of the current game, or 0 if no game exists.
      *
-     * @param points number the number of points to be added
-     * @return true if the points were added successfully, false otherwise
+     * @return the current game's score, or 0 if no game has yet been created
      */
-    public static function addPoints($points)
-    {
-        return self::setScore(self::getScore() + $points);
+    public static function getScore() {
+        if (($game = self::getGameInstance()) !== null) {
+            return $game->score;
+        }
+        return 0;
     }
 
     /**
-     * Gets the name of the current game.
+     * Gets the current turn of the current game, or 0 if no game exists.
      *
-     * @return the name of the current game, or null if it does not exist
+     * @return the current game's turn, or 0 if no game has yet been created
      */
-    public static function getGameName()
-    {
-        if (!self::gameExists()) {
-            return null;
+    public static function getTurn() {
+        if (($game = self::getGameInstance()) !== null) {
+            return $game->turn;
         }
-
-        return self::getGameInstance()->name;
+        return 0;   
     }
 
     /**
