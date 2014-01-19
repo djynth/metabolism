@@ -258,6 +258,13 @@ class Game extends CActiveRecord
         return 0;   
     }
 
+    public static function isGameCompleted() {
+        if (($game = self::getGameInstance()) !== null) {
+            return $game->completed;
+        }
+        return false;
+    }
+
     /**
      * This function should be invoked whenever a turn is successfully
      *  completed and updates the game state based on the action taken by the

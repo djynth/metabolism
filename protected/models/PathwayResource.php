@@ -56,12 +56,8 @@ class PathwayResource extends CActiveRecord
      */
     public function canModify($times, $organ, $reverse=false)
     {
-        if ($this->resource->global && !$organ->isGlobal()) {
-            $organ = Organ::getGlobal();
-        }
-
         return $this->resource->isValidChange(
-            $organ,
+            $organ->id,
             ($reverse ? -1 : 1) * $this->value * $times
         );
     }
@@ -83,12 +79,8 @@ class PathwayResource extends CActiveRecord
      */
     public function modify($times, $organ, $reverse=false)
     {
-        if ($this->resource->global && !$organ->isGlobal()) {
-            $organ = Organ::getGlobal();
-        }
-
         return $this->resource->changeAmount(
-            $organ,
+            $organ->id,
             ($reverse ? -1 : 1) * $this->value * $times
         );
     }

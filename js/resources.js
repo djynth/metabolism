@@ -171,7 +171,7 @@ function updateResourceVisual(newOrgan)
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    resource: activeResource,
+                    resource_id: activeResource,
                 },
                 success: function(data) {
                     if (activeResource == data.resource) {

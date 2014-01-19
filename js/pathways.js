@@ -367,7 +367,7 @@ function runPathway(pathwayId, times, organ, reverse)
             data: {
                 pathway_id: pathwayId,
                 times: times,
-                organ: organ,
+                organ_id: organ,
                 reverse: reverse,
             },
             success: function(data) {

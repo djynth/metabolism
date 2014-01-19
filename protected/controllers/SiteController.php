@@ -1,6 +1,6 @@
 <?php
 
-class SiteController extends CController
+class SiteController extends Controller
 {
     public function actionIndex()
     {
@@ -27,58 +27,58 @@ class SiteController extends CController
         }
     }
 
-    public function actionPathway()
+    public function actionPathway($pathway_id, $times, $organ_id, $reverse)
     {
-        if (isset($_POST['pathway_id'], $_POST['organ'], $_POST['times'],
-                  $_POST['reverse'])) {
-            $pathway = Pathway::model()->findByPk($_POST['pathway_id']);
-            $reverse = $_POST['reverse'] == 'true' ? true : false;
+        $pathway = Pathway::model()->findByPk((int)$pathway_id);
+        $organ = Organ::model()->findByPk((int)$organ_id);
+        $reverse = ($reverse === "true");
 
-            $success = $pathway->run(
-                $_POST['times'],
-                Organ::model()->findByPk($_POST['organ']),
-                null,
-                $reverse
-            );
+        $success = $pathway->run((int)$times, $organ, $reverse);
 
-            echo CJavaScript::jsonEncode(array(
-                'success' => $success,
-                'pathway_name' => $pathway->name,
-                'points' => Game::getScore(),
-                'turn' => Game::getTurn(),
-                'resources' => Resource::getAmounts(),
-                'game_over' => Game::isGameCompleted(),
-            ));
-        }
+        echo CJavaScript::jsonEncode(array(
+            'success' => $success,
+            'pathway_name' => $pathway->name,
+            'points' => Game::getScore(),
+            'turn' => Game::getTurn(),
+            'resources' => Resource::getAmounts(),
+            'game_over' => Game::isGameCompleted(),
+        ));
     }
 
-    public function actionEat()
+    public function actionEat(array $nutrients)
     {
-        if (isset($_POST['nutrients'])) {
-            $success = Pathway::eat($_POST['nutrients']);
-
-            echo CJavaScript::jsonEncode(array(
-                'success' => $success,
-                'pathway_name' => Pathway::EAT_NAME,
-                'points' => Game::getScore(),
-                'turn' => Game::getTurn(),
-                'resources' => Resource::getAmounts(),
-                'game_over' => Game::isGameCompleted(),
-            ));
+        $parsed_nutrients = array();
+        foreach ($nutrients as $id => $amount) {
+            if ($amount) {
+                $parsed_nutrients[$id] = (int)$amount;
+            }
         }
+
+        $success = Pathway::eat($parsed_nutrients);
+
+        echo CJavaScript::jsonEncode(array(
+            'success' => $success,
+            'pathway_name' => Pathway::EAT_NAME,
+            'points' => Game::getScore(),
+            'turn' => Game::getTurn(),
+            'resources' => Resource::getAmounts(),
+            'game_over' => Game::isGameCompleted(),
+        ));
     }
 
-    public function actionResourceVisual()
+    public function actionResourceVisual($resource_id)
     {
-        if (isset($_POST['resource'])) {
-            $resource = Resource::model()->findByAttributes(array('id' => $_POST['resource']));
-            echo CJavaScript::jsonEncode(array(
-                'visual' => $this->renderPartial('resource-visual', array('resource' => $resource), true),
-                'resource' => $resource->id,
-                'resource_name' => $resource->name,
-                'sources' => $resource->getSources(),
-                'destinations' => $resource->getDestinations(),
-            ));
-        }
+        $resource = Resource::model()->findByPk((int)$resource_id);
+        echo CJavaScript::jsonEncode(array(
+            'visual' => $this->renderPartial(
+                'resource-visual',
+                array('resource' => $resource),
+                true
+            ),
+            'resource' => $resource->id,
+            'resource_name' => $resource->name,
+            'sources' => $resource->getSources(),
+            'destinations' => $resource->getDestinations(),
+        ));
     }
 }

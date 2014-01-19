@@ -80,6 +80,23 @@ class Pathway extends CActiveRecord
     }
 
     /**
+     * Determines whether this Pathway affects the reource with the given ID.
+     *
+     * @param resource_id number the ID of the resource to check
+     * @return true if this Pathway modifies the resource with ID resource_id,
+     *         false otherwise
+     */
+    public function hasResource($resource_id)
+    {
+        foreach ($this->resources as $resource) {
+            if ($resource->resource->id == $resource_id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Finds and returns the special eat pathway.
      * Note that the result is memoized so this function can be safely called
      *  repeatedly without multiple database queries.
@@ -88,12 +105,12 @@ class Pathway extends CActiveRecord
      */
     public static function getEat()
     {
-        if ($eat === null) {
-            $eat = self::model()->findByAttributes(
+        if (self::$eat === null) {
+            self::$eat = self::model()->findByAttributes(
                 array('name' => self::EAT_NAME)
             );
         }
-        return $eat;
+        return self::$eat;
     }
 
     /**
@@ -113,7 +130,7 @@ class Pathway extends CActiveRecord
         }
         $total = 0;
         foreach ($nutrients as $id => $nutrient) {
-            if (!array_key_exists($id, $eat->resources) || $nutrient < 0) {
+            if (!$eat->hasResource($id) || $nutrient < 0) {
                 return false;
             }
             $total += $nutrient;
@@ -185,7 +202,7 @@ class Pathway extends CActiveRecord
      */
     public static function eat($nutrients)
     {
-        return self::getEat()->run(1, Organ::getGlobal(), $nutrients, false);
+        return self::getEat()->run(1, Organ::getGlobal(), false, $nutrients);
     }
 
     /**
@@ -196,13 +213,12 @@ class Pathway extends CActiveRecord
      * @param times     number     the number of times to run this Pathway; the
      *                             action will count as a single turn regardless
      * @param organ     Organ      the Organ in which to run this Pathway
+     * @param reverse   boolean    whether the Pathway should be reversed
      * @param nutrients array|null for the eat pathway, the nutrients to be
      *                             consumed, ignored otherwise; default is null
-     * @param reverse   boolean    whether the Pathway should be reversed;
-     *                             default is false
      * @return true if the Pathway was run successfully, false otherwise
      */
-    public function run($times, $organ, $nutrients=null, $reverse=false)
+    public function run($times, $organ, $reverse, $nutrients=null)
     {
         if (Game::isGameCompleted()) {
             return false;

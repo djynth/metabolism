@@ -106,12 +106,12 @@ class Resource extends CActiveRecord
     /**
      * Gets the amount of this Resource in the given Organ.
      *
-     * @param organ Organ the organ in which to get the amount
+     * @param organ_id number the ID of the Organ in which to get the amount
      * @return the amount of this Resource in the given Organ
      */
-    public function getAmount($organ)
+    public function getAmount($organ_id)
     {
-        return self::getAmounts()[$this->id][$organ->id];
+        return self::getAmounts()[$this->id][$organ_id];
     }
 
     /**
@@ -154,7 +154,10 @@ class Resource extends CActiveRecord
      */
     public function changeAmount($organ_id, $change)
     {
-        return $this->setAmount($organ_id, $this->getAmount($organ) + $change);
+        return $this->setAmount(
+            $organ_id,
+            $this->getAmount($organ_id) + $change
+        );
     }
 
     /**
@@ -196,28 +199,37 @@ class Resource extends CActiveRecord
      * Determines whether the given value is a permissable amount for this
      *  Resource in the given Organ.
      *
-     * @param organ  Organ  the Organ in which to check for validity
-     * @param amount number the potential value for this Resource
+     * @param organ_id number the ID of the Organ in which to check for validity
+     * @param amount   number the potential value for this Resource
      * @return true if the given value is valid in the given organ, false
      *         otherwise
      */
-    public function isValidAmount($organ, $amount)
+    public function isValidAmount($organ_id, $amount)
     {
-        return $amount >= 0;
+        foreach ($this->organs as $organ) {
+            if ($organ_id === $organ->id) {
+                return $amount >= 0;
+            }
+        }
+
+        return false;
     }
 
     /**
      * Determines whether the level of this Resource in the given Organ after a
      *  change of the given amount if permissable.
      *
-     * @param organ  Organ  the Organ in which to check for validity
-     * @param change number the potential change for this Resource
+     * @param organ_id number the ID of the Organ in which to check for validity
+     * @param change   number the potential change for this Resource
      * @return true if the level of this Resource after the given change is
      *         valid, false otherwise
      */
-    public function isValidChange($organ, $change)
+    public function isValidChange($organ_id, $change)
     {
-        return $this->isValidAmount($organ, $this->getAmount($organ) + $change);
+        return $this->isValidAmount(
+            $organ_id,
+            $this->getAmount($organ_id) + $change
+        );
     }
 
     /**
