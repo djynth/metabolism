@@ -117,10 +117,10 @@ class Resource extends CActiveRecord
     /**
      * Sets the amount of a specific resource.
      *
-     * @param res_id   number the ID of the Resource whose amount is to be set
-     * @param organ_id number the ID of the Organ in which to set the Resource
-     *                        amount
-     * @param amount   number the new amount of the Resource
+     * @param res_id   int the ID of the Resource whose amount is to be set
+     * @param organ_id int the ID of the Organ in which to set the Resource
+     *                     amount
+     * @param amount   int the new amount of the Resource
      * @return the new amount of the resource
      */
     public static function setResourceAmount($res_id, $organ_id, $amount)
@@ -131,9 +131,9 @@ class Resource extends CActiveRecord
     /**
      * Sets the amount of this Resource in the given organ to the given value.
      *
-     * @param organ_id number the ID of the Organ in which to set this
-     *                        Resource's amount
-     * @param amount   number the new amount of this Resource
+     * @param organ_id int the ID of the Organ in which to set this Resource's
+     *                     amount
+     * @param amount   int the new amount of this Resource
      * @return the new amount of this Resource
      */
     public function setAmount($organ_id, $amount)
@@ -147,9 +147,9 @@ class Resource extends CActiveRecord
     /**
      * Alters the amount of this Resource in the given organ by the given value.
      *
-     * @param organ_id number the ID of the Organ in which to change this
-     *                        Resource's amount
-     * @param change   number the amount by which to change this Resource
+     * @param organ_id int the ID of the Organ in which to change this
+     *                     Resource's amount
+     * @param change   int the amount by which to change this Resource
      * @return the new amount of this Resource
      */
     public function changeAmount($organ_id, $change)
@@ -199,8 +199,8 @@ class Resource extends CActiveRecord
      * Determines whether the given value is a permissable amount for this
      *  Resource in the given Organ.
      *
-     * @param organ_id number the ID of the Organ in which to check for validity
-     * @param amount   number the potential value for this Resource
+     * @param organ_id int the ID of the Organ in which to check for validity
+     * @param amount   int the potential value for this Resource
      * @return true if the given value is valid in the given organ, false
      *         otherwise
      */
@@ -219,8 +219,8 @@ class Resource extends CActiveRecord
      * Determines whether the level of this Resource in the given Organ after a
      *  change of the given amount if permissable.
      *
-     * @param organ_id number the ID of the Organ in which to check for validity
-     * @param change   number the potential change for this Resource
+     * @param organ_id int the ID of the Organ in which to check for validity
+     * @param change   int the potential change for this Resource
      * @return true if the level of this Resource after the given change is
      *         valid, false otherwise
      */

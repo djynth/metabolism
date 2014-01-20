@@ -2,6 +2,10 @@
 
 class SiteController extends Controller
 {
+    /**
+     * Renders the main page.
+     * The Game is reset to the initial state.
+     */
     public function actionIndex()
     {
         Game::resetGame();
@@ -9,6 +13,10 @@ class SiteController extends Controller
         $this->render('index');
     }
 
+    /**
+     * Renders the result page, which displays statistics and information to the
+     *  player upon the completion of a game.
+     */
     public function actionResult()
     {
         $user = User::getCurrentUser();
@@ -19,6 +27,9 @@ class SiteController extends Controller
         }
     }
 
+    /**
+     * Renders the error page, simply dumping the error and exiting.
+     */
     public function actionError()
     {
         if ($error = Yii::app()->errorHandler->error) {
@@ -27,6 +38,20 @@ class SiteController extends Controller
         }
     }
 
+    /**
+     * Runs a pathway besides the special Eat pathway.
+     * This action, if successfully completed, will result in the progression of
+     *  the game by a single turn.
+     * The game's state after the Pathway is run is returned to the client by
+     *  means of a JSON packet.
+     * 
+     * @param pathway_id string|int the ID of the Pathway to be run
+     * @param times      string|int the number of times to run the Pathway
+     * @param organ_id   string|int the ID of the Organ in which to run the
+     *                              Pathway
+     * @param reverse    string     whether the Pathway should be reversed,
+     *                              either "true" or "false"
+     */
     public function actionPathway($pathway_id, $times, $organ_id, $reverse)
     {
         $pathway = Pathway::model()->findByPk((int)$pathway_id);
@@ -45,11 +70,23 @@ class SiteController extends Controller
         ));
     }
 
+    /**
+     * Runs the special Eat pathway.
+     * This action, if successfully completed, will result in the progression of
+     *  the game by a single turn.
+     * The game's state after Eat is run is returned to the client by means of a
+     *  JSON packet.
+     *
+     * @param nutrients array the nutrients to be eaten, in the format
+     *                        resource_id => amount
+     */
     public function actionEat(array $nutrients)
     {
         $parsed_nutrients = array();
         foreach ($nutrients as $id => $amount) {
-            if ($amount) {
+            if ($amount) {  // parsing $nutrients into an array results in the
+                            // insertion of empty values at the keys 0 to the
+                            // lowest nutrient ID
                 $parsed_nutrients[$id] = (int)$amount;
             }
         }
@@ -66,6 +103,13 @@ class SiteController extends Controller
         ));
     }
 
+    /**
+     * Renders a resource visual.
+     * The visual and some metadata are returned to the client in a JSON packet.
+     * 
+     * @param resource_id string|int the ID of the Resource whose visual should
+     *                               be created
+     */
     public function actionResourceVisual($resource_id)
     {
         $resource = Resource::model()->findByPk((int)$resource_id);

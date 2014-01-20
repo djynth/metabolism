@@ -290,7 +290,7 @@ class Game extends CActiveRecord
      * @param pathway Pathway|null the Pathway which was run, null by default
      * @param organ   Organ|null   the Organ in which the Pathway was run, null
      *                             by default
-     * @param times   number|null  the number of times the Pathway was run, null
+     * @param times   int|null     the number of times the Pathway was run, null
      *                             by default
      * @param reverse boolean|null whether the Pathway was reversed, null by
      *                             default

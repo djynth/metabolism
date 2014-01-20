@@ -45,7 +45,7 @@ class PathwayResource extends CActiveRecord
      * Determines whether running the associated Pathway in the given organ the
      *  given number of times is a valid aciton.
      *
-     * @param times   number  the number of times the Pathway in question would
+     * @param times   int     the number of times the Pathway in question would
      *                        be run
      * @param organ   Organ   the Organ in which the Pathway in question would
      *                        be run
@@ -70,7 +70,7 @@ class PathwayResource extends CActiveRecord
      *  PathwayResource::canModify() should be made before invoking this
      *  function.
      *
-     * @param times   number  the number of times to run the Pathway
+     * @param times   int     the number of times to run the Pathway
      * @param organ   Organ   the Organ in which to run the Pathway
      * @param reverse boolean whether the Pathway should be reversed, default is
      *                        false

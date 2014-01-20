@@ -210,7 +210,7 @@ class Pathway extends CActiveRecord
      *
      * @see Pathway::areValidNutrients() which specifies the proper format and
      *                                   requirements for the nutrients
-     * @param times     number     the number of times to run this Pathway; the
+     * @param times     int        the number of times to run this Pathway; the
      *                             action will count as a single turn regardless
      * @param organ     Organ      the Organ in which to run this Pathway
      * @param reverse   boolean    whether the Pathway should be reversed
