@@ -2,7 +2,7 @@
     init="no" abbr="<?= $resource->abbr ?>" name="<?= $resource->name ?>" full-name="<?= $resource->full_name ?>">
     <div class="progress">
         <span class="resource-name"><?= $resource->name ?></span>
-        <span class="resource-value"><?= $resource->getAmount($organ) ?></span>
+        <span class="resource-value"><?= $resource->getAmount($organ->id) ?></span>
         <div class="bar"></div>
     </div>
 </div>

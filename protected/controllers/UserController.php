@@ -1,12 +1,200 @@
 <?php
 
-class UserController extends CController
+class UserController extends Controller
 {
     const VERIFICATION_LENGTH = 16;
-    const VERIFICATION_VALUES = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const VERIFICATION_VALUES = 
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const MAX_RECOVER_PASSWORD_ATTEMPTS = 10;
+    const LOGIN_DURATION = 3600*24;
 
-    const MESSAGE_INTERNAL_ERROR = 'An internal error occurred. Please try again.';
+    const MESSAGES = array(
+        'internal_error' => 'An internal error occurred.',
+        'incorrect_login' => 'Incorrect username or password',
+        'password_confirmation_conflict' =>
+            'Password and confirmation do not match.',
+        'invalid_username' => 'Invalid username.',
+        'invalid_password' => 'Invalid password.',
+        'invalid_email' => 'Invalid email address.',
+        'username_taken' => 'That username is taken.',
+        'email_taken' => 'That email address is taken.',
+    )
+
+    /**
+     * Attempts to log the player in with the given authentication information.
+     * The login attempt's success and optional error message are returned to
+     *  the client in a JSON packet.
+     *
+     * @param username string the player's username
+     * @param password string the player's password
+     */
+    public function actionLogin($username, $password)
+    {
+        $success = false;
+        $message = false;
+        $identity = new UserIdentity($username, $password);
+        if ($identity->authenticate()) {
+            Yii::app()->user->login($identity, self::LOGIN_DURATION);
+            $success = true;
+        } else {
+            $message = self::MESSAGES['incorrect_login'];
+        }
+
+        echo CJavaScript::jsonEncode(array(
+            'success' => $success,
+            'message' => $message,
+        ));
+    }
+
+    /**
+     * Logs the current player out.
+     */
+    public function actionLogout()
+    {
+        Yii::app()->user->logout();
+    }
+
+    /**
+     * Creates a new player account with the given information.
+     * TODO: stopped here
+     *
+     * @param username string
+     * @param password string
+     * @param confirm string
+     * @param theme string
+     * @param email string
+     */
+    public function actionCreateAccount($username, $password, $confirm, $theme,
+                                        $email)
+    {
+        $message = false;
+        $success = false;
+
+        if ($password !== $confirm) {
+            $message = self::MESSAGES['password_confirmation_conflict'];
+        } elseif (!self::isValidPassword($password)) {
+            $message = self::MESSAGES['invalid_password'];
+        } elseif (!self::isValidUsername($username)) {
+            $message = self::MESSAGES['invalid_username'];
+        } elseif (User::isUsernameTaken($username)) {
+            $message = self::MESSAGES['username_taken'];
+        } elseif (!User::isValidEmail($email)) {
+            $message = self::MESSAGES['invalid_email'];
+        } elseif (User::isEmailTaken($email)) {
+            $message = self::MESSAGES['email_taken'];
+        } else {
+            $user = new User;
+            $user->username = $username;
+            $user->password = crypt($password, self::blowfishSalt());
+            $user->theme = $theme;
+            $user->email = $email;
+            $user->email_verified = false;
+            $user->email_verification = self::generateVerificationCode();
+            if ($user->save()) {
+                Yii::app()->user->login(
+                    new UserIdentity($username, $password),
+                    self::LOGIN_DURATION
+                );
+                $success = true;
+
+                $this->sendEmailVerification();
+            } else {
+                $message = self::MESSAGES['internal_error'];
+            }
+        }
+        
+        echo CJavaScript::jsonEncode(array(
+            'success' => $success,
+            'message' => $message,
+        ));
+    }
+
+    public function actionChangePassword()
+    {
+        if (isset($_POST['current'], $_POST['new_password'], $_POST['confirm'])) {
+            $current = $_POST['current'];
+            $new     = $_POST['new_password'];
+            $confirm = $_POST['confirm'];
+
+            $success = false;
+            $message = false;
+
+            $user = User::getCurrentUser();
+            if ($user !== null) {
+                if ($new === $confirm) {
+                    if (self::isValidPassword($new)) {
+                        if ($user->authenticate($current)) {
+                            $user->password = crypt($new, self::blowfishSalt());
+                            if ($user->save()) {
+                                $success = true;
+                                $message = 'Your password has been updated.';
+                            } else {
+                                $message = self::MESSAGE_INTERNAL_ERROR;
+                            }
+                        } else {
+                            $message = 'Incorrect current password.';
+                        }
+                    } else {
+                        $message = 'Invalid new password.';
+                    }
+                } else {
+                    $message = 'New password and confirmation do not match.';
+                }
+            } else {
+                $message = 'You must be logged in to change your password.';
+            }
+
+            echo CJavaScript::jsonEncode(array(
+                'success' => $success,
+                'message' => $message,
+            ));
+        }
+    }
+
+    public function actionChangeEmail()
+    {
+        if (isset($_POST['email'], $_POST['password'])) {
+            $email    = $_POST['email'];
+            $password = $_POST['password'];
+
+            $success = false;
+            $message = false;
+
+            $user = User::getCurrentUser();
+            if ($user !== null) {
+                if (self::isValidEmail($email)) {
+                    if (!User::isEmailTaken()) {
+                        if ($user->authenticate($password)) {
+                            $user->email = $email;
+                            $user->email_verified = false;
+                            $user->email_verification = self::generateVerificationCode();
+                            if ($user->save()) {
+                                $success = true;
+                                $message = 'Your email has been updated.';
+
+                                $this->sendEmailVerification();
+                            } else {
+                                $message = self::MESSAGE_INTERNAL_ERROR;
+                            }
+                        } else {
+                            $message = 'Incorrect password.';
+                        }
+                    } else {
+                        $message = 'That email address is taken.';
+                    }
+                } else {
+                    $message = 'Invalid email address.';
+                }
+            } else {
+                $message = 'You must be logged in to change your email address.';
+            }
+
+            echo CJavaScript::jsonEncode(array(
+                'success' => $success,
+                'message' => $message,
+            ));
+        }
+    }
 
     public function actionVerifyEmail()
     {
@@ -111,183 +299,6 @@ class UserController extends CController
 
             $this->render('reset-password', array(
                 'username' => $username,
-            ));
-        }
-    }
-
-    public function actionLogin()
-    {
-        if (isset($_POST['username'], $_POST['password'])) {
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-
-            $success = false;
-            $message = false;
-            $identity = new UserIdentity($username, $password);
-            if ($identity->authenticate()) {
-                Yii::app()->user->login($identity, 3600*24);
-                $success = true;
-            } else {
-                $message = 'Incorrect username or password.';
-            }
-
-            echo CJavaScript::jsonEncode(array(
-                'success' => $success,
-                'message' => $message,
-            ));
-        }
-    }
-
-    public function actionCreateAccount()
-    {
-        if (isset($_POST['username'], $_POST['password'], $_POST['confirm'], $_POST['theme'], $_POST['email'])) {
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-            $confirm  = $_POST['confirm'];
-            $theme    = $_POST['theme'];
-            $email    = $_POST['email'];
-
-            $message = false;
-            $success = false;
-            if ($password === $confirm) {
-                if (self::isValidPassword($password)) {
-                    if (self::isValidUsername($username)) {
-                        if (!User::isUsernameTaken($username)) {
-                            if (self::isValidEmail($email)) {
-                                if (!User::isEmailTaken($email)) {
-                                    $user = new User;
-                                    $user->username = $username;
-                                    $user->password = crypt($password, self::blowfishSalt());
-                                    $user->theme = $theme;
-                                    $user->email = $email;
-                                    $user->email_verified = false;
-                                    $user->email_verification = self::generateVerificationCode();
-                                    if ($user->save()) {
-                                        Yii::app()->user->login(new UserIdentity($username, $password), 3600*24);
-                                        $success = true;
-
-                                        $this->sendEmailVerification();
-                                    } else {
-                                        $message = self::MESSAGE_INTERNAL_ERROR;
-                                    }
-                                } else {
-                                    $message = 'That email address is taken.';
-                                }
-                            } else {
-                                $message = 'Invalid email address.';
-                            }
-                        } else {
-                            $message = 'That username is taken.';
-                        }
-                    } else {
-                        $message = 'Invalid username.';
-                    }
-                } else {
-                    $message = 'Invalid password.';
-                }
-            } else {
-                $message = 'Password and confirmation do not match.';
-            }
-            
-            echo CJavaScript::jsonEncode(array(
-                'success' => $success,
-                'message' => $message,
-            ));
-        }
-    }
-
-    public function actionLogout()
-    {
-        Yii::app()->user->logout();
-
-        echo CJavaScript::jsonEncode(array(
-            'success' => true,
-        ));
-    }
-
-    public function actionChangePassword()
-    {
-        if (isset($_POST['current'], $_POST['new_password'], $_POST['confirm'])) {
-            $current = $_POST['current'];
-            $new     = $_POST['new_password'];
-            $confirm = $_POST['confirm'];
-
-            $success = false;
-            $message = false;
-
-            $user = User::getCurrentUser();
-            if ($user !== null) {
-                if ($new === $confirm) {
-                    if (self::isValidPassword($new)) {
-                        if ($user->authenticate($current)) {
-                            $user->password = crypt($new, self::blowfishSalt());
-                            if ($user->save()) {
-                                $success = true;
-                                $message = 'Your password has been updated.';
-                            } else {
-                                $message = self::MESSAGE_INTERNAL_ERROR;
-                            }
-                        } else {
-                            $message = 'Incorrect current password.';
-                        }
-                    } else {
-                        $message = 'Invalid new password.';
-                    }
-                } else {
-                    $message = 'New password and confirmation do not match.';
-                }
-            } else {
-                $message = 'You must be logged in to change your password.';
-            }
-
-            echo CJavaScript::jsonEncode(array(
-                'success' => $success,
-                'message' => $message,
-            ));
-        }
-    }
-
-    public function actionChangeEmail()
-    {
-        if (isset($_POST['email'], $_POST['password'])) {
-            $email    = $_POST['email'];
-            $password = $_POST['password'];
-
-            $success = false;
-            $message = false;
-
-            $user = User::getCurrentUser();
-            if ($user !== null) {
-                if (self::isValidEmail($email)) {
-                    if (!User::isEmailTaken()) {
-                        if ($user->authenticate($password)) {
-                            $user->email = $email;
-                            $user->email_verified = false;
-                            $user->email_verification = self::generateVerificationCode();
-                            if ($user->save()) {
-                                $success = true;
-                                $message = 'Your email has been updated.';
-
-                                $this->sendEmailVerification();
-                            } else {
-                                $message = self::MESSAGE_INTERNAL_ERROR;
-                            }
-                        } else {
-                            $message = 'Incorrect password.';
-                        }
-                    } else {
-                        $message = 'That email address is taken.';
-                    }
-                } else {
-                    $message = 'Invalid email address.';
-                }
-            } else {
-                $message = 'You must be logged in to change your email address.';
-            }
-
-            echo CJavaScript::jsonEncode(array(
-                'success' => $success,
-                'message' => $message,
             ));
         }
     }

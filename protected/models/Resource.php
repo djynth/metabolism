@@ -106,7 +106,7 @@ class Resource extends CActiveRecord
     /**
      * Gets the amount of this Resource in the given Organ.
      *
-     * @param organ_id number the ID of the Organ in which to get the amount
+     * @param organ_id int the ID of the Organ in which to get the amount
      * @return the amount of this Resource in the given Organ
      */
     public function getAmount($organ_id)
