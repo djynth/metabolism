@@ -39,6 +39,28 @@ class SiteController extends Controller
     }
 
     /**
+     * Renders the email verification page, inserting the email address and
+     *  username if they are given.
+     */
+    public function actionVerifyEmail($email='', $username='')
+    {
+        $this->render('verify-email', array(
+            'email' => $email,
+            'username' => $username,
+        ));
+    }
+
+    /**
+     * Renders the password reset page, inserting the username if it is given.
+     */
+    public function actionResetPassword($username='')
+    {
+        $this->render('reset-password', array(
+            'username' => $username,
+        ));
+    }
+
+    /**
      * Runs a pathway besides the special Eat pathway.
      * This action, if successfully completed, will result in the progression of
      *  the game by a single turn.

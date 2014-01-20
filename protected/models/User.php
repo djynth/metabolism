@@ -1,18 +1,19 @@
 <?php
 
 /**
- * @db id                 int(11)      a unique user ID
- * @db username           varchar(255) this user's chosen name
- * @db password           varchar(255) this user's chosen password (hashed)
- * @db created            timestamp    the time of the account's creation
- * @db theme              varchar(8)   this user's chosen theme
- * @db email              varchar(80)  the email address associated with this
- *                                     user
- * @db email_verified     tinyint(1)   whether the user has verified the email
- *                                     address
- * @db email_verification varchar(16)  the email verification code
- * @db help               tinyint(1)   whether the user has chosen to display
- *                                     help tooltips
+ * @db id                 int(11)         a unique user ID
+ * @db username           varchar(255)    this user's chosen name
+ * @db password           varchar(255)    this user's chosen password (hashed)
+ * @db created            timestamp       the time of the account's creation
+ * @db theme              varchar(8)      this user's chosen theme
+ * @db email              varchar(80)     the email address associated with this
+ *                                        user
+ * @db email_verified     tinyint(1)      whether the user has verified the
+ *                                        email address
+ * @db email_verification varchar(16)     the email verification code
+ * @db help               tinyint(1)      whether the user has chosen to display
+ *                                        help tooltips
+ * @fk password_recovery  RecoverPassword
  */
 class User extends CActiveRecord
 {
@@ -29,6 +30,17 @@ class User extends CActiveRecord
     public function primaryKey()
     {
         return 'id';
+    }
+
+    public function relations()
+    {
+        return array(
+            'password_recovery' => array(
+                self::HAS_ONE,
+                'RecoverPassword',
+                array('id' => 'user_id')
+            ),
+        );
     }
 
     /**

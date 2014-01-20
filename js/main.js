@@ -115,7 +115,7 @@ function setColorTheme(theme, type, save)
             dataType: 'json',
             data: {
                 theme: theme,
-                theme_type: type
+                type: type
             }
         });
     }

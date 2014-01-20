@@ -11,13 +11,25 @@ class UserController extends Controller
     const MESSAGES = array(
         'internal_error' => 'An internal error occurred.',
         'incorrect_login' => 'Incorrect username or password',
-        'password_confirmation_conflict' =>
-            'Password and confirmation do not match.',
         'invalid_username' => 'Invalid username.',
         'invalid_password' => 'Invalid password.',
         'invalid_email' => 'Invalid email address.',
         'username_taken' => 'That username is taken.',
         'email_taken' => 'That email address is taken.',
+        'not_logged_in' => 'You must be logged in to perform this action.',
+        'password_update' => 'Your password has been updated.',
+        'email_update' => 'Your email address has been updated.',
+        'email_verify_incorret' => 
+            'Your username or verification code are incorrect.'
+        'email_already_verified' => 
+            'Your email address has already been verified',
+        'email_verified' => 'Your email address has been verified',
+        'email_verification_impossible' => 
+            'Either that user does not exist or does not have a verified ' .
+            'email address. Contact us to recovery your account.',
+        'password_reset_sent' =>
+            'A password recovery email was sent to your email address at ' .
+            '%domain.',
     )
 
     /**
@@ -56,23 +68,20 @@ class UserController extends Controller
 
     /**
      * Creates a new player account with the given information.
-     * TODO: stopped here
+     * The success or error message of the account creation are returned to the
+     *  client in a JSON packet.
      *
-     * @param username string
-     * @param password string
-     * @param confirm string
-     * @param theme string
-     * @param email string
+     * @param username string the player's username, used as identity
+     * @param password string the player's password, used for authentication
+     * @param theme    string the color theme chosen by the player
+     * @param email    string the email address associated with the player
      */
-    public function actionCreateAccount($username, $password, $confirm, $theme,
-                                        $email)
+    public function actionCreateAccount($username, $password, $theme, $email)
     {
         $message = false;
         $success = false;
 
-        if ($password !== $confirm) {
-            $message = self::MESSAGES['password_confirmation_conflict'];
-        } elseif (!self::isValidPassword($password)) {
+        if (!self::isValidPassword($password)) {
             $message = self::MESSAGES['invalid_password'];
         } elseif (!self::isValidUsername($username)) {
             $message = self::MESSAGES['invalid_username'];
@@ -109,328 +118,370 @@ class UserController extends Controller
         ));
     }
 
-    public function actionChangePassword()
+    /**
+     * Changes the password of the player currently logged in.
+     * The success of the operation and an informational message are returned to
+     *  the client in a JSON packet.
+     *
+     * @param current_password string the player's current password, used to
+     *                                authenticate the player's identity
+     * @param new_password     string the new password to be associated with
+     *                                the player's account
+     */
+    public function actionChangePassword($current_password, $new_password)
     {
-        if (isset($_POST['current'], $_POST['new_password'], $_POST['confirm'])) {
-            $current = $_POST['current'];
-            $new     = $_POST['new_password'];
-            $confirm = $_POST['confirm'];
+        $success = false;
+        $message = false;
 
-            $success = false;
-            $message = false;
+        $user = User::getCurrentUser();
 
-            $user = User::getCurrentUser();
-            if ($user !== null) {
-                if ($new === $confirm) {
-                    if (self::isValidPassword($new)) {
-                        if ($user->authenticate($current)) {
-                            $user->password = crypt($new, self::blowfishSalt());
-                            if ($user->save()) {
-                                $success = true;
-                                $message = 'Your password has been updated.';
-                            } else {
-                                $message = self::MESSAGE_INTERNAL_ERROR;
-                            }
-                        } else {
-                            $message = 'Incorrect current password.';
-                        }
-                    } else {
-                        $message = 'Invalid new password.';
-                    }
-                } else {
-                    $message = 'New password and confirmation do not match.';
-                }
+        if ($user === null) {
+            $message = self::MESSAGES['not_logged_in'];
+        } elseif (!self::isValidPassword($new_password)) {
+            $message = self::MESSAGES['invalid_password'];
+        } elseif (!$user->authenticate($current_password)) {
+            $message = self::MESSAGES['incorrect_login'];
+        } else {
+            $user->password = crypt($new_password, self::blowfishSalt());
+            if ($user->save()) {
+                $success = true;
+                $message = self::MESSAGES['password_update'];
             } else {
-                $message = 'You must be logged in to change your password.';
+                $message = self::MESSAGES['internal_error'];
             }
-
-            echo CJavaScript::jsonEncode(array(
-                'success' => $success,
-                'message' => $message,
-            ));
         }
+
+        echo CJavaScript::jsonEncode(array(
+            'success' => $success,
+            'message' => $message,
+        ));
     }
 
-    public function actionChangeEmail()
+    /**
+     * Changes the email address associated with the player currently logged in.
+     * The success of the operation and an informational message are returned to
+     *  the client in a JSON packet.
+     *
+     * @param password string the player's current password, used to
+     *                        authenticate the player's identity
+     * @param email    string the new email address to be associated with the
+     *                        player's account
+     */
+    public function actionChangeEmail($password, $email)
     {
-        if (isset($_POST['email'], $_POST['password'])) {
-            $email    = $_POST['email'];
-            $password = $_POST['password'];
+        $success = false;
+        $message = false;
 
-            $success = false;
-            $message = false;
+        $user = User::getCurrentUser();
 
-            $user = User::getCurrentUser();
-            if ($user !== null) {
-                if (self::isValidEmail($email)) {
-                    if (!User::isEmailTaken()) {
-                        if ($user->authenticate($password)) {
-                            $user->email = $email;
-                            $user->email_verified = false;
-                            $user->email_verification = self::generateVerificationCode();
-                            if ($user->save()) {
-                                $success = true;
-                                $message = 'Your email has been updated.';
+        if ($user === null) {
+            $message = self::MESSAGES['not_logged_in'];
+        } elseif (!self:::isValidEmail($email)) {
+            $message = self::MESSAGES['invalid_email'];
+        } elseif (User::isEmailTaken($email)) {
+            $message = self::MESSAGES['email_taken'];
+        } elseif (!$user->authenticate($password)) {
+            $message = self::MESSAGES['incorrect_login'];
+        } else {
+            $user->email = $email;
+            $user->email_verified = false;
+            $user->email_verification = self::generateVerificationCode();
+            if ($user->save()) {
+                $success = true;
+                $message = self::MESSAGES['email_update'];
 
-                                $this->sendEmailVerification();
-                            } else {
-                                $message = self::MESSAGE_INTERNAL_ERROR;
-                            }
-                        } else {
-                            $message = 'Incorrect password.';
-                        }
-                    } else {
-                        $message = 'That email address is taken.';
-                    }
-                } else {
-                    $message = 'Invalid email address.';
-                }
+                $this->sendEmailVerification();
             } else {
-                $message = 'You must be logged in to change your email address.';
+                $message = self::MESSAGES['internal_error'];
             }
-
-            echo CJavaScript::jsonEncode(array(
-                'success' => $success,
-                'message' => $message,
-            ));
         }
+
+        echo CJavaScript::jsonEncode(array(
+            'success' => $success,
+            'message' => $message,
+        ));
     }
 
-    public function actionVerifyEmail()
+    /**
+     * Verifies the email address associated with a player's account.
+     * The success of the operation and an informational message are returned to
+     *  the client in a JSON packet.
+     *
+     * @param username     string the username of the account for which to
+     *                            verify the email address
+     * @param verification string the verification code sent to the player in an
+     *                            email, used to authenticate the player
+     */
+    public function actionVerifyEmail($username, $verification)
     {
-        if (isset($_POST['username'], $_POST['verification'])) {
-            $username     = $_POST['username'];
-            $verification = $_POST['verification'];
+        $success = false;
+        $message = false;
 
-            $success = false;
-            $message = false;
+        $user = User::findByUsername($username);
 
-            $user = User::findByUsername($username);
-            if ($user !== null) {
-                if (!$user->email_verified) {
-                    if ($user->email_verification === $verification) {
-                        $user->email_verified = true;
-                        if ($user->save()) {
-                            $message = 'The email address ' . $user->email . ' has been verified.';
-                            $success = true;
-                        } else {
-                            $message = self::MESSAGE_INTERNAL_ERROR;
-                        }
-                    } else {
-                        $message = 'Incorrect verfication code.';
-                    }
-                } else {
+        if ($user === null) {
+            $message = self::MESSAGES['email_verify_incorret'];
+        } elseif ($user->email_verified) {
+            $message = self::MESSAGES['email_already_verified'];
+            $success = true;
+        } elseif ($user->email_verification !== $verification) {
+            $message = self::MESSAGES['email_verify_incorret'];
+        } else {
+            $user->email_verified = true;
+            if ($user->save()) {
+                $message = self::MESSAGES['email_verified'];
+                $success = true;
+            } else {
+                $message = self::MESSAGES['internal_error'];
+            }
+        }
+
+        echo CJavaScript::jsonEncode(array(
+            'success' => $success,
+            'message' => $message,
+        ));
+    }
+
+    /**
+     * Resets the password associated with a player's account to the one given.
+     * The success of the operation and an informational message are returned to
+     *  the client in a JSON packet.
+     *
+     * @param username     string the username of the account for which to reset
+     *                            the password
+     * @param verification string the verification code sent to the player in an
+     *                            email, used to authenticate the player
+     * @param new_password string the new password for the player's account
+     */
+    public function actionResetPassword($username, $verification, $new_password)
+    {
+        $success = false;
+        $message = false;
+
+        $user = User::findByUsername($username);
+
+        if ($user === null) {
+            $message = self::MESSAGES['email_verify_incorret'];
+        } else {
+            $recovery = $user->password_recovery;
+            if ($recovery === null) {
+                $message = self::MESSAGES['email_verify_incorret'];
+            } elseif ($verification !== $recovery->verification) {
+                $recovery->attempts++;
+                $recovery->save();
+                if ($recovery->attempts > self::MAX_RECOVER_PASSWORD_ATTEMPTS) {
+                    $recovery->delete();
+                }
+
+                $message = self::MESSAGES['email_verify_incorret'];
+            } else {
+                $user->password = crypt($new_password, self::blowfishSalt());
+                if ($user->save()) {
+                    $recovery->delete();
                     $success = true;
-                    $message = 'Your email has already been verified.';
-                }
-            } else {
-                $message = 'Account "' . $username . '" not found.';
-            }
-
-            echo CJavaScript::jsonEncode(array(
-                'success' => $success,
-                'message' => $message,
-            ));
-        } else {
-            $email = isset($_GET['email']) ? $_GET['email'] : '';
-            $username = isset($_GET['username']) ? $_GET['username'] : '';
-
-            $this->render('verify-email', array(
-                'email' => $email,
-                'username' => $username,
-            ));
-        }
-    }
-
-    public function actionResetPassword()
-    {
-        if (isset($_POST['username'], $_POST['verification'], $_POST['new_password'], $_POST['confirm'])) {
-            $username     = $_POST['username'];
-            $verification = $_POST['verification'];
-            $new          = $_POST['new_password'];
-            $confirm      = $_POST['confirm'];
-
-            $success = false;
-            $message = false;
-
-            if ($username) {
-                if ($new === $confirm) {
-                    $user = User::findByUsername($username);
-                    if ($user !== null) {
-                        $request = RecoverPassword::model()->findByAttributes(array('user_id' => $user->id));
-                        if ($request !== null) {
-                            if ($verification === $request->verification) {
-                                $user->password = crypt($new, self::blowfishSalt());
-                                if ($user->save()) {
-                                    $request->delete();
-                                    $success = true;
-                                    $message = 'Your password has been reset.';
-                                } else {
-                                    $message = self::MESSAGE_INTERNAL_ERROR;
-                                }
-                            } else {
-                                $request->attempts++;
-                                $request->save();
-                                if ($request->attempts > self::MAX_RECOVER_PASSWORD_ATTEMPTS) {
-                                    $request->delete();
-                                }
-
-                                $message = 'Incorrect verification code.';
-                            }
-                        } else {
-                            $message = 'There is no password recovery request open for ' . $username . '.';
-                        }
-                    } else {
-                        $message = 'Account "' . $username . '"" not found.';
-                    }
+                    $message = self::MESSAGES['password_update'];
                 } else {
-                    $message = 'The new and confirmation passwords do not match.';
+                    $message = self::MESSAGES['internal_error'];
                 }
-            } else {
-                $message = 'No username given.';
-            }
-
-            echo CJavaScript::jsonEncode(array(
-                'success' => $success,
-                'message' => $message,
-            ));
-        } else {
-            $username = isset($_GET['username']) ? $_GET['username'] : '';
-
-            $this->render('reset-password', array(
-                'username' => $username,
-            ));
-        }
-    }
-
-    public function actionValidateUsername()
-    {
-        if (isset($_POST['username'])) {
-            echo CJavaScript::jsonEncode(array(
-                'valid' => self::isValidUsername($_POST['username'])
-            ));
-        }
-    }
-
-    public function actionValidatePassword()
-    {
-        if (isset($_POST['password'])) {
-            echo CJavaScript::jsonEncode(array(
-                'valid' => self::isValidPassword($_POST['password'])
-            ));
-        }
-    }
-
-    public function actionValidateEmail()
-    {
-        if (isset($_POST['email'])) {
-            echo CJavaScript::jsonEncode(array(
-                'valid' => self::isValidEmail($_POST['email'])
-            ));
-        }
-    }
-
-    public function actionSaveTheme()
-    {
-        if (isset($_POST['theme']) && isset($_POST['theme_type'])) {
-            $user = User::getCurrentUser();
-            if ($user !== null) {
-                $user->theme = $_POST['theme'];
-                $user->theme_type = $_POST['theme_type'];
-                $user->save();
             }
         }
+
+        echo CJavaScript::jsonEncode(array(
+            'success' => $success,
+            'message' => $message,
+        ));
     }
 
-    public function actionSaveHelp()
+    /**
+     * Determines whether the given username is valid.
+     * The result is returned to the client in a JSON packet.
+     *
+     * @param username string a potential username
+     */
+    public function actionValidateUsername($username)
     {
-        if (isset($_POST['help'])) {
-            $user = User::getCurrentUser();
-            if ($user !== null) {
-                $user->help = filter_var($_POST['help'], FILTER_VALIDATE_BOOLEAN);
-                $user->save();
-            }
+        echo CJavaScript::jsonEncode(array(
+            'valid' => self::isValidUsername($username)
+        ));
+    }
+
+    /**
+     * Determines whether the given password is valid.
+     * The result is returned to the client in a JSON packet.
+     *
+     * @param password string a potential password
+     */
+    public function actionValidatePassword($password)
+    {
+        echo CJavaScript::jsonEncode(array(
+            'valid' => self::isValidPassword($password)
+        ));
+    }
+
+    /**
+     * Determines whether the given email address is valid.
+     * The result is returned to the client in a JSON packet.
+     *
+     * @param email string a potential email address
+     */
+    public function actionValidateEmail($email)
+    {
+        echo CJavaScript::jsonEncode(array(
+            'valid' => self::isValidEmail($email)
+        ));
+    }
+
+    /**
+     * Saves the given color theme and type as the preference for the current
+     *  user, if one is logged in.
+     * No data is returned to the client regarding the success of this
+     *  operation.
+     *
+     * @param theme string the name of the color theme
+     * @param type  string the type of the color theme
+     */
+    public function actionSaveTheme($theme, $type)
+    {
+        $user = User::getCurrentUser();
+        if ($user !== null) {
+            $user->theme = $theme;
+            $user->theme_type = $type;
+            $user->save();
         }
     }
 
+    /**
+     * Saves the given help setting as the preference for the current user, if
+     *  one is logged in.
+     * No data is returned to the client regarding the success of this
+     *  operation.
+     *
+     * @param help string whether help tooltips should be shown, either "true"
+     *                    or "false"
+     */
+    public function actionSaveHelp($help)
+    {
+        $user = User::getCurrentUser();
+        if ($user !== null) {
+            $user->help = filter_var($help, FILTER_VALIDATE_BOOLEAN);
+            $user->save();
+        }
+    }
+
+    /**
+     * Resends the email verification code to the currently logged in user.
+     */
     public function actionResendEmailVerification()
     {
         $this->sendEmailVerification();
     }
 
-    public function actionForgotPassword()
+    /**
+     * Sends an email to the user with the given username in order to allow the
+     *  user to reset his password.
+     *
+     * @param username string the username for which to send a password reset
+     *                        email
+     */
+    public function actionForgotPassword($username)
     {
-        if (isset($_POST['username'])) {
-            $username = $_POST['username'];
+        $success = false;
+        $message = false;
 
-            $success = false;
-            $message = false;
+        $user = User::findByUsername($username);
 
-            if ($username) {
-                $user = User::findByUsername($username);
-                if ($user !== null) {
-                    if ($user->email_verified) {
-                        $request = RecoverPassword::model()->findByAttributes(array('user_id' => $user->id));
-                        if ($request === null) {
-                            $request = new RecoverPassword;
-                            $request->user_id = $user->id;
-                            $request->verification = self::generateVerificationCode();
-                            $request->save();
-                        }
-                        
-                        $params = array(
-                            'username' => $user->username,
-                            'verification' => $request->verification,
-                            'resetPage' => Yii::app()->params['url'] . $this->createUrl('user/resetpassword', array(
-                                'username' => $username,
-                            )),
-                        );
+        if ($user === null) {
+            $message = self::MESSAGES['email_verification_impossible'];
+        } elseif (!$user->email_verified) {
+            $message = self::MESSAGES['email_verification_impossible'];
+        } else {
+            $recovery = $user->password_recovery;
 
-                        $message = new YiiMailMessage;
-                        $message->view = 'forgot-password';
-                        $message->subject = 'Recover Your Password';
-                        $message->setBody($params, 'text/html');
-                        $message->addTo($user->email);
-                        $message->from = Yii::app()->params['email'];
-
-                        try {
-                            Yii::app()->mail->send($message);
-                        } catch (Exception $e) { }
-
-                        $message = 'A password recovery email was sent to your email address at ' . $user->getEmailDomain() . '.';
-                        $success = true;
-                    } else {
-                        $message = 'You do not have a verified email address on file. Please contact us to reset your account.';
-                    }
-                } else {
-                    $message = 'Account "' . $username . '"" not found.';
-                }
+            if ($recovery === null) {
+                $recovery = new RecoverPassword;
+                $recovery->user_id = $user->id;
+                $recovery->verification = self::generateVerificationCode();
+                $recovery->attempts = 0;
+                $recovery->save();
             } else {
-                $message = 'Please enter a username.';
+                $recovery->attempts = 0;
+                $recovery->save();
             }
-            
-            echo CJavaScript::jsonEncode(array(
-                'success' => $success,
-                'message' => $message,
-            ));
+
+            $params = array(
+                'username' => $user->username,
+                'verification' => $request->verification,
+                'resetPage' => Yii::app()->params['url'] . $this->createUrl(
+                    'site/resetpassword', array('username' => $username)
+                ),
+            );
+
+            $message = new YiiMailMessage;
+            $message->view = 'forgot-password';
+            $message->subject = 'Recover Your Password';
+            $message->setBody($params, 'text/html');
+            $message->addTo($user->email);
+            $message->from = Yii::app()->params['email'];
+
+            try {
+                Yii::app()->mail->send($message);
+                $message = strtr(
+                    self::MESSAGES['password_reset_sent'],
+                    array('%domain' => $user->getEmailDomain())
+                );
+                $success = true;
+            } catch (Exception $e) {
+                $message = self::MESSAGES['internal_error'];
+            }
         }
+        
+        echo CJavaScript::jsonEncode(array(
+            'success' => $success,
+            'message' => $message,
+        ));
     }
 
+    /**
+     * Determines whether the given username is valid, i.e. it contains an
+     *  appropriate number of useable characters.
+     *
+     * @param username string the potential username
+     * @return true if the username is valid, false otherwise
+     */
     private static function isValidUsername($username)
     {
         return preg_match("/^[a-zA-Z0-9_-]{3,16}$/", $username);
     }
 
+    /**
+     * Determines whether the given password is valid, i.e. it contains an
+     *  appropriate number of useable characters.
+     *
+     * @param password string the potential password
+     * @return true if the password is valid, false otherwise
+     */
     private static function isValidPassword($password)
     {
         return preg_match("/^[a-zA-Z0-9:punct:]{3,32}$/", $password);
     }
 
+    /**
+     * Determines whether the given email address is valid, i.e. it conforms to
+     *  a loose characterization of the form of an email address.
+     *
+     * @param email string the potential email address
+     * @return true if the email address is valid, false otherwise
+     */
     private static function isValidEmail($email)
     {
         return preg_match("/.+\@.+\..+/", $email);
     }
 
+    /**
+     * Generates a verification code used to verify an email address.
+     *
+     * @return a random verification code
+     */
     private static function generateVerificationCode()
     {
         $values = str_split(self::VERIFICATION_VALUES);
@@ -445,11 +496,12 @@ class UserController extends Controller
     }
 
     /**
-     * Generate a random salt in the crypt(3) standard Blowfish format.
-     * Source code attribution belongs to "fsb" <yiiframework.com/wiki/425/use-crypt-for-password-storage>.
+     * Generates a random salt in the crypt(3) standard Blowfish format.
+     * Source code attribution belongs to "fsb" 
+     *  <yiiframework.com/wiki/425/use-crypt-for-password-storage>.
      *
-     * @param int $cost Cost parameter from 4 to 31, default 13
-     * @return string A Blowfish hash salt for use in PHP's crypt()
+     * @param cost int cost parameter from 4 to 31, default 13
+     * @return a Blowfish hash salt for use in PHP's crypt()
      * @throws Exception on invalid cost parameter
      */
     private static function blowfishSalt($cost = 13)
@@ -468,7 +520,12 @@ class UserController extends Controller
         return $salt;
     }
 
-    private function sendEmailVerification()
+    /**
+     * Sends an email verification message to the currently logged in player.
+     *
+     * @return true if the email was sent successfully, false otherwise
+     */
+    private static function sendEmailVerification()
     {
         $user = User::getCurrentUser();
 
@@ -476,10 +533,13 @@ class UserController extends Controller
             'username' => $user->username,
             'verification' => $user->email_verification,
             'email' => $user->email,
-            'verifyPage' => Yii::app()->params['url'] . $this->createUrl('user/verifyemail', array(
-                'email' => $user->email,
-                'username' => $user->username,
-            )),
+            'verifyPage' => Yii::app()->params['url'] . $this->createUrl(
+                'site/verifyemail',
+                array(
+                    'email' => $user->email,
+                    'username' => $user->username,
+                )
+            ),
         );
 
         $message = new YiiMailMessage;
@@ -491,6 +551,9 @@ class UserController extends Controller
 
         try {
             Yii::app()->mail->send($message);
-        } catch (Exception $e) { }
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }
