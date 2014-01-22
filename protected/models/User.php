@@ -5,7 +5,8 @@
  * @db username           varchar(255)    this user's chosen name
  * @db password           varchar(255)    this user's chosen password (hashed)
  * @db created            timestamp       the time of the account's creation
- * @db theme              varchar(8)      this user's chosen theme
+ * @db theme              varchar(8)      this user's chosen color theme
+ * @db theme_type         varchat(20)     the type of this user's chosen theme
  * @db email              varchar(80)     the email address associated with this
  *                                        user
  * @db email_verified     tinyint(1)      whether the user has verified the
@@ -17,6 +18,11 @@
  */
 class User extends CActiveRecord
 {
+    const DEFAULT_THEME = 'frosted';    // the default color theme
+    const DEFAULT_THEME_TYPE = 'light'; // the default color theme type
+    const DEFAULT_HELP = true;          // whether or not help tooltips should
+                                        // be enabled by default
+
     public static function model($className = __CLASS__)
     {
         return parent::model($className);

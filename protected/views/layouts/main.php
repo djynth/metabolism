@@ -26,14 +26,15 @@ foreach (glob("js/*.js") as $js): ?>
 <script>
 var baseUrl = <?= json_encode($baseUrl); ?>;
 
-// TODO: set the default theme externally
-var colorTheme = 'frosted';
-var colorThemeType = 'light';
 <?php if (($user = User::getCurrentUser()) !== null): ?>
-    colorTheme = <?= json_encode($user->theme) ?>;
-    colorThemeType = <?= json_encode($user->theme_type) ?>;
+    var colorTheme = <?= json_encode($user->theme) ?>;
+    var colorThemeType = <?= json_encode($user->theme_type) ?>;
+<?php else: ?>
+    var colorTheme = <?= json_encode(User::DEFAULT_THEME) ?>;
+    var colorThemeType = <?= json_encode(User::DEFAULT_THEME_TYPE) ?>;
 <?php endif ?>
 
+// TODO: embed these in the DOM
 var organColors = new Array;
 <?php
 $organs = Organ::getNotGlobal();
@@ -48,7 +49,7 @@ $(document).ready(function() {
     <?php if (($user = User::getCurrentUser()) !== null): ?>
         setHelpTooltips(parseInt(<?= json_encode($user->help); ?>));
     <?php else: ?>
-        setHelpTooltips(true);  // help tooltips are on by default
+        setHelpTooltips(<?= json_encode(User::DEFAULT_HELP) ?>);
     <?php endif ?>
 });
 </script>
@@ -58,9 +59,9 @@ $(document).ready(function() {
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+<title><?= CHtml::encode($this->pageTitle); ?></title>
 </head>
 
-<body> <?php echo $content; ?> </body>
+<body> <?= $content; ?> </body>
 
 </html>
