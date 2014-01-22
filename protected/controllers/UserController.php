@@ -6,9 +6,9 @@ class UserController extends Controller
     const VERIFICATION_VALUES = 
         'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const MAX_RECOVER_PASSWORD_ATTEMPTS = 10;
-    const LOGIN_DURATION = 3600*24;
+    const LOGIN_DURATION = 86400;
 
-    const MESSAGES = array(
+    private static $MESSAGES = array(
         'internal_error' => 'An internal error occurred.',
         'incorrect_login' => 'Incorrect username or password',
         'invalid_username' => 'Invalid username.',
@@ -20,17 +20,15 @@ class UserController extends Controller
         'password_update' => 'Your password has been updated.',
         'email_update' => 'Your email address has been updated.',
         'email_verify_incorret' => 
-            'Your username or verification code are incorrect.'
+            'Your username or verification code are incorrect.',
         'email_already_verified' => 
             'Your email address has already been verified',
         'email_verified' => 'Your email address has been verified',
         'email_verification_impossible' => 
-            'Either that user does not exist or does not have a verified ' .
-            'email address. Contact us to recovery your account.',
+            'Either that user does not exist or does not have a verified email address. Contact us to recovery your account.',
         'password_reset_sent' =>
-            'A password recovery email was sent to your email address at ' .
-            '%domain.',
-    )
+            'A password recovery email was sent to your email address at %domain.',
+    );
 
     /**
      * Attempts to log the player in with the given authentication information.
@@ -49,7 +47,7 @@ class UserController extends Controller
             Yii::app()->user->login($identity, self::LOGIN_DURATION);
             $success = true;
         } else {
-            $message = self::MESSAGES['incorrect_login'];
+            $message = self::$MESSAGES['incorrect_login'];
         }
 
         echo CJavaScript::jsonEncode(array(
@@ -82,15 +80,15 @@ class UserController extends Controller
         $success = false;
 
         if (!self::isValidPassword($password)) {
-            $message = self::MESSAGES['invalid_password'];
+            $message = self::$MESSAGES['invalid_password'];
         } elseif (!self::isValidUsername($username)) {
-            $message = self::MESSAGES['invalid_username'];
+            $message = self::$MESSAGES['invalid_username'];
         } elseif (User::isUsernameTaken($username)) {
-            $message = self::MESSAGES['username_taken'];
+            $message = self::$MESSAGES['username_taken'];
         } elseif (!User::isValidEmail($email)) {
-            $message = self::MESSAGES['invalid_email'];
+            $message = self::$MESSAGES['invalid_email'];
         } elseif (User::isEmailTaken($email)) {
-            $message = self::MESSAGES['email_taken'];
+            $message = self::$MESSAGES['email_taken'];
         } else {
             $user = new User;
             $user->username = $username;
@@ -108,7 +106,7 @@ class UserController extends Controller
 
                 $this->sendEmailVerification();
             } else {
-                $message = self::MESSAGES['internal_error'];
+                $message = self::$MESSAGES['internal_error'];
             }
         }
         
@@ -136,18 +134,18 @@ class UserController extends Controller
         $user = User::getCurrentUser();
 
         if ($user === null) {
-            $message = self::MESSAGES['not_logged_in'];
+            $message = self::$MESSAGES['not_logged_in'];
         } elseif (!self::isValidPassword($new_password)) {
-            $message = self::MESSAGES['invalid_password'];
+            $message = self::$MESSAGES['invalid_password'];
         } elseif (!$user->authenticate($current_password)) {
-            $message = self::MESSAGES['incorrect_login'];
+            $message = self::$MESSAGES['incorrect_login'];
         } else {
             $user->password = crypt($new_password, self::blowfishSalt());
             if ($user->save()) {
                 $success = true;
-                $message = self::MESSAGES['password_update'];
+                $message = self::$MESSAGES['password_update'];
             } else {
-                $message = self::MESSAGES['internal_error'];
+                $message = self::$MESSAGES['internal_error'];
             }
         }
 
@@ -175,24 +173,24 @@ class UserController extends Controller
         $user = User::getCurrentUser();
 
         if ($user === null) {
-            $message = self::MESSAGES['not_logged_in'];
-        } elseif (!self:::isValidEmail($email)) {
-            $message = self::MESSAGES['invalid_email'];
+            $message = self::$MESSAGES['not_logged_in'];
+        } elseif (!self::isValidEmail($email)) {
+            $message = self::$MESSAGES['invalid_email'];
         } elseif (User::isEmailTaken($email)) {
-            $message = self::MESSAGES['email_taken'];
+            $message = self::$MESSAGES['email_taken'];
         } elseif (!$user->authenticate($password)) {
-            $message = self::MESSAGES['incorrect_login'];
+            $message = self::$MESSAGES['incorrect_login'];
         } else {
             $user->email = $email;
             $user->email_verified = false;
             $user->email_verification = self::generateVerificationCode();
             if ($user->save()) {
                 $success = true;
-                $message = self::MESSAGES['email_update'];
+                $message = self::$MESSAGES['email_update'];
 
                 $this->sendEmailVerification();
             } else {
-                $message = self::MESSAGES['internal_error'];
+                $message = self::$MESSAGES['internal_error'];
             }
         }
 
@@ -220,19 +218,19 @@ class UserController extends Controller
         $user = User::findByUsername($username);
 
         if ($user === null) {
-            $message = self::MESSAGES['email_verify_incorret'];
+            $message = self::$MESSAGES['email_verify_incorret'];
         } elseif ($user->email_verified) {
-            $message = self::MESSAGES['email_already_verified'];
+            $message = self::$MESSAGES['email_already_verified'];
             $success = true;
         } elseif ($user->email_verification !== $verification) {
-            $message = self::MESSAGES['email_verify_incorret'];
+            $message = self::$MESSAGES['email_verify_incorret'];
         } else {
             $user->email_verified = true;
             if ($user->save()) {
-                $message = self::MESSAGES['email_verified'];
+                $message = self::$MESSAGES['email_verified'];
                 $success = true;
             } else {
-                $message = self::MESSAGES['internal_error'];
+                $message = self::$MESSAGES['internal_error'];
             }
         }
 
@@ -261,11 +259,11 @@ class UserController extends Controller
         $user = User::findByUsername($username);
 
         if ($user === null) {
-            $message = self::MESSAGES['email_verify_incorret'];
+            $message = self::$MESSAGES['email_verify_incorret'];
         } else {
             $recovery = $user->password_recovery;
             if ($recovery === null) {
-                $message = self::MESSAGES['email_verify_incorret'];
+                $message = self::$MESSAGES['email_verify_incorret'];
             } elseif ($verification !== $recovery->verification) {
                 $recovery->attempts++;
                 $recovery->save();
@@ -273,15 +271,15 @@ class UserController extends Controller
                     $recovery->delete();
                 }
 
-                $message = self::MESSAGES['email_verify_incorret'];
+                $message = self::$MESSAGES['email_verify_incorret'];
             } else {
                 $user->password = crypt($new_password, self::blowfishSalt());
                 if ($user->save()) {
                     $recovery->delete();
                     $success = true;
-                    $message = self::MESSAGES['password_update'];
+                    $message = self::$MESSAGES['password_update'];
                 } else {
-                    $message = self::MESSAGES['internal_error'];
+                    $message = self::$MESSAGES['internal_error'];
                 }
             }
         }
@@ -391,9 +389,9 @@ class UserController extends Controller
         $user = User::findByUsername($username);
 
         if ($user === null) {
-            $message = self::MESSAGES['email_verification_impossible'];
+            $message = self::$MESSAGES['email_verification_impossible'];
         } elseif (!$user->email_verified) {
-            $message = self::MESSAGES['email_verification_impossible'];
+            $message = self::$MESSAGES['email_verification_impossible'];
         } else {
             $recovery = $user->password_recovery;
 
@@ -426,12 +424,12 @@ class UserController extends Controller
             try {
                 Yii::app()->mail->send($message);
                 $message = strtr(
-                    self::MESSAGES['password_reset_sent'],
+                    self::$MESSAGES['password_reset_sent'],
                     array('%domain' => $user->getEmailDomain())
                 );
                 $success = true;
             } catch (Exception $e) {
-                $message = self::MESSAGES['internal_error'];
+                $message = self::$MESSAGES['internal_error'];
             }
         }
         
