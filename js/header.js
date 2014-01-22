@@ -131,7 +131,7 @@ $(document).ready(function() {
                 dataType: 'json',
                 data: {
                     username: $('#create-account-username').val(),
-                    password: password
+                    password: password,
                     email:    $('#create-account-email').val(),
                     theme:    colorTheme ? colorTheme : DEFAULT_THEME
                 },

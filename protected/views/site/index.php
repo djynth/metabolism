@@ -1,7 +1,3 @@
-<?php
-$this->pageTitle = Yii::app()->name;
-?>
-
 <div class="result-cover"></div>
 
 <div class="sidebar" id="pathway-holder">
