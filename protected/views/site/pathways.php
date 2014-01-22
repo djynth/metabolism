@@ -1,6 +1,5 @@
 <?php
-$organs = Organ::getNotGlobal();
-$global = Organ::getGlobal();
+$organs = Organ::model()->findAll();
 ?>
 
 <div class="sidebar-title header-text">
@@ -62,19 +61,6 @@ $global = Organ::getGlobal();
             <input type="button" class="btn btn-small btn-inverse" id="filter-clear" value="Display All">
         </div>
     </div>
-</div>
-
-<?php
-$this->renderPartial('organ-header', array('organ' => $global, 'right' => true));
-?>
-
-<div class="pathway-holder global" value="<?= $global->id ?>">
-    <?php
-    $pathways = $global->pathways;
-    foreach ($pathways as $pathway) {
-        $this->renderPartial('pathway', array('pathway' => $pathway, 'organ' => $global));
-    }
-    ?>
 </div>
 
 <?php foreach($organs as $organ):

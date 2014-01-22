@@ -1,23 +1,9 @@
 <?php
-$organs = Organ::getNotGlobal();
-$global = Organ::getGlobal();
+$organs = Organ::model()->findAll();
 ?>
 
 <div class="sidebar-title header-text">
     <p>Molecular Resources</p>
-</div>
-
-<?php
-$this->renderPartial('organ-header', array('organ' => $global, 'right' => false));
-?>
-
-<div class="resource-holder global" value="<?= $global->id ?>">
-    <?php
-    $resources = $global->resources;
-    foreach ($resources as $resource) {
-        $this->renderPartial('resource', array('resource' => $resource, 'organ' => $global));
-    }
-    ?>
 </div>
 
 <?php foreach($organs as $organ):
