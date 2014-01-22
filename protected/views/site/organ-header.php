@@ -1,8 +1,12 @@
+<?php
+/**
+ * @param organ
+ * @param right
+ */
+?>
+
 <div class="header-text accordian-header" value="<?= $organ->id ?>">
-    <p class="accordian-title help-tooltip" data-placement="top"
-       title="Click here to switch to viewing the pathways and resources contained in this organ.">
-        <?= $organ->name ?>
-    </p>
+    <p class="accordian-title help-tooltip" data-placement="top" title="Click here to switch to viewing the pathways and resources contained in this organ."><?= $organ->name ?></p>
     
     <i class="icon-info-sign organ-info"></i>
 

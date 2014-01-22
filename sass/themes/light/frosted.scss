@@ -180,17 +180,17 @@ body[theme=frosted] {
         }
     }
 
-    #tracker-holder {
+    #trackers {
         .tracker {
             background-color: $background;
             border-color: $border;
         }
 
-        .tracker-header {
+        .header {
             border-bottom: 1px solid $trackerHeaderBorder;
         }
 
-        .tracker-organ {
+        .organ {
             border-color: $trackerOrganBorder;
         }
 

@@ -10,7 +10,13 @@ class SiteController extends Controller
     {
         Game::initGame();
 
-        $this->render('index');
+        $this->render('index', array(
+            'organs' => Organ::model()->findAll(),
+            'primary_resources' => Resource::model()->findAllByAttributes(
+                array('primary' => true)
+            ),
+            'user' => User::getCurrentUser(),
+        ));
     }
 
     /**

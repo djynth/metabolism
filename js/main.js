@@ -87,7 +87,7 @@ function initCenterGraphic()
 function updateCenterGraphic()
 {
     var top = $('#header').height();
-    var bottom = $('#tracker-holder').height();
+    var bottom = $('#trackers').height();
     $('#cell-canvas').height($(window).height() - top - bottom).offset({ top: top });
 }
 

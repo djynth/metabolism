@@ -1,5 +1,7 @@
 <?php
-$organs = Organ::model()->findAll();
+/**
+ * @param organs
+ */
 ?>
 
 <div class="sidebar-title header-text">
@@ -7,16 +9,16 @@ $organs = Organ::model()->findAll();
 </div>
 
 <?php foreach($organs as $organ):
-    $this->renderPartial('organ-header', array('organ' => $organ, 'right' => false)); ?>
+    $this->renderPartial('organ-header', array('organ' => $organ, 'right' => false));
+    ?>
 
     <div class="accordian-content resource-holder scrollbar-content" value="<?= $organ->id ?>" color="<?= $organ->color ?>">
-        <?php
-        $resources = $organ->resources;
-        foreach ($resources as $resource) {
-            $this->renderPartial('resource', array('resource' => $resource, 'organ' => $organ));
-        }
-        ?>
-    </div>
+    <?php
+    foreach ($organ->resources as $resource) {
+        $this->renderPartial('resource', array('resource' => $resource, 'organ' => $organ));
+    }
+    ?>
+</div>
 <?php endforeach ?>
 
 <div id="resource-visual-header">

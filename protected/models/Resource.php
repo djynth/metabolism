@@ -115,6 +115,23 @@ class Resource extends CActiveRecord
     }
 
     /**
+     * Gets the total amount of this Resource over all the Organs in which it is
+     *  present.
+     *
+     * @return the total amount of this Resource in the system
+     */
+    public function getTotal()
+    {
+        $total = 0;
+
+        foreach ($this->organs as $organ) {
+            $total += $this->getAmount($organ->id);
+        }
+
+        return $total;
+    }
+
+    /**
      * Sets the amount of a specific resource.
      *
      * @param res_id   int the ID of the Resource whose amount is to be set
