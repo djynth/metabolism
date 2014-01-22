@@ -122,6 +122,9 @@ class Game extends CActiveRecord
         }
         $game->save();    // save the game so that the game_id is set
 
+        Yii::app()->session['moves'] = array();
+        Resource::initStartingValues();
+
         self::createMove();
     }
 
@@ -129,6 +132,7 @@ class Game extends CActiveRecord
      * Loads the game with the given ID from the database.
      * The current resource levels are set to the levels from the most recent
      *  move.
+     * TODO: load the previous moves into the session moves variable
      *
      * @param game_id number the ID of the game to be loaded
      * @return true if the game was loaded successfully, false otherwise
@@ -190,19 +194,6 @@ class Game extends CActiveRecord
         }
 
         return false;
-    }
-
-    /**
-     * Resets the current game to an empty state and the current resource levels
-     *  to their starting values.
-     * Note that and changes to the game state or moves that has not yet been
-     *  saved will be lost.
-     */
-    public static function resetGame()
-    {
-        unset(Yii::app()->session['game']);
-        Yii::app()->session['moves'] = array();
-        Resource::initStartingValues();
     }
 
     /**
@@ -280,6 +271,37 @@ class Game extends CActiveRecord
         self::incrementTurn();
 
         self::createMove($pathway, $organ, $times, $reverse);
+    }
+
+    /**
+     * Undoes the most recently run pathway.
+     *
+     * @return true if the move was successfully redacted, false otherwise
+     */
+    public static function undo()
+    {
+        $game = self::getGameInstance();
+        if ($game === null) {
+            return false;
+        }
+
+        $moves = Yii::app()->session['moves'];
+
+        if (count($moves) < 2) {
+            return false;
+        }
+
+        array_pop($moves);
+        Yii::app()->session['moves'] = $moves;
+        $move_data = end($moves);
+
+        $move = $move_data['move'];
+        $amounts = $move_data['amounts'];
+
+        Resource::setAmounts($amounts);
+        $game->setTurn($move->turn);
+        $game->score = $move->score;
+        return true;
     }
 
     /**

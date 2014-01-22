@@ -8,7 +8,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        Game::resetGame();
+        Game::initGame();
 
         $this->render('index');
     }
@@ -125,11 +125,12 @@ class SiteController extends Controller
 
     /**
      * Undoes the most recently run pathway.
+     * The game's state after the undo is completed is returned to the client by
+     *  means of a JSON packet.
      */
     public function actionUndo()
     {
-        // TODO
-        $success = true;
+        $success = Game::undo();
 
         echo CJavaScript::jsonEncode(array(
             'success' => $success,
