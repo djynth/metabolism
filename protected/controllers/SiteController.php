@@ -84,7 +84,6 @@ class SiteController extends Controller
 
         echo CJavaScript::jsonEncode(array(
             'success' => $success,
-            'pathway_name' => $pathway->name,
             'points' => Game::getScore(),
             'turn' => Game::getTurn(),
             'resources' => Resource::getAmounts(),
@@ -117,7 +116,23 @@ class SiteController extends Controller
 
         echo CJavaScript::jsonEncode(array(
             'success' => $success,
-            'pathway_name' => Pathway::EAT_NAME,
+            'points' => Game::getScore(),
+            'turn' => Game::getTurn(),
+            'resources' => Resource::getAmounts(),
+            'game_over' => Game::isGameCompleted(),
+        ));
+    }
+
+    /**
+     * Undoes the most recently run pathway.
+     */
+    public function actionUndo()
+    {
+        // TODO
+        $success = true;
+
+        echo CJavaScript::jsonEncode(array(
+            'success' => $success,
             'points' => Game::getScore(),
             'turn' => Game::getTurn(),
             'resources' => Resource::getAmounts(),

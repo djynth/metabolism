@@ -58,6 +58,10 @@ body[theme=night] {
         background-color: $background;
         border-bottom: 1px solid $border;
 
+        .header-element {
+            border-right: 1px solid $border;
+        }
+
         #settings {
             background-color: inherit;
             border: 1px solid $border;

@@ -3,12 +3,18 @@ $user = User::getCurrentUser();
 ?>
 
 <div id="header">
-    <p id="points" class="help-tooltip" data-placement="bottom" data-container="body"
-       title="The number of points you have accumulated by running valuable pathways.
-              Running some pathways earns points, so try to concentrate on them."></p>
-    <p id="turns" class="help-tooltip" data-placement="bottom" data-container="body" max-turns="<?= Game::MAX_TURNS ?>"
-       title="The number of turns you have remaining.
-              Each time you run a pathway, even if you run it with a multiplier greater than 1, it consumes one turn."></p>
+    <div id="game-state" class="header-element">
+        <p id="points" class="help-tooltip" data-placement="bottom" data-container="body"
+           title="The number of points you have accumulated by running valuable pathways.
+                  Running some pathways earns points, so try to concentrate on them."></p>
+        <p id="turns" class="help-tooltip" data-placement="bottom" data-container="body" max-turns="<?= Game::MAX_TURNS ?>"
+           title="The number of turns you have remaining.
+                  Each time you run a pathway, even if you run it with a multiplier greater than 1, it consumes one turn."></p>
+    </div><div id="undo" class="header-element">
+        <p>Undo</p>
+    </div><div id="save" class="header-element">
+        <p>Save/Load</p>
+    </div>
 
     <div id="settings">
         <div class="settings-header">
