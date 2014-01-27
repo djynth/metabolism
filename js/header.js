@@ -130,10 +130,11 @@ $(document).ready(function() {
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    username: $('#create-account-username').val(),
-                    password: password,
-                    email:    $('#create-account-email').val(),
-                    theme:    colorTheme ? colorTheme : DEFAULT_THEME
+                    username:   $('#create-account-username').val(),
+                    password:   password,
+                    email:      $('#create-account-email').val(),
+                    theme:      colorTheme,
+                    theme_type: colorThemeType
                 },
                 success: function(data) {
                     if (data.success) {
