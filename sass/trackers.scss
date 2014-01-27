@@ -1,6 +1,6 @@
 @import "base";
 
-#tracker-holder {
+#trackers {
     position: absolute;
     left: $sidebarWidth;
     bottom: 0;
@@ -15,27 +15,28 @@
             border-right: none;
         }
 
-        .tracker-header {
+        .header {
             position: relative;
             width: 100%;
 
-            h3 {
+            p {
+                font-weight: bold;
                 top: 1px;
                 line-height: 22px;
                 font-size: 18px;
             }
 
-            .tracker-title {
+            .title {
                 margin-left: 8px;
             }
 
-            .tracker-amount {
+            .total {
                 position: absolute;
                 right: 5px;
             }
         }
 
-        .tracker-organ {
+        .organ {
             position: relative;
             width: 100%;
             height: $trackerOrganHeight;
@@ -54,15 +55,15 @@
                 float: right;
             }
 
+            .amount {
+                right: 6px;
+            }
+
             .organ-name {
                 right: 32px;
             }
 
-            .organ-amount {
-                right: 6px;
-            }
-
-            .tracker-icon-holder {
+            .icons {
                 position: absolute;
                 left: 0;
                 top:  0;

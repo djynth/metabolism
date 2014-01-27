@@ -1,30 +1,41 @@
 <?php
 
-class SiteController extends CController
+class SiteController extends Controller
 {
+    /**
+     * Renders the main page.
+     * The Game is reset to the initial state.
+     */
     public function actionIndex()
     {
         Game::initGame();
-        Resource::initStartingValues();
 
-        $this->render('index');
+        $this->render('index', array(
+            'organs' => Organ::model()->findAll(),
+            'primary_resources' => Resource::model()->findAllByAttributes(
+                array('primary' => true)
+            ),
+            'user' => User::getCurrentUser(),
+        ));
     }
 
+    /**
+     * Renders the result page, which displays statistics and information to the
+     *  player upon the completion of a game.
+     */
     public function actionResult()
     {
         $user = User::getCurrentUser();
-        if ($user !== null || Game::isGameOver()) {
+        if ($user !== null || Game::isGameCompleted()) {
             $this->render('result', array(
-                'game_id' => Game::getGameId()
+                'game_id' => Game::getGameInstance()->id,
             ));
-        } elseif ($user !== null && !Game::isGameStarted()) {
-            $lastGame = Game::model()->findByAttributes(array(''));
-            // TODO view the last played game
-        } elseif (isset($_GET['game'])) {
-            // TODO view the game with id in GET if the current user is allowed to
         }
     }
 
+    /**
+     * Renders the error page, simply dumping the error and exiting.
+     */
     public function actionError()
     {
         if ($error = Yii::app()->errorHandler->error) {
@@ -33,50 +44,129 @@ class SiteController extends CController
         }
     }
 
-    public function actionPathway()
+    /**
+     * Renders the email verification page, inserting the email address and
+     *  username if they are given.
+     */
+    public function actionVerifyEmail($email='', $username='')
     {
-        if (isset($_POST['pathway_id'], $_POST['organ'], $_POST['times'])) {
-            $pathway = Pathway::model()->findByPk($_POST['pathway_id']);
-            $success = $pathway->run($_POST['times'], Organ::model()->findByPk($_POST['organ']));
-
-            echo CJavaScript::jsonEncode(array(
-                'success' => $success,
-                'pathway_name' => $pathway->name,
-                'points' => Game::getPoints(),
-                'turn' => Game::getTurn(),
-                'resources' => Resource::getAmounts(),
-                'game_over' => Game::isGameOver(),
-            ));
-        }
+        $this->render('verify-email', array(
+            'email' => $email,
+            'username' => $username,
+        ));
     }
 
-    public function actionEat()
+    /**
+     * Renders the password reset page, inserting the username if it is given.
+     */
+    public function actionResetPassword($username='')
     {
-        if (isset($_POST['nutrients'])) {
-            $success = Pathway::eat($_POST['nutrients']);
-
-            echo CJavaScript::jsonEncode(array(
-                'success' => $success,
-                'pathway_name' => Pathway::EAT_NAME,
-                'points' => Game::getPoints(),
-                'turn' => Game::getTurn(),
-                'resources' => Resource::getAmounts(),
-                'game_over' => Game::isGameOver(),
-            ));
-        }
+        $this->render('reset-password', array(
+            'username' => $username,
+        ));
     }
 
-    public function actionResourceVisual()
+    /**
+     * Runs a pathway besides the special Eat pathway.
+     * This action, if successfully completed, will result in the progression of
+     *  the game by a single turn.
+     * The game's state after the Pathway is run is returned to the client by
+     *  means of a JSON packet.
+     * 
+     * @param pathway_id string|int the ID of the Pathway to be run
+     * @param times      string|int the number of times to run the Pathway
+     * @param organ_id   string|int the ID of the Organ in which to run the
+     *                              Pathway
+     * @param reverse    string     whether the Pathway should be reversed,
+     *                              either "true" or "false"
+     */
+    public function actionPathway($pathway_id, $times, $organ_id, $reverse)
     {
-        if (isset($_POST['resource'])) {
-            $resource = Resource::model()->findByAttributes(array('id' => $_POST['resource']));
-            echo CJavaScript::jsonEncode(array(
-                'visual' => $this->renderPartial('resource-visual', array('resource' => $resource), true),
-                'resource' => $resource->id,
-                'resource_name' => $resource->name,
-                'sources' => $resource->getSources(),
-                'destinations' => $resource->getDestinations(),
-            ));
+        $pathway = Pathway::model()->findByPk((int)$pathway_id);
+        $organ = Organ::model()->findByPk((int)$organ_id);
+        $reverse = ($reverse === "true");
+
+        $success = $pathway->run((int)$times, $organ, $reverse);
+
+        echo CJavaScript::jsonEncode(array(
+            'success' => $success,
+            'points' => Game::getScore(),
+            'turn' => Game::getTurn(),
+            'resources' => Resource::getAmounts(),
+            'game_over' => Game::isGameCompleted(),
+        ));
+    }
+
+    /**
+     * Runs the special Eat pathway.
+     * This action, if successfully completed, will result in the progression of
+     *  the game by a single turn.
+     * The game's state after Eat is run is returned to the client by means of a
+     *  JSON packet.
+     *
+     * @param nutrients array the nutrients to be eaten, in the format
+     *                        resource_id => amount
+     */
+    public function actionEat(array $nutrients)
+    {
+        $parsed_nutrients = array();
+        foreach ($nutrients as $id => $amount) {
+            if ($amount) {  // parsing $nutrients into an array results in the
+                            // insertion of empty values at the keys 0 to the
+                            // lowest nutrient ID
+                $parsed_nutrients[$id] = (int)$amount;
+            }
         }
+
+        $success = Pathway::eat($parsed_nutrients);
+
+        echo CJavaScript::jsonEncode(array(
+            'success' => $success,
+            'points' => Game::getScore(),
+            'turn' => Game::getTurn(),
+            'resources' => Resource::getAmounts(),
+            'game_over' => Game::isGameCompleted(),
+        ));
+    }
+
+    /**
+     * Undoes the most recently run pathway.
+     * The game's state after the undo is completed is returned to the client by
+     *  means of a JSON packet.
+     */
+    public function actionUndo()
+    {
+        $success = Game::undo();
+
+        echo CJavaScript::jsonEncode(array(
+            'success' => $success,
+            'points' => Game::getScore(),
+            'turn' => Game::getTurn(),
+            'resources' => Resource::getAmounts(),
+            'game_over' => Game::isGameCompleted(),
+        ));
+    }
+
+    /**
+     * Renders a resource visual.
+     * The visual and some metadata are returned to the client in a JSON packet.
+     * 
+     * @param resource_id string|int the ID of the Resource whose visual should
+     *                               be created
+     */
+    public function actionResourceVisual($resource_id)
+    {
+        $resource = Resource::model()->findByPk((int)$resource_id);
+        echo CJavaScript::jsonEncode(array(
+            'visual' => $this->renderPartial(
+                'resource-visual',
+                array('resource' => $resource),
+                true
+            ),
+            'resource' => $resource->id,
+            'resource_name' => $resource->name,
+            'sources' => $resource->getSources(),
+            'destinations' => $resource->getDestinations(),
+        ));
     }
 }

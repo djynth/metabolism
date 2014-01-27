@@ -8,7 +8,9 @@ $(document).ready(function() {
         var id = parseInt($(this).parents('.pathway').attr('value'));
         var organ = parseInt($(this).parents('.pathway-holder').attr('value'));
         var times = parseInt($(this).attr('value'));
-        runPathway(id, times, organ);
+        var reverse = $(this).parents('.pathway-holder').find('.pathway-reverse').hasClass('active');
+        console.log(reverse);
+        runPathway(id, times, organ, reverse);
     });
 
     $('.pathway-plus').click(function() {
@@ -89,6 +91,27 @@ $(document).ready(function() {
         updateEatButtons($(this).parents('.food-holder'));
     });
 
+    $('.pathway-reverse').click(function() {
+        $(this).parents('.pathway').find('.points').each(function() {
+            $(this).text(-parseInt($(this).text()));
+        });
+        $(this).parents('.pathway').find('.reaction').find('tr:not(.header)').each(function() {
+            $(this).children().removeClass('limiting-reagent lacking');
+            $(this).find('.reactant').removeClass('reactant').addClass('temp');
+            $(this).find('.product').removeClass('product').addClass('reactant');
+            $(this).find('.temp').removeClass('temp').addClass('product');
+            $(this).find('.value').each(function() {
+                $(this).text(-parseInt($(this).text()));
+            });
+            var children = $(this).children();
+
+            $(this).empty();
+            $(this).append(children.get().reverse());
+        });
+
+        refreshPathways();      // TODO: only refresh the pathway that was reversed
+    });
+
     $('#pathway-filter-toggle').click(function() {
         var resizedFilter = false;
         $('#pathway-filter').slideToggle({
@@ -155,7 +178,7 @@ function refreshPathways()
         $(this).find('.reactant.name').each(function() {
             var resId = $(this).attr('res-id');
             var actualOrgan = $(this).hasClass('global') ? '1' : organ;
-            var requiredAmount = Math.abs(parseInt($(this).siblings('.value').text()));
+            var requiredAmount = Math.abs(parseInt($(this).siblings('.reactant.value').text()));
             var actualAmount = getResourceValue(resId, actualOrgan);
 
             var mult = Math.floor(actualAmount/requiredAmount);
@@ -179,10 +202,6 @@ function refreshPathways()
 
         for (var i = 0; i < limitingReagents.length; i++) {
             $(this).find('.reactant[res-id="' + limitingReagents[i] + '"]:not(.lacking)').addClass('limiting-reagent');
-        }
-
-        if (limitingReagents.length > 0) {
-            $(this).find('.reactant')
         }
 
         if (lackingReactants.length > 0) {
@@ -262,7 +281,7 @@ function getMaxRuns(pathway, organ)
     $('.pathway[value="' + pathway + '"]').find('.reactant.name').each(function() {
         var actualOrgan = $(this).hasClass('global') ? '1' : organ;
         var resId = parseInt($(this).attr('res-id'));
-        var value = Math.abs(parseInt($(this).siblings('.value').text()));
+        var value = Math.abs(parseInt($(this).siblings('.reactant.value').text()));
         var amountAvailable = getResourceValue(resId, actualOrgan);
         var limit = Math.floor(amountAvailable/value);
         if (maxRuns == -1 || limit < maxRuns) {
@@ -338,7 +357,7 @@ function eat(nutrients)
     }
 }
 
-function runPathway(pathwayId, times, organ)
+function runPathway(pathwayId, times, organ, reverse)
 {
     if (!gameOver) {
         $.ajax({
@@ -348,7 +367,8 @@ function runPathway(pathwayId, times, organ)
             data: {
                 pathway_id: pathwayId,
                 times: times,
-                organ: organ
+                organ_id: organ,
+                reverse: reverse,
             },
             success: function(data) {
                 onPathwaySuccess(data);

@@ -110,14 +110,28 @@
             }
 
             p.lacking {
+                display: inline-block;
                 position: relative;
                 left:   2px;
                 bottom: -7px;
                 margin: 7px 0 6px;
             }
 
+            .run-holder {
+                display: inline-block;
+                position: relative;
+                margin-top: 3px;
+            }
+
             .pathway-run {
                 min-width: 64px;
+            }
+
+            .pathway-reverse {
+                display: inline-block;
+                position: absolute;
+                right: 5px;
+                bottom: 4px;
             }
         }
     }

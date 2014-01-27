@@ -12,6 +12,15 @@
         margin: 6px 7px 0;
     }
 
+    .header-element {
+        display: inline-block;
+        min-height: 100%;
+    }
+
+    #undo {
+        cursor: pointer;
+    }
+
     #settings {
         position: absolute;
         right: $accountWidth;

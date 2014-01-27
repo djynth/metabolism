@@ -3,10 +3,8 @@
 
 <head>
 
-<?php
-$baseUrl = Yii::app()->request->baseUrl;
-
-foreach (glob("lib/*.css") as $css): ?>
+<!-- load all the CSS and JS assets -->
+<?php foreach (glob("lib/*.css") as $css): ?>
     <link type='text/css' rel='stylesheet' href='<?= $css ?>'>
 <?php endforeach;
 foreach (glob("css/*.css") as $css): ?>
@@ -22,45 +20,30 @@ foreach (glob("js/*.js") as $js): ?>
     <script src='<?= $js ?>'></script>
 <?php endforeach; ?>
 
+<?php
+$baseUrl = Yii::app()->request->baseUrl;
+$user = User::getCurrentUser();
+?>
+
 <script>
 var baseUrl = <?= json_encode($baseUrl); ?>;
-var MAX_TURNS = <?= json_encode(Game::MAX_TURNS); ?>;
-var colorTheme = 'frosted';
-var colorThemeType = 'light';
 
-<?php if (($user = User::getCurrentUser()) !== null): ?>
-    <?php foreach (glob("css/themes/light/*.css") as $css): 
-        $theme = basename($css, '.css');
-        if ($user->theme = $theme): ?>
-            colorTheme = <?= json_encode($user->theme); ?>;
-            colorThemeType = 'light';
-        <?php endif;
-    endforeach; ?>
-
-    <?php foreach (glob("css/themes/dark/*.css") as $css): 
-        $theme = basename($css, '.css');
-        if ($user->theme = $theme): ?>
-            colorTheme = <?= json_encode($user->theme); ?>;
-            colorThemeType = 'dark';
-        <?php endif;
-    endforeach; ?>
+<?php if ($user !== null): ?>
+    var colorTheme = <?= json_encode($user->theme) ?>;
+    var colorThemeType = <?= json_encode($user->theme_type) ?>;
+<?php else: ?>
+    var colorTheme = <?= json_encode(User::DEFAULT_THEME) ?>;
+    var colorThemeType = <?= json_encode(User::DEFAULT_THEME_TYPE) ?>;
 <?php endif ?>
 
-var organColors = new Array;
-<?php
-$organs = Organ::getNotGlobal();
-foreach ($organs as $organ): ?>
-    organColors[<?= json_encode($organ->id) ?>] = <?= json_encode($organ->color) ?>;
-<?php endforeach ?>
-
 $(document).ready(function() {
-    setPoints(<?= Game::STARTING_POINTS ?>);
-    setTurn(<?= Game::STARTING_TURN ?>);
+    setPoints(<?= Game::getScore() ?>);
+    setTurn(<?= Game::getTurn() ?>);
 
-    <?php if (($user = User::getCurrentUser()) !== null): ?>
+    <?php if ($user !== null): ?>
         setHelpTooltips(parseInt(<?= json_encode($user->help); ?>));
     <?php else: ?>
-        setHelpTooltips(true);
+        setHelpTooltips(<?= json_encode(User::DEFAULT_HELP) ?>);
     <?php endif ?>
 });
 </script>
@@ -70,9 +53,9 @@ $(document).ready(function() {
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+<title><?= CHtml::encode($this->pageTitle); ?></title>
 </head>
 
-<body> <?php echo $content; ?> </body>
+<body> <?= $content; ?> </body>
 
 </html>

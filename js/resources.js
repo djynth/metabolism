@@ -105,7 +105,7 @@ function onResourceChange(resource, organ, value)
     elem.find('.resource-value').text(value);
     elem.find('.bar').css('width', Math.min(100, 100*(value/parseInt(elem.attr('max-shown')))) + '%');
 
-    var tracker = $('.tracker[value="' + resource + '"]');
+    var tracker = $('.tracker[res-id="' + resource + '"]');
     if (tracker.length) {
         updateTracker(resource, organ, value, change, tracker);
     }
@@ -171,7 +171,7 @@ function updateResourceVisual(newOrgan)
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    resource: activeResource,
+                    resource_id: activeResource,
                 },
                 success: function(data) {
                     if (activeResource == data.resource) {
@@ -196,20 +196,20 @@ function updateResourceVisual(newOrgan)
 
 function updateTracker(resource, organ, amount, change, tracker)
 {
-    tracker.find('.tracker-organ[value="' + organ + '"] .organ-amount').attr('value', amount).text(amount);
+    tracker.find('.organ[organ-id="' + organ + '"]').find('.amount').text(amount);
 
     var total = 0;
-    tracker.find('.organ-amount').each(function() {
-        total += parseInt($(this).attr('value'));
+    tracker.find('.amount').each(function() {
+        total += parseInt($(this).text());
     });
 
-    tracker.find('.tracker-amount').attr('value', total).text(total);
+    tracker.find('.total').text(total);
 
     if (change > 0) {
         var counter = 0;
 
-        var trackerOrgan = tracker.find('.tracker-organ[value="' + organ + '"]');
-        var iconHolder = trackerOrgan.find('.tracker-icon-holder');
+        var trackerOrgan = tracker.find('.organ[organ-id="' + organ + '"]');
+        var iconHolder = trackerOrgan.find('.icons');
 
         function updateTrackerIcons() {
             if (counter++ < change) {
