@@ -6,6 +6,7 @@ $accordianHeaderHeight: 20px;
 $accountWidth:          300px;          // width of the account section and dropdown in the header
 $settingsWidth:         185px;          // width of the settings section and dropdown in the header
 $trackerOrganHeight:    28px;           // height of an individual organ in a primary resource tracker
+$trackerHeight:         141px;          // height of the entire resource tracker table
 $resourceVisualHeight:  165px;          // height of the resource visual in the resource sidebar
 
 @mixin input-placeholder {

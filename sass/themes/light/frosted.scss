@@ -56,12 +56,15 @@ body[theme=frosted] {
 
     .header-text {
         background-color: $background;
-        border-bottom: 1px solid $border;
     }
 
     #header {
         background-color: $background;
         border-bottom: 1px solid $border;
+
+        .header-element {
+            border-right: 1px solid $border;
+        }
 
         #settings {
             background-color: inherit;
@@ -110,7 +113,7 @@ body[theme=frosted] {
 
     .notification-holder {
         background-color: $background;
-        border-color: $border;
+        border-top: 1px solid $border;
     }
 
     #pathway-holder {
@@ -177,17 +180,17 @@ body[theme=frosted] {
         }
     }
 
-    #tracker-holder {
+    #trackers {
         .tracker {
             background-color: $background;
             border-color: $border;
         }
 
-        .tracker-header {
+        .header {
             border-bottom: 1px solid $trackerHeaderBorder;
         }
 
-        .tracker-organ {
+        .organ {
             border-color: $trackerOrganBorder;
         }
 

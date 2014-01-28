@@ -1,36 +1,24 @@
 <?php
-$organs = Organ::getNotGlobal();
-$global = Organ::getGlobal();
+/**
+ * @param organs
+ */
 ?>
 
 <div class="sidebar-title header-text">
     <p>Molecular Resources</p>
 </div>
 
-<?php
-$this->renderPartial('organ-header', array('organ' => $global, 'right' => false));
-?>
+<?php foreach($organs as $organ):
+    $this->renderPartial('organ-header', array('organ' => $organ, 'right' => false));
+    ?>
 
-<div class="resource-holder global" value="<?= $global->id ?>">
+    <div class="accordian-content resource-holder scrollbar-content" value="<?= $organ->id ?>" color="<?= $organ->color ?>">
     <?php
-    $resources = $global->getResources();
-    foreach ($resources as $resource) {
-        $this->renderPartial('resource', array('resource' => $resource, 'organ' => $global));
+    foreach ($organ->resources as $resource) {
+        $this->renderPartial('resource', array('resource' => $resource, 'organ' => $organ));
     }
     ?>
 </div>
-
-<?php foreach($organs as $organ):
-    $this->renderPartial('organ-header', array('organ' => $organ, 'right' => false)); ?>
-
-    <div class="accordian-content resource-holder scrollbar-content" value="<?= $organ->id ?>">
-        <?php
-        $resources = $organ->getResources();
-        foreach ($resources as $resource) {
-            $this->renderPartial('resource', array('resource' => $resource, 'organ' => $organ));
-        }
-        ?>
-    </div>
 <?php endforeach ?>
 
 <div id="resource-visual-header">

@@ -74,9 +74,11 @@ function selectOrgan(organ, firstTime)
         $(this).toggleClass('active', $(this).attr('value') == organ);
     });
 
+    var color = null;
     $('.accordian-content').each(function() {
         var height = $(this).hasClass('pathway-holder') ? getPathwayContentHeight() : getResourceContentHeight();
         if ($(this).attr('value') == organ) {       // select this tab
+            color = $(this).attr('color');
             if (firstTime) {
                 $(this).height(height);
                 $(this).mCustomScrollbar('update');
@@ -99,9 +101,11 @@ function selectOrgan(organ, firstTime)
 
     updateResourceVisual(organ);
 
-    if (firstTime) {
-        $('#cell-canvas').css('backgroundColor', '#' + organColors[organ]);
-    } else {
-        $('#cell-canvas').animate({ backgroundColor: '#' + organColors[organ] }, ORGAN_TRANSITION);
+    if (color) {
+        if (firstTime) {
+            $('#cell-canvas').css('backgroundColor', '#' + color);
+        } else {
+            $('#cell-canvas').animate({ backgroundColor: '#' + color }, ORGAN_TRANSITION);
+        }    
     }
 }

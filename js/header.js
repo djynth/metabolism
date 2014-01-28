@@ -117,28 +117,37 @@ $(document).ready(function() {
     });
 
     $('#create-account-submit').click(function() {
-        $.ajax({
-            url: 'index.php/user/createAccount',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                username: $('#create-account-username').val(),
-                password: $('#create-account-password').val(),
-                confirm:  $('#create-account-confirm').val(),
-                email:    $('#create-account-email').val(),
-                theme:    colorTheme ? colorTheme : DEFAULT_THEME
-            },
-            success: function(data) {
-                if (data.success) {
-                    location.reload();
-                } else {
-                    notifyBottom(createNotification(data.message, false));
+        var password = $('#create-account-password').val();
+        var confirm = $('#create-account-confirm').val();
+        if (password != confirm) {
+            notifyBottom(createNotification(
+                'Password and confirmation do not match.',
+                false
+            ));
+        } else {
+            $.ajax({
+                url: 'index.php/user/createAccount',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    username:   $('#create-account-username').val(),
+                    password:   password,
+                    email:      $('#create-account-email').val(),
+                    theme:      colorTheme,
+                    theme_type: colorThemeType
+                },
+                success: function(data) {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        notifyBottom(createNotification(data.message, false));
+                    }
+                },
+                error: function() {
+                    notifyInternalError();
                 }
-            },
-            error: function() {
-                notifyInternalError();
-            }
-        });
+            });
+        }
     });
 
     $('#logout').click(function() {
@@ -146,34 +155,39 @@ $(document).ready(function() {
             url: 'index.php/user/logout',
             type: 'POST',
             dataType: 'json',
-            success: function(data) {
+            complete: function() {
                 location.reload();
-            },
-            error: function() {
-                notifyInternalError();
             }
         });
     });
 
     $('#change-password-submit').click(function() {
-        $.ajax({
-            url: 'index.php/user/changePassword',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                current: $('#change-password-current').val(),
-                new_password: $('#change-password-new').val(),
-                confirm:  $('#change-password-confirm').val()
-            },
-            success: function(data) {
-                notifyBottom(createNotification(data.message, data.success));
-                if (data.success) {
-                    $('#change-password-current').val('');
-                    $('#change-password-new').val('');
-                    $('#change-password-confirm').val('');
+        var new_password = $('#change-password-new').val();
+        var confirm = $('#change-password-confirm').val();
+        if (new_password != confirm) {
+            notifyBottom(createNotification(
+                'New password and confirmation do not match.',
+                false
+            ));
+        } else {
+            $.ajax({
+                url: 'index.php/user/changePassword',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    current_password: $('#change-password-current').val(),
+                    new_password: new_password,
+                },
+                success: function(data) {
+                    notifyBottom(createNotification(data.message, data.success));
+                    if (data.success) {
+                        $('#change-password-current').val('');
+                        $('#change-password-new').val('');
+                        $('#change-password-confirm').val('');
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 
     $('.forgot-password, .email-verified, .edit-email').hover(function() {
@@ -242,6 +256,21 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('#undo').click(function() {
+        $.ajax({
+            url: 'index.php/site/undo',
+            type: 'POST',
+            dataType: 'json',
+            data: { },
+            success: function(data) {
+                onPathwaySuccess(data);
+            },
+            error: function() {
+                notifyInternalError();
+            }
+        });
+    });
 });
 
 function notifyInternalError()
@@ -256,5 +285,6 @@ function createNotification(message, success)
 
 function confirmMatch(password, confirm)
 {
-    return password.val() == confirm.val() || !password.val() || !confirm.val();
+    return password.val() == confirm.val() || password.val() == '' ||
+           confirm.val() == '';
 }

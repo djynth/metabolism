@@ -87,13 +87,14 @@ function initCenterGraphic()
 function updateCenterGraphic()
 {
     var top = $('#header').height();
-    var bottom = $('#tracker-holder').height();
+    var bottom = $('#trackers').height();
     $('#cell-canvas').height($(window).height() - top - bottom).offset({ top: top });
 }
 
 function setTurn(turn)
 {
-    $('#turns').text(turn + '/' + MAX_TURNS + ' Turns Remaining');
+    var turns = $('#turns');
+    turns.text(turn + '/' + turns.attr('max-turns') + ' Turns Remaining');
 }
 
 function setPoints(points)
@@ -113,7 +114,8 @@ function setColorTheme(theme, type, save)
             type: 'POST',
             dataType: 'json',
             data: {
-                theme: theme
+                theme: theme,
+                type: type
             }
         });
     }
@@ -167,11 +169,6 @@ function setHelpTooltips(active, save)
             }
         });
     }
-}
-
-function notifyTop(html, duration)
-{
-    notify($('#notification-top'), html, duration);
 }
 
 function notifyBottom(html, duration)
