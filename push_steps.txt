@@ -1,0 +1,12 @@
+1. ssh to NFS.net
+    $ ssh leontis_metabolism@ssh.phx.nearlyfreespeech.net
+2. switch if statement in index.php to false in order to display only the
+   unavailable page
+    $ nano index.php
+    $ etc.
+3. git pull
+    $ git pull
+4. scp the new css files to NFS
+    $ scp -r css leontis_metabolism@ssh.phx.nearlyfreespeech.net:
+5. migrate the DB
+    $ protected/yiic migrate
