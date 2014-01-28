@@ -12,6 +12,7 @@ $reactionBorder:       rgb(48,  48,  48);
 $inputBackground:      rgb(38,  38,  38);
 $inputAddOnBackground: rgb(50,  50,  50);
 $inputBorder:          rgb(18,  18,  18);
+$inputPlaceholder:     rgb(153, 153, 153);
 $trackerHeaderBorder:  rgb(81,  81,  81);
 $trackerOrganBorder:   rgb(60,  60,  60);
 $lackingText:          rgb(60,  0,   0);
@@ -34,18 +35,21 @@ body[theme=night] {
     .input-themed {
         border-color: $inputBorder !important;
         background: $inputBackground !important;
+        @include input-placeholder {
+            color: $inputPlaceholder;
+        }
     }
 
     .input-themed-add-on {
         border-color: $inputBorder;
 
         .add-on {
-            border-color: inherit !important;
+            border-color: $inputBorder !important;
             background: $inputAddOnBackground !important;
         }
 
         input {
-            border-color: inherit !important;
+            border-color: $inputBorder !important;
             background: $inputBackground !important;
         }
     }
@@ -109,7 +113,7 @@ body[theme=night] {
 
     .notification-holder {
         background-color: $background;
-        border-color: $border;
+        border: 1px solid $border;
     }
 
     #pathway-holder {
@@ -176,17 +180,17 @@ body[theme=night] {
         }
     }
 
-    #tracker-holder {
+    #trackers {
         .tracker {
             background-color: $background;
             border-color: $border;
         }
 
-        .tracker-header {
+        .header {
             border-bottom: 1px solid $trackerHeaderBorder;
         }
 
-        .tracker-organ {
+        .organ {
             border-color: $trackerOrganBorder;
         }
 

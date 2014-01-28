@@ -151,7 +151,7 @@ p, h1, h2, h3, h4, h5, h6 {
 #cell-canvas {
     position: absolute;
     left: $sidebarWidth;
-    width:  100% - 2*$sidebarWidth;
+    width: 100% - 2*$sidebarWidth;
 
     background-size: contain;
     background-repeat: no-repeat;
@@ -164,6 +164,7 @@ p, h1, h2, h3, h4, h5, h6 {
     left: $sidebarWidth;
     width: 100% - 2*$sidebarWidth;
     padding: 5px 10px;
+    z-index: 1;
 
     .success {
         color: green;
@@ -175,7 +176,7 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 #notification-bottom {
-    border-top: 1px solid;
+    bottom: $trackerHeight + 1;
 
     .eat-confirm {
         p, button {
@@ -183,9 +184,4 @@ p, h1, h2, h3, h4, h5, h6 {
             margin: 0px 5px;
         }
     }
-}
-
-#notification-top {
-    top: $headerHeight + 1;
-    border-bottom: 1px solid;
 }

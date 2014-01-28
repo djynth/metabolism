@@ -69,19 +69,21 @@ class UserController extends Controller
      * The success or error message of the account creation are returned to the
      *  client in a JSON packet.
      *
-     * @param username string the player's username, used as identity
-     * @param password string the player's password, used for authentication
-     * @param theme    string the color theme chosen by the player
-     * @param email    string the email address associated with the player
+     * @param username   string the player's username, used as identity
+     * @param password   string the player's password, used for authentication
+     * @param theme      string the color theme chosen by the player
+     * @param theme_type string the type of the color theme chose by the player
+     * @param email      string the email address associated with the player
      */
-    public function actionCreateAccount($username, $password, $theme, $email)
+    public function actionCreateAccount($username, $password, $theme,
+                                        $theme_type, $email)
     {
         $message = false;
         $success = false;
 
-        if (!self::isValidPassword($password)) {
+        if (!User::isValidPassword($password)) {
             $message = self::$MESSAGES['invalid_password'];
-        } elseif (!self::isValidUsername($username)) {
+        } elseif (!User::isValidUsername($username)) {
             $message = self::$MESSAGES['invalid_username'];
         } elseif (User::isUsernameTaken($username)) {
             $message = self::$MESSAGES['username_taken'];
@@ -94,6 +96,7 @@ class UserController extends Controller
             $user->username = $username;
             $user->password = crypt($password, self::blowfishSalt());
             $user->theme = $theme;
+            $user->theme_type = $theme_type;
             $user->email = $email;
             $user->email_verified = false;
             $user->email_verification = self::generateVerificationCode();
@@ -135,7 +138,7 @@ class UserController extends Controller
 
         if ($user === null) {
             $message = self::$MESSAGES['not_logged_in'];
-        } elseif (!self::isValidPassword($new_password)) {
+        } elseif (!User::isValidPassword($new_password)) {
             $message = self::$MESSAGES['invalid_password'];
         } elseif (!$user->authenticate($current_password)) {
             $message = self::$MESSAGES['incorrect_login'];
@@ -174,7 +177,7 @@ class UserController extends Controller
 
         if ($user === null) {
             $message = self::$MESSAGES['not_logged_in'];
-        } elseif (!self::isValidEmail($email)) {
+        } elseif (!User::isValidEmail($email)) {
             $message = self::$MESSAGES['invalid_email'];
         } elseif (User::isEmailTaken($email)) {
             $message = self::$MESSAGES['email_taken'];
@@ -299,7 +302,7 @@ class UserController extends Controller
     public function actionValidateUsername($username)
     {
         echo CJavaScript::jsonEncode(array(
-            'valid' => self::isValidUsername($username)
+            'valid' => User::isValidUsername($username)
         ));
     }
 
@@ -312,7 +315,7 @@ class UserController extends Controller
     public function actionValidatePassword($password)
     {
         echo CJavaScript::jsonEncode(array(
-            'valid' => self::isValidPassword($password)
+            'valid' => User::isValidPassword($password)
         ));
     }
 
@@ -325,7 +328,7 @@ class UserController extends Controller
     public function actionValidateEmail($email)
     {
         echo CJavaScript::jsonEncode(array(
-            'valid' => self::isValidEmail($email)
+            'valid' => User::isValidEmail($email)
         ));
     }
 
@@ -440,42 +443,6 @@ class UserController extends Controller
     }
 
     /**
-     * Determines whether the given username is valid, i.e. it contains an
-     *  appropriate number of useable characters.
-     *
-     * @param username string the potential username
-     * @return true if the username is valid, false otherwise
-     */
-    private static function isValidUsername($username)
-    {
-        return preg_match("/^[a-zA-Z0-9_-]{3,16}$/", $username);
-    }
-
-    /**
-     * Determines whether the given password is valid, i.e. it contains an
-     *  appropriate number of useable characters.
-     *
-     * @param password string the potential password
-     * @return true if the password is valid, false otherwise
-     */
-    private static function isValidPassword($password)
-    {
-        return preg_match("/^[a-zA-Z0-9:punct:]{3,32}$/", $password);
-    }
-
-    /**
-     * Determines whether the given email address is valid, i.e. it conforms to
-     *  a loose characterization of the form of an email address.
-     *
-     * @param email string the potential email address
-     * @return true if the email address is valid, false otherwise
-     */
-    private static function isValidEmail($email)
-    {
-        return preg_match("/.+\@.+\..+/", $email);
-    }
-
-    /**
      * Generates a verification code used to verify an email address.
      *
      * @return a random verification code
@@ -523,7 +490,7 @@ class UserController extends Controller
      *
      * @return true if the email was sent successfully, false otherwise
      */
-    private static function sendEmailVerification()
+    private function sendEmailVerification()
     {
         $user = User::getCurrentUser();
 

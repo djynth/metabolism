@@ -93,6 +93,20 @@ class User extends CActiveRecord
     }
 
     /**
+     * Returns the User associated with the given username, if one exists.
+     * Note that the results of this function are not memoized, and so repeated
+     *  calls to it may result in multiple database queries.
+     *
+     * @param username string the name of the user to find
+     * @return the User with a username matching the given one, or null if no
+     *         such User exists
+     */
+    public static function findByUsername($username)
+    {
+        return self::model()->findByAttributes(array('username' => $username));
+    }
+
+    /**
      * Determines whether a User with the given username already exists.
      *
      * @param username string the username to test
@@ -114,5 +128,41 @@ class User extends CActiveRecord
     {
         return self::model()->findByAttributes(array('email' => $email))
                !== null;
+    }
+
+    /**
+     * Determines whether the given username is valid, i.e. it contains an
+     *  appropriate number of useable characters.
+     *
+     * @param username string the potential username
+     * @return true if the username is valid, false otherwise
+     */
+    public static function isValidUsername($username)
+    {
+        return preg_match("/^[a-zA-Z0-9_-]{3,16}$/", $username);
+    }
+
+    /**
+     * Determines whether the given password is valid, i.e. it contains an
+     *  appropriate number of useable characters.
+     *
+     * @param password string the potential password
+     * @return true if the password is valid, false otherwise
+     */
+    public static function isValidPassword($password)
+    {
+        return preg_match("/^[a-zA-Z0-9:punct:]{3,32}$/", $password);
+    }
+
+    /**
+     * Determines whether the given email address is valid, i.e. it conforms to
+     *  a loose characterization of the form of an email address.
+     *
+     * @param email string the potential email address
+     * @return true if the email address is valid, false otherwise
+     */
+    public static function isValidEmail($email)
+    {
+        return preg_match("/.+\@.+\..+/", $email);
     }
 }

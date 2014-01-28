@@ -171,11 +171,6 @@ function setHelpTooltips(active, save)
     }
 }
 
-function notifyTop(html, duration)
-{
-    notify($('#notification-top'), html, duration);
-}
-
 function notifyBottom(html, duration)
 {
     notify($('#notification-bottom'), html, duration);
