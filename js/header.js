@@ -155,11 +155,8 @@ $(document).ready(function() {
             url: 'index.php/user/logout',
             type: 'POST',
             dataType: 'json',
-            success: function(data) {
+            complete: function() {
                 location.reload();
-            },
-            error: function() {
-                notifyInternalError();
             }
         });
     });
@@ -288,5 +285,6 @@ function createNotification(message, success)
 
 function confirmMatch(password, confirm)
 {
-    return password.val() == confirm.val() || !password.val() || !confirm.val();
+    return password.val() == confirm.val() || password.val() == '' ||
+           confirm.val() == '';
 }

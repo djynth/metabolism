@@ -155,5 +155,3 @@
         <?php endif ?>
     </div>
 </div>
-
-<div id="notification-top" class="notification-holder"></div>
