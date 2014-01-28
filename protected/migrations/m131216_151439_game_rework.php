@@ -6,7 +6,7 @@ class m131216_151439_game_rework extends CDbMigration
     {
         $this->addColumn('games', 'name', 'varchar(20)');
         $this->addColumn('games', 'turn', 'smallint(6)');
-        $this->addColumn('games', 'user_id', 'int not null');
+        $this->addColumn('games', 'user_id', 'int(11) not null');
         $this->dropTable('user_games');
 
         $this->addForeignKey('fk_games_users_id', 'games', 'user_id', 'users', 'id', 'cascade', 'cascade');

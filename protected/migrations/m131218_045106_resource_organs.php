@@ -1,6 +1,6 @@
 <?php
 
-class m131218_045106_organ_pathways extends CDbMigration
+class m131218_045106_resource_organs extends CDbMigration
 {
     public function up()
     {

@@ -1,0 +1,21 @@
+1. ssh to NFS.net
+    $ ssh leontis_metabolism@ssh.phx.nearlyfreespeech.net
+2. switch if statement in index.php to false in order to display only the
+   unavailable page
+    $ nano index.php
+    $ etc.
+3. git pull
+    $ git pull
+4. scp the new css files to NFS
+    $ scp -r css leontis_metabolism@ssh.phx.nearlyfreespeech.net:
+5. migrate the DB
+    $ protected/yiic migrate
+6. update relevant DB tables
+    login to local phpmyadmin and NFS phpmyadmin
+    for each table that needs to be updated
+        local: "Export" tab -> Custom -> Disable Foreign Key Checks -> Dump Table: data -> Go
+        NFS: "Operations" tab -> Empty the table (TRUNCATE) -> "Import" tab -> choose the file you just downloaded -> Go
+    this is necessary for any of the following tables that have been updated since the last push: organs, pathways, pathway_organs, pathway_resources, resources, resource_organs
+7. switch if statement in index.php to true in order to display the full site again
+    $ nano index.php
+    $ etc.
