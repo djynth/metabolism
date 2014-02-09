@@ -42,8 +42,31 @@ class PathwayResource extends CActiveRecord
     }
 
     /**
+     * Gets the organ in which the resource ought to be modified, if the given
+     *  organ is invalid.
+     * That is, if the resource held by this PathwayResource is not in the given
+     *  organ, this method returns the global organ, otherwise it returns the
+     *  given one.
+     *
+     * @param organ Organ the Organ in which this PathwayResource may be
+     *                    modified, if possible
+     * @return the proper Organ in which the resource can be found
+     */
+    public function getProperOrgan($organ)
+    {
+        foreach ($this->resource->organs as $valid_organ) {
+            if ($valid_organ->id === $organ->id) {
+                return $organ;
+            }
+        }
+        return Organ::getGlobal();
+    }
+
+    /**
      * Determines whether running the associated Pathway in the given organ the
      *  given number of times is a valid aciton.
+     * Note that if this PathwayResource does not exist in the given Organ, it
+     *  will default to checking in the global organ.
      *
      * @param times   int     the number of times the Pathway in question would
      *                        be run
@@ -57,7 +80,7 @@ class PathwayResource extends CActiveRecord
     public function canModify($times, $organ, $reverse=false)
     {
         return $this->resource->isValidChange(
-            $organ->id,
+            $this->getProperOrgan($organ)->id,
             ($reverse ? -1 : 1) * $this->value * $times
         );
     }
@@ -69,6 +92,8 @@ class PathwayResource extends CActiveRecord
      *  level is valid, and so an appropriate call to
      *  PathwayResource::canModify() should be made before invoking this
      *  function.
+     * Note also that if this PathwayResource does not exist in the given Organ,
+     *  it will default to running in the global organ.
      *
      * @param times   int     the number of times to run the Pathway
      * @param organ   Organ   the Organ in which to run the Pathway
@@ -80,7 +105,7 @@ class PathwayResource extends CActiveRecord
     public function modify($times, $organ, $reverse=false)
     {
         return $this->resource->changeAmount(
-            $organ->id,
+            $this->getProperOrgan($organ)->id,
             ($reverse ? -1 : 1) * $this->value * $times
         );
     }
