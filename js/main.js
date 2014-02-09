@@ -94,7 +94,8 @@ function updateCenterGraphic()
 function setTurn(turn)
 {
     var turns = $('#turns');
-    turns.text(turn + '/' + turns.attr('max-turns') + ' Turns Remaining');
+    var maxTurns = turns.attr('max-turns');
+    turns.text((maxTurns-turn) + '/' + maxTurns + ' Turns Remaining');
 }
 
 function setPoints(points)
