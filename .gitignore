@@ -8,3 +8,5 @@ yii/
 index.php
 protected/yiic.php
 hours.txt
+*.sublime-project
+*.sublime-workspace

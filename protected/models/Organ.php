@@ -55,7 +55,7 @@ class Organ extends CActiveRecord
      */
     public function isGlobal()
     {
-        return $this->id === self::GLOBAL_ID;
+        return $this->id == self::GLOBAL_ID;
     }
 
     /**
