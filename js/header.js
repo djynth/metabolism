@@ -22,7 +22,7 @@ $(document).ready(function() {
     });
 
     $('input[type=text], input[type=password]').keypress(function(event) {
-        if (event.which == 13) {
+        if (event.which == 13) {    // enter
             $(this).parent().siblings().find('input[type=submit]').click();
         }
     }).focus(function() {
@@ -66,7 +66,7 @@ $(document).ready(function() {
 
     $('.check-password').change(function() {
         var confirm = $($(this).attr('confirm'));
-        confirm.parent().toggleClass('error', confirmMatch($(this), confirm));
+        confirm.parent().toggleClass('error', !confirmMatch($(this), confirm));
 
         if ($(this).val()) {
             $.ajax({
@@ -90,7 +90,7 @@ $(document).ready(function() {
         var password = $(this);
         var confirm = $($(this).attr('confirm'));
         confirm.change(function() {
-            confirm.parent().toggleClass('error', confirmMatch(password, confirm));
+            confirm.parent().toggleClass('error', !confirmMatch(password, confirm));
         });
     });
 
@@ -285,6 +285,11 @@ function createNotification(message, success)
 
 function confirmMatch(password, confirm)
 {
+    console.log('match')
+    console.log(password)
+    console.log(confirm)
+    console.log(password.val() == confirm.val() || password.val() == '' ||
+           confirm.val() == '')
     return password.val() == confirm.val() || password.val() == '' ||
            confirm.val() == '';
 }
