@@ -409,17 +409,19 @@ class UserController extends Controller
                 $recovery->save();
             }
 
+            $url = Yii::app()->params['url'];
             $params = array(
+                'url' => $url,
                 'username' => $user->username,
-                'verification' => $request->verification,
-                'resetPage' => Yii::app()->params['url'] . $this->createUrl(
+                'verification' => $recovery->verification,
+                'resetPage' => $url . $this->createUrl(
                     'site/resetpassword', array('username' => $username)
                 ),
             );
 
             $message = new YiiMailMessage;
             $message->view = 'forgot-password';
-            $message->subject = 'Recover Your Password';
+            $message->subject = 'Metabolism Fun Password Reset';
             $message->setBody($params, 'text/html');
             $message->addTo($user->email);
             $message->from = Yii::app()->params['email'];
@@ -494,11 +496,13 @@ class UserController extends Controller
     {
         $user = User::getCurrentUser();
 
+        $url = Yii::app()->params['url'];
         $params = array(
+            'url' => $url,
             'username' => $user->username,
             'verification' => $user->email_verification,
             'email' => $user->email,
-            'verifyPage' => Yii::app()->params['url'] . $this->createUrl(
+            'verifyPage' => $url . $this->createUrl(
                 'site/verifyemail',
                 array(
                     'email' => $user->email,
