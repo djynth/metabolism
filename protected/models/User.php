@@ -44,7 +44,7 @@ class User extends CActiveRecord
             'password_recovery' => array(
                 self::HAS_ONE,
                 'RecoverPassword',
-                array('id' => 'user_id')
+                array('user_id' => 'id')
             ),
         );
     }
@@ -114,8 +114,7 @@ class User extends CActiveRecord
      */
     public static function isUsernameTaken($username)
     {
-        return self::model()->findByAttributes(array('username' => $username)) 
-               !== null;
+        return self::findByUsername($username) !== null;
     }
 
     /**
