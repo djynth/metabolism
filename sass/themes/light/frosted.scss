@@ -1,23 +1,24 @@
 @import "base";
 
-$text:                 rgb(80,  80,  80);
-$textShadow:           rgb(230, 230, 230);
-$border:               rgb(70,  70,  70);
-$background:           rgb(240, 240, 240);
-$sidebarBackground:    rgb(225, 225, 225);
-$elementBackground:    rgb(200, 200, 200);
-$elementBorder:        rgb(170, 170, 170);
-$elementText:          rgb(55,  55,  55);
-$reactionBorder:       rgb(130, 130, 130);
-$inputBackground:      rgb(220, 220, 220);
-$inputAddOnBackground: rgb(225, 225, 225);
-$inputBorder:          rgb(135, 135, 135);
-$inputPlaceholder:     rgb(125, 125, 125);
-$trackerHeaderBorder:  rgb(140, 140, 140);
-$trackerOrganBorder:   rgb(160, 160, 160);
-$lackingText:          rgb(111, 12,  12);
-$limitingReagent:      rgb(12,  12,  111);
-$resultCover:          rgb(255, 255, 255);
+$text:                 rgb( 80,  80,  80);
+$textShadow:           rgb( 230, 230, 230);
+$border:               rgb( 70,  70,  70);
+$background:           rgb( 240, 240, 240);
+$sidebarBackground:    rgb( 225, 225, 225);
+$elementBackground:    rgb( 200, 200, 200);
+$elementBorder:        rgb( 170, 170, 170);
+$elementText:          rgb( 55,  55,  55);
+$reactionBorder:       rgb( 130, 130, 130);
+$inputBackground:      rgb( 220, 220, 220);
+$inputAddOnBackground: rgb( 225, 225, 225);
+$inputBorder:          rgb( 135, 135, 135);
+$inputPlaceholder:     rgb( 125, 125, 125);
+$trackerHeaderBorder:  rgb( 140, 140, 140);
+$trackerOrganBorder:   rgb( 160, 160, 160);
+$lackingText:          rgb( 111, 12,  12);
+$limitingReagent:      rgb( 12,  12,  111);
+$resultCover:          rgb( 255, 255, 255);
+$copyright:            rgba(80,  80,  80,  0.85);
 $trackerActive:        darken($background, 9%);
 
 body[theme=frosted] {
@@ -197,5 +198,10 @@ body[theme=frosted] {
         .active {
             background-color: $trackerActive;
         }
+    }
+
+    #copyright {
+        color: $copyright;
+        text-shadow: none;
     }
 }
