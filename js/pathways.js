@@ -421,6 +421,7 @@ function onFilterChange()
 
     $('.pathway').attr('filter', 'true').each(function() {
         var pathwayName = $(this).find('.title').text();
+        var organ = $(this).parents('.pathway-holder').attr('value');
         if (name && !name.test(pathwayName)) {
             $(this).attr('filter', 'false');
             return;
@@ -439,8 +440,12 @@ function onFilterChange()
 
         if (reactant) {
             var pathwayReactants = new Array;
-            $(this).find('.reactant').each(function() {
-                pathwayReactants.push(getResourceElement($(this).attr('res-id')));
+            $(this).find('.reactant.name').each(function() {
+                var global = $(this).hasClass('global');
+                pathwayReactants.push(getResourceElement(
+                    $(this).attr('res-id'),
+                    global ? '1' : organ
+                ));
             });
 
             var match = false;
@@ -462,8 +467,11 @@ function onFilterChange()
 
         if (product) {
             var pathwayProducts = new Array;
-            $(this).find('.product').each(function() {
-                pathwayProducts.push(getResourceElement($(this).attr('res-id')));
+            $(this).find('.product.name').each(function() {
+                pathwayProducts.push(getResourceElement(
+                    $(this).attr('res-id'),
+                    global ? '1' : organ
+                ));
             });
 
             var match = false;
