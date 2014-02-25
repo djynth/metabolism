@@ -6,6 +6,9 @@
  * @db color       char(6)         the HTML color code for the color related to
  *                                 this organ
  * @db description text            a user-readable description of the organ
+ * @db action_name varchar(20)     a user-readable name for the tracked action
+ *                                 specific to this organ - may be null if there
+ *                                 is no such action
  * @fk pathways    array(Pathway)  ordered by pathway ID ascending
  * @fk resources   array(Resource) ordered by resource ID ascending
  */
@@ -89,5 +92,82 @@ class Organ extends CActiveRecord
             );
         }
         return self::$not_global;
+    }
+
+    private static function getCounts()
+    {
+        return Yii::app()->session['actions'];
+    }
+
+    private static function setCounts($counts)
+    {
+        Yii::app()->session['actions'] = $counts;
+    }
+
+    /**
+     * Gets the number of times the action associated with this Organ has been
+     *  activated in the current game.
+     * 
+     * @return the count of this Organ's action
+     */
+    public function getActionCount()
+    {
+        return self::getCounts()[$this->id];
+    }
+
+    /**
+     * Sets the number of times the action associated with this Organ has been
+     *  activated in the current game
+     *
+     * @param count number the new count of this Organ's action
+     * @return the new count of this Organ's action
+     */
+    public function setActionCount($count)
+    {
+        $counts = self::getCounts();
+        $counts[$this->id] = $count;
+        self::setCounts($counts);
+        return $count;
+    }
+
+    /**
+     * Increments the number of times the action associated with this Organ has
+     *  been activated in the current game.
+     * 
+     * @param count int the amount by which to increment the action count; i.e.
+     *                  the number of times the action has been activated
+     * @return the new count of this Organ's action
+     */
+    public function incrementActionCount($count)
+    {
+        return $this->setActionCount($this->getActionCount() + $count);
+    }
+
+    public static function initActionCounts()
+    {
+        $organs = self::model()->findAll();
+
+        foreach ($organs as $organ) {
+            $organ->setActionCount(0);
+        }
+    }
+
+    /**
+     * Gets an array of the action counts in all the organs.
+     * The returned array is of the form id => count.
+     *
+     * @return the number of times the action associated with each Organ has
+     *         been activated
+     */
+    public static function getActionCounts()
+    {
+        $counts = array();
+        $organs = self::model()->findAll();
+
+        foreach ($organs as $organ) {
+            $counts[$organ->id] = $organ->getActionCount();
+        }
+
+        return $counts;
     }
 }

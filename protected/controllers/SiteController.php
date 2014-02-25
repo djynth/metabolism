@@ -12,6 +12,7 @@ class SiteController extends Controller
 
         $this->render('index', array(
             'organs' => Organ::model()->findAll(),
+            'non_global' => Organ::getNotGlobal(),
             'primary_resources' => Resource::model()->findAllByAttributes(
                 array('primary' => true)
             ),
@@ -94,6 +95,7 @@ class SiteController extends Controller
             'turn' => Game::getTurn(),
             'resources' => Resource::getAmounts(),
             'game_over' => Game::isGameCompleted(),
+            'action_counts' => Organ::getActionCounts(),
         ));
     }
 
@@ -126,6 +128,7 @@ class SiteController extends Controller
             'turn' => Game::getTurn(),
             'resources' => Resource::getAmounts(),
             'game_over' => Game::isGameCompleted(),
+            'action_counts' => Organ::getActionCounts(),
         ));
     }
 
@@ -144,6 +147,7 @@ class SiteController extends Controller
             'turn' => Game::getTurn(),
             'resources' => Resource::getAmounts(),
             'game_over' => Game::isGameCompleted(),
+            'action_counts' => Organ::getActionCounts(),
         ));
     }
 

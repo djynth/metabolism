@@ -70,9 +70,13 @@ $(document).ready(function() {
 
 function selectOrgan(organ, firstTime)
 {
-    $('.accordian-header, .accordian-content, .tracker-organ').each(function() {
+    $('.accordian-header, .accordian-content').each(function() {
         $(this).toggleClass('active', $(this).attr('value') == organ);
     });
+
+    $('.tracker').find('.organ').each(function() {
+        $(this).toggleClass('active', $(this).attr('organ-id') == organ);
+    })
 
     var color = null;
     $('.accordian-content').each(function() {
@@ -107,5 +111,12 @@ function selectOrgan(organ, firstTime)
         } else {
             $('#cell-canvas').animate({ backgroundColor: '#' + color }, ORGAN_TRANSITION);
         }    
+    }
+}
+
+function updateActionCounts(counts)
+{
+    for (organ in counts) {
+        $('.tracker.actions').find('.organ[organ-id=' + organ + ']').find('.amount').text(counts[organ]);
     }
 }

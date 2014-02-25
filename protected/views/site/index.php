@@ -1,6 +1,7 @@
 <?php
 /**
  * @param organs
+ * @param non_global
  * @param primary_resources
  * @param user
  */
@@ -23,6 +24,7 @@
 
 <?php $this->renderPartial('trackers', array(
     'primary_resources' => $primary_resources,
+    'non_global' => $non_global,
 )); ?>
 
 <div class="sidebar" id="resource-holder">

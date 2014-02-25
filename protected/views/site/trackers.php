@@ -1,6 +1,7 @@
 <?php
 /**
  * @param primary_resources
+ * @param non_global
  */
 ?>
 
@@ -14,7 +15,7 @@
             <p class="total"><?= $resource->getTotal() ?></p>
         </div>
 
-        <?php foreach ($resource->organs as $organ): ?>
+        <?php foreach ($non_global as $organ): ?>
         <div class="organ" organ-id="<?= $organ->id ?>">
             <p class="amount"><?= $resource->getAmount($organ->id) ?></p>
             <p class="organ-name"><?= $organ->name ?></p>
@@ -23,4 +24,17 @@
         <?php endforeach ?>
     </td>
     <?php endforeach ?>
+
+    <td class="tracker actions">
+        <div class="header">
+            <p class="title">Organ-Specific Actions</p>
+        </div>
+
+        <?php foreach ($non_global as $organ): ?>
+        <div class="organ" organ-id="<?= $organ->id ?>">
+            <p class="amount"><?= $organ->getActionCount() ?></p>
+            <p class="organ-name"><?= $organ->action_name ?></p>
+        </div>
+        <?php endforeach ?>
+    </td>
 </table>

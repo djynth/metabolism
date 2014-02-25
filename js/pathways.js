@@ -9,7 +9,6 @@ $(document).ready(function() {
         var organ = parseInt($(this).parents('.pathway-holder').attr('value'));
         var times = parseInt($(this).attr('value'));
         var reverse = $(this).parents('.pathway-holder').find('.pathway-reverse').hasClass('active');
-        console.log(reverse);
         runPathway(id, times, organ, reverse);
     });
 
@@ -383,6 +382,7 @@ function onPathwaySuccess(data)
         setTurn(data.turn);
         setPoints(data.points);
         refreshResources(data.resources);
+        updateActionCounts(data.action_counts);
 
         if (data.game_over) {
             gameOver = true;
