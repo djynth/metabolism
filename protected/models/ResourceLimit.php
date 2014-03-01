@@ -47,28 +47,95 @@ class ResourceLimit extends CActiveRecord
             'resource' => array(
                 self::BELONGS_TO,
                 'Resource',
-                array('id' => 'resource_id'),
+                'resource_id',
             ),
             'res_soft_max' => array(
                 self::BELONGS_TO,
                 'Resource',
-                array('id' => 'rel_soft_max'),
+                'rel_soft_max',
             ),
             'res_hard_max' => array(
                 self::BELONGS_TO,
                 'Resource',
-                array('id' => 'rel_hard_max'),
+                'rel_hard_max',
             ),
             'res_soft_min' => array(
                 self::BELONGS_TO,
                 'Resource',
-                array('id' => 'rel_soft_min'),
+                'rel_soft_min',
             ),
             'res_hard_min' => array(
                 self::BELONGS_TO,
                 'Resource',
-                array('id' => 'rel_hard_min'),
+                'rel_hard_min',
             ),
         );
+    }
+
+    /**
+     * Determines whether the resource associated with this ResourceLimit is
+     *  allowed to have the given amount in the given organ.
+     *
+     * @param amount int   the amount potentially taken on by the associated
+     *                     resource
+     * @param organ  Organ the Organ in which the resource would potentially be
+     *                     taking on the given amount
+     * @return true if the given amount is valid in the given Organ, false
+     *         otherwise
+     */
+    public function isValidAmount($amount, $organ)
+    {
+        if ($this->hard_max !== null && $amount > $this->hard_max) {
+            return false;
+        }
+        if ($this->hard_min !== null && $amount < $this->hard_min) {
+            return false;
+        }
+        if ($this->res_hard_max !== null && 
+            $amount > $this->res_hard_max->getAmount($organ->id)) {
+            return false;
+        }
+        if ($this->res_hard_min !== null && 
+            $amount < $this->res_hard_min->getAmount($organ->id)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Determines the amount of penalization per turn that should be deducted
+     *  from the player's score for having the associated resource at the given
+     *  amount in the given Organ.
+     *
+     * @param amount int   the amount taken on by the associated resource
+     * @param organ  Organ the Organ in which the resource has taken on the
+     *                     given amount
+     * @return the number of points to be deducted from the player's score per
+     *         turn
+     */
+    public function getPenalization($amount, $organ)
+    {
+        $pen = 0;
+        if ($this->soft_max !== null) {
+            $pen += max(0, $this->penalization * ($amount - $this->soft_max));
+        }
+        if ($this->soft_min !== null) {
+            $pen += max(0, $this->penalization * ($this->soft_max - $amount));
+        }
+        if ($this->res_soft_max !== null) {
+            $pen += max(
+                0,
+                $this->penalization * 
+                    ($amount - $this->res_soft_max->getAmount($organ->id))
+            );
+        }
+        if ($this->res_soft_min) {
+            $pen += max(
+                0,
+                $this->penalization * 
+                    ($this->res_soft_min->getAmount($organ->id) - $amount)
+            );
+        }
+        return $pen;
     }
 }

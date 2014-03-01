@@ -52,7 +52,7 @@ class Resource extends CActiveRecord
                 'resource_organs(resource_id, organ_id)',
             ),
             'limit' => array(
-                self::HAS_MANY,
+                self::HAS_ONE,
                 'ResourceLimit',
                 array('resource_id' => 'id'),
             ),
@@ -238,7 +238,12 @@ class Resource extends CActiveRecord
     {
         foreach ($this->organs as $organ) {
             if ($organ_id === $organ->id) {
-                return $amount >= 0;
+                if ($this->limit !== null) {
+                    return $this->limit->isValidAmount($amount, $organ);    
+                }
+                var_dump($this->id);
+                die;
+                return true;
             }
         }
 
@@ -363,5 +368,28 @@ class Resource extends CActiveRecord
         }
 
         return $this->organs[0]->isGlobal();
+    }
+
+    /**
+     *  Gets the total amount of penalization per turn based on resources
+     *   breaking soft limits.
+     *
+     * @return the number of points which should be deducted per turn based on
+     *         soft limit excesses
+     */
+    public static function getPenalizations()
+    {
+        $pen = 0;
+
+        foreach (self::model()->findAll() as $resource) {
+            foreach ($resource->organs as $organ) {
+                $pen += $resource->limit->getPenalization(
+                    $resource->getAmount($organ->id),
+                    $organ
+                );
+            }
+        }
+
+        return $pen;
     }
 }

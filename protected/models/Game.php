@@ -284,6 +284,7 @@ class Game extends CActiveRecord
         }
 
         self::addPoints(($reverse ? -1 : 1) * $times * $pathway->points);
+        self::addPoints(-Resource::getPenalizations());
         self::incrementTurn();
 
         self::createMove($pathway, $organ, $times, $reverse);
