@@ -113,17 +113,7 @@ function onResourceChange(resource, organ, value)
 
 function getResourceElement(resource, organ)
 {
-    if (typeof organ === 'undefined') {
-        if (isResourceGlobal(resource)) {
-            var holder = $('.resource-holder.global');
-        } else {
-            var holder = $('.resource-holder[value="' + $('.accordian-content.active').attr('value') + '"]');
-        }
-    } else {
-        var holder = $('.resource-holder[value="' + organ + '"]');
-    }
-
-    return holder.find('.resource-data[value="' + resource + '"]');
+    return $('.resource-holder[value="' + organ + '"]').find('.resource-data[value="' + resource + '"]');
 }
 
 function getResourceValue(resource, organ)

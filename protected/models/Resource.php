@@ -1,18 +1,26 @@
 <?php
 
 /**
- * @db id              smallint(6)
- * @db abbr            varchar(10)
- * @db name            varchar(20)
- * @db full_name       varchar(80)
- * @db starting_value  int(11)
- * @db max_shown_value int(11)
- * @db color           char(6)
- * @db primary         tinyint(1)
- * @db formula         varchar(20)
- * @db description     text
- * @db group           smallint(6)
+ * @db id              smallint(6) a unique resource ID
+ * @db abbr            varchar(10) an abbreviated name for this resource
+ * @db name            varchar(20) the most common user-readable name for this
+ *                                 resource
+ * @db full_name       varchar(80) the full or scientific name for this resource
+ * @db starting_value  int(11)     the amount to which this resource is
+ *                                 initialized
+ * @db max_shown_value int(11)     the point at which the indicator for this
+ *                                 resource is maxed out
+ * @db color           char(6)     the color of this resource
+ * @db primary         tinyint(1)  whether this resource is a primary resource
+ *                                 monitored at all times in the footer
+ * @db formula         varchar(20) the chemical formula of this resource
+ * @db description     text        a full-text and user-readable description of
+ *                                 the function and structure of this resource
+ * @db group           smallint(6) the non-unique group of this resource - 
+ *                                 resources in the same group are placed
+ *                                 together in the pathway reaction table
  * @fk organs          array(Organ)
+ * @fk limit           array(ResourceLimit)
  */
 class Resource extends CActiveRecord
 {
@@ -42,6 +50,11 @@ class Resource extends CActiveRecord
                 self::MANY_MANY,
                 'Organ',
                 'resource_organs(resource_id, organ_id)',
+            ),
+            'limit' => array(
+                self::HAS_ONE,
+                'ResourceLimit',
+                array('resource_id' => 'id'),
             ),
         );
     }
@@ -225,7 +238,12 @@ class Resource extends CActiveRecord
     {
         foreach ($this->organs as $organ) {
             if ($organ_id === $organ->id) {
-                return $amount >= 0;
+                if ($this->limit !== null) {
+                    return $this->limit->isValidAmount($amount, $organ);    
+                }
+                var_dump($this->id);
+                die;
+                return true;
             }
         }
 
@@ -350,5 +368,28 @@ class Resource extends CActiveRecord
         }
 
         return $this->organs[0]->isGlobal();
+    }
+
+    /**
+     *  Gets the total amount of penalization per turn based on resources
+     *   breaking soft limits.
+     *
+     * @return the number of points which should be deducted per turn based on
+     *         soft limit excesses
+     */
+    public static function getPenalizations()
+    {
+        $pen = 0;
+
+        foreach (self::model()->findAll() as $resource) {
+            foreach ($resource->organs as $organ) {
+                $pen += $resource->limit->getPenalization(
+                    $resource->getAmount($organ->id),
+                    $organ
+                );
+            }
+        }
+
+        return $pen;
     }
 }

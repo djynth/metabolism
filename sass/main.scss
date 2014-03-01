@@ -158,6 +158,13 @@ p, h1, h2, h3, h4, h5, h6 {
     background-position: 50% 50%;
 }
 
+#copyright {
+    position: absolute;
+    right: $sidebarWidth;
+    bottom: $trackerHeight;
+    margin: 5px;
+}
+
 .notification-holder {
     position: absolute;
     display: none;

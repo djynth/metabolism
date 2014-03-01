@@ -1,6 +1,7 @@
 <?php
 /**
  * @param organs
+ * @param non_global
  * @param primary_resources
  * @param user
  */
@@ -19,9 +20,11 @@
 )); ?>
 
 <div id="cell-canvas"></div>
+<p id="copyright">Copyright 2014 Neocles B. Leontis</p>
 
 <?php $this->renderPartial('trackers', array(
     'primary_resources' => $primary_resources,
+    'non_global' => $non_global,
 )); ?>
 
 <div class="sidebar" id="resource-holder">

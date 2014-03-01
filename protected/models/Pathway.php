@@ -11,6 +11,8 @@
  * @db catabolic  tinyint(1)      whether the Pathway is catabolic
  * @db anabolic   tinyint(1)      whether the Pathway is anabolic
  * @db reversible tinyint(1)      whether the Pathway is reversible
+ * @db action     int(1)          whether this Pathway is associated with an
+ *                                organ-specific action
  * @fk organs     array(Organ)
  * @fk resource   array(Resource) ordered by resource group
  */

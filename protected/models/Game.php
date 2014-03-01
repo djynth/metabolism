@@ -124,6 +124,7 @@ class Game extends CActiveRecord
 
         Yii::app()->session['moves'] = array();
         Resource::initStartingValues();
+        Organ::initActionCounts();
 
         self::createMove();
     }
@@ -249,6 +250,12 @@ class Game extends CActiveRecord
         return 0;   
     }
 
+    /**
+     * Determines whether the current game has been completed.
+     *
+     * @return the completion state of the current game, true if the game is
+     *         ongoing; defaults to false if no game has yet been created
+     */
     public static function isGameCompleted() {
         if (($game = self::getGameInstance()) !== null) {
             return $game->completed;
@@ -260,6 +267,11 @@ class Game extends CActiveRecord
      * This function should be invoked whenever a turn is successfully
      *  completed and updates the game state based on the action taken by the
      *  player.
+     *
+     * @param pathway Pathway the Pathway that has been run
+     * @param organ   Organ   the Organ in which the Pathway has been run
+     * @param times   int     the number of times the Pathway was run this turn
+     * @param reverse boolean whether the Pathway was run in reverse
      */
     public static function onTurnSuccess($pathway, $organ, $times, $reverse)
     {
@@ -267,7 +279,12 @@ class Game extends CActiveRecord
             self::initGame();
         }
 
+        if ($pathway->action) {
+            $organ->incrementActionCount($times);
+        }
+
         self::addPoints(($reverse ? -1 : 1) * $times * $pathway->points);
+        self::addPoints(-Resource::getPenalizations());
         self::incrementTurn();
 
         self::createMove($pathway, $organ, $times, $reverse);
