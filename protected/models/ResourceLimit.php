@@ -131,6 +131,7 @@ class ResourceLimit extends CActiveRecord
         }
 
         return $text;
+    }
 
     /**
      * Determines whether the resource associated with this ResourceLimit is
