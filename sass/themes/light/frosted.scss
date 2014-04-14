@@ -18,6 +18,8 @@ $trackerOrganBorder:   rgb( 160, 160, 160);
 $lackingText:          rgb( 111, 12,  12);
 $limitingReagent:      rgb( 12,  12,  111);
 $resultCover:          rgb( 255, 255, 255);
+$softLimit:            rgba(255, 0,   0,   0.4);
+$hardLimit:            rgb( 65,  65,  65);
 $copyright:            rgba(80,  80,  80,  0.85);
 $trackerActive:        darken($background, 9%);
 
@@ -156,6 +158,14 @@ body[theme=frosted] {
 
                 background-color: $elementBackground;
                 border-color: $elementBorder;
+            }
+
+            .soft {
+                background-color: $softLimit;
+            }
+
+            .hard {
+                background-color: $hardLimit;
             }
 
             span {

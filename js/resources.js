@@ -79,6 +79,7 @@ function refreshResources(resources)
             }
         }
     }
+    refreshResourceLimits();
     refreshPathways();
 }
 
@@ -265,4 +266,52 @@ function createIcon(resource, level, count)
         .addClass('tracker-icon level' + level)
         .attr('src', baseUrl + 'img/primary-icons/' + resource + '/' + filename)
         .attr('alt', '');
+}
+
+function refreshResourceLimits()
+{
+    $('.resource-data').each(function() {
+        var maxShown = $(this).attr('max-shown');
+        var organ = $(this).parents('.resource-holder').attr('value');
+        console.log($(this).attr('name'));
+        $(this).find('.res-limit').each(function() {
+            if (typeof $(this).attr('value') === "undefined" && typeof $(this).attr('rel-value') === "undefined") {
+                return;
+            }
+            var val1 = null;
+            var val2 = null;
+            var value = null;
+            if (typeof $(this).attr('value') === "undefined") {
+                val1 = getResourceValue(parseInt($(this).attr('rel-value')), organ);
+            }
+            if (typeof $(this).attr('rel-value') === "undefined") {
+                val2 = parseInt($(this).attr('value'));
+            }
+            console.log($(this)[0].classList);
+            console.log(val1);
+            console.log(val2);
+
+            if ($(this).hasClass('max')) {
+                if (val1 === null) {
+                    value = val2;
+                } else if (val2 === null) {
+                    value = val1;
+                } else {
+                    value = Math.min(val1, val2);
+                }
+
+                $(this).width(100*Math.abs(maxShown - value)/maxShown + "%");
+            } else {
+                if (val1 === null) {
+                    value = val2;
+                } else if (val2 === null) {
+                    value = val1;
+                } else {
+                    value = Math.max(val1, val2);
+                }
+
+                $(this).width(100*value/maxShown + "%");
+            }
+        });
+    });
 }

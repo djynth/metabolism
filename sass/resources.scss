@@ -30,6 +30,31 @@
             right: 0px;
             text-align: left;
         }
+
+        .progress {
+            position: relative;
+
+            .res-limit {
+                position: absolute;
+                height: 20px;
+            }
+
+            .min {
+                left: 0px;
+            }
+
+            .soft {
+                box-shadow: rgba(0, 0, 0, 0.2) 0 0 1px 1px inset;
+            }
+
+            .hard {
+                box-shadow: rgba(0, 0, 0, 0.8) 0 0 2px 2px inset;
+            }
+
+            .max {
+                right: 0px;
+            }
+        }
     }
 }
 
