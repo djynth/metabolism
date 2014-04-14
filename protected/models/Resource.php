@@ -13,6 +13,7 @@
  * @db description     text
  * @db group           smallint(6)
  * @fk organs          array(Organ)
+ * @fk limits          ResourceLimit
  */
 class Resource extends CActiveRecord
 {
@@ -42,6 +43,11 @@ class Resource extends CActiveRecord
                 self::MANY_MANY,
                 'Organ',
                 'resource_organs(resource_id, organ_id)',
+            ),
+            'limits' => array(
+                self::HAS_ONE,
+                'ResourceLimit',
+                array('resource_id' => 'id'),
             ),
         );
     }

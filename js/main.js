@@ -51,7 +51,7 @@ function getResourceContentHeight(reset)
         });
     }
     
-    return resourceContentHeight;
+    return resourceContentHeight-1;
 }
 
 function updateScrollbars(updatePathwayHeight, updateResourceHeight, updateScrollbars)
