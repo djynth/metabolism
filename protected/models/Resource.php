@@ -20,7 +20,7 @@
  *                                 resources in the same group are placed
  *                                 together in the pathway reaction table
  * @fk organs          array(Organ)
- * @fk limit           array(ResourceLimit)
+ * @fk limit           ResourceLimit
  */
 class Resource extends CActiveRecord
 {

@@ -105,6 +105,17 @@ class Organ extends CActiveRecord
     }
 
     /**
+     * Determines whenther this Organ has an action associated with it.
+     * 
+     * @return true if there is a specific action associated with this Organ,
+     *         false otherwise
+     */
+    public function hasAction()
+    {
+        return $this->action_name !== null;
+    }
+
+    /**
      * Gets the number of times the action associated with this Organ has been
      *  activated in the current game.
      * 

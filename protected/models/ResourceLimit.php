@@ -73,6 +73,67 @@ class ResourceLimit extends CActiveRecord
     }
 
     /**
+     * Gets a user-readable HTML description of this ResourceLimit, in the
+     *  format:
+     *
+     * <p>Soft Min: {soft_min} {rel_soft_min} [{penalization}]</p>
+     * <p>Soft Max: {soft_max} {rel_soft_max} [{penalization}]</p>
+     * <p>Hard Min: {hard_min} {rel_hard_min}</p>
+     * <p>Hard Max: {hard_max} {rel_hard_max}</p>
+     * 
+     * If the limit, for example, does not incorporate a soft minimum (absolute
+     *  or relative) the first line will not be displayed.
+     */
+    public function toText()
+    {
+        $text = '';
+
+        if ($this->soft_min !== null || $this->rel_soft_min !== null) {
+            $text .= '<p>Soft Min: ';
+            if ($this->soft_min !== null) {
+                $text .= $this->soft_min . ' ';
+            }
+            if ($this->rel_soft_min !== null) {
+                $text .= $this->rel_soft_min_res->name . ' ';
+            }
+            $text .= '[' . $this->penalization . ']</p>';
+        }
+
+        if ($this->soft_max !== null || $this->rel_soft_max !== null) {
+            $text .= '<p>Soft Max: ';
+            if ($this->soft_max !== null) {
+                $text .= $this->soft_max . ' ';
+            }
+            if ($this->rel_soft_max !== null) {
+                $text .= $this->rel_soft_max_res->name . ' ';
+            }
+            $text .= '[' . $this->penalization . ']</p>';
+        }
+
+        if ($this->hard_min !== null || $this->rel_hard_min !== null) {
+            $text .= '<p>Hard Min: ';
+            if ($this->hard_min !== null) {
+                $text .= $this->hard_min . ' ';
+            }
+            if ($this->rel_hard_min !== null) {
+                $text .= $this->rel_hard_min_res->name . ' ';
+            }
+        }
+
+        if ($this->hard_max !== null || $this->rel_hard_max !== null) {
+            $text .= '<p>Hard Max: ';
+            if ($this->hard_max !== null) {
+                $text .= $this->hard_max . ' ';
+            }
+            if ($this->rel_hard_max !== null) {
+                $text .= $this->rel_hard_max_res->name . ' ';
+            }
+        }
+
+        return $text;
+    }
+
+    /**
      * Determines whether the resource associated with this ResourceLimit is
      *  allowed to have the given amount in the given organ.
      *
