@@ -32,8 +32,10 @@
 
         <?php foreach ($non_global as $organ): ?>
         <div class="organ" organ-id="<?= $organ->id ?>">
+            <?php if ($organ->hasAction()): ?>
             <p class="amount"><?= $organ->getActionCount() ?></p>
             <p class="organ-name"><?= $organ->action_name ?></p>
+            <?php endif ?>
         </div>
         <?php endforeach ?>
     </td>
