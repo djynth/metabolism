@@ -5,7 +5,7 @@
 ?>
 
 <div class="sidebar-title header-text">
-    <p>Cellular Pathways</p>
+    <p>Metabolic Pathways</p>
     <button id="pathway-filter-toggle" class="btn btn-mini"><i class="icon-filter"> </i> Filter</button>
 
     <div id="pathway-filter">

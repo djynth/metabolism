@@ -127,7 +127,7 @@ class Pathway extends CActiveRecord
     public static function areValidNutrients($nutrients)
     {
         $eat = self::getEat();
-        if (count($nutrients) !== count($eat->resources)) {
+        if (count($nutrients) > count($eat->resources)) {
             return false;
         }
         $total = 0;
@@ -249,7 +249,11 @@ class Pathway extends CActiveRecord
             )->id;
 
             foreach ($resources as $resource) {
-                $resource->value = $nutrients[$resource->resource->id];
+                if (array_key_exists($resource->resource->id, $nutrients)) {
+                    $resource->value = $nutrients[$resource->resource->id];
+                } else {
+                    $resource->value = 0;
+                }
 
                 if ($resource->resource->name === 'Palmitate') {
                     $glycerol->value = floor(intval($resource->value)/3);
