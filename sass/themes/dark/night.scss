@@ -15,8 +15,8 @@ $inputBorder:          rgb( 18,  18,  18);
 $inputPlaceholder:     rgb( 153, 153, 153);
 $trackerHeaderBorder:  rgb( 81,  81,  81);
 $trackerOrganBorder:   rgb( 60,  60,  60);
-$lackingText:          rgb( 60,  0,   0);
-$limitingReagent:      rgb( 0,   0,   80);
+$lacking:              rgba(111, 0,   0,   0.2);
+$limitingReagent:      rgba(0,   0,   111, 0.2);
 $resultCover:          rgb( 0,   0,   0);
 $softLimit:            rgba(255, 0,   0,   0.4);
 $hardLimit:            rgba(0,   0,   0,   0.4);
@@ -138,11 +138,11 @@ body[theme=night] {
                 }
 
                 .lacking {
-                    color: $lackingText;
+                    background-color: $lacking;
                 }
 
                 .limiting-reagent {
-                    color: $limitingReagent;
+                    background-color: $limitingReagent;
                 }
             }
         }

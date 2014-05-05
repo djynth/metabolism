@@ -94,7 +94,7 @@ class ResourceLimit extends CActiveRecord
                 $text .= $this->soft_min . ' ';
             }
             if ($this->rel_soft_min !== null) {
-                $text .= $this->rel_soft_min_res->name . ' ';
+                $text .= $this->res_soft_min->name . ' ';
             }
             $text .= '[' . $this->penalization . ']</p>';
         }
@@ -105,7 +105,7 @@ class ResourceLimit extends CActiveRecord
                 $text .= $this->soft_max . ' ';
             }
             if ($this->rel_soft_max !== null) {
-                $text .= $this->rel_soft_max_res->name . ' ';
+                $text .= $this->res_soft_max->name . ' ';
             }
             $text .= '[' . $this->penalization . ']</p>';
         }
@@ -116,7 +116,7 @@ class ResourceLimit extends CActiveRecord
                 $text .= $this->hard_min . ' ';
             }
             if ($this->rel_hard_min !== null) {
-                $text .= $this->rel_hard_min_res->name . ' ';
+                $text .= $this->res_hard_min->name . ' ';
             }
         }
 
@@ -126,7 +126,7 @@ class ResourceLimit extends CActiveRecord
                 $text .= $this->hard_max . ' ';
             }
             if ($this->rel_hard_max !== null) {
-                $text .= $this->rel_hard_max_res->name . ' ';
+                $text .= $this->res_hard_max->name . ' ';
             }
         }
 

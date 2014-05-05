@@ -15,8 +15,8 @@ $inputBorder:          rgb( 135, 135, 135);
 $inputPlaceholder:     rgb( 125, 125, 125);
 $trackerHeaderBorder:  rgb( 140, 140, 140);
 $trackerOrganBorder:   rgb( 160, 160, 160);
-$lackingText:          rgb( 111, 12,  12);
-$limitingReagent:      rgb( 12,  12,  111);
+$lacking:              rgba(111, 0,   0,   0.25);
+$limitingReagent:      rgba(0,   0,   111, 0.25);
 $resultCover:          rgb( 255, 255, 255);
 $softLimit:            rgba(255, 0,   0,   0.4);
 $hardLimit:            rgb( 65,  65,  65);
@@ -138,11 +138,11 @@ body[theme=frosted] {
                 }
 
                 .lacking {
-                    color: $lackingText;
+                    background-color: $lacking;
                 }
 
                 .limiting-reagent {
-                    color: $limitingReagent;
+                    background-color: $limitingReagent;
                 }
             }
         }

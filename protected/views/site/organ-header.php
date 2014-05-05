@@ -10,7 +10,7 @@
     
     <i class="icon-info-sign organ-info"></i>
 
-    <div class="organ-popup <?= $right ? 'right' : 'left' ?>">
+    <div class="<?= $right ? 'right' : 'left' ?> organ-popup">
         <div class="organ-cover"></div>
         <i class="icon-remove close-popup"> </i>
         <img class="organ-image" src="" alt="<?= $organ->name ?>">

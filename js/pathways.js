@@ -309,11 +309,11 @@ function updateEatButtons()
 
         var resId = parseInt(eat.attr('res-id'));
         var resName = '';
-        if (resId === 4) {
+        if (resId === 5) {
             resName = 'Carbohydrate (Glucose)';
-        } else if (resId === 5) {
-            resName = 'Protein (Alanine)';
         } else if (resId === 6) {
+            resName = 'Protein (Alanine)';
+        } else if (resId === 7) {
             resName = 'Fat (TAGs)';
         }
 
