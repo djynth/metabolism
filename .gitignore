@@ -10,3 +10,8 @@ protected/yiic.php
 hours.txt
 *.sublime-project
 *.sublime-workspace
+*.aux
+*.log
+*.pdf
+*.tex
+export-src.py
