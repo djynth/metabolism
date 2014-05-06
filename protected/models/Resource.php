@@ -2,10 +2,8 @@
 
 /**
  * @db id              smallint(6) a unique resource ID
- * @db abbr            varchar(10) an abbreviated name for this resource
  * @db name            varchar(20) the most common user-readable name for this
  *                                 resource
- * @db full_name       varchar(80) the full or scientific name for this resource
  * @db starting_value  int(11)     the amount to which this resource is
  *                                 initialized
  * @db max_shown_value int(11)     the point at which the indicator for this
@@ -21,6 +19,7 @@
  *                                 together in the pathway reaction table
  * @fk organs          array(Organ)
  * @fk limit           ResourceLimit
+ * @fk aliases         array(ResourceAlias)
  */
 class Resource extends CActiveRecord
 {
@@ -56,12 +55,17 @@ class Resource extends CActiveRecord
                 'ResourceLimit',
                 array('resource_id' => 'id'),
             ),
+            'aliases' => array(
+                self::HAS_MANY,
+                'ResourceAlias',
+                array('resource_id' => 'id'),
+            ),
         );
     }
 
     /**
-     * Determines whether any of this Resource's names (i.e. abbreviate, name,
-     *  or full name) are exactly equal to the given name.
+     * Determines whether any of this Resource's names (i.e. name or aliases)
+     *  are exactly equal to the given name.
      *
      * @param name string the name for which to test this Resource
      * @return true if any of this Resource's names are exactly equal to the
@@ -69,15 +73,22 @@ class Resource extends CActiveRecord
      */
     public function hasName($name)
     {
-        return $name === $this->abbr ||
-               $name === $this->name ||
-               $name === $this->full_name;
+        if ($name === $this->name) {
+            return true;
+        }
+
+        foreach ($this->aliases as $alias) {
+            if ($name === $alias->alias) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
      * Determines whether the basic, non-case sensitive regular expression given
-     *  by the given name matches any of this Resource's name (i.e.
-     *  abbreviation, name, or full name).
+     *  by the given name matches any of this Resource's names (i.e. name or
+     *  aliases).
      *
      * @param name string the base of the regular expression to text each of
      *                    this Resource's names
@@ -87,9 +98,33 @@ class Resource extends CActiveRecord
     public function matchesName($name)
     {
         $pattern = '/' . $name . '/i';
-        return preg_match($pattern, $this->abbr) || 
-               preg_match($pattern, $this->name) || 
-               preg_match($pattern, $this->full_name);
+
+        if (preg_match($pattern, $this->name)) {
+            return true;
+        }
+
+        foreach ($this->aliases as $alias) {
+            if (preg_match($pattern, $alias->alias)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Gets a string containing all the names associated with this Resource
+     *  (i.e. the name and all the aliases), separated by semi-colons.
+     *
+     * @return a list of all the names given to this Resource as a semi-colon
+     *         separated string
+     */
+    public function getNames()
+    {
+        $names = $this->name;
+        foreach ($this->aliases as $alias) {
+            $names .= ';' . $alias->alias;
+        }
+        return $names;
     }
 
     /**
@@ -207,22 +242,6 @@ class Resource extends CActiveRecord
         }
 
         self::setAmounts($amounts);
-    }
-
-    /**
-     * Gets the first Resource with any name (i.e. abbreviation, name, or full
-     *  name) exactly equal to the given name.
-     *
-     * @param name string the name for which to check
-     * @return a Resource with a name equal to the given name, or null if none
-     *         exist
-     */
-    public static function findResourceByName($name)
-    {
-        return self::model()->find(
-            'abbr = :name or name = :name or full_name = :name',
-            array(':name' => $name)
-        );
     }
 
     /**

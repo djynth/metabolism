@@ -44,7 +44,11 @@ class Game extends CActiveRecord
     public function relations()
     {
         return array(
-            'user' => array(self::BELONGS_TO, 'User', array('user_id' => 'id')),
+            'user' => array(
+                self::BELONGS_TO,
+                'User',
+                array('user_id' => 'id')
+            ),
             'moves' =>  array(
                             self::HAS_MANY,
                             'Move',

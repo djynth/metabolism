@@ -451,11 +451,15 @@ function onFilterChange()
 
             var match = false;
             for (var i = 0; i < pathwayReactants.length; i++) {
-                if (reactant.test(pathwayReactants[i].attr('abbr')) ||
-                    reactant.test(pathwayReactants[i].attr('name')) ||
-                    reactant.test(pathwayReactants[i].attr('full-name')))
-                {
-                    match = true;
+                var names = pathwayReactants[i].attr('aliases').split(';');
+                for (var j = 0; j < names.length; j++) {
+                    if (reactant.test(names[j])) {
+                        match = true;
+                        break;
+                    }
+                }
+
+                if (match) {
                     break;
                 }
             }
@@ -477,11 +481,15 @@ function onFilterChange()
 
             var match = false;
             for (var i = 0; i < pathwayProducts.length; i++) {
-                if (product.test(pathwayProducts[i].attr('abbr')) ||
-                    product.test(pathwayProducts[i].attr('name')) ||
-                    product.test(pathwayProducts[i].attr('full-name')))
-                {
-                    match = true;
+                var names = pathwayProducts[i].attr('aliases').split(';');
+                for (var j = 0; j < names.length; j++) {
+                    if (product.test(names[j])) {
+                        match = true;
+                        break;
+                    }
+                }
+
+                if (match) {
                     break;
                 }
             }
