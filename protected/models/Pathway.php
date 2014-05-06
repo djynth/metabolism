@@ -22,7 +22,7 @@ class Pathway extends CActiveRecord
      * The maximum total number of nutrients that can be consumed in one turn by
      *  eating.
      */
-    const EAT_MAX = 50;
+    const EAT_MAX = 100;
     /**
      * The name of the special eat pathway, used to locate it in the database.
      */

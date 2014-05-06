@@ -1,5 +1,7 @@
 1. ssh to NFS.net
     $ ssh leontis_metabolism@ssh.phx.nearlyfreespeech.net
+        or
+    $ ssh-mf
 2. switch if statement in index.php to false in order to display only the
    unavailable page
     $ nano index.php
