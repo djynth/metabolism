@@ -1,6 +1,8 @@
 var ACCOUNT_TOOLTIP_OFFSET = -10;       // move the tooltips associated with each text input by a certain px amount
 
 $(document).ready(function() {
+    updateLimitedResources($('#point-dropdown').children());
+
     $('.account-header').click(function() {
         $('.login-dropdown').slideToggle(function() {
             $(this).find('input').first().focus();
@@ -9,6 +11,10 @@ $(document).ready(function() {
 
     $('.settings-header').click(function() {
         $('.settings-dropdown').slideToggle();
+    });
+
+    $('.game-state-header').click(function() {
+        $('#point-dropdown').slideToggle();
     });
 
     $('.theme-option').outerWidth(100/$('.theme-option').length + '%');
@@ -292,4 +298,11 @@ function confirmMatch(password, confirm)
            confirm.val() == '')
     return password.val() == confirm.val() || password.val() == '' ||
            confirm.val() == '';
+}
+
+function updateLimitedResources(limitedResources)
+{
+    $('#point-dropdown').empty().append(limitedResources).find('.organ-header').click(function() {
+        $(this).siblings('[organ="' + $(this).attr('organ') + '"]').toggle();
+    });;
 }

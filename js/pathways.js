@@ -383,6 +383,7 @@ function onPathwaySuccess(data)
         setPoints(data.points);
         refreshResources(data.resources);
         updateActionCounts(data.action_counts);
+        updateLimitedResources(data.limited_resources);
         onFilterChange();
 
         if (data.game_over) {

@@ -17,6 +17,8 @@ $trackerHeaderBorder:  rgb( 81,  81,  81);
 $trackerOrganBorder:   rgb( 60,  60,  60);
 $lacking:              rgba(111, 0,   0,   0.2);
 $limitingReagent:      rgba(0,   0,   111, 0.2);
+$resourceGood:         rgba(0,   111, 0,   0.2);
+$resourceBad:          rgba(175, 0,   0,   0.2);
 $resultCover:          rgb( 0,   0,   0);
 $softLimit:            rgba(255, 0,   0,   0.4);
 $hardLimit:            rgba(0,   0,   0,   0.4);
@@ -67,6 +69,30 @@ body[theme=night] {
 
         .header-element {
             border-right: 1px solid $border;
+            border-bottom: 1px solid $border;
+        }
+
+        #game-state {
+            background-color: inherit;
+
+            #point-dropdown {
+                background-color: inherit;
+
+                #point-dist {
+                    td {
+                        border: 1px solid $border;
+                        color: $text;
+                    }
+
+                    .good {
+                        background-color: $resourceGood;
+                    }
+
+                    .bad {
+                        background-color: $resourceBad;
+                    }
+                }
+            }
         }
 
         #settings {

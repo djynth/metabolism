@@ -181,4 +181,23 @@ class Organ extends CActiveRecord
 
         return $counts;
     }
+
+    /**
+     * Gets a list of all the Resources in this Organ that have a soft limit of
+     *  any type.
+     *
+     * @return an Array of Resources belonging to this Organ with a soft limit
+     */
+    public function getSoftLimitResources()
+    {
+        $resources = array();
+        foreach ($this->resources as $resource) {
+            if ($resource->limit->soft_max || $resource->limit->soft_min || 
+                $resource->limit->rel_soft_max || 
+                $resource->limit->rel_soft_min) {
+                array_push($resources, $resource);
+            }
+        }
+        return $resources;
+    }
 }

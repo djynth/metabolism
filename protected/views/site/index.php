@@ -17,6 +17,7 @@
 
 <?php $this->renderPartial('header', array(
     'user' => $user,
+    'organs' => $organs,
 )); ?>
 
 <div id="cell-canvas"></div>
