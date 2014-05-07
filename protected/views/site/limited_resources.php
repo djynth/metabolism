@@ -3,7 +3,8 @@
  * @param organs
  */
 
-$total = 64;
+$passivePathways = Pathway::getPassivePathways();
+$total = 0;
 ?>
 
 <table id="point-dist">
@@ -11,10 +12,16 @@ $total = 64;
         <td colspan="5"><b>Passive Processes</b></td>
     </tr>
 
-    <tr organ="-1">
-        <td colspan="4">Brain Activity</td>
-        <td class="change">+64</td>
-    </tr>
+    <?php
+    foreach ($passivePathways as $pathway) {
+        $total += $pathway->points; ?>
+        <tr organ="-1">
+            <td colspan="4"><?= $pathway->name ?></td>
+            <td class="change"><?= sprintf('%+.2f', $pathway->points) ?></td>
+        </tr>
+    <?php
+    }
+    ?>
 
     <?php
     foreach ($organs as $organ) {

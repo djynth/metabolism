@@ -279,19 +279,29 @@ class Game extends CActiveRecord
      */
     public static function onTurnSuccess($pathway, $organ, $times, $reverse)
     {
-        if (!self::gameExists()) {
-            self::initGame();
+        if ($pathway->passive) {
+            self::addPoints(($reverse ? -1 : 1) * $times * $pathway->points);
+        } else {
+            if (!self::gameExists()) {
+                self::initGame();
+            }
+
+            if ($pathway->action) {
+                $organ->incrementActionCount($times);
+            }
+
+            self::addPoints(($reverse ? -1 : 1) * $times * $pathway->points);
+            self::addPoints(-Resource::getPenalizations());
+            $pathways = Pathway::getPassivePathways();
+            foreach ($pathways as $pathway) {
+                foreach ($pathway->organs as $organ) {
+                    $pathway->run(1, $organ, false, true);
+                }
+            }
+
+            self::incrementTurn();
+            self::createMove($pathway, $organ, $times, $reverse);
         }
-
-        if ($pathway->action) {
-            $organ->incrementActionCount($times);
-        }
-
-        self::addPoints(($reverse ? -1 : 1) * $times * $pathway->points);
-        self::addPoints(-Resource::getPenalizations());
-        self::incrementTurn();
-
-        self::createMove($pathway, $organ, $times, $reverse);
     }
 
     /**

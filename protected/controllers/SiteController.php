@@ -87,7 +87,7 @@ class SiteController extends Controller
         $organ = Organ::model()->findByPk((int)$organ_id);
         $reverse = ($reverse === "true");
 
-        $success = $pathway->run((int)$times, $organ, $reverse);
+        $success = $pathway->run((int)$times, $organ, $reverse, false);
 
         echo CJavaScript::jsonEncode(array(
             'success' => $success,

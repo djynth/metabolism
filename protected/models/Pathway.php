@@ -13,6 +13,7 @@
  * @db reversible tinyint(1)      whether the Pathway is reversible
  * @db action     int(1)          whether this Pathway is associated with an
  *                                organ-specific action
+ * @db passive    int(1)          whether this Pathway is passive
  * @fk organs     array(Organ)
  * @fk resource   array(Resource) ordered by resource group
  */
@@ -116,6 +117,16 @@ class Pathway extends CActiveRecord
     }
 
     /**
+     * Gets all the Pathways which are run passively.
+     *
+     * @return an array of the passive Pathways
+     */
+    public static function getPassivePathways()
+    {
+        return self::model()->findAllByAttributes(array('passive' => true));
+    }
+
+    /**
      * Determiens whether the given array of nutrients to be consumed are valid.
      * The nutrients should be formatted as an array of resource ID's to amounts
      *  eaten, and each amount must be non-negative, summing to at most
@@ -204,7 +215,13 @@ class Pathway extends CActiveRecord
      */
     public static function eat($nutrients)
     {
-        return self::getEat()->run(1, Organ::getGlobal(), false, $nutrients);
+        return self::getEat()->run(
+            1,
+            Organ::getGlobal(),
+            false,
+            false,
+            $nutrients
+        );
     }
 
     /**
@@ -216,11 +233,12 @@ class Pathway extends CActiveRecord
      *                             action will count as a single turn regardless
      * @param organ     Organ      the Organ in which to run this Pathway
      * @param reverse   boolean    whether the Pathway should be reversed
+     * @param passive   boolean    whether the Pathway was run passively
      * @param nutrients array|null for the eat pathway, the nutrients to be
      *                             consumed, ignored otherwise; default is null
      * @return true if the Pathway was run successfully, false otherwise
      */
-    public function run($times, $organ, $reverse, $nutrients=null)
+    public function run($times, $organ, $reverse, $passive, $nutrients=null)
     {
         if (Game::isGameCompleted()) {
             return false;
@@ -232,6 +250,9 @@ class Pathway extends CActiveRecord
             return false;
         }
         if (!$this->reversible && $reverse) {
+            return false;
+        }
+        if ($this->passive != $passive) {
             return false;
         }
 
