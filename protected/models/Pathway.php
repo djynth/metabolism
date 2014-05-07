@@ -123,7 +123,7 @@ class Pathway extends CActiveRecord
      */
     public static function getPassivePathways()
     {
-        return self::model()->findAllByAttributes(array('passive' => true));
+        return self::model()->findAllByAttributes(array(), 'passive <> 0');
     }
 
     /**
@@ -205,6 +205,26 @@ class Pathway extends CActiveRecord
         return $this->products;
     }
 
+    public function canRun($times, $organ, $reverse=false)
+    {
+        foreach ($this->resources as $resource) {
+            if (!$resource->canModify($times, $organ, $reverse)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function wouldIncurPenalization($times, $organ, $reverse=false)
+    {
+        foreach ($this->resources as $resource) {
+            if ($resource->wouldIncurPenalization($times, $organ, $reverse)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Runs the special eat pathway with the given nutrients.
      *
@@ -255,6 +275,9 @@ class Pathway extends CActiveRecord
         if ($this->passive != $passive) {
             return false;
         }
+        if (!$this->canRun($times, $organ, $reverse)) {
+            return false;
+        }
 
         $resources = $this->resources;
 
@@ -282,12 +305,6 @@ class Pathway extends CActiveRecord
             }
 
             $resources[] = $glycerol;
-        }
-
-        foreach ($resources as $resource) {
-            if (!$resource->canModify($times, $organ, $reverse)) {
-                return false;
-            }
         }
 
         foreach ($resources as $resource) {

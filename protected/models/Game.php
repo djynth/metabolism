@@ -24,7 +24,7 @@ class Game extends CActiveRecord
      * The turn counter begins with this value and decrements to 0, at which
      *  point the game ends.
      */
-    const MAX_TURNS = 100;
+    const MAX_TURNS = 300;
 
     public static function model($className = __CLASS__)
     {
@@ -279,23 +279,25 @@ class Game extends CActiveRecord
      */
     public static function onTurnSuccess($pathway, $organ, $times, $reverse)
     {
+        if (!self::gameExists()) {
+            self::initGame();
+        }
+
+        if ($pathway->action) {
+            $organ->incrementActionCount($times);
+        }
+
         if ($pathway->passive) {
             self::addPoints(($reverse ? -1 : 1) * $times * $pathway->points);
         } else {
-            if (!self::gameExists()) {
-                self::initGame();
-            }
-
-            if ($pathway->action) {
-                $organ->incrementActionCount($times);
-            }
-
             self::addPoints(($reverse ? -1 : 1) * $times * $pathway->points);
             self::addPoints(-Resource::getPenalizations());
             $pathways = Pathway::getPassivePathways();
             foreach ($pathways as $pathway) {
                 foreach ($pathway->organs as $organ) {
-                    $pathway->run(1, $organ, false, true);
+                    if (!$pathway->wouldIncurPenalization($pathway->passive, $organ)) {
+                        $pathway->run($pathway->passive, $organ, false, true);    
+                    }
                 }
             }
 

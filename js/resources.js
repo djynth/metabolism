@@ -296,7 +296,9 @@ function refreshResourceLimits()
                     value = Math.min(val1, val2);
                 }
 
-                $(this).width(100*Math.abs(maxShown - value)/maxShown + "%");
+                if (value <= maxShown) {
+                    $(this).width(100*Math.abs(maxShown - value)/maxShown + "%");
+                }
             } else {
                 if (val1 === null) {
                     value = val2;
@@ -306,7 +308,9 @@ function refreshResourceLimits()
                     value = Math.max(val1, val2);
                 }
 
-                $(this).width(100*value/maxShown + "%");
+                if (value >= 0) {
+                    $(this).width(100*value/maxShown + "%");
+                }
             }
         });
     });

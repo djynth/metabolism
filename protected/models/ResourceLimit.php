@@ -162,7 +162,7 @@ class ResourceLimit extends CActiveRecord
         }
         return true;
     }
-
+    
     /**
      * Determines the amount of penalization per turn that should be deducted
      *  from the player's score for having the associated resource at the given

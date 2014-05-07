@@ -66,7 +66,7 @@ class PathwayResource extends CActiveRecord
      * Determines whether running the associated Pathway in the given organ the
      *  given number of times is a valid aciton.
      * Note that if this PathwayResource does not exist in the given Organ, it
-     *  will default to checking in the global organ.
+     *  will default to checking in the global Organ.
      *
      * @param times   int     the number of times the Pathway in question would
      *                        be run
@@ -80,6 +80,30 @@ class PathwayResource extends CActiveRecord
     public function canModify($times, $organ, $reverse=false)
     {
         return $this->resource->isValidChange(
+            $this->getProperOrgan($organ)->id,
+            ($reverse ? -1 : 1) * $this->value * $times
+        );
+    }
+
+    /**
+     * Determines whether running the associated Pathway in the given organ the
+     *  given number of times would result in the associated Resource crossing a
+     *  soft limit and thus incurring a penalization.
+     * Note that if this PathwayResource does not exist in the given Organ, it
+     *  will default to checking in the global Organ.
+     *
+     * @param times   int     the number of times the Pathway in question would
+     *                        be run
+     * @param organ   Organ   the Organ in which the Pathway in question would
+     *                        be run
+     * @param reverse boolean whether the Pathway in question would be reversed,
+     *                        default is false
+     * @return true if running the associated Pathway with the given parameters
+     *         would result in a penalization
+     */
+    public function wouldIncurPenalization($times, $organ, $reverse=false)
+    {
+        return $this->resource->isPenalizableChange(
             $this->getProperOrgan($organ)->id,
             ($reverse ? -1 : 1) * $this->value * $times
         );

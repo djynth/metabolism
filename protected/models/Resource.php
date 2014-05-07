@@ -260,12 +260,22 @@ class Resource extends CActiveRecord
                 if ($this->limit !== null) {
                     return $this->limit->isValidAmount($amount, $organ);    
                 }
-                var_dump($this->id);
-                die;
                 return true;
             }
         }
+        return false;
+    }
 
+    public function isPenalizableAmount($organ_id, $amount)
+    {
+        foreach ($this->organs as $organ) {
+            if ($organ_id === $organ->id) {
+                if ($this->limit !== null) {
+                    return $this->limit->getPenalization($amount, $organ);    
+                }
+                return false;
+            }
+        }
         return false;
     }
 
@@ -281,6 +291,14 @@ class Resource extends CActiveRecord
     public function isValidChange($organ_id, $change)
     {
         return $this->isValidAmount(
+            $organ_id,
+            $this->getAmount($organ_id) + $change
+        );
+    }
+
+    public function isPenalizableChange($organ_id, $change)
+    {
+        return $this->isPenalizableAmount(
             $organ_id,
             $this->getAmount($organ_id) + $change
         );

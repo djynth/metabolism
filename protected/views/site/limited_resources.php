@@ -9,17 +9,25 @@ $total = 0;
 
 <table id="point-dist">
     <tr class="organ-header" organ="-1">
-        <td colspan="5"><b>Passive Processes</b></td>
+        <td colspan="5"><b>Automatic Processes</b></td>
     </tr>
 
     <?php
     foreach ($passivePathways as $pathway) {
-        $total += $pathway->points; ?>
-        <tr organ="-1">
-            <td colspan="4"><?= $pathway->name ?></td>
-            <td class="change"><?= sprintf('%+.2f', $pathway->points) ?></td>
-        </tr>
-    <?php
+        foreach ($pathway->organs as $organ) {
+            $canRun = false;
+            $points = 0;
+            if (!$pathway->wouldIncurPenalization($pathway->passive, $organ)) {
+                $canRun = true;
+                $points = $pathway->points*$pathway->passive;
+            }
+            $total += $points; ?>
+            <tr organ="-1">
+                <td colspan="4" class="<?= $canRun ? 'good' : 'bad' ?>"><?= $pathway->name ?> (x<?= $pathway->passive ?>)</td>
+                <td class="change"><?= sprintf('%+.2f', $points) ?></td>
+            </tr>
+        <?php
+        }
     }
     ?>
 
