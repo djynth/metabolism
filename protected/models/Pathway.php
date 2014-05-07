@@ -205,6 +205,17 @@ class Pathway extends CActiveRecord
         return $this->products;
     }
 
+    /**
+     * Determines whether this Pathway can be run with the given parameters
+     *  (i.e. whether it would cause any resources to cross a hard limit).
+     *
+     * @param times   number  the number of times to run the Pathway
+     * @param organ   Organ   the Organ in which to run the Pathway
+     * @param reverse boolean whether to run the Pathway in reverse (default is
+     *                        false)
+     * @return true if the Pathway can be run with the given parameters, false
+     *         otherwise
+     */
     public function canRun($times, $organ, $reverse=false)
     {
         foreach ($this->resources as $resource) {
@@ -215,6 +226,21 @@ class Pathway extends CActiveRecord
         return true;
     }
 
+    /**
+     * Determines whether this Pathway would incur any penalization if it were
+     *  run with the given parameters (i.e. whether it would cause any resources
+     *  to cross a soft limit).
+     * Note: this function will return true if any of the resources it affects
+     *  would be across a soft limit after it is run, regardless of whether they
+     *  were already across that soft limit.
+     *
+     * @param times   number  the number of times to run the Pathway
+     * @param organ   Organ   the Organ in which to run the Pathway
+     * @param reverse boolean whether to run the Pathway in reverse (default is
+     *                        false)
+     * @return true if running the Pathway with the given parameters would cause
+     *         a penalization, false otherwise
+     */
     public function wouldIncurPenalization($times, $organ, $reverse=false)
     {
         foreach ($this->resources as $resource) {

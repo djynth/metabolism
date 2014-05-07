@@ -248,8 +248,8 @@ class Resource extends CActiveRecord
      * Determines whether the given value is a permissable amount for this
      *  Resource in the given Organ.
      *
-     * @param organ_id int the ID of the Organ in which to check for validity
-     * @param amount   int the potential value for this Resource
+     * @param organ_id number the ID of the Organ in which to check for validity
+     * @param amount   number the potential value for this Resource
      * @return true if the given value is valid in the given organ, false
      *         otherwise
      */
@@ -266,6 +266,16 @@ class Resource extends CActiveRecord
         return false;
     }
 
+    /**
+     * Determines whether the given value crosses a soft limit for this Resource
+     *  in the given Organ.
+     *
+     * @param organ_id number the ID of the Organ in which to check for
+     *                        penalization
+     * @param amount   number the potential value for this Resource
+     * @return true if the given value is penalizable in the given organ, false
+     *         otherwise
+     */
     public function isPenalizableAmount($organ_id, $amount)
     {
         foreach ($this->organs as $organ) {
@@ -281,10 +291,10 @@ class Resource extends CActiveRecord
 
     /**
      * Determines whether the level of this Resource in the given Organ after a
-     *  change of the given amount if permissable.
+     *  change of the given amount is permissable.
      *
-     * @param organ_id int the ID of the Organ in which to check for validity
-     * @param change   int the potential change for this Resource
+     * @param organ_id number the ID of the Organ in which to check for validity
+     * @param change   number the potential change for this Resource
      * @return true if the level of this Resource after the given change is
      *         valid, false otherwise
      */
@@ -296,6 +306,16 @@ class Resource extends CActiveRecord
         );
     }
 
+    /**
+     * Determines whether the level of this Resource in the given Organ after a
+     *  change of the given amount would cross a soft limit.
+     *
+     * @param organ_id number the ID of the Organ in which to check for
+     *                        penalization
+     * @param change   number the potential change for this Resource
+     * @return true if the level of this Resource after the given change is
+     *         penalizable, false otherwise
+     */
     public function isPenalizableChange($organ_id, $change)
     {
         return $this->isPenalizableAmount(

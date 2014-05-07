@@ -302,7 +302,9 @@ function confirmMatch(password, confirm)
 
 function updateLimitedResources(limitedResources)
 {
-    $('#point-dropdown').empty().append(limitedResources).find('.organ-header').click(function() {
+    var dropdown = $('#point-dropdown').empty().append(limitedResources);
+    dropdown.find('.organ-header').click(function() {
         $(this).siblings('[organ="' + $(this).attr('organ') + '"]').toggle();
     });;
+    addResourceInfoSources(dropdown);
 }

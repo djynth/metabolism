@@ -9,39 +9,8 @@ var selectedResource = false;
 
 $(document).ready(function() {
     refreshResources();
-
-    $('.resource-info-source').hover(function() {
-        var res = $(this).attr('res-id');
-        var t = setTimeout(function() {
-            if (!selectedResource) {
-                activeResource = res;
-                updateResourceVisual();
-            }
-        }, 700);
-        $(this).data('timeout', t);
-    }, function() {
-        clearTimeout($(this).data('timeout'));
-        if (!selectedResource) {
-            activeResource = null;
-            updateResourceVisual();
-        }
-    });
-
-    $('.resource-info-source').click(function() {
-        if (selectedResource && activeResource == $(this).attr('res-id')) {
-            selectedResource = false;
-            activeResource = null;
-        } else {
-            if (selectedResource) {
-                activeResource = null;
-                updateResourceVisual();
-            }
-
-            selectedResource = true;
-            activeResource = $(this).attr('res-id');
-        }
-        updateResourceVisual();
-    });
+    addResourceInfoSources($(document));
+    
 
     $('#resource-visual-close').click(function(e) {
         activeResource = null;
@@ -60,6 +29,42 @@ $(document).ready(function() {
         });
     });
 });
+
+function addResourceInfoSources(parent)
+{
+    parent.find('.resource-info-source').hover(function() {
+        var res = $(this).attr('res-id');
+        var t = setTimeout(function() {
+            if (!selectedResource) {
+                activeResource = res;
+                updateResourceVisual();
+            }
+        }, 700);
+        $(this).data('timeout', t);
+    }, function() {
+        clearTimeout($(this).data('timeout'));
+        if (!selectedResource) {
+            activeResource = null;
+            updateResourceVisual();
+        }
+    });
+
+    parent.find('.resource-info-source').click(function() {
+        if (selectedResource && activeResource == $(this).attr('res-id')) {
+            selectedResource = false;
+            activeResource = null;
+        } else {
+            if (selectedResource) {
+                activeResource = null;
+                updateResourceVisual();
+            }
+
+            selectedResource = true;
+            activeResource = $(this).attr('res-id');
+        }
+        updateResourceVisual();
+    });
+}
 
 function refreshResources(resources)
 {
