@@ -19,7 +19,7 @@ class ResourceAlias extends CActiveRecord
 
     public function primaryKey()
     {
-        return 'resource_id';
+        return array('resource_id', 'alias');
     }
 
     public function relations()

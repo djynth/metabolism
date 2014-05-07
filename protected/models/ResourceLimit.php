@@ -89,7 +89,7 @@ class ResourceLimit extends CActiveRecord
         $text = '';
 
         if ($this->soft_min !== null || $this->rel_soft_min !== null) {
-            $text .= '<p>Soft Min: ';
+            $text .= '<p class="resource-visual-text">Soft Min: ';
             if ($this->soft_min !== null) {
                 $text .= $this->soft_min . ' ';
             }
@@ -100,7 +100,7 @@ class ResourceLimit extends CActiveRecord
         }
 
         if ($this->soft_max !== null || $this->rel_soft_max !== null) {
-            $text .= '<p>Soft Max: ';
+            $text .= '<p class="resource-visual-text">Soft Max: ';
             if ($this->soft_max !== null) {
                 $text .= $this->soft_max . ' ';
             }
@@ -111,7 +111,7 @@ class ResourceLimit extends CActiveRecord
         }
 
         if ($this->hard_min !== null || $this->rel_hard_min !== null) {
-            $text .= '<p>Hard Min: ';
+            $text .= '<p class="resource-visual-text">Hard Min: ';
             if ($this->hard_min !== null) {
                 $text .= $this->hard_min . ' ';
             }
@@ -121,7 +121,7 @@ class ResourceLimit extends CActiveRecord
         }
 
         if ($this->hard_max !== null || $this->rel_hard_max !== null) {
-            $text .= '<p>Hard Max: ';
+            $text .= '<p class="resource-visual-text">Hard Max: ';
             if ($this->hard_max !== null) {
                 $text .= $this->hard_max . ' ';
             }
