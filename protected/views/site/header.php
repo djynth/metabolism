@@ -13,7 +13,7 @@
         </div>
 
         <div id="point-dropdown">
-            <?php $this->renderPartial('limited_resources', array(
+            <?php $this->renderPartial('limited-resources', array(
                 'organs' => $organs,
             )); ?>
         </div>

@@ -291,20 +291,26 @@ function createNotification(message, success)
 
 function confirmMatch(password, confirm)
 {
-    console.log('match')
-    console.log(password)
-    console.log(confirm)
-    console.log(password.val() == confirm.val() || password.val() == '' ||
-           confirm.val() == '')
     return password.val() == confirm.val() || password.val() == '' ||
            confirm.val() == '';
 }
 
 function updateLimitedResources(limitedResources)
 {
-    var dropdown = $('#point-dropdown').empty().append(limitedResources);
+    var dropdown = $('#point-dropdown');
+
+    dropdown.find('.organ-header').each(function() {
+        var organ = $(this).attr('organ');
+        var minimized = $(this).hasClass('minimized');
+        limitedResources.find('.organ-header[organ="' + organ + '"]')
+            .toggleClass('minimized', minimized)
+            .siblings('[organ="' + organ + '"]').toggle(!minimized);
+    });
+
+    dropdown.empty().append(limitedResources);
     dropdown.find('.organ-header').click(function() {
         $(this).siblings('[organ="' + $(this).attr('organ') + '"]').toggle();
-    });;
+        $(this).toggleClass('minimized');
+    });
     addResourceInfoSources(dropdown);
 }

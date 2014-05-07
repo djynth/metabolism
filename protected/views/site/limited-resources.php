@@ -47,7 +47,7 @@ $total = 0;
             $change = -$resource->limit->getPenalization($amount, $organ);
             $total += $change;
             $good = ($min === null || $amount >= $min) && ($max === null || $amount <= $max); ?>
-            <tr organ="<?= $organ->id ?>" <?= $organ->isGlobal() ? '' : 'style="display:none"' ?>>
+            <tr organ="<?= $organ->id ?>">
                 <td class="res resource-info-source" res-id="<?= $resource->id ?>"><?= $resource->name ?></td>
                 <td class="min <?= $min === null ? 'center' : '' ?>"><?= $min === null ? '-' : $min ?></td>
                 <td class="amount <?= $good ? 'good' : 'bad' ?>"><?= $amount ?></td>

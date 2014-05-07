@@ -97,7 +97,7 @@ class SiteController extends Controller
             'game_over' => Game::isGameCompleted(),
             'action_counts' => Organ::getActionCounts(),
             'limited_resources' => $this->renderPartial(
-                'limited_resources',
+                'limited-resources',
                 array('organs' => Organ::model()->findAll()),
                 true
             ),
@@ -135,7 +135,7 @@ class SiteController extends Controller
             'game_over' => Game::isGameCompleted(),
             'action_counts' => Organ::getActionCounts(),
             'limited_resources' => $this->renderPartial(
-                'limited_resources',
+                'limited-resources',
                 array('organs' => Organ::model()->findAll()),
                 true
             ),
@@ -158,6 +158,11 @@ class SiteController extends Controller
             'resources' => Resource::getAmounts(),
             'game_over' => Game::isGameCompleted(),
             'action_counts' => Organ::getActionCounts(),
+            'limited_resources' => $this->renderPartial(
+                'limited-resources',
+                array('organs' => Organ::model()->findAll()),
+                true
+            ),
         ));
     }
 
