@@ -19,13 +19,14 @@ $(document).ready(function() {
 
 function initScrollbars()
 {
-    $('.scrollbar-content').each(function() {
-        $(this).mCustomScrollbar({
-            autoHideScrollbar: true,
-            scrollInertia: 200,
-            theme: "dark"
-        });
-    });
+    // TODO: re-enable custom scrollbars when a fix has been found for 
+    // $('.scrollbar-content').each(function() {
+    //     $(this).mCustomScrollbar({
+    //         autoHideScrollbar: true,
+    //         scrollInertia: 200,
+    //         theme: "dark"
+    //     });
+    // });
 }
 
 function getPathwayContentHeight(reset)

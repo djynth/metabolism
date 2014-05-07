@@ -133,6 +133,8 @@ p, h1, h2, h3, h4, h5, h6 {
 
     .accordian-content, .global {
         padding: 0 6px;
+        // NOTE: unnecessary if there are scrollbars (but it won't break them either)
+        overflow: auto;
     }
 
     .mCSB_container {
