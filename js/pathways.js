@@ -104,8 +104,7 @@ $(document).ready(function() {
             });
             var children = $(this).children();
 
-            $(this).empty();
-            $(this).append(children.get().reverse());
+            $(this).empty().append(children.get().reverse());
         });
 
         refreshPathways();      // TODO: only refresh the pathway that was reversed

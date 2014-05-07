@@ -23,16 +23,7 @@ function initScrollbars()
         $(this).mCustomScrollbar({
             autoHideScrollbar: true,
             scrollInertia: 200,
-            theme: "dark",
-            advanced: {
-                updateOnBrowserResize: false,
-                updateOnContentResize: false
-            },
-            callbacks: {
-                onScroll: function() {
-                    console.log('scrolled');
-                }
-            }
+            theme: "dark"
         });
     });
 }
