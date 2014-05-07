@@ -25,7 +25,7 @@ if (!$eat) {
 
 ?>
 
-<div class="pathway" value="<?= $pathway->id ?>" <?= $pathway->limit ? ' limit="limit"' : '' ?> catabolic="<?= $pathway->catabolic ? 'true' : 'false' ?>">
+<div class="pathway" value="<?= $pathway->id ?>" <?= $pathway->limit ? ' limit="limit"' : '' ?> <?= $pathway->catabolic ? 'catabolic' : '' ?> <?= $pathway->anabolic ? 'anabolic' : '' ?>>
     <div class="pathway-inner"></div>
     <p class="title"><?= $pathway->name ?></p>
 

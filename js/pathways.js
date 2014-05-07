@@ -416,10 +416,6 @@ function onFilterChange()
         showAvailable = true;
         showUnavailable = true;
     }
-    if (!showCatabolic && !showAnabolic) {
-        showCatabolic = true;
-        showAnabolic = true;
-    }
 
     $('.pathway').attr('filter', 'true').each(function() {
         var pathwayName = $(this).find('.title').text();
@@ -434,8 +430,10 @@ function onFilterChange()
             $(this).attr('filter', 'false');
             return;
         }
-        var pathwayCatabolic = $(this).attr('catabolic') === 'true';
-        if ((showCatabolic && !showAnabolic && !pathwayCatabolic) || (!showCatabolic && showAnabolic && pathwayCatabolic)) {
+
+        var pathwayCatabolic = $(this).attr('catabolic') !== undefined;
+        var pathwayAnabolic = $(this).attr('anabolic') !== undefined;
+        if ((showCatabolic && !pathwayCatabolic) || (showAnabolic && !pathwayAnabolic)) {
             $(this).attr('filter', 'false');
             return;
         }
