@@ -8,7 +8,7 @@ $(document).ready(function() {
         var id = parseInt($(this).parents('.pathway').attr('value'));
         var organ = parseInt($(this).parents('.pathway-holder').attr('value'));
         var times = parseInt($(this).attr('value'));
-        var reverse = $(this).parents('.pathway-holder').find('.pathway-reverse').hasClass('active');
+        var reverse = $(this).parents('.pathway').find('.pathway-reverse').hasClass('active');
         runPathway(id, times, organ, reverse);
     });
 

@@ -172,8 +172,10 @@ class SiteController extends Controller
      * 
      * @param resource_id string|int the ID of the Resource whose visual should
      *                               be created
+     * @param organ_id    string|int the ID of the Organ to use as context for
+     *                               the visual
      */
-    public function actionResourceVisual($resource_id)
+    public function actionResourceVisual($resource_id, $organ_id)
     {
         $resource = Resource::model()->findByPk((int)$resource_id);
         echo CJavaScript::jsonEncode(array(
@@ -184,6 +186,7 @@ class SiteController extends Controller
             ),
             'resource' => $resource->id,
             'resource_name' => $resource->name,
+            'resource_amount' => $resource->getAmount((int)$organ_id),
             'sources' => $resource->getSources(),
             'destinations' => $resource->getDestinations(),
         ));

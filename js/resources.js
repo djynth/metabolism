@@ -11,7 +11,6 @@ $(document).ready(function() {
     refreshResources();
     addResourceInfoSources($(document));
     
-
     $('#resource-visual-close').click(function(e) {
         activeResource = null;
         updateResourceVisual();
@@ -32,28 +31,8 @@ $(document).ready(function() {
 
 function addResourceInfoSources(parent)
 {
-    parent.find('.resource-info-source').hover(function() {
-        var res = $(this).attr('res-id');
-        var t = setTimeout(function() {
-            if (!selectedResource) {
-                activeResource = res;
-                updateResourceVisual();
-            }
-        }, 700);
-        $(this).data('timeout', t);
-    }, function() {
-        clearTimeout($(this).data('timeout'));
-        if (!selectedResource) {
-            activeResource = null;
-            updateResourceVisual();
-        }
-    });
-
     parent.find('.resource-info-source').click(function() {
-        if (selectedResource && activeResource == $(this).attr('res-id')) {
-            selectedResource = false;
-            activeResource = null;
-        } else {
+        if (!selectedResource || activeResource != $(this).attr('res-id')) {
             if (selectedResource) {
                 activeResource = null;
                 updateResourceVisual();
@@ -62,7 +41,7 @@ function addResourceInfoSources(parent)
             selectedResource = true;
             activeResource = $(this).attr('res-id');
         }
-        updateResourceVisual();
+        updateResourceVisual($(this).attr('organ-id'));
     });
 }
 
@@ -137,14 +116,14 @@ function isResourceGlobal(resource)
     return $('.resource-holder.global').find('.resource-data[res-id="' + resource + '"]').length > 0;
 }
 
-function updateResourceVisual(newOrgan)
+function updateResourceVisual(organ, newOrgan)
 {
     var visual = $('#resource-visual');
     var header = $('#resource-visual-header');
 
     if (newOrgan) {
         if (activeResource !== null && !isResourceGlobal(activeResource)) {
-            header.find('.resource-visual-amount').text(getResourceValue(activeResource, newOrgan));
+            header.find('.resource-visual-amount').text(getResourceValue(activeResource, organ));
         }
     } else {
         if (activeResource === null) {
@@ -168,13 +147,14 @@ function updateResourceVisual(newOrgan)
                 dataType: 'json',
                 data: {
                     resource_id: activeResource,
+                    organ_id:    organ
                 },
                 success: function(data) {
                     if (activeResource == data.resource) {
                         visual.append(data.visual);
                         $('.resource-visual-content[value="' + data.resource + '"]').fadeIn();
                         header.find('.resource-visual-title').text(data.resource_name);
-                        header.find('.resource-visual-amount').text(getResourceValue(data.resource));
+                        header.find('.resource-visual-amount').text(data.resource_amount);
 
                         for (var i = 0; i < data.sources.length; i++) {
                             highlightSource(data.sources[i].id, true);

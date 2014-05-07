@@ -103,7 +103,7 @@ function selectOrgan(organ, firstTime)
         }
     });
 
-    updateResourceVisual(organ);
+    updateResourceVisual(organ, true);
 
     if (color) {
         if (firstTime) {

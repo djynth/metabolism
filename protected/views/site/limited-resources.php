@@ -48,7 +48,7 @@ $total = 0;
             $total += $change;
             $good = ($min === null || $amount >= $min) && ($max === null || $amount <= $max); ?>
             <tr organ="<?= $organ->id ?>">
-                <td class="res resource-info-source" res-id="<?= $resource->id ?>"><?= $resource->name ?></td>
+                <td class="res resource-info-source" res-id="<?= $resource->id ?>" organ-id="<?= $organ->id ?>"><?= $resource->name ?></td>
                 <td class="min <?= $min === null ? 'center' : '' ?>"><?= $min === null ? '-' : $min ?></td>
                 <td class="amount <?= $good ? 'good' : 'bad' ?>"><?= $amount ?></td>
                 <td class="max <?= $max === null ? 'center' : '' ?>"><?= $max === null ? '-' : $max ?></td>
