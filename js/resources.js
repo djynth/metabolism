@@ -10,8 +10,8 @@ var selectedResource = false;
 $(document).ready(function() {
     refreshResources();
 
-    $('.resource-data').hover(function() {
-        var res = $(this).attr('value');
+    $('.resource-info-source').hover(function() {
+        var res = $(this).attr('res-id');
         var t = setTimeout(function() {
             if (!selectedResource) {
                 activeResource = res;
@@ -27,8 +27,8 @@ $(document).ready(function() {
         }
     });
 
-    $('.resource-data').click(function() {
-        if (selectedResource && activeResource == $(this).attr('value')) {
+    $('.resource-info-source').click(function() {
+        if (selectedResource && activeResource == $(this).attr('res-id')) {
             selectedResource = false;
             activeResource = null;
         } else {
@@ -38,7 +38,7 @@ $(document).ready(function() {
             }
 
             selectedResource = true;
-            activeResource = $(this).attr('value');
+            activeResource = $(this).attr('res-id');
         }
         updateResourceVisual();
     });
@@ -66,7 +66,7 @@ function refreshResources(resources)
     if (typeof resources === 'undefined') {
         $('.resource-holder').find('.resource-data').each(function() {
             onResourceChange(
-                $(this).attr('value'),
+                $(this).attr('res-id'),
                 $(this).parents('.resource-holder').attr('value'),
                 parseInt($(this).find('.resource-value').html())
             );
@@ -114,7 +114,7 @@ function onResourceChange(resource, organ, value)
 
 function getResourceElement(resource, organ)
 {
-    return $('.resource-holder[value="' + organ + '"]').find('.resource-data[value="' + resource + '"]');
+    return $('.resource-holder[value="' + organ + '"]').find('.resource-data[res-id="' + resource + '"]');
 }
 
 function getResourceValue(resource, organ)
@@ -129,7 +129,7 @@ function getResourceName(resource, organ)
 
 function isResourceGlobal(resource)
 {
-    return $('.resource-holder.global').find('.resource-data[value="' + resource + '"]').length > 0;
+    return $('.resource-holder.global').find('.resource-data[res-id="' + resource + '"]').length > 0;
 }
 
 function updateResourceVisual(newOrgan)

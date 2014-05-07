@@ -64,14 +64,14 @@ if (!$eat) {
         <tr>
             <?php if ($reactants[$i] !== ''): ?>
             <td class="reactant value"><?= $reactants[$i]->value ?></td>
-            <td class="reactant name <?= $reactants[$i]->resource->isGlobal() ? 'global' : '' ?>" res-id="<?= $reactants[$i]->resource->id ?>"><?= $reactants[$i]->resource->name ?></td>
+            <td class="reactant resource-info-source name <?= $reactants[$i]->resource->isGlobal() ? 'global' : '' ?>" res-id="<?= $reactants[$i]->resource->id ?>"><?= $reactants[$i]->resource->name ?></td>
             <?php else: ?>
             <td class="empty" colspan="2"></td>
             <?php endif ?>
 
             <?php if ($products[$i] !== ''): ?>
             <td class="product name <?= $products[$i]->resource->isGlobal() ? 'global' : '' ?>" res-id="<?= $products[$i]->resource->id ?>"><?= $products[$i]->resource->name ?></td>
-            <td class="product value"><?= $products[$i]->value ?></td>
+            <td class="product resource-info-source value"><?= $products[$i]->value ?></td>
             <?php else: ?>
             <td class="empty" colspan="2"></td>
             <?php endif ?>
