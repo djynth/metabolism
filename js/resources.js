@@ -9,40 +9,8 @@ var selectedResource = false;
 
 $(document).ready(function() {
     refreshResources();
-
-    $('.resource-data').hover(function() {
-        var res = $(this).attr('value');
-        var t = setTimeout(function() {
-            if (!selectedResource) {
-                activeResource = res;
-                updateResourceVisual();
-            }
-        }, 700);
-        $(this).data('timeout', t);
-    }, function() {
-        clearTimeout($(this).data('timeout'));
-        if (!selectedResource) {
-            activeResource = null;
-            updateResourceVisual();
-        }
-    });
-
-    $('.resource-data').click(function() {
-        if (selectedResource && activeResource == $(this).attr('value')) {
-            selectedResource = false;
-            activeResource = null;
-        } else {
-            if (selectedResource) {
-                activeResource = null;
-                updateResourceVisual();
-            }
-
-            selectedResource = true;
-            activeResource = $(this).attr('value');
-        }
-        updateResourceVisual();
-    });
-
+    addResourceInfoSources($(document));
+    
     $('#resource-visual-close').click(function(e) {
         activeResource = null;
         updateResourceVisual();
@@ -61,12 +29,28 @@ $(document).ready(function() {
     });
 });
 
+function addResourceInfoSources(parent)
+{
+    parent.find('.resource-info-source').click(function() {
+        if (!selectedResource || activeResource != $(this).attr('res-id')) {
+            if (selectedResource) {
+                activeResource = null;
+                updateResourceVisual();
+            }
+
+            selectedResource = true;
+            activeResource = $(this).attr('res-id');
+        }
+        updateResourceVisual($(this).attr('organ-id'));
+    });
+}
+
 function refreshResources(resources)
 {
     if (typeof resources === 'undefined') {
         $('.resource-holder').find('.resource-data').each(function() {
             onResourceChange(
-                $(this).attr('value'),
+                $(this).attr('res-id'),
                 $(this).parents('.resource-holder').attr('value'),
                 parseInt($(this).find('.resource-value').html())
             );
@@ -114,7 +98,7 @@ function onResourceChange(resource, organ, value)
 
 function getResourceElement(resource, organ)
 {
-    return $('.resource-holder[value="' + organ + '"]').find('.resource-data[value="' + resource + '"]');
+    return $('.resource-holder[value="' + organ + '"]').find('.resource-data[res-id="' + resource + '"]');
 }
 
 function getResourceValue(resource, organ)
@@ -129,17 +113,17 @@ function getResourceName(resource, organ)
 
 function isResourceGlobal(resource)
 {
-    return $('.resource-holder.global').find('.resource-data[value="' + resource + '"]').length > 0;
+    return $('.resource-holder.global').find('.resource-data[res-id="' + resource + '"]').length > 0;
 }
 
-function updateResourceVisual(newOrgan)
+function updateResourceVisual(organ, newOrgan)
 {
     var visual = $('#resource-visual');
     var header = $('#resource-visual-header');
 
     if (newOrgan) {
         if (activeResource !== null && !isResourceGlobal(activeResource)) {
-            header.find('.resource-visual-amount').text(getResourceValue(activeResource, newOrgan));
+            header.find('.resource-visual-amount').text(getResourceValue(activeResource, organ));
         }
     } else {
         if (activeResource === null) {
@@ -163,13 +147,14 @@ function updateResourceVisual(newOrgan)
                 dataType: 'json',
                 data: {
                     resource_id: activeResource,
+                    organ_id:    organ
                 },
                 success: function(data) {
                     if (activeResource == data.resource) {
                         visual.append(data.visual);
                         $('.resource-visual-content[value="' + data.resource + '"]').fadeIn();
                         header.find('.resource-visual-title').text(data.resource_name);
-                        header.find('.resource-visual-amount').text(getResourceValue(data.resource));
+                        header.find('.resource-visual-amount').text(data.resource_amount);
 
                         for (var i = 0; i < data.sources.length; i++) {
                             highlightSource(data.sources[i].id, true);
@@ -296,7 +281,9 @@ function refreshResourceLimits()
                     value = Math.min(val1, val2);
                 }
 
-                $(this).width(100*Math.abs(maxShown - value)/maxShown + "%");
+                if (value <= maxShown) {
+                    $(this).width(100*Math.abs(maxShown - value)/maxShown + "%");
+                }
             } else {
                 if (val1 === null) {
                     value = val2;
@@ -306,7 +293,9 @@ function refreshResourceLimits()
                     value = Math.max(val1, val2);
                 }
 
-                $(this).width(100*value/maxShown + "%");
+                if (value >= 0) {
+                    $(this).width(100*value/maxShown + "%");
+                }
             }
         });
     });

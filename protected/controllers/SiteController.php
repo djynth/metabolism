@@ -87,7 +87,7 @@ class SiteController extends Controller
         $organ = Organ::model()->findByPk((int)$organ_id);
         $reverse = ($reverse === "true");
 
-        $success = $pathway->run((int)$times, $organ, $reverse);
+        $success = $pathway->run((int)$times, $organ, $reverse, false);
 
         echo CJavaScript::jsonEncode(array(
             'success' => $success,
@@ -96,6 +96,11 @@ class SiteController extends Controller
             'resources' => Resource::getAmounts(),
             'game_over' => Game::isGameCompleted(),
             'action_counts' => Organ::getActionCounts(),
+            'limited_resources' => $this->renderPartial(
+                'limited-resources',
+                array('organs' => Organ::model()->findAll()),
+                true
+            ),
         ));
     }
 
@@ -129,6 +134,11 @@ class SiteController extends Controller
             'resources' => Resource::getAmounts(),
             'game_over' => Game::isGameCompleted(),
             'action_counts' => Organ::getActionCounts(),
+            'limited_resources' => $this->renderPartial(
+                'limited-resources',
+                array('organs' => Organ::model()->findAll()),
+                true
+            ),
         ));
     }
 
@@ -148,6 +158,11 @@ class SiteController extends Controller
             'resources' => Resource::getAmounts(),
             'game_over' => Game::isGameCompleted(),
             'action_counts' => Organ::getActionCounts(),
+            'limited_resources' => $this->renderPartial(
+                'limited-resources',
+                array('organs' => Organ::model()->findAll()),
+                true
+            ),
         ));
     }
 
@@ -157,8 +172,10 @@ class SiteController extends Controller
      * 
      * @param resource_id string|int the ID of the Resource whose visual should
      *                               be created
+     * @param organ_id    string|int the ID of the Organ to use as context for
+     *                               the visual
      */
-    public function actionResourceVisual($resource_id)
+    public function actionResourceVisual($resource_id, $organ_id)
     {
         $resource = Resource::model()->findByPk((int)$resource_id);
         echo CJavaScript::jsonEncode(array(
@@ -169,6 +186,7 @@ class SiteController extends Controller
             ),
             'resource' => $resource->id,
             'resource_name' => $resource->name,
+            'resource_amount' => $resource->getAmount((int)$organ_id),
             'sources' => $resource->getSources(),
             'destinations' => $resource->getDestinations(),
         ));

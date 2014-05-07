@@ -20,7 +20,7 @@ class User extends CActiveRecord
 {
     const DEFAULT_THEME = 'frosted';    // the default color theme
     const DEFAULT_THEME_TYPE = 'light'; // the default color theme type
-    const DEFAULT_HELP = true;          // whether or not help tooltips should
+    const DEFAULT_HELP = false;         // whether or not help tooltips should
                                         // be enabled by default
 
     public static function model($className = __CLASS__)

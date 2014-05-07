@@ -1,6 +1,8 @@
 var ACCOUNT_TOOLTIP_OFFSET = -10;       // move the tooltips associated with each text input by a certain px amount
 
 $(document).ready(function() {
+    updateLimitedResources($('#point-dropdown').children());
+
     $('.account-header').click(function() {
         $('.login-dropdown').slideToggle(function() {
             $(this).find('input').first().focus();
@@ -9,6 +11,10 @@ $(document).ready(function() {
 
     $('.settings-header').click(function() {
         $('.settings-dropdown').slideToggle();
+    });
+
+    $('.game-state-header').click(function() {
+        $('#point-dropdown').slideToggle();
     });
 
     $('.theme-option').outerWidth(100/$('.theme-option').length + '%');
@@ -285,11 +291,26 @@ function createNotification(message, success)
 
 function confirmMatch(password, confirm)
 {
-    console.log('match')
-    console.log(password)
-    console.log(confirm)
-    console.log(password.val() == confirm.val() || password.val() == '' ||
-           confirm.val() == '')
     return password.val() == confirm.val() || password.val() == '' ||
            confirm.val() == '';
+}
+
+function updateLimitedResources(limitedResources)
+{
+    var dropdown = $('#point-dropdown');
+
+    dropdown.find('.organ-header').each(function() {
+        var organ = $(this).attr('organ');
+        var minimized = $(this).hasClass('minimized');
+        limitedResources.find('.organ-header[organ="' + organ + '"]')
+            .toggleClass('minimized', minimized)
+            .siblings('[organ="' + organ + '"]').toggle(!minimized);
+    });
+
+    dropdown.empty().append(limitedResources);
+    dropdown.find('.organ-header').click(function() {
+        $(this).siblings('[organ="' + $(this).attr('organ') + '"]').toggle();
+        $(this).toggleClass('minimized');
+    });
+    addResourceInfoSources(dropdown);
 }

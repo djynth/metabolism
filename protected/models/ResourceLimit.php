@@ -89,7 +89,7 @@ class ResourceLimit extends CActiveRecord
         $text = '';
 
         if ($this->soft_min !== null || $this->rel_soft_min !== null) {
-            $text .= '<p>Soft Min: ';
+            $text .= '<p class="resource-visual-text">Soft Min: ';
             if ($this->soft_min !== null) {
                 $text .= $this->soft_min . ' ';
             }
@@ -100,7 +100,7 @@ class ResourceLimit extends CActiveRecord
         }
 
         if ($this->soft_max !== null || $this->rel_soft_max !== null) {
-            $text .= '<p>Soft Max: ';
+            $text .= '<p class="resource-visual-text">Soft Max: ';
             if ($this->soft_max !== null) {
                 $text .= $this->soft_max . ' ';
             }
@@ -111,7 +111,7 @@ class ResourceLimit extends CActiveRecord
         }
 
         if ($this->hard_min !== null || $this->rel_hard_min !== null) {
-            $text .= '<p>Hard Min: ';
+            $text .= '<p class="resource-visual-text">Hard Min: ';
             if ($this->hard_min !== null) {
                 $text .= $this->hard_min . ' ';
             }
@@ -121,7 +121,7 @@ class ResourceLimit extends CActiveRecord
         }
 
         if ($this->hard_max !== null || $this->rel_hard_max !== null) {
-            $text .= '<p>Hard Max: ';
+            $text .= '<p class="resource-visual-text">Hard Max: ';
             if ($this->hard_max !== null) {
                 $text .= $this->hard_max . ' ';
             }
@@ -162,7 +162,7 @@ class ResourceLimit extends CActiveRecord
         }
         return true;
     }
-
+    
     /**
      * Determines the amount of penalization per turn that should be deducted
      *  from the player's score for having the associated resource at the given
@@ -177,26 +177,66 @@ class ResourceLimit extends CActiveRecord
     public function getPenalization($amount, $organ)
     {
         $pen = 0;
-        if ($this->soft_max !== null) {
-            $pen += max(0, $this->penalization * ($amount - $this->soft_max));
+        $min = $this->getSoftMin($organ->id);
+        $max = $this->getSoftMax($organ->id);
+        if ($min !== null) {
+            $pen += max(0, $this->penalization * ($min - $amount));
         }
-        if ($this->soft_min !== null) {
-            $pen += max(0, $this->penalization * ($this->soft_max - $amount));
-        }
-        if ($this->res_soft_max !== null) {
-            $pen += max(
-                0,
-                $this->penalization * 
-                    ($amount - $this->res_soft_max->getAmount($organ->id))
-            );
-        }
-        if ($this->res_soft_min) {
-            $pen += max(
-                0,
-                $this->penalization * 
-                    ($this->res_soft_min->getAmount($organ->id) - $amount)
-            );
+        if ($max !== null) {
+            $pen += max(0, $this->penalization * ($amount - $max));
         }
         return $pen;
+    }
+
+    /**
+     * Gets the soft minimum of this ResourceLimit in the organ with the given
+     *  ID.
+     * If the limit has neither a soft minimum or relative soft minimum, null is
+     *  returned, otherwise the larger of these two soft minimums is returned.
+     *
+     * @param organ_id number the ID of the Organ in which to get the soft min
+     * @return the current soft minimum of this limit in the given organ
+     */
+    public function getSoftMin($organ_id)
+    {
+        if ($this->soft_min === null && $this->rel_soft_min === null) {
+            return null;
+        }
+
+        if ($this->soft_min === null) {
+            return $this->res_soft_min->getAmount($organ_id);
+        }
+
+        if ($this->rel_soft_min === null) {
+            return $this->soft_min;
+        }
+
+        return max($this->res_soft_min->getAmount($organ_id), $this->soft_min);
+    }
+
+    /**
+     * Gets the soft maximum of this ResourceLimit in the organ with the given
+     *  ID.
+     * If the limit has neither a soft maximum or relative soft maximum, null is
+     *  returned, otherwise the smaller of these two soft maximums is returned.
+     *
+     * @param organ_id number the ID of the Organ in which to get the soft max
+     * @return the current soft maximum of this limit in the given organ
+     */
+    public function getSoftMax($organ_id)
+    {
+        if ($this->soft_max === null && $this->rel_soft_max === null) {
+            return null;
+        }
+
+        if ($this->soft_max === null) {
+            return $this->res_soft_max->getAmount($organ_id);
+        }
+
+        if ($this->rel_soft_max === null) {
+            return $this->soft_max;
+        }
+
+        return min($this->res_soft_max->getAmount($organ_id), $this->soft_max);
     }
 }

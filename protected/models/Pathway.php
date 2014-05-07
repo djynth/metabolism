@@ -13,6 +13,7 @@
  * @db reversible tinyint(1)      whether the Pathway is reversible
  * @db action     int(1)          whether this Pathway is associated with an
  *                                organ-specific action
+ * @db passive    int(1)          whether this Pathway is passive
  * @fk organs     array(Organ)
  * @fk resource   array(Resource) ordered by resource group
  */
@@ -116,6 +117,16 @@ class Pathway extends CActiveRecord
     }
 
     /**
+     * Gets all the Pathways which are run passively.
+     *
+     * @return an array of the passive Pathways
+     */
+    public static function getPassivePathways()
+    {
+        return self::model()->findAllByAttributes(array(), 'passive <> 0');
+    }
+
+    /**
      * Determiens whether the given array of nutrients to be consumed are valid.
      * The nutrients should be formatted as an array of resource ID's to amounts
      *  eaten, and each amount must be non-negative, summing to at most
@@ -195,6 +206,52 @@ class Pathway extends CActiveRecord
     }
 
     /**
+     * Determines whether this Pathway can be run with the given parameters
+     *  (i.e. whether it would cause any resources to cross a hard limit).
+     *
+     * @param times   number  the number of times to run the Pathway
+     * @param organ   Organ   the Organ in which to run the Pathway
+     * @param reverse boolean whether to run the Pathway in reverse (default is
+     *                        false)
+     * @return true if the Pathway can be run with the given parameters, false
+     *         otherwise
+     */
+    public function canRun($times, $organ, $reverse=false)
+    {
+        foreach ($this->resources as $resource) {
+            if (!$resource->canModify($times, $organ, $reverse)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Determines whether this Pathway would incur any penalization if it were
+     *  run with the given parameters (i.e. whether it would cause any resources
+     *  to cross a soft limit).
+     * Note: this function will return true if any of the resources it affects
+     *  would be across a soft limit after it is run, regardless of whether they
+     *  were already across that soft limit.
+     *
+     * @param times   number  the number of times to run the Pathway
+     * @param organ   Organ   the Organ in which to run the Pathway
+     * @param reverse boolean whether to run the Pathway in reverse (default is
+     *                        false)
+     * @return true if running the Pathway with the given parameters would cause
+     *         a penalization, false otherwise
+     */
+    public function wouldIncurPenalization($times, $organ, $reverse=false)
+    {
+        foreach ($this->resources as $resource) {
+            if ($resource->wouldIncurPenalization($times, $organ, $reverse)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Runs the special eat pathway with the given nutrients.
      *
      * @see Pathway::areValidNutrients() which specifies the proper format and
@@ -204,7 +261,13 @@ class Pathway extends CActiveRecord
      */
     public static function eat($nutrients)
     {
-        return self::getEat()->run(1, Organ::getGlobal(), false, $nutrients);
+        return self::getEat()->run(
+            1,
+            Organ::getGlobal(),
+            false,
+            false,
+            $nutrients
+        );
     }
 
     /**
@@ -216,11 +279,12 @@ class Pathway extends CActiveRecord
      *                             action will count as a single turn regardless
      * @param organ     Organ      the Organ in which to run this Pathway
      * @param reverse   boolean    whether the Pathway should be reversed
+     * @param passive   boolean    whether the Pathway was run passively
      * @param nutrients array|null for the eat pathway, the nutrients to be
      *                             consumed, ignored otherwise; default is null
      * @return true if the Pathway was run successfully, false otherwise
      */
-    public function run($times, $organ, $reverse, $nutrients=null)
+    public function run($times, $organ, $reverse, $passive, $nutrients=null)
     {
         if (Game::isGameCompleted()) {
             return false;
@@ -232,6 +296,12 @@ class Pathway extends CActiveRecord
             return false;
         }
         if (!$this->reversible && $reverse) {
+            return false;
+        }
+        if ($this->passive != $passive) {
+            return false;
+        }
+        if (!$this->canRun($times, $organ, $reverse)) {
             return false;
         }
 
@@ -261,12 +331,6 @@ class Pathway extends CActiveRecord
             }
 
             $resources[] = $glycerol;
-        }
-
-        foreach ($resources as $resource) {
-            if (!$resource->canModify($times, $organ, $reverse)) {
-                return false;
-            }
         }
 
         foreach ($resources as $resource) {

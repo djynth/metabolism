@@ -8,7 +8,7 @@ $(document).ready(function() {
         var id = parseInt($(this).parents('.pathway').attr('value'));
         var organ = parseInt($(this).parents('.pathway-holder').attr('value'));
         var times = parseInt($(this).attr('value'));
-        var reverse = $(this).parents('.pathway-holder').find('.pathway-reverse').hasClass('active');
+        var reverse = $(this).parents('.pathway').find('.pathway-reverse').hasClass('active');
         runPathway(id, times, organ, reverse);
     });
 
@@ -104,8 +104,7 @@ $(document).ready(function() {
             });
             var children = $(this).children();
 
-            $(this).empty();
-            $(this).append(children.get().reverse());
+            $(this).empty().append(children.get().reverse());
         });
 
         refreshPathways();      // TODO: only refresh the pathway that was reversed
@@ -383,6 +382,7 @@ function onPathwaySuccess(data)
         setPoints(data.points);
         refreshResources(data.resources);
         updateActionCounts(data.action_counts);
+        updateLimitedResources($($.parseHTML(data.limited_resources)));
         onFilterChange();
 
         if (data.game_over) {
@@ -415,10 +415,6 @@ function onFilterChange()
         showAvailable = true;
         showUnavailable = true;
     }
-    if (!showCatabolic && !showAnabolic) {
-        showCatabolic = true;
-        showAnabolic = true;
-    }
 
     $('.pathway').attr('filter', 'true').each(function() {
         var pathwayName = $(this).find('.title').text();
@@ -433,8 +429,10 @@ function onFilterChange()
             $(this).attr('filter', 'false');
             return;
         }
-        var pathwayCatabolic = $(this).attr('catabolic') === 'true';
-        if ((showCatabolic && !showAnabolic && !pathwayCatabolic) || (!showCatabolic && showAnabolic && pathwayCatabolic)) {
+
+        var pathwayCatabolic = $(this).attr('catabolic') !== undefined;
+        var pathwayAnabolic = $(this).attr('anabolic') !== undefined;
+        if ((showCatabolic && !pathwayCatabolic) || (showAnabolic && !pathwayAnabolic)) {
             $(this).attr('filter', 'false');
             return;
         }
@@ -451,11 +449,15 @@ function onFilterChange()
 
             var match = false;
             for (var i = 0; i < pathwayReactants.length; i++) {
-                if (reactant.test(pathwayReactants[i].attr('abbr')) ||
-                    reactant.test(pathwayReactants[i].attr('name')) ||
-                    reactant.test(pathwayReactants[i].attr('full-name')))
-                {
-                    match = true;
+                var names = pathwayReactants[i].attr('aliases').split(';');
+                for (var j = 0; j < names.length; j++) {
+                    if (reactant.test(names[j])) {
+                        match = true;
+                        break;
+                    }
+                }
+
+                if (match) {
                     break;
                 }
             }
@@ -477,11 +479,15 @@ function onFilterChange()
 
             var match = false;
             for (var i = 0; i < pathwayProducts.length; i++) {
-                if (product.test(pathwayProducts[i].attr('abbr')) ||
-                    product.test(pathwayProducts[i].attr('name')) ||
-                    product.test(pathwayProducts[i].attr('full-name')))
-                {
-                    match = true;
+                var names = pathwayProducts[i].attr('aliases').split(';');
+                for (var j = 0; j < names.length; j++) {
+                    if (product.test(names[j])) {
+                        match = true;
+                        break;
+                    }
+                }
+
+                if (match) {
                     break;
                 }
             }

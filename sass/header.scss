@@ -13,20 +13,65 @@
     }
 
     .header-element {
-        display: inline-block;
+        position: absolute;
+        top: 0;
         min-height: 100%;
+    }
+
+    #game-state {
+        left: 0;
+        width: $gameStateWidth;
+
+        .game-state-header {
+            height: $headerHeight;
+            cursor: pointer;
+        }
+
+        #point-dropdown {
+            display: none;
+            width: 90%;
+            padding: 10px 5%;
+            z-index: 3;
+
+            #point-dist {
+                width: 100%;
+                line-height: 14px;
+                font-size: 12px;
+
+                .organ-header {
+                    cursor: pointer;
+                }
+
+                td {
+                    padding: 3px;
+                }
+
+                .change {
+                    text-align: right;
+                }
+
+                .center {
+                    text-align: center;
+                }
+            }
+        }
     }
 
     #undo {
         cursor: pointer;
+        left: $gameStateWidth;
+        width: $undoWidth;
+    }
+
+    #save {
+        cursor: pointer;
+        left: $gameStateWidth + $undoWidth;
+        width: $saveWidth;
     }
 
     #settings {
-        position: absolute;
         right: $accountWidth;
-        top: 0;
         width: $settingsWidth;
-        min-height: 100%;
 
         .settings-header {
             height: $headerHeight;
@@ -67,6 +112,7 @@
 
     #account {
         float: right;
+        position: relative;
         width:  $accountWidth;
         min-height: 100%;
 

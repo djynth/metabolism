@@ -17,6 +17,8 @@ $trackerHeaderBorder:  rgb( 140, 140, 140);
 $trackerOrganBorder:   rgb( 160, 160, 160);
 $lacking:              rgba(111, 0,   0,   0.25);
 $limitingReagent:      rgba(0,   0,   111, 0.25);
+$resourceGood:         rgba(0,   130, 0,   0.3);
+$resourceBad:          rgba(220, 0,   0,   0.6);
 $resultCover:          rgb( 255, 255, 255);
 $softLimit:            rgba(255, 0,   0,   0.4);
 $hardLimit:            rgb( 65,  65,  65);
@@ -67,6 +69,30 @@ body[theme=frosted] {
 
         .header-element {
             border-right: 1px solid $border;
+            border-bottom: 1px solid $border;
+        }
+
+        #game-state {
+            background-color: inherit;
+
+            #point-dropdown {
+                background-color: inherit;
+
+                #point-dist {
+                    td {
+                        border: 1px solid $reactionBorder;
+                        color: $text;
+                    }
+
+                    .good {
+                        background-color: $resourceGood;
+                    }
+
+                    .bad {
+                        background-color: $resourceBad;
+                    }
+                }
+            }
         }
 
         #settings {

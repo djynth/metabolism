@@ -60,7 +60,9 @@
         <?php
         $pathways = $organ->pathways;
         foreach ($pathways as $pathway) {
-            $this->renderPartial('pathway', array('pathway' => $pathway, 'organ' => $organ));
+            if (!$pathway->passive) {
+                $this->renderPartial('pathway', array('pathway' => $pathway, 'organ' => $organ));
+            }
         }
         ?>
     </div>
