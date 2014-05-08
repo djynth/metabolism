@@ -7,6 +7,7 @@ $(document).ready(function() {
     selectOrgan($('.accordian-header').first().attr('value'));
     refreshResources();
     addResourceInfoSources($(document));
+    updateLimitedResources($('#point-dropdown').children());
     onResize();
 
     $(window).resize(onResize);

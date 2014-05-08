@@ -1,12 +1,6 @@
 var ACCOUNT_TOOLTIP_OFFSET = -10;       // move the tooltips associated with each text input by a certain px amount
 
 $(document).ready(function() {
-    $('.account-header').click(function() {
-        $('.login-dropdown').slideToggle(function() {
-            $(this).find('input').first().focus();
-        });
-    });
-
     $('input[type=text], input[type=password]').keypress(function(event) {
         if (event.which == 13) {    // enter
             $(this).parent().siblings().find('input[type=submit]').click();

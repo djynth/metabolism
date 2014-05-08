@@ -1,11 +1,3 @@
-$(document).ready(function() {
-    updateLimitedResources($('#point-dropdown').children());
-
-    $('.game-state-header').click(function() {
-        $('#point-dropdown').slideToggle();
-    });
-});
-
 function updateLimitedResources(limitedResources)
 {
     var dropdown = $('#point-dropdown');

@@ -7,28 +7,28 @@
 
 <div id="header">
     <div id="game-state" class="header-element">
-        <div class="game-state-header">
+        <div class="game-state-header title">
             <p id="points" class="help-tooltip" data-placement="bottom" data-container="body" title="The number of points you have accumulated by running valuable pathways. Running some pathways earns points, so try to concentrate on them."></p>
             <p id="turns" class="help-tooltip" data-placement="bottom" data-container="body" max-turns="<?= Game::MAX_TURNS ?>" title="The number of turns you have remaining. Each time you run a pathway, even if you run it with a multiplier greater than 1, it consumes one turn."></p>
         </div>
 
-        <div id="point-dropdown">
+        <div id="point-dropdown" class="dropdown">
             <?php $this->renderPartial('limited-resources', array(
                 'organs' => $organs,
             )); ?>
         </div>
     </div>
     <div id="undo" class="header-element">
-        <p>Undo</p>
+        <p class="title">Undo</p>
     </div>
 
     <div id="settings" class="header-element">
-        <div class="settings-header">
+        <div class="settings-header title">
             <p class="settings-text">Settings</p>
             <i class="icon-cog"></i>
         </div>
 
-        <div class="settings-dropdown">
+        <div class="settings-dropdown dropdown">
             <p>Color Theme</p>
             <div id="theme-holder" class="btn-group" data-toggle="buttons-radio">
                 <?php foreach (glob("css/themes/light/*.css") as $css):
@@ -53,13 +53,13 @@
     </div>
 
     <div id="account" class="header-element">
-        <div class="account-header">
+        <div class="account-header title">
             <p class="login-text"><?= $user === null ? 'Not logged in' : 'Logged in as ' . $user->username ?></p>
             <i class="icon-user"></i>
         </div>
 
         <?php if ($user === null): ?>
-        <div class="login-dropdown">
+        <div class="login-dropdown dropdown">
             <div class="login-holder">
                 <p>Login</p>
                 <div class="control-group">
@@ -99,7 +99,7 @@
         </div>
 
         <?php else: ?>
-        <div class="login-dropdown">
+        <div class="login-dropdown dropdown">
             <div class="change-password-holder">
                 <p>Change Password</p>
                 <div class="control-group">

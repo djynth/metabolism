@@ -301,22 +301,18 @@ function eat(nutrients)
 
 function runPathway(pathwayId, times, organ, reverse)
 {
-    if (!gameOver) {
-        $.ajax({
-            url: 'index.php/site/pathway',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                pathway_id: pathwayId,
-                times: times,
-                organ_id: organ,
-                reverse: reverse,
-            },
-            success: function(data) {
-                onPathwaySuccess(data);
-            }
-        });
-    }
+    $.ajax({
+        url: 'index.php/site/pathway',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            pathway_id: pathwayId,
+            times: times,
+            organ_id: organ,
+            reverse: reverse,
+        },
+        success: onPathwaySuccess
+    });
 }
 
 function onPathwaySuccess(data)
