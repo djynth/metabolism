@@ -113,6 +113,7 @@ jQuery.fn.extend({
                 updateResourceVisual();
             }
         });
+        return this;
     }
 });
 

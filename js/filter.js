@@ -49,111 +49,79 @@ function onFilterChange()
     var reactant        = $('#filter-reactant').val();
     var product         = $('#filter-product').val();
 
-    if (name) {
-        name = new RegExp(name, 'i');
-    }
-    if (reactant) {
-        reactant = new RegExp(reactant, 'i');
-    }
-    if (product) {
-        product = new RegExp(product, 'i');
-    }
+    name     = name     ? new RegExp(name,     'i') : name;
+    reactant = reactant ? new RegExp(reactant, 'i') : reactant;
+    product  = product  ? new RegExp(product,  'i') : product;
     if (!showAvailable && !showUnavailable) {
         showAvailable = true;
         showUnavailable = true;
     }
 
-    $('.pathway').attr('filter', 'true').each(function() {
-        var pathwayName = $(this).find('.title').text();
+    $('.pathway').each(function() {
         var organ = $(this).parents('.pathway-holder').attr('value');
-        if (name && !name.test(pathwayName)) {
-            $(this).attr('filter', 'false');
-            return;
+        if (name && !name.test($(this).find('.title').text())) {
+            return $(this).slideUp();
         }
 
         if (!showPassive && $(this).children('.passive').length) {
-            $(this).attr('filter', 'false');
-            return;
+            return $(this).slideUp();
         }
 
         var pathwayAvailable = $(this).attr('available') === 'true';
         if ((showAvailable && !showUnavailable && !pathwayAvailable) || (!showAvailable && showUnavailable && pathwayAvailable)) {
-            $(this).attr('filter', 'false');
-            return;
+            return $(this).slideUp();
         }
 
         var pathwayCatabolic = $(this).attr('catabolic') !== undefined;
         var pathwayAnabolic = $(this).attr('anabolic') !== undefined;
         if ((showCatabolic && !pathwayCatabolic) || (showAnabolic && !pathwayAnabolic)) {
-            $(this).attr('filter', 'false');
-            return;
+            return $(this).slideUp();
         }
 
         if (reactant) {
-            var pathwayReactants = new Array;
-            $(this).find('.reactant.name').each(function() {
-                var global = $(this).hasClass('global');
-                pathwayReactants.push(getResourceElement(
-                    $(this).attr('res-id'),
-                    global ? '1' : organ
-                ));
-            });
-
             var match = false;
-            for (var i = 0; i < pathwayReactants.length; i++) {
-                var names = pathwayReactants[i].attr('aliases').split(';');
-                for (var j = 0; j < names.length; j++) {
-                    if (reactant.test(names[j])) {
+            $(this).find('.reactant.name').each(function() {
+                if (match) {
+                    return;
+                }
+
+                res = getResourceElement($(this).attr('res-id'), $(this).attr('organ-id'));
+                var names = res.attr('aliases').split(';');
+                for (var i = 0; i < names.length; i++) {
+                    if (reactant.test(names[i])) {
                         match = true;
                         break;
                     }
                 }
-
-                if (match) {
-                    break;
-                }
-            }
+            });
 
             if (!match) {
-                $(this).attr('filter', 'false');
-                return;
+                return $(this).slideUp();
             }
         }
 
         if (product) {
-            var pathwayProducts = new Array;
-            $(this).find('.product.name').each(function() {
-                pathwayProducts.push(getResourceElement(
-                    $(this).attr('res-id'),
-                    global ? '1' : organ
-                ));
-            });
-
             var match = false;
-            for (var i = 0; i < pathwayProducts.length; i++) {
-                var names = pathwayProducts[i].attr('aliases').split(';');
-                for (var j = 0; j < names.length; j++) {
-                    if (product.test(names[j])) {
+            $(this).find('.product.name').each(function() {
+                if (match) {
+                    return;
+                }
+
+                res = getResourceElement($(this).attr('res-id'), $(this).attr('organ-id'));
+                var names = res.attr('aliases').split(';');
+                for (var i = 0; i < names.length; i++) {
+                    if (product.test(names[i])) {
                         match = true;
                         break;
                     }
                 }
-
-                if (match) {
-                    break;
-                }
-            }
+            });
 
             if (!match) {
-                $(this).attr('filter', 'false');
-                return;
+                return $(this).slideUp();
             }
         }
-    }).each(function() {
-        if ($(this).attr('filter') == 'true') {
-            $(this).slideDown();
-        } else {
-            $(this).slideUp();
-        }
-    });
+
+        return $(this).slideDown();
+    })
 }
