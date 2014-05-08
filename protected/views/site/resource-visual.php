@@ -13,6 +13,7 @@ if ($resource->aliases) {
 ?>
 
 <div class="resource-visual-content" value="<?= $resource->id ?>">
+    <p class="resource-visual-text">Name: <?= $resource->name ?></p>
     <?php if ($aliases) { ?>
         <p class="resource-visual-text"><?= substr($aliases, 0, -2) ?></p>
     <?php } ?>

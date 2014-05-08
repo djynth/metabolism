@@ -3,6 +3,7 @@ var DESTINATION_HIGHLIGHT_COLOR = '233,25,44';
 
 $(document).ready(function() {
     $(window).resize(resizeFilter);
+    resizeFilter();
 
     $('.pathway-run').click(function() {
         var id = parseInt($(this).parents('.pathway').attr('value'));

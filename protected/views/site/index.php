@@ -23,7 +23,7 @@
 <div id="cell-canvas"></div>
 <p id="copyright">Copyright 2014 Neocles B. Leontis</p>
 
-<?php $this->renderPartial('trackers', array(
+<?php $this->renderPartial('footer', array(
     'primary_resources' => $primary_resources,
     'non_global' => $non_global,
 )); ?>

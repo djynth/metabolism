@@ -5,7 +5,6 @@ var TRACKER_WAIT = 300;         // the amount of time between tracker animations
 var TRACKER_ANIMATION = 600;    // the duration of a tracker animtion, in ms
 
 var activeResource = null;
-var selectedResource = false;
 
 $(document).ready(function() {
     refreshResources();
@@ -14,34 +13,16 @@ $(document).ready(function() {
     $('#resource-visual-close').click(function(e) {
         activeResource = null;
         updateResourceVisual();
-        e.stopPropagation();
-    });
-
-    $('#resource-visual-header').click(function() {
-        $(this).siblings('#resource-visual').slideToggle({
-            progress: function() {
-                updateScrollbars(false, true, false);
-            },
-            complete: function() {
-                updateScrollbars(false, false, true);
-            }
-        });
     });
 });
 
 function addResourceInfoSources(parent)
 {
     parent.find('.resource-info-source').click(function() {
-        if (!selectedResource || activeResource != $(this).attr('res-id')) {
-            if (selectedResource) {
-                activeResource = null;
-                updateResourceVisual();
-            }
-
-            selectedResource = true;
+        if (activeResource === null || activeResource != $(this).attr('res-id')) {
             activeResource = $(this).attr('res-id');
+            updateResourceVisual();
         }
-        updateResourceVisual($(this).attr('organ-id'));
     });
 }
 
@@ -116,58 +97,51 @@ function isResourceGlobal(resource)
     return $('.resource-holder.global').find('.resource-data[res-id="' + resource + '"]').length > 0;
 }
 
-function updateResourceVisual(organ, newOrgan)
+function updateResourceVisual()
 {
-    var visual = $('#resource-visual');
-    var header = $('#resource-visual-header');
+    $('.pathway.source').each(function() {
+        highlightSource($(this).attr('value'), false);
+    });
 
-    if (newOrgan) {
-        if (activeResource !== null && !isResourceGlobal(activeResource)) {
-            header.find('.resource-visual-amount').text(getResourceValue(activeResource, organ));
-        }
+    $('.pathway.destination').each(function() {
+        highlightDestination($(this).attr('value'), false);
+    });
+
+    var visual = $('.resource-visual-content');
+    if (visual.length) {
+        visual.fadeOut(function() {
+            $(this).remove();
+            getNewResourceVisual();
+        })
     } else {
-        if (activeResource === null) {
-            $('.resource-visual-content').fadeOut(function() {
-                $(this).remove();
-            });
-            header.find('.resource-visual-title').text('Resource');
-            header.find('.resource-visual-amount').text('');
-
-            $('.pathway.source').each(function() {
-                highlightSource($(this).attr('value'), false);
-            });
-
-            $('.pathway.destination').each(function() {
-                highlightDestination($(this).attr('value'), false);
-            });
-        } else {
-            $.ajax({
-                url: 'index.php/site/resourceVisual',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    resource_id: activeResource,
-                    organ_id:    organ
-                },
-                success: function(data) {
-                    if (activeResource == data.resource) {
-                        visual.append(data.visual);
-                        $('.resource-visual-content[value="' + data.resource + '"]').fadeIn();
-                        header.find('.resource-visual-title').text(data.resource_name);
-                        header.find('.resource-visual-amount').text(data.resource_amount);
-
-                        for (var i = 0; i < data.sources.length; i++) {
-                            highlightSource(data.sources[i].id, true);
-                        }
-
-                        for (var i = 0; i < data.destinations.length; i++) {
-                            highlightDestination(data.destinations[i].id, true);
-                        }
-                    }
-                }
-            });
-        }
+        getNewResourceVisual();
     }
+}
+
+function getNewResourceVisual()
+{
+    $.ajax({
+        url: 'index.php/site/resourceVisual',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            resource_id: activeResource
+        },
+        success: function(data) {
+            if (activeResource == data.resource) {
+                $('#resource-visual').append(data.visual);
+                $('.resource-visual-content[value="' + data.resource + '"]').fadeIn();
+
+                for (var i = 0; i < data.sources.length; i++) {
+                    highlightSource(data.sources[i].id, true);
+                }
+
+                for (var i = 0; i < data.destinations.length; i++) {
+                    highlightDestination(data.destinations[i].id, true);
+                }
+            }
+        }
+    });
 }
 
 function updateTracker(resource, organ, amount, change, tracker)

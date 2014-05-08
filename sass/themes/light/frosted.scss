@@ -200,41 +200,45 @@ body[theme=frosted] {
         }
     }
 
-    #resource-visual-header {
-        background-color: $background;
-        border-top: 1px solid $border;
-    }
+    #footer {
+        #footer-minimize {
+            border-top: 1px solid $border;
+            border-bottom: 1px solid $border;
+            background-color: $sidebarBackground;
+        }
 
-    #resource-visual {
-        background-color: $sidebarBackground;
-        border-top: 1px solid $border;
+        #trackers {
+            .tracker {
+                background-color: $background;
+                border-right: 1px solid $border;
+                border-left: 1px solid $border;
+            }
 
-        .resource-visual-content {
-            p {
-                color: $elementText;
-                text-shadow: none;
+            .header {
+                border-bottom: 1px solid $trackerHeaderBorder;
+            }
+
+            .organ {
+                border-color: $trackerOrganBorder;
+            }
+
+            .active {
+                background-color: $trackerActive;
+            }
+        }
+
+        #resource-visual {
+            background-color: $background;
+
+            .resource-visual-content {
+                p {
+                    color: $elementText;
+                    text-shadow: none;
+                }
             }
         }
     }
-
-    #trackers {
-        .tracker {
-            background-color: $background;
-            border-color: $border;
-        }
-
-        .header {
-            border-bottom: 1px solid $trackerHeaderBorder;
-        }
-
-        .organ {
-            border-color: $trackerOrganBorder;
-        }
-
-        .active {
-            background-color: $trackerActive;
-        }
-    }
+    
 
     #copyright {
         color: $copyright;

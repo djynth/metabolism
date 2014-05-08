@@ -42,7 +42,7 @@ p, h1, h2, h3, h4, h5, h6 {
     position: absolute;
     width:  $sidebarWidth;
     min-width: $minSidebarWidth;
-    height: 100%;
+    //height: 100%;
     z-index: 2;
 
     .sidebar-title {
@@ -172,7 +172,6 @@ p, h1, h2, h3, h4, h5, h6 {
 #copyright {
     position: absolute;
     right: $sidebarWidth;
-    bottom: $trackerHeight;
     margin: 5px;
 }
 
@@ -194,7 +193,7 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 #notification-bottom {
-    bottom: $trackerHeight + 1;
+    bottom: $footerHeight + 1;
 
     .eat-confirm {
         p, button {

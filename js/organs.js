@@ -103,8 +103,6 @@ function selectOrgan(organ, firstTime)
         }
     });
 
-    updateResourceVisual(organ, true);
-
     if (color) {
         if (firstTime) {
             $('#cell-canvas').css('backgroundColor', '#' + color);

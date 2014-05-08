@@ -15,6 +15,15 @@ $(document).ready(function() {
         updateScrollbars(true, true, true);
         updateCenterGraphic();
     });
+
+    $('#footer-minimize').click(function() {
+        $('#footer-content').slideToggle({
+            progress: function() {
+                updateScrollbars(true, true, true);
+                updateCenterGraphic();
+            }
+        });
+    });
 });
 
 function initScrollbars()
@@ -33,7 +42,7 @@ function getPathwayContentHeight(reset)
 {
     if (reset || pathwayContentHeight === null) {
         var headers = $('#pathway-holder').find('.accordian-header');
-        pathwayContentHeight = $(window).height() - headers.first().offset().top;
+        pathwayContentHeight = $(window).height() - headers.first().offset().top - $('#footer').outerHeight();
         headers.each(function() {
             pathwayContentHeight -= $(this).outerHeight();
         });
@@ -46,13 +55,13 @@ function getResourceContentHeight(reset)
 {
     if (reset || resourceContentHeight === null) {
         var headers = $('#resource-holder').find('.accordian-header');
-        resourceContentHeight = $(window).height() - headers.first().offset().top - $('#resource-visual').outerHeight() - $('#resource-visual-header').outerHeight();
+        resourceContentHeight = $(window).height() - headers.first().offset().top - $('#footer').outerHeight();
         headers.each(function() {
             resourceContentHeight -= $(this).outerHeight();
         });
     }
     
-    return resourceContentHeight-1;
+    return resourceContentHeight;
 }
 
 function updateScrollbars(updatePathwayHeight, updateResourceHeight, updateScrollbars)
@@ -88,8 +97,9 @@ function initCenterGraphic()
 function updateCenterGraphic()
 {
     var top = $('#header').height();
-    var bottom = $('#trackers').height();
+    var bottom = $('#footer').outerHeight();
     $('#cell-canvas').height($(window).height() - top - bottom).offset({ top: top });
+    $('#copyright').css('bottom', bottom);
 }
 
 function setTurn(turn)
