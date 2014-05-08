@@ -2,6 +2,7 @@
 
 #resource-holder {
     right: 0px;
+    border-left: 1px solid;
     
     .resource-data {
         width:  90%;
@@ -33,6 +34,8 @@
 
         .progress {
             position: relative;
+            background-image: none;
+            border: 1px solid;
 
             .res-limit {
                 position: absolute;

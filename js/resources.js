@@ -7,9 +7,6 @@ var TRACKER_ANIMATION = 600;    // the duration of a tracker animtion, in ms
 var activeResource = null;
 
 $(document).ready(function() {
-    refreshResources();
-    addResourceInfoSources($(document));
-    
     $('#resource-visual-close').click(function(e) {
         activeResource = null;
         updateResourceVisual();

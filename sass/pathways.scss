@@ -2,6 +2,7 @@
 
 #pathway-holder {
     left: 0;
+    border-right: 1px solid;
 
     .pathway-holder {
         .pathway {
@@ -11,6 +12,7 @@
             border-radius: 7px;
             font-size:   12px;
             line-height: 12px;
+            border: 1px solid;
 
             .pathway-inner {
                 position: absolute;
@@ -51,6 +53,10 @@
                 width: 90%;
                 margin: 3px auto;
                 z-index: 3;
+
+                td {
+                    border: 1px solid;
+                }
 
                 .value {
                     width: 13%;

@@ -11,6 +11,8 @@
         width: 100%;
         height: $footerMinimizeHeight - 2;
         cursor: pointer;
+        border-top: 1px solid;
+        border-bottom: 1px solid;
     }
 
     #footer-content {
@@ -102,14 +104,13 @@
 
         .tracker {
             bottom: 0;
-
-            &:last-child {
-                border-right: none;
-            }
+            border-right: 1px solid;
+            border-left: 1px solid;
 
             .header {
                 position: relative;
                 width: 100%;
+                border-bottom: 1px solid;
 
                 p {
                     font-weight: bold;

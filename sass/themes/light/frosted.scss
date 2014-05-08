@@ -46,8 +46,6 @@ body[theme=frosted] {
     }
 
     .input-themed-add-on {
-        border-color: $inputBorder;
-
         .add-on {
             border-color: $inputBorder !important;
             background: $inputAddOnBackground !important;
@@ -65,22 +63,17 @@ body[theme=frosted] {
 
     #header {
         background-color: $background;
-        border-bottom: 1px solid $border;
-
-        .header-element {
-            border-right: 1px solid $border;
-            border-bottom: 1px solid $border;
-        }
+        border-color: $border;
 
         #game-state {
-            background-color: inherit;
+            border-color: $border;
 
             #point-dropdown {
-                background-color: inherit;
+                background-color: $background;
 
                 #point-dist {
                     td {
-                        border: 1px solid $reactionBorder;
+                        border-color: $reactionBorder;
                         color: $text;
                     }
 
@@ -95,28 +88,27 @@ body[theme=frosted] {
             }
         }
 
+        #undo {
+            border-color: $border;
+        }
+
         #settings {
-            background-color: inherit;
-            border: 1px solid $border;
-            border-top: none;
+            border-color: $border;
 
             .settings-dropdown {
-                background-color: inherit;
+                background-color: $background;
             }
         }
 
         #account {
-            background-color: inherit;
-
-            border-left: 1px solid $border;
-            border-bottom: 1px solid $border;
+            border-color: $border;
 
             .login-dropdown {
-                background-color: inherit;
+                background-color: $background;
             }
 
             .forgot-password, .email-verified, .edit-email {
-                border: 1px solid $inputBorder;
+                border-color: $inputBorder;
                 background: $inputAddOnBackground;
             }
         }
@@ -125,32 +117,26 @@ body[theme=frosted] {
     .sidebar {
         background-color: $sidebarBackground;
 
-        .accordian-header {
-            border-top: 1px solid $border;
-            border-bottom: none;
-        }
-
-        .accordian-header.active {
-            border-bottom: 1px solid $border;
-        }
-
         .organ-popup {
-            background-color: $background;
-            border: 1px solid $border;
+            background-color: inherit;
+            border-color: $border;
+        }
+
+        .accordian-header {
+            border-color: $border;
         }
     }
 
     .notification-holder {
         background-color: $background;
-        border-top: 1px solid $border;
     }
 
     #pathway-holder {
-        border-right: 1px solid $border;
+        border-color: $border;
 
         .pathway {
             background-color: $elementBackground;
-            border: 1px solid $elementBorder;
+            border-color: $elementBorder;
 
             p {
                 color: $elementText;
@@ -160,7 +146,7 @@ body[theme=frosted] {
                 color: $elementText;
 
                 td {
-                    border: 1px solid $reactionBorder;
+                    border-color: $reactionBorder;
                 }
 
                 .lacking {
@@ -175,13 +161,10 @@ body[theme=frosted] {
     }
 
     #resource-holder {
-        border-left: 1px solid $border;
+        border-color: $border;
 
         .resource-data {
             .progress {
-                background-image: none;
-                border: 1px solid;
-
                 background-color: $elementBackground;
                 border-color: $elementBorder;
             }
@@ -202,20 +185,17 @@ body[theme=frosted] {
 
     #footer {
         #footer-minimize {
-            border-top: 1px solid $border;
-            border-bottom: 1px solid $border;
             background-color: $sidebarBackground;
+            border-color: $border;
         }
 
         #trackers {
             .tracker {
-                background-color: $background;
-                border-right: 1px solid $border;
-                border-left: 1px solid $border;
+                border-color: $border;
             }
 
             .header {
-                border-bottom: 1px solid $trackerHeaderBorder;
+                border-color: $trackerHeaderBorder;
             }
 
             .organ {
@@ -228,8 +208,6 @@ body[theme=frosted] {
         }
 
         #resource-visual {
-            background-color: $background;
-
             .resource-visual-content {
                 p {
                     color: $elementText;
@@ -239,7 +217,6 @@ body[theme=frosted] {
         }
     }
     
-
     #copyright {
         color: $copyright;
         text-shadow: none;

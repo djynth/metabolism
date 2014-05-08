@@ -1,105 +1,50 @@
 var DEFAULT_NOTIFICATION_DURATION = 5000;
-
-var pathwayContentHeight = null;
-var resourceContentHeight = null;
-
-var gameOver = false;
+/* FROM PHP:
+var baseUrl
+*/
 
 $(document).ready(function() {
-    initScrollbars();
-    initCenterGraphic()
-    $('#notification-bottom').css('bottom', $('#tracker-holder').outerHeight(true));
-    setColorTheme(colorTheme, colorThemeType);
+    selectOrgan($('.accordian-header').first().attr('value'));
+    refreshResources();
+    addResourceInfoSources($(document));
+    onResize();
 
-    $(window).resize(function() {
-        updateScrollbars(true, true, true);
-        updateCenterGraphic();
-    });
-
-    $('#footer-minimize').click(function() {
-        $('#footer-content').slideToggle({
-            progress: function() {
-                updateScrollbars(true, true, true);
-                updateCenterGraphic();
-            }
-        });
-    });
+    $(window).resize(onResize);
 });
 
-function initScrollbars()
+function getPathwayContentHeight()
 {
-    // TODO: re-enable custom scrollbars when a fix has been found for 
-    // $('.scrollbar-content').each(function() {
-    //     $(this).mCustomScrollbar({
-    //         autoHideScrollbar: true,
-    //         scrollInertia: 200,
-    //         theme: "dark"
-    //     });
-    // });
-}
-
-function getPathwayContentHeight(reset)
-{
-    if (reset || pathwayContentHeight === null) {
-        var headers = $('#pathway-holder').find('.accordian-header');
-        pathwayContentHeight = $(window).height() - headers.first().offset().top - $('#footer').outerHeight();
-        headers.each(function() {
-            pathwayContentHeight -= $(this).outerHeight();
-        });
-    }
+    var pathwayHeaders = $('#pathway-holder').find('.accordian-header');
+    pathwayContentHeight = $(window).height() - pathwayHeaders.first().offset().top - $('#footer').outerHeight();
+    pathwayHeaders.each(function() {
+        pathwayContentHeight -= $(this).outerHeight();
+    });
 
     return pathwayContentHeight;
 }
 
-function getResourceContentHeight(reset)
+function getResourceContentHeight()
 {
-    if (reset || resourceContentHeight === null) {
-        var headers = $('#resource-holder').find('.accordian-header');
-        resourceContentHeight = $(window).height() - headers.first().offset().top - $('#footer').outerHeight();
-        headers.each(function() {
-            resourceContentHeight -= $(this).outerHeight();
-        });
-    }
-    
+    var resourceHeaders = $('#resource-holder').find('.accordian-header');
+    resourceContentHeight = $(window).height() - resourceHeaders.first().offset().top - $('#footer').outerHeight();
+    resourceHeaders.each(function() {
+        resourceContentHeight -= $(this).outerHeight();
+    });
     return resourceContentHeight;
 }
 
-function updateScrollbars(updatePathwayHeight, updateResourceHeight, updateScrollbars)
+function onResize()
 {
-    if (updatePathwayHeight) {
-        getPathwayContentHeight(true);
-    }
-    if (updateResourceHeight) {
-        getResourceContentHeight(true);
-    }
+    $('.pathway-holder.active').height(getPathwayContentHeight());
+    $('.resource-holder.active').height(getResourceContentHeight());
 
-    $('.scrollbar-content').each(function() {
-        if (updatePathwayHeight && $(this).hasClass('pathway-holder') && $(this).hasClass('active')) {
-            $(this).height(getPathwayContentHeight());
-        }
-        if (updateResourceHeight && $(this).hasClass('resource-holder') && $(this).hasClass('active')) {
-            $(this).height(getResourceContentHeight());
-        }
-        
-        if (updateScrollbars || typeof updateScrollbars === 'undefined') {
-            $(this).mCustomScrollbar('update');
-        }
-    });
-}
-
-function initCenterGraphic()
-{
-    $('#cell-canvas').css('background-image', 'url(' + baseUrl + 'img/overview.png)');
-
-    updateCenterGraphic();
-}
-
-function updateCenterGraphic()
-{
     var top = $('#header').height();
     var bottom = $('#footer').outerHeight();
     $('#cell-canvas').height($(window).height() - top - bottom).offset({ top: top });
     $('#copyright').css('bottom', bottom);
+    $('#notification-bottom').css('bottom', bottom);
+
+    resizeFilter();
 }
 
 function setTurn(turn)
@@ -114,11 +59,17 @@ function setPoints(points)
     $('#points').text(points + ' Points');
 }
 
+function getColorTheme()
+{
+    return {
+        theme : $('body').attr('theme'),
+        type  : $('body').attr('type')
+    };
+}
+
 function setColorTheme(theme, type, save)
 {
-    colorTheme = theme;
-    colorThemeType = type;
-    applyColorTheme($('body').attr('theme', colorTheme));
+    $('body').attr({ theme : theme, type : type }).applyColorTheme(theme, type);
 
     if (save) {
         $.ajax({
@@ -133,26 +84,27 @@ function setColorTheme(theme, type, save)
     }
 }
 
-function applyColorTheme(base)
-{
-    if (colorThemeType === 'light') {
-        base.find('i:not(.always-white)').removeClass('icon-white');
-        base.find('.btn').removeClass('btn-inverse');
-    } else /* colorThemeType === 'dark' */ {
-        base.find('i:not(.always-black)').addClass('icon-white');
-        base.find('.btn').addClass('btn-inverse');
+jQuery.fn.extend({
+    applyColorTheme: function(theme, type) {
+        if (type === 'light') {
+            this.find('i:not(.always-white)').removeClass('icon-white');
+            this.find('.btn').removeClass('btn-inverse');
+        } else /* type === 'dark' */ {
+            this.find('i:not(.always-black)').addClass('icon-white');
+            this.find('.btn').addClass('btn-inverse');
+        }
+
+        this.find('button.theme-option').each(function() {
+            $(this).toggleClass('active', $(this).attr('value') === theme)
+        });
+
+        this.find('.organ-image').each(function() {
+            $(this).attr('src', baseUrl + 'img/organs/' + type + '/' + $(this).parents('.header-text').attr('value') + '.png');
+        });
+
+        return this;
     }
-
-    base.find('button.theme-option').each(function() {
-        $(this).toggleClass('active', $(this).attr('value') === colorTheme)
-    });
-
-    base.find('.organ-image').each(function() {
-        $(this).attr('src', baseUrl + 'img/organs/' + colorThemeType + '/' + $(this).parents('.header-text').attr('value') + '.png');
-    });
-
-    return base;
-}
+});
 
 function setHelpTooltips(active, save)
 {
@@ -181,6 +133,16 @@ function setHelpTooltips(active, save)
             }
         });
     }
+}
+
+function createNotification(message, success)
+{
+    return $('<p>').text(message).addClass(success ? 'success' : 'error');
+}
+
+function notifyInternalError()
+{
+    notifyBottom(createNotification('An internal error occurred.', false));
 }
 
 function notifyBottom(html, duration)

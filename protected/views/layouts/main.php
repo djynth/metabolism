@@ -28,17 +28,13 @@ $user = User::getCurrentUser();
 <script>
 var baseUrl = <?= json_encode($baseUrl); ?>;
 
-<?php if ($user !== null): ?>
-    var colorTheme = <?= json_encode($user->theme) ?>;
-    var colorThemeType = <?= json_encode($user->theme_type) ?>;
-<?php else: ?>
-    var colorTheme = <?= json_encode(User::DEFAULT_THEME) ?>;
-    var colorThemeType = <?= json_encode(User::DEFAULT_THEME_TYPE) ?>;
-<?php endif ?>
-
 $(document).ready(function() {
     setPoints(<?= Game::getScore() ?>);
     setTurn(<?= Game::getTurn() ?>);
+    setColorTheme(
+        <?= json_encode($user !== null ? $user->theme      : User::DEFAULT_THEME) ?>,
+        <?= json_encode($user !== null ? $user->theme_type : User::DEFAULT_THEME_TYPE) ?>
+    );
 
     <?php if ($user !== null): ?>
         setHelpTooltips(parseInt(<?= json_encode($user->help); ?>));

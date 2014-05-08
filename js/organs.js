@@ -10,27 +10,6 @@ var ORGAN_SLIDE_OUT_DURATION  = 200;    // the time for an organ info popup to s
 var ORGAN_SLIDE_DOWN_DURATION = 300;    // the time for an organ info popup to slide down/up in ms
 
 $(document).ready(function() {
-    selectOrgan($('.accordian-header').first().attr('value'), true);
-
-    $('.global-header').click(function() {
-        $(this).siblings('.pathway-holder.global').slideToggle({
-            progress: function() {
-                updateScrollbars(true, false, false);
-            },
-            complete: function() {
-                updateScrollbars(false, false, true);
-            }
-        });
-        $(this).siblings('.resource-holder.global').slideToggle({
-            progress: function() {
-                updateScrollbars(false, true, false);
-            },
-            complete: function() {
-                updateScrollbars(false, false, true);
-            }
-        });
-    });
-
     $('.accordian-title').click(function() {
         var header = $(this).parents('.accordian-header');
         if (!header.hasClass('active')) {
@@ -78,38 +57,16 @@ function selectOrgan(organ, firstTime)
         $(this).toggleClass('active', $(this).attr('organ-id') == organ);
     })
 
-    var color = null;
     $('.accordian-content').each(function() {
-        var height = $(this).hasClass('pathway-holder') ? getPathwayContentHeight() : getResourceContentHeight();
         if ($(this).attr('value') == organ) {       // select this tab
-            color = $(this).attr('color');
-            if (firstTime) {
-                $(this).height(height);
-                $(this).mCustomScrollbar('update');
-            } else {
-                $(this).animate({ height: height }, {
-                    duration: ORGAN_TRANSITION,
-                    complete: function() {
-                        $(this).mCustomScrollbar('update');
-                    }
-                });
-            }
+            $(this).animate({ height: $(this).hasClass('pathway-holder') ? getPathwayContentHeight() : getResourceContentHeight() }, ORGAN_TRANSITION);
+            $('#cell-canvas').animate({ backgroundColor: '#' + $(this).attr('color') }, ORGAN_TRANSITION);
         } else {                                    // unselect this tab
-            if (firstTime) {
-                $(this).height(0);
-            } else if ($(this).height() > 0) {
+            if ($(this).height() > 0) {
                 $(this).animate({ height: 0 }, ORGAN_TRANSITION);
             }
         }
     });
-
-    if (color) {
-        if (firstTime) {
-            $('#cell-canvas').css('backgroundColor', '#' + color);
-        } else {
-            $('#cell-canvas').animate({ backgroundColor: '#' + color }, ORGAN_TRANSITION);
-        }    
-    }
 }
 
 function updateActionCounts(counts)

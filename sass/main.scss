@@ -73,6 +73,7 @@ p, h1, h2, h3, h4, h5, h6 {
             min-height: $accordianHeaderHeight;
             z-index: 2;
             text-align: center;
+            border: 1px solid;
 
             .close-popup {
                 position: absolute;
@@ -138,9 +139,18 @@ p, h1, h2, h3, h4, h5, h6 {
         }
     }
 
+    .accordian-header {
+        border-top: 1px solid;
+
+        &.active {
+            border-bottom: 1px solid;
+        }
+    }
+
     .accordian-content {
         padding: 0 6px;
-        // NOTE: unnecessary if there are scrollbars (but it won't break them either)
+        height: 0;
+        // NOTE: unnecessary if there are custome scrollbars (but it won't break them either)
         overflow: auto;
 
         * {
@@ -164,6 +174,7 @@ p, h1, h2, h3, h4, h5, h6 {
     left: $sidebarWidth;
     width: 100% - 2*$sidebarWidth;
 
+    background-image: url('/img/overview.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: 50% 50%;
@@ -182,6 +193,7 @@ p, h1, h2, h3, h4, h5, h6 {
     width: 100% - 2*$sidebarWidth;
     padding: 5px 10px;
     z-index: 1;
+    border-top: 1px solid;
 
     .success {
         color: green;
