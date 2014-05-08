@@ -21,9 +21,6 @@
     <div id="undo" class="header-element">
         <p>Undo</p>
     </div>
-    <div id="save" class="header-element">
-        <p>Save/Load</p>
-    </div>
 
     <div id="settings" class="header-element">
         <div class="settings-header">

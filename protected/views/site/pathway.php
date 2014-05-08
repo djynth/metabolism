@@ -37,6 +37,10 @@ if (!$eat) {
     <p class="anabolic">Anabolic</p>
     <?php endif ?>
 
+    <?php if ($pathway->passive): ?>
+    <p class="passive">Automatic</p>
+    <?php endif ?>
+
     <p class="points help-tooltip" data-placement="right" data-container="body" title="The number of points earned each time you run this reaction."><?= $pathway->points ?></p>
 
     <?php if ($eat): ?>
@@ -81,6 +85,9 @@ if (!$eat) {
     </table>
     <?php endif ?>
 
+    <?php if ($pathway->passive): ?>
+
+    <?php else: ?>
     <p class="lacking"></p>
     <?php if ($pathway->limit): ?>
     <div class="btn-group run-holder">
@@ -99,4 +106,6 @@ if (!$eat) {
     <?php if ($pathway->reversible): ?>
     <button type="button" class="btn btn-mini pathway-reverse" data-toggle="button"> <i class="icon-random"></i></button>
     <?php endif ?>
+    <?php endif ?>
+    
 </div>

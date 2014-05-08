@@ -70,7 +70,7 @@
     }
 
     #settings {
-        right: $accountWidth;
+        right: $accountWidth + 1;   // add 1 for the border
         width: $settingsWidth;
 
         .settings-header {

@@ -128,8 +128,8 @@ $(document).ready(function() {
 
     $('#filter-name, #filter-reactant, #filter-product').change(onFilterChange);
 
-    $('#filter-available, #filter-unavailable, #filter-catabolic, #filter-anabolic').click(function() {
-        window.setTimeout(onFilterChange, 0);   // wait for other events bound to the button to finish so that buttons'
+    $('#filter-available, #filter-unavailable, #filter-catabolic, #filter-anabolic, #filter-passive').click(function() {
+        window.setTimeout(onFilterChange, 0);   // wait for other events bound to the button to finish so that the
                                                 // 'active' property is accurately set
     });
 
@@ -227,13 +227,13 @@ function refreshPathways()
             $(this).attr('available', 'true');
         }
 
-        updatePathwayButtons($(this));
+        updatePathwayButtons($(this), true);
     });
 
     updateEatButtons();
 }
 
-function updatePathwayButtons(pathway)
+function updatePathwayButtons(pathway, reset)
 {
     if (pathway.attr('limit')) {
         return;
@@ -243,7 +243,7 @@ function updatePathwayButtons(pathway)
     var runButton = pathway.find('.pathway-run');
     var times = parseInt(runButton.attr('value'));
     var maxRuns = getMaxRuns(pathway.attr('value'), organ);
-    if (typeof times === 'undefined' || isNaN(times) || 
+    if (reset || typeof times === 'undefined' || isNaN(times) || 
         times < 1 || times > maxRuns) {
         times = maxRuns;
     }
@@ -399,6 +399,7 @@ function onFilterChange()
     var showUnavailable = $('#filter-unavailable').hasClass('active');
     var showCatabolic   = $('#filter-catabolic').hasClass('active');
     var showAnabolic    = $('#filter-anabolic').hasClass('active');
+    var showPassive     = $('#filter-passive').is(':checked');
     var reactant        = $('#filter-reactant').val();
     var product         = $('#filter-product').val();
 
@@ -420,6 +421,11 @@ function onFilterChange()
         var pathwayName = $(this).find('.title').text();
         var organ = $(this).parents('.pathway-holder').attr('value');
         if (name && !name.test(pathwayName)) {
+            $(this).attr('filter', 'false');
+            return;
+        }
+
+        if (!showPassive && $(this).children('.passive').length) {
             $(this).attr('filter', 'false');
             return;
         }

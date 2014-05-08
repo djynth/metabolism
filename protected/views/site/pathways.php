@@ -47,6 +47,7 @@
         </div>
 
         <div id="filter-row-clear" class="filter-row">
+            <label id="filter-passive-label"><input type="checkbox" id="filter-passive" checked>Show Automatic Processes</label>
             <input type="button" class="btn btn-small btn-inverse" id="filter-clear" value="Display All">
         </div>
     </div>
@@ -60,9 +61,7 @@
         <?php
         $pathways = $organ->pathways;
         foreach ($pathways as $pathway) {
-            if (!$pathway->passive) {
-                $this->renderPartial('pathway', array('pathway' => $pathway, 'organ' => $organ));
-            }
+            $this->renderPartial('pathway', array('pathway' => $pathway, 'organ' => $organ));
         }
         ?>
     </div>

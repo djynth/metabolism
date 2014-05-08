@@ -38,7 +38,7 @@
                 font-weight: bold;
             }
 
-            .catabolic, .anabolic, .points {
+            .catabolic, .anabolic, .passive, .points {
                 display: inline;
             }
             
@@ -200,5 +200,15 @@
 
     #filter-row-clear {
         text-align: right;
+
+        #filter-passive-label {
+            float: left;
+            margin-top: 3px;
+
+            #filter-passive {
+                margin-top: -2px;
+                margin-right: 5px;
+            }
+        }
     }
 }
