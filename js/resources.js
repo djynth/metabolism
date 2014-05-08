@@ -13,16 +13,6 @@ $(document).ready(function() {
     });
 });
 
-function addResourceInfoSources(parent)
-{
-    parent.find('.resource-info-source').click(function() {
-        if (activeResource === null || activeResource != $(this).attr('res-id')) {
-            activeResource = $(this).attr('res-id');
-            updateResourceVisual();
-        }
-    });
-}
-
 function refreshResources(resources)
 {
     if (typeof resources === 'undefined') {

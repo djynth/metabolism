@@ -6,7 +6,7 @@ var baseUrl
 $(document).ready(function() {
     selectOrgan($('.accordian-header').first().attr('value'));
     refreshResources();
-    addResourceInfoSources($(document));
+    $(document).addResourceInfoSources();
     updateLimitedResources($('#point-dropdown').children());
     onResize();
 
@@ -104,6 +104,15 @@ jQuery.fn.extend({
         });
 
         return this;
+    },
+
+    addResourceInfoSources: function() {
+        this.find('.resource-info-source').click(function() {
+            if (activeResource === null || activeResource != $(this).attr('res-id')) {
+                activeResource = $(this).attr('res-id');
+                updateResourceVisual();
+            }
+        });
     }
 });
 
