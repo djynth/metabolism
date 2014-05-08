@@ -34,13 +34,13 @@
                 <?php foreach (glob("css/themes/light/*.css") as $css):
                     $theme = basename($css, '.css');
                     ?>
-                <button value="<?= $theme ?>" theme-type="light" class="btn btn-small theme-option"><?= ucfirst($theme) ?></button>
+                <p value="<?= $theme ?>" theme-type="light" class="btn btn-small theme-option"><?= ucfirst($theme) ?></p>
                 <?php endforeach ?>
 
                 <?php foreach (glob("css/themes/dark/*.css") as $css):
                     $theme = basename($css, '.css');
                     ?>
-                <button value="<?= $theme ?>" theme-type="dark" class="btn btn-small theme-option"><?= ucfirst($theme) ?></button>
+                <p value="<?= $theme ?>" theme-type="dark" class="btn btn-small theme-option"><?= ucfirst($theme) ?></p>
                 <?php endforeach ?>
             </div>
 

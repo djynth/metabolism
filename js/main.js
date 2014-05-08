@@ -95,7 +95,7 @@ jQuery.fn.extend({
             this.find('.btn').addClass('btn-inverse');
         }
 
-        this.find('button.theme-option').each(function() {
+        this.find('.theme-option').each(function() {
             $(this).toggleClass('active', $(this).attr('value') === theme)
         });
 
