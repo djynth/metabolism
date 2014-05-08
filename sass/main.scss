@@ -77,7 +77,6 @@ p, h1, h2, h3, h4, h5, h6 {
             .close-popup {
                 position: absolute;
                 top: 5px;
-                right: 5px;
                 cursor: pointer;
             }
 
@@ -120,6 +119,10 @@ p, h1, h2, h3, h4, h5, h6 {
             .organ-cover {
                 left: -1px;
             }
+
+            .close-popup {
+                right: 5px;
+            }
         }
 
         .left {
@@ -128,13 +131,21 @@ p, h1, h2, h3, h4, h5, h6 {
             .organ-cover {
                 right: -1px;
             }
+
+            .close-popup {
+                left: 5px;
+            }
         }
     }
 
-    .accordian-content, .global {
+    .accordian-content {
         padding: 0 6px;
         // NOTE: unnecessary if there are scrollbars (but it won't break them either)
         overflow: auto;
+
+        * {
+            overflow: visible;
+        }
     }
 
     .mCSB_container {
