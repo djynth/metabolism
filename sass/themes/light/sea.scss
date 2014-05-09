@@ -1,32 +1,32 @@
 @import "base";
 
 $text:                 rgb( 80,  80,  80);
-$textShadow:           rgb( 230, 230, 230);
+$textShadow:           rgba(200, 200, 200, 0.5);
 $border:               rgb( 70,  70,  70);
-$background:           rgb( 240, 240, 240);
-$sidebarBackground:    rgb( 225, 225, 225);
-$elementBackground:    rgb( 200, 200, 200);
-$elementBorder:        rgb( 170, 170, 170);
+$background:           rgb( 191, 235, 250);
+$sidebarBackground:    rgb( 49,  203, 255);
+$elementBackground:    rgb( 153, 216, 237);
+$elementBorder:        rgb( 60,  60,  60);
 $elementText:          rgb( 55,  55,  55);
 $reactionBorder:       rgb( 130, 130, 130);
-$inputBackground:      rgb( 220, 220, 220);
-$inputAddOnBackground: rgb( 225, 225, 225);
+$inputBackground:      rgb( 200, 220, 220);
+$inputAddOnBackground: rgb( 195, 225, 225);
 $inputBorder:          rgb( 135, 135, 135);
 $inputText:            rgb( 85,  85,  85);
 $inputPlaceholder:     rgb( 125, 125, 125);
 $trackerHeaderBorder:  rgb( 140, 140, 140);
 $trackerOrganBorder:   rgb( 160, 160, 160);
-$resultCover:          rgb( 255, 255, 255);
-$lacking:              rgba(111, 0,   0,   0.25);
+$resultCover:          rgb( 0,   0,   255);
+$lacking:              rgba(230, 0,   0,   0.3);
 $limitingReagent:      rgba(0,   0,   111, 0.25);
-$resourceGood:         rgba(0,   130, 0,   0.3);
-$resourceBad:          rgba(220, 0,   0,   0.6);
+$resourceGood:         rgba(0,   190, 0,   0.3);
+$resourceBad:          rgba(230, 0,   0,   0.55);
 $softLimit:            rgba(255, 0,   0,   0.4);
 $hardLimit:            rgba(65,  65,  65,  0.9);
 $copyright:            rgba(80,  80,  80,  0.85);
 $trackerActive:        darken($background, 9%);
 
-body[theme=frosted] {
+body[theme=sea] {
     background-color: $background;
 
     p, h1, h2, h3, h4, h5, h6, label {
