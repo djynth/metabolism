@@ -7,7 +7,7 @@
     width: 100%;
     overflow: hidden;
 
-    #footer-minimize {
+    #minimize-footer {
         width: 100%;
         height: $footerMinimizeHeight - 2;
         cursor: pointer;
@@ -15,40 +15,34 @@
         border-bottom: 1px solid;
     }
 
-    #footer-content {
+    .content {
         height: $footerHeight - $footerMinimizeHeight;
     }
 
-    #pathway-filter {
+    #filter {
         position: absolute;
         width: $sidebarWidth;
         padding-top: 3px;
         padding-bottom: 5px;
 
-        .filter-row {
+        .row {
             width: 90%;
+            height: 30px;
             margin: 5px auto;
+            text-align: right;
 
-            .input-prepend {
-                margin: 0;
-            }
-
-            table {
+            > * {
                 width: 100%;
             }
-        }
 
-        #filter-row-search {
-            .input-prepend {
-                width: 100%;
-            }
-        }
-
-        #filter-row-buttons {
-            table {
+            .buttons {
+                display: table;
                 table-layout: fixed;
 
-                td {
+                
+
+                .btn-group {
+                    display: table-cell;
                     width: 50%;
                     padding: 0 2px;
 
@@ -60,38 +54,22 @@
                         padding-right: 0;
                     }
 
-                    .btn-group {
-                        width: 100%;
-
-                        input {
-                            width: 50%;
-                            font-size: 12px;
-                            height: 25px;
-                        }
+                    input {
+                        width: 50%;
+                        font-size: 12px;
+                        height: 25px;
                     }
                 }
             }
-        }
 
-        #filter-row-reaction {
-            height: 30px;
-
-            .input-prepend {
-                display: inline-block;
-            }
-        }
-
-        #filter-row-clear {
-            text-align: right;
-
-            #filter-passive-label {
+            label {
                 float: left;
-                margin-top: 3px;
+                margin-top: 5px;
+            }
 
-                #filter-passive {
-                    margin-top: -2px;
-                    margin-right: 5px;
-                }
+            .passive {
+                margin-top: -2px;
+                margin-right: 5px;
             }
         }
     }

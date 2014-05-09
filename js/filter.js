@@ -15,27 +15,25 @@ $(document).ready(function() {
 
 function resizeFilter()
 {
-    $('#filter-row-search').find('input').each(function() {
-        var w = $(this).parent().outerWidth();
-        $(this).siblings().each(function() {
-            w -= $(this).outerWidth();
-        });
-        $(this).outerWidth(w);
-    });
-
-    $('#filter-row-reaction').each(function() {
-        var rowWidth = $(this).outerWidth();
-        var inputs = $(this).find('input');
-
-        inputs.each(function() {
-            var w = rowWidth/inputs.length;
+    $('#filter')
+        .find('.name').each(function() {
+            var w = $(this).parent().outerWidth();
+            $(this).siblings().each(function() {
+                w -= $(this).outerWidth();
+            });
+            $(this).outerWidth(w);
+        })
+        .end()
+        .find('.product, .reactant').each(function() {
+            var row = $(this).parents('.row');
+            var w = row.outerWidth()/row.find('.product, .reactant').length;
             $(this).siblings().each(function() {
                 w -= $(this).outerWidth() + parseInt($(this).css('border-left-width')) + 
                     parseInt($(this).css('border-right-width'));
             });
             $(this).outerWidth(w);
+            console.log(w);
         });
-    });
 }
 
 function onFilterChange()

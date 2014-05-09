@@ -5,53 +5,50 @@
  */
 ?>
 
-<div id="notification-bottom" class="notification-holder"></div>
-
 <div id="footer">
-    <div id="footer-minimize"></div>
+    <div id="minimize-footer"></div>
 
-    <div id="footer-content">
-        <div id="pathway-filter">
-            <div id="filter-row-search" class="filter-row">
-                <div class="input-themed-add-on input-prepend">
+    <div class="content">
+        <div id="filter">
+            <div class="row">
+                <div class="input-prepend">
                     <span class="add-on"><i class="icon-search"></i></span>
-                    <input type="text" placeholder="Filter By Name" id="filter-name" class="help-tooltip" data-placement="right" data-container="body" data-trigger="focus" title="Only show pathways containing certain case-insensitive text. Accepts regular expressions.">
+                    <input class="name" type="text" placeholder="Filter By Name">
                 </div>
             </div>
             
-            <div id="filter-row-buttons" class="filter-row">
-                <table>
-                    <td>
-                        <div class="btn-group help-tooltip" data-toggle="buttons-checkbox" data-placement="bottom" data-container="body" data-trigger="hover" title="Only show pathways that are currently available, unavailable, or both.">
-                            <input type="button" class="btn btn-mini btn-inverse" id="filter-available" value="Available">
-                            <input type="button" class="btn btn-mini btn-inverse" id="filter-unavailable" value="Unavailable">
-                        </div>
-                    </td>
-                    
-                    <td>
-                        <div class="btn-group help-tooltip" data-toggle="buttons-checkbox" data-placement="bottom" data-container="body" data-trigger="hover" title="Only show pathways that are catabolic, anabolic, or both.">
-                            <input type="button" class="btn btn-mini btn-inverse" id="filter-catabolic" value="Catabolic">
-                            <input type="button" class="btn btn-mini btn-inverse" id="filter-anabolic" value="Anabolic">
-                        </div>
-                    </td>
-                </table>
-            </div>
-
-            <div id="filter-row-reaction" class="filter-row">
-                <div class="input-themed-add-on input-prepend">
-                    <span class="add-on"><i class="icon-search"></i></span>
-                    <input type="text" placeholder="Reactant" id="filter-reactant" class="help-tooltip" data-placement="bottom" data-container="body" data-trigger="focus" title="Only show pathways with a reactant whose name matches certain case-insensitive text. Matches both resource names (i.e. Oxygen) and abbreviations (i.e. O2) and accepts regular expressions.">
-                </div>
-
-                <div class="input-themed-add-on input-prepend">
-                    <span class="add-on"><i class="icon-search"></i></span>
-                    <input type="text" placeholder="Product" id="filter-product" class="help-tooltip" data-placement="bottom" data-container="body" data-trigger="focus" title="Only show pathways with a product whose name matches certain case-insensitive text. Matches both resource names (i.e. Oxygen) and abbreviations (i.e. O2) and accepts regular expressions.">
+            <div class="row">
+                <div class="buttons">
+                    <div class="btn-group">
+                        <input class="available btn btn-mini" type="button" value="Available">
+                        <input class="unavailable btn btn-mini" type="button" value="Unavailable">
+                    </div>
+                    <div class="btn-group">
+                        <input class="catabolic btn btn-mini" type="button" value="Catabolic">
+                        <input class="anabolic btn btn-mini" type="button" value="Anabolic">
+                    </div>
                 </div>
             </div>
 
-            <div id="filter-row-clear" class="filter-row">
-                <label id="filter-passive-label"><input type="checkbox" id="filter-passive" checked>Show Automatic Processes</label>
-                <input type="button" class="btn btn-small btn-inverse" id="filter-clear" value="Display All">
+            <div class="row">
+                <div>
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-search"></i></span>
+                        <input class="reactant" type="text" placeholder="Reactant">
+                    </div>
+
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-search"></i></span>
+                        <input class="product" type="text" placeholder="Product">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div>
+                    <label><input class="passive" type="checkbox" checked>Show Automatic Processes</label>
+                    <input class="clear btn btn-small" type="button" value="Display All">
+                </div>
             </div>
         </div>
 

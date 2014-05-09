@@ -13,31 +13,6 @@ p, h1, h2, h3, h4, h5, h6 {
     margin: 0;
 }
 
-.result-cover {
-    display: none;
-    position: absolute;
-    left: 0;
-    top:  0;
-    width:  100%;
-    height: 100%;
-    z-index: 10000;
-}
-
-.header-text {
-    position: relative;
-
-    .organ-info {
-        position: absolute;
-        right: 10px;
-        top: 2px;
-        cursor: pointer;
-    }
-
-    p {
-        padding-left: 10px;
-    }
-}
-
 .sidebar {
     position: absolute;
     width:  $sidebarWidth;
@@ -73,6 +48,18 @@ p, h1, h2, h3, h4, h5, h6 {
 
     .header-text {
         cursor: pointer;
+            position: relative;
+
+        .organ-info {
+            position: absolute;
+            right: 10px;
+            top: 2px;
+            cursor: pointer;
+        }
+
+        p {
+            padding-left: 10px;
+        }
     }
 
     .header-text {
@@ -160,22 +147,11 @@ p, h1, h2, h3, h4, h5, h6 {
     .accordian-content {
         padding: 0 6px;
         height: 0;
-        // NOTE: unnecessary if there are custome scrollbars (but it won't break them either)
         overflow: auto;
 
         * {
             overflow: visible;
         }
-    }
-
-    .mCSB_container {
-        margin-right: 6px;
-    }
-
-    .mCSB_scrollTools {
-        width: 4px;
-        height: 98%;
-        top: 1%;
     }
 }
 
@@ -194,33 +170,4 @@ p, h1, h2, h3, h4, h5, h6 {
     position: absolute;
     right: $sidebarWidth;
     margin: 5px;
-}
-
-.notification-holder {
-    position: absolute;
-    display: none;
-    left: $sidebarWidth;
-    width: 100% - 2*$sidebarWidth;
-    padding: 5px 10px;
-    z-index: 1;
-    border-top: 1px solid;
-
-    .success {
-        color: green;
-    }
-
-    .error {
-        color: red;
-    }
-}
-
-#notification-bottom {
-    bottom: $footerHeight + 1;
-
-    .eat-confirm {
-        p, button {
-            display: inline-block;
-            margin: 0px 5px;
-        }
-    }
 }

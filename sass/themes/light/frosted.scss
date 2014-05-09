@@ -40,19 +40,12 @@ body[theme=frosted] {
         background: $inputBackground !important;
         @include input-placeholder {
             color: $inputPlaceholder;
-        } 
+        }
     }
 
-    .input-themed-add-on {
-        .add-on {
-            border-color: $inputBorder !important;
-            background: $inputAddOnBackground !important;
-        }
-
-        input {
-            border-color: $inputBorder !important;
-            background: $inputBackground !important;
-        }
+    .add-on {
+        border-color: $inputBorder !important;
+        background: $inputAddOnBackground !important;
     }
 
     #header {
@@ -150,7 +143,7 @@ body[theme=frosted] {
     }
 
     #footer {
-        #footer-minimize {
+        #minimize-footer {
             background-color: $sidebarBackground;
             border-color: $border;
         }
