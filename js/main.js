@@ -13,31 +13,20 @@ $(document).ready(function() {
     $(window).resize(onResize);
 });
 
-function getPathwayContentHeight()
+function getSidebarContentHeight()
 {
-    var pathwayHeaders = $('#pathway-holder').find('.accordian-header');
-    pathwayContentHeight = $(window).height() - pathwayHeaders.first().offset().top - $('#footer').outerHeight();
-    pathwayHeaders.each(function() {
-        pathwayContentHeight -= $(this).outerHeight();
+    var headers = $('.sidebar').first().find('.accordian-header');
+    var height = $(window).height() - headers.first().offset().top - $('#footer').outerHeight();
+    headers.each(function() {
+        height -= $(this).outerHeight();
     });
 
-    return pathwayContentHeight;
-}
-
-function getResourceContentHeight()
-{
-    var resourceHeaders = $('#resource-holder').find('.accordian-header');
-    resourceContentHeight = $(window).height() - resourceHeaders.first().offset().top - $('#footer').outerHeight();
-    resourceHeaders.each(function() {
-        resourceContentHeight -= $(this).outerHeight();
-    });
-    return resourceContentHeight;
+    return height;
 }
 
 function onResize()
 {
-    $('.pathway-holder.active').height(getPathwayContentHeight());
-    $('.resource-holder.active').height(getResourceContentHeight());
+    $('.accordian-content.active').height(getSidebarContentHeight());
 
     var top = $('#header').height();
     var bottom = $('#footer').outerHeight();
