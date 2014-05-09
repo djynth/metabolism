@@ -30,7 +30,7 @@ function onResize()
 
     var top = $('#header').height();
     var bottom = $('#footer').outerHeight();
-    $('#cell-canvas').height($(window).height() - top - bottom).offset({ top: top });
+    $('#diagram').height($(window).height() - top - bottom).offset({ top: top });
     $('#copyright').css('bottom', bottom);
     $('#notification-bottom').css('bottom', bottom);
 

@@ -17,6 +17,7 @@ class SiteController extends Controller
                 array('primary' => true)
             ),
             'user' => User::getCurrentUser(),
+            'passive_pathways' => Pathway::getPassivePathways(),
         ));
     }
 

@@ -54,7 +54,7 @@ function selectOrgan(organ, firstTime)
     $('.accordian-content').each(function() {
         if ($(this).attr('value') == organ) {
             $(this).animate({ height: getSidebarContentHeight() }, ORGAN_TRANSITION);
-            $('#cell-canvas').animate({ backgroundColor: '#' + $(this).attr('color') }, ORGAN_TRANSITION);
+            $('#diagram').animate({ backgroundColor: '#' + $(this).attr('color') }, ORGAN_TRANSITION);
         } else {
             $(this).animate({ height: 0 }, ORGAN_TRANSITION);
         }

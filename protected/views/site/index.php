@@ -7,28 +7,27 @@
  */
 ?>
 
-<div class="result-cover"></div>
-
-<div class="sidebar" id="pathway-holder">
+<div class="sidebar left">
     <?php $this->renderPartial('pathways', array(
         'organs' => $organs,
     )); ?>
 </div>
 
 <?php $this->renderPartial('header', array(
-    'user' => $user,
-    'organs' => $organs,
+    'user'             => $user,
+    'organs'           => $organs,
+    'passive_pathways' => $passive_pathways,
 )); ?>
 
-<div id="cell-canvas"></div>
+<div id="diagram"></div>
 <p id="copyright">Copyright 2014 Neocles B. Leontis</p>
 
 <?php $this->renderPartial('footer', array(
     'primary_resources' => $primary_resources,
-    'non_global' => $non_global,
+    'non_global'        => $non_global,
 )); ?>
 
-<div class="sidebar" id="resource-holder">
+<div class="sidebar right">
     <?php $this->renderPartial('resources', array(
         'organs' => $organs,
     )); ?>

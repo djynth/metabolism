@@ -1,143 +1,136 @@
 @import "base";
 
-#pathway-holder {
-    left: 0;
-    border-right: 1px solid;
+.pathway {
+    position: relative;
+    margin:  8px 4px 8px 4px;
+    padding: 5px;
+    border-radius: 7px;
+    font-size:   12px;
+    line-height: 12px;
+    border: 1px solid;
 
-    .pathway-holder {
-        .pathway {
-            position: relative;
-            margin:  8px 4px 8px 4px;
-            padding: 5px;
-            border-radius: 7px;
-            font-size:   12px;
-            line-height: 12px;
+    .pathway-inner {
+        position: absolute;
+        left: 0;
+        top:  0;
+        width: 100%;
+        height: 100%;
+        margin-left: -1px;
+        margin-top: -1px;
+        background-color: rgba(0, 0, 0, 0);
+        border-radius: inherit;
+        box-shadow: rgba(0, 0, 0, 0) 0 0 0 0 inset;
+        border: 1px solid rgba(0, 0, 0, 0);
+    }
+
+    p {
+        position: relative;
+        text-shadow: none;
+        z-index: 3;
+    }
+
+    .title {
+        display: inline;
+        margin-right: 8px;
+        font-weight: bold;
+    }
+
+    .catabolic, .anabolic, .passive, .points {
+        display: inline;
+    }
+    
+    .points {
+        float: right;
+    }
+
+    .reaction {
+        position: relative;
+        width: 90%;
+        margin: 3px auto;
+        z-index: 3;
+
+        td {
             border: 1px solid;
+        }
 
-            .pathway-inner {
-                position: absolute;
-                left: 0;
-                top:  0;
-                width: 100%;
-                height: 100%;
-                margin-left: -1px;
-                margin-top: -1px;
-                background-color: rgba(0, 0, 0, 0);
-                border-radius: inherit;
-                box-shadow: rgba(0, 0, 0, 0) 0 0 0 0 inset;
-                border: 1px solid rgba(0, 0, 0, 0);
-            }
+        .value {
+            width: 13%;
+            padding-right: 4px;
+            padding-left: 4px;
+        }
 
-            p {
-                position: relative;
-                text-shadow: none;
-                z-index: 3;
-            }
+        .name {
+            width: 37%;
+            padding-right: 5px;
+            padding-left: 5px;
+        }
 
-            .title {
-                display: inline;
-                margin-right: 8px;
-                font-weight: bold;
-            }
+        .reactant {
+            text-align: left;
+        }
 
-            .catabolic, .anabolic, .passive, .points {
-                display: inline;
-            }
-            
-            .points {
-                float: right;
-            }
+        .product {
+            text-align: right;
+        }
 
-            .reaction {
-                position: relative;
-                width: 90%;
-                margin: 3px auto;
-                z-index: 3;
+        .empty {
+            width: 50%;
+        }
 
-                td {
-                    border: 1px solid;
-                }
-
-                .value {
-                    width: 13%;
-                    padding-right: 4px;
-                    padding-left: 4px;
-                }
-
-                .name {
-                    width: 37%;
-                    padding-right: 5px;
-                    padding-left: 5px;
-                }
-
-                .reactant {
-                    text-align: left;
-                }
-
-                .product {
-                    text-align: right;
-                }
-
-                .empty {
-                    width: 50%;
-                }
-
-                .header {
-                    .header-reactants {
-                        display: inline-block;
-                        width: 46.5%;
-                        text-align: center;
-                    }
-
-                    .header-products {
-                        display: inline-block;
-                        width: 40%;
-                        text-align: center;
-                    }
-
-                    .icon-arrow-right {
-                        width: 5%;
-                    }
-                }
-            }
-
-            .food-holder {
-                width: 258px;
-                margin: 2px auto 4px;
-
-                .btn-group {
-                    margin: 2px 0;
-                }
-
-                .eat {
-                    min-width: 160px;
-                }
-            }
-
-            p.lacking {
+        .header {
+            .header-reactants {
                 display: inline-block;
-                position: relative;
-                left:   2px;
-                bottom: -7px;
-                margin: 7px 0 6px;
+                width: 46.5%;
+                text-align: center;
             }
 
-            .run-holder {
+            .header-products {
                 display: inline-block;
-                position: relative;
-                margin-top: 3px;
+                width: 40%;
+                text-align: center;
             }
 
-            .pathway-run {
-                min-width: 64px;
-            }
-
-            .pathway-reverse {
-                display: inline-block;
-                position: absolute;
-                right: 5px;
-                bottom: 4px;
+            .icon-arrow-right {
+                width: 5%;
             }
         }
+    }
+
+    .food-holder {
+        width: 258px;
+        margin: 2px auto 4px;
+
+        .btn-group {
+            margin: 2px 0;
+        }
+
+        .eat {
+            min-width: 160px;
+        }
+    }
+
+    p.lacking {
+        display: inline-block;
+        position: relative;
+        left:   2px;
+        bottom: -7px;
+        margin: 7px 0 6px;
+    }
+
+    .run-holder {
+        display: inline-block;
+        position: relative;
+        margin-top: 3px;
+    }
+
+    .pathway-run {
+        min-width: 64px;
+    }
+
+    .pathway-reverse {
+        display: inline-block;
+        position: absolute;
+        right: 5px;
+        bottom: 4px;
     }
 }
