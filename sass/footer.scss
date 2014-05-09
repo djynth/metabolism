@@ -22,12 +22,10 @@
     #filter {
         position: absolute;
         width: $sidebarWidth;
-        padding-top: 3px;
-        padding-bottom: 5px;
+        padding-top: 5px;
 
         .row {
             width: 90%;
-            height: 30px;
             margin: 5px auto;
             text-align: right;
 
@@ -35,11 +33,13 @@
                 width: 100%;
             }
 
+            .input-prepend {
+                margin-bottom: 0;
+            }
+
             .buttons {
                 display: table;
                 table-layout: fixed;
-
-                
 
                 .btn-group {
                     display: table-cell;
