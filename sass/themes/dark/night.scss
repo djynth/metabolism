@@ -1,29 +1,30 @@
 @import "base";
 
-$text:                 rgb( 200, 200, 200);
-$textShadow:           rgb( 10,  10,  10);
-$border:               rgb( 7,   7,   7);
-$background:           rgb( 50,  50,  50);
+$text:                 rgb( 230, 230, 230);
+$textShadow:           rgb( 8,   8,   8);
+$border:               rgb( 2,   2,   2);
+$background:           rgb( 58,  58,  58);
 $sidebarBackground:    rgb( 92,  92,  92);
-$elementBackground:    rgb( 73,  73,  73);
-$elementBorder:        rgb( 62,  62,  62);
+$elementBackground:    rgb( 76,  76,  76);
+$elementBorder:        rgb( 48,  48,  48);
 $elementText:          rgb( 2,   2,   2);
-$reactionBorder:       rgb( 32,  32,  32);
-$inputBackground:      rgb( 38,  38,  38);
+$reactionBorder:       rgb( 22,  22,  22);
+$inputBackground:      rgb( 41,  41,  41);
 $inputAddOnBackground: rgb( 50,  50,  50);
-$inputBorder:          rgb( 18,  18,  18);
-$inputPlaceholder:     rgb( 153, 153, 153);
-$trackerHeaderBorder:  rgb( 81,  81,  81);
-$trackerOrganBorder:   rgb( 60,  60,  60);
-$lacking:              rgba(111, 0,   0,   0.2);
-$limitingReagent:      rgba(0,   0,   111, 0.2);
-$resourceGood:         rgba(0,   111, 0,   0.2);
-$resourceBad:          rgba(175, 0,   0,   0.2);
+$inputBorder:          rgb( 15,  15,  15);
+$inputText:            rgb( 230, 230, 230);
+$inputPlaceholder:     rgb( 172, 172, 172);
+$trackerHeaderBorder:  rgb( 95,  95,  95);
+$trackerOrganBorder:   rgb( 81,  81,  81);
 $resultCover:          rgb( 0,   0,   0);
-$softLimit:            rgba(255, 0,   0,   0.4);
-$hardLimit:            rgba(0,   0,   0,   0.4);
+$lacking:              rgba(121, 0,   0,   0.3);
+$limitingReagent:      rgba(0,   0,   121, 0.3);
+$resourceGood:         rgba(0,   121, 0,   0.3);
+$resourceBad:          rgba(161, 0,   0,   0.3);
+$softLimit:            rgba(210, 0,   0,   0.4);
+$hardLimit:            rgba(35,  35,  35,  0.9);
 $copyright:            rgba(35,  35,  35,  0.9);
-$trackerActive:        lighten($background, 1.25%);
+$trackerActive:        lighten($background, 1.75%);
 
 body[theme=night] {
     background-color: $background;
@@ -39,6 +40,7 @@ body[theme=night] {
 
     .input-themed {
         border-color: $inputBorder !important;
+        color: $inputText;
         background: $inputBackground !important;
         @include input-placeholder {
             color: $inputPlaceholder;
