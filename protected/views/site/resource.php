@@ -3,13 +3,14 @@
  * @param resource
  * @param organ
  */
+$amount = $resource->getAmount($organ->id);
 ?>
 
-<div class="res res-info-source <?= $resource->primary ? 'primary' : '' ?>" res="<?= $resource->id ?>" organ="<?= $organ->id ?>" max-shown="<?= $resource->max_shown_value ?>" name="<?= $resource->name ?>" names="<?= $resource->getNames() ?>">
+<div class="res res-info-source <?= $resource->primary ? 'primary' : '' ?>" res="<?= $resource->id ?>" organ="<?= $organ->id ?>" amount="<?= $amount ?>" max-shown="<?= $resource->max_shown_value ?>" name="<?= $resource->name ?>" names="<?= implode($resource->getNames(), ';') ?>">
     <div class="progress">
         <div class="bar"></div>
         <span class="name"><?= $resource->name ?></span>
-        <span class="amount"><?= $resource->getAmount($organ->id) ?></span>
+        <span class="amount"><?= $amount ?></span>
 
         <div class="limit soft min" <?= $resource->limit->soft_min === null ? '' : 'min="' . $resource->limit->soft_min . '"' ?> <?= $resource->limit->rel_soft_min === null ? '' : 'rel-min="' . $resource->limit->rel_soft_min . '"' ?>></div>
         <div class="limit hard min" <?= $resource->limit->hard_min === null ? '' : 'min="' . $resource->limit->hard_min . '"' ?> <?= $resource->limit->rel_hard_min === null ? '' : 'rel-min="' . $resource->limit->rel_hard_min . '"' ?>></div>

@@ -16,7 +16,7 @@
     foreach ($passive_pathways as $pathway) {
         foreach ($pathway->organs as $organ) { ?>
             <tr organ="-1">
-                <td colspan="4" pathway="<?= $pathway->id ?>" times="<?= $pathway->passive ?>" organ="<?= $organ->id ?>">
+                <td class="process" colspan="4" pathway="<?= $pathway->id ?>" times="<?= $pathway->passive ?>" organ="<?= $organ->id ?>">
                     <?= $pathway->name ?> (x<?= $pathway->passive ?>) [<?= $organ->name ?>]
                 </td>
                 <td class="change"></td>
@@ -34,21 +34,22 @@
 
         <?php
         foreach ($organ->getSoftLimitResources() as $resource) {
+            $pen = $resource->limit->penalization;
             $min = $resource->limit->soft_min;
             $max = $resource->limit->soft_max;
             $rel_min = $resource->limit->rel_soft_min;
             $rel_max = $resource->limit->rel_soft_max; ?>
-            <tr class="res-info-source" res="<?= $resource->id ?>" organ="<?= $organ->id ?>">
+            <tr class="limited-resource res-info-source" res="<?= $resource->id ?>" organ="<?= $organ->id ?>" pen="<?= $pen ?>">
                 <td><?= $resource->name ?></td>
 
                 <?php if ($min === null && $rel_min === null): ?>
                     <td class="center">-</td>
                 <?php elseif ($min === null): ?>
-                    <td class="min" rel-min="$rel_min"></td>
+                    <td class="min" rel-min="<?= $rel_min ?>"></td>
                 <?php elseif ($rel_min === null): ?>
-                    <td class="min" min="$min"></td>
+                    <td class="min" min="<?= $min ?>"></td>
                 <?php else: ?>
-                    <td class="min" min="$min" rel-min="rel_min"></td>
+                    <td class="min" min="<?= $min ?>" rel-min="<?= $rel_min ?>"></td>
                 <?php endif ?>
 
                 <td class="amount"></td>
@@ -56,11 +57,11 @@
                 <?php if ($max === null && $rel_max === null): ?>
                     <td class="center">-</td>
                 <?php elseif ($max === null): ?>
-                    <td class="max" rel-max="$rel_max"></td>
+                    <td class="max" rel-max="<?= $rel_max ?>"></td>
                 <?php elseif ($rel_max === null): ?>
-                    <td class="max" max="$max"></td>
+                    <td class="max" max="<?= $max ?>"></td>
                 <?php else: ?>
-                    <td class="max" max="$max" rel-max="rel_max"></td>
+                    <td class="max" max="<?= $max ?>" rel-max="<?= rel_max ?>"></td>
                 <?php endif ?>
 
                 <td class="change"></td>

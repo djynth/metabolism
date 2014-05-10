@@ -4,6 +4,16 @@ var TRACKER_ICONS = 5;
 var TRACKER_WAIT = 300;         // the amount of time between tracker animations, in ms
 var TRACKER_ANIMATION = 600;    // the duration of a tracker animtion, in ms
 
+function getRes(resource, organ)
+{
+    if (typeof organ === 'undefined') {
+        var resources = $('.resources');
+    } else {
+        var resources = $('.resources[organ="' + organ + '"]');
+    }
+    return resources.find('.res[res="' + resource + '"]').first();
+}
+
 function refreshResources(resources)
 {
     if (typeof resources === 'undefined') {
@@ -23,7 +33,7 @@ function refreshResources(resources)
         }
     }
     refreshResourceLimits();
-    refreshPathways();
+    refreshLimitedResources();
 }
 
 function onResourceChange(resource, organ, value)
@@ -53,26 +63,6 @@ function onResourceChange(resource, organ, value)
     if (tracker.length) {
         updateTracker(resource, organ, value, change, tracker);
     }
-}
-
-function getResourceElement(resource, organ)
-{
-    return $('.resource-holder[value="' + organ + '"]').find('.resource-data[res-id="' + resource + '"]');
-}
-
-function getResourceValue(resource, organ)
-{
-    return parseInt(getResourceElement(resource, organ).find('.resource-value').html());
-}
-
-function getResourceName(resource, organ)
-{
-    return getResourceElement(resource, organ).find('.resource-name').html();
-}
-
-function isResourceGlobal(resource)
-{
-    return $('.resource-holder.global').find('.resource-data[res-id="' + resource + '"]').length > 0;
 }
 
 function refreshResourceLimits()

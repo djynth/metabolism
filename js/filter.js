@@ -90,7 +90,7 @@ function onFilterChange()
                 }
 
                 res = getResourceElement($(this).res(), $(this).organ());
-                var names = res.attr('aliases').split(';');
+                var names = res.attr('names').split(';');
                 for (var i = 0; i < names.length; i++) {
                     if (reactant.test(names[i])) {
                         match = true;
@@ -112,7 +112,7 @@ function onFilterChange()
                 }
 
                 res = getResourceElement($(this).res(), $(this).organ());
-                var names = res.attr('aliases').split(';');
+                var names = res.attr('names').split(';');
                 for (var i = 0; i < names.length; i++) {
                     if (product.test(names[i])) {
                         match = true;

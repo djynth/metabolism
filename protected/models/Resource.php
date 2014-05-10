@@ -119,7 +119,9 @@ class Resource extends CActiveRecord
      */
     public function getNames()
     {
-        return array_push($this->getAliases(), $this->name);
+        $names = $this->getAliases();
+        array_push($names, $this->name);
+        return $names;
     }
 
     /**

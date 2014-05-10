@@ -1,5 +1,6 @@
 $(document).ready(function() {
     refreshResources();
+    refreshPathways();
     $(document).addResourceInfoSources();
     onResize();
     selectOrgan($('.accordian-header').first().organ());

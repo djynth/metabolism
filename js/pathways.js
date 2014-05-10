@@ -109,72 +109,83 @@ $(document).ready(function() {
     });
 });
 
+function getPathway(pathway, organ)
+{
+    if (typeof organ === 'undefined') {
+        var resources = $('.pathways');
+    } else {
+        var resources = $('.pathways[organ="' + organ + '"]');
+    }
+    return resources.find('.pathway[pathway="' + pathway + '"]').first();
+}
+
 function refreshPathways()
 {
-    $('.pathway').each(function() {
-        var limitingReagents = new Array();
-        var limitingReagentMult;
-        var lackingReactants = new Array();
-        var organ = $(this).parents('.pathway-holder').attr('value');
+    // TODO
+//     $('.pathway').each(function() {
+//         var limitingReagents = new Array();
+//         var limitingReagentMult;
+//         var lackingReactants = new Array();
+//         var organ = $(this).parents('.pathway-holder').attr('value');
 
-        $(this).find('.reactant.name').each(function() {
-            var resId = $(this).attr('res-id');
-            var actualOrgan = $(this).hasClass('global') ? '1' : organ;
-            var requiredAmount = Math.abs(parseInt($(this).siblings('.reactant.value').text()));
-            var actualAmount = getResourceValue(resId, actualOrgan);
+//         $(this).find('.reactant.name').each(function() {
+//             var resId = $(this).attr('res-id');
+//             var actualOrgan = $(this).hasClass('global') ? '1' : organ;
+//             var requiredAmount = Math.abs(parseInt($(this).siblings('.reactant.value').text()));
+//             var actualAmount = getResourceValue(resId, actualOrgan);
 
-            var mult = Math.floor(actualAmount/requiredAmount);
-            if (limitingReagents.length == 0 || mult < limitingReagentMult) {
-                limitingReagents = new Array();
-                limitingReagentMult = mult;
-            }
-            if (mult <= limitingReagentMult) {
-                limitingReagents.push(resId);
-            }
+//             var mult = Math.floor(actualAmount/requiredAmount);
+//             if (limitingReagents.length == 0 || mult < limitingReagentMult) {
+//                 limitingReagents = new Array();
+//                 limitingReagentMult = mult;
+//             }
+//             if (mult <= limitingReagentMult) {
+//                 limitingReagents.push(resId);
+//             }
 
-            if (requiredAmount > actualAmount) {
-                $(this).addClass('lacking');
-                lackingReactants.push(getResourceName(resId, actualOrgan));
-            } else {
-                $(this).removeClass('lacking');
-            }
+//             if (requiredAmount > actualAmount) {
+//                 $(this).addClass('lacking');
+//                 lackingReactants.push(getResourceName(resId, actualOrgan));
+//             } else {
+//                 $(this).removeClass('lacking');
+//             }
 
-            $(this).removeClass('limiting-reagent');
-        });
+//             $(this).removeClass('limiting-reagent');
+//         });
 
-        for (var i = 0; i < limitingReagents.length; i++) {
-            $(this).find('.reactant[res-id="' + limitingReagents[i] + '"]:not(.lacking)').addClass('limiting-reagent');
-        }
+//         for (var i = 0; i < limitingReagents.length; i++) {
+//             $(this).find('.reactant[res-id="' + limitingReagents[i] + '"]:not(.lacking)').addClass('limiting-reagent');
+//         }
 
-        if (lackingReactants.length > 0) {
-            $(this).find('.run-holder').hide();
-            $(this).find('p.lacking').show();
+//         if (lackingReactants.length > 0) {
+//             $(this).find('.run-holder').hide();
+//             $(this).find('p.lacking').show();
 
-            var lackingList = 'Not enough ';
-            for (var i = 0; i < lackingReactants.length; i++) {
-                lackingList += lackingReactants[i];
-                if (i == lackingReactants.length - 1) {
-                    lackingList += '.';
-                } else {
-                    lackingList += ', ';
-                }
-            }
-            $(this).find('p.lacking').text(lackingList);
+//             var lackingList = 'Not enough ';
+//             for (var i = 0; i < lackingReactants.length; i++) {
+//                 lackingList += lackingReactants[i];
+//                 if (i == lackingReactants.length - 1) {
+//                     lackingList += '.';
+//                 } else {
+//                     lackingList += ', ';
+//                 }
+//             }
+//             $(this).find('p.lacking').text(lackingList);
 
-            $(this).css('box-shadow', '0 0');
-            $(this).attr('available', 'false')
-        } else {
-            $(this).find('.run-holder').show();
-            $(this).find('p.lacking').hide();
+//             $(this).css('box-shadow', '0 0');
+//             $(this).attr('available', 'false')
+//         } else {
+//             $(this).find('.run-holder').show();
+//             $(this).find('p.lacking').hide();
 
-            $(this).css('box-shadow', '0 0 7px #' + $(this).attr('color'));
-            $(this).attr('available', 'true');
-        }
+//             $(this).css('box-shadow', '0 0 7px #' + $(this).attr('color'));
+//             $(this).attr('available', 'true');
+//         }
 
-        updatePathwayButtons($(this), true);
-    });
+//         updatePathwayButtons($(this), true);
+//     });
 
-    updateEatButtons();
+//     updateEatButtons();
 }
 
 function updatePathwayButtons(pathway, reset)
