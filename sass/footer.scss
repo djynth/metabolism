@@ -15,7 +15,7 @@
         border-bottom: 1px solid;
     }
 
-    .content {
+    > .content {
         height: $footerHeight - $footerMinimizeHeight;
     }
 
@@ -189,7 +189,8 @@
                 width: 100%;
 
                 .image {
-                    width: 100%;
+                    max-height: $footerHeight - $footerMinimizeHeight - 40;
+                    float: right;
                 }
 
                 > div {

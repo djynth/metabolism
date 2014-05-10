@@ -68,15 +68,24 @@ function setColorTheme(theme, type, save)
 }
 
 jQuery.fn.extend({
-    res: function() {
+    res: function(res) {
+        if (typeof res !== 'undefined') {
+            return $(this).attr('res', res);
+        }
         return $(this).attr('res');
     },
 
-    organ: function() {
+    organ: function(organ) {
+        if (typeof organ !== 'undefined') {
+            return $(this).attr('organ', organ);
+        }
         return $(this).attr('organ');
     },
 
-    pathway: function() {
+    pathway: function(pathway) {
+        if (typeof pathway !== 'undefined') {
+            return $(this).attr('pathway', pathway);
+        }
         return $(this).attr('pathway');
     },
 
@@ -97,16 +106,6 @@ jQuery.fn.extend({
 
         this.find('.accordian-header').each(function() {
             $(this).find('.image').attr('src', '/img/organs/' + type + '/' + $(this).organ() + '.png');
-        });
-
-        return this;
-    },
-
-    addResourceInfoSources: function() {
-        this.find('.res-info-source').click(function() {
-            if ($('#resource-visual').res() !== $(this).res()) {
-                updateResourceVisual($(this).res());
-            }
         });
 
         return this;

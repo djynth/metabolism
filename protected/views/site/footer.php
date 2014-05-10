@@ -89,7 +89,7 @@
         <div id="resource-visual">
             <div>
                 <div class="header">
-                    <p class="name">Name</p>
+                    <p class="name"></p>
                     <i class="icon-remove"></i>
                 </div>
                 <div class="content">

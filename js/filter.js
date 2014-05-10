@@ -71,7 +71,7 @@ function onFilterChange()
             return $(this).slideUp();
         }
 
-        var pathwayAvailable = $(this).attr('available') === 'true';
+        var pathwayAvailable = $(this).attr('available');
         if ((showAvailable && !showUnavailable && !pathwayAvailable) || (!showAvailable && showUnavailable && pathwayAvailable)) {
             return $(this).slideUp();
         }

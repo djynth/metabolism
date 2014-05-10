@@ -38,8 +38,8 @@
             $max = $resource->limit->soft_max;
             $rel_min = $resource->limit->rel_soft_min;
             $rel_max = $resource->limit->rel_soft_max; ?>
-            <tr organ="<?= $organ->id ?>">
-                <td class="res res-info-source" res="<?= $resource->id ?>" organ="<?= $organ->id ?>"><?= $resource->name ?></td>
+            <tr class="res-info-source" res="<?= $resource->id ?>" organ="<?= $organ->id ?>">
+                <td><?= $resource->name ?></td>
 
                 <?php if ($min === null && $rel_min === null): ?>
                     <td class="center">-</td>

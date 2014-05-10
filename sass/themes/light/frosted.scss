@@ -104,6 +104,7 @@ body[theme=frosted] {
 
         p {
             color: $elementText;
+            text-shadow: none;
         }
 
         .reaction {
@@ -123,7 +124,7 @@ body[theme=frosted] {
         }
     }
 
-    .resource-data {
+    .res {
         .progress {
             background-color: $elementBackground;
             border-color: $elementBorder;

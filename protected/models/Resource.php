@@ -112,19 +112,28 @@ class Resource extends CActiveRecord
     }
 
     /**
-     * Gets a string containing all the names associated with this Resource
-     *  (i.e. the name and all the aliases), separated by semi-colons.
+     * Gets a array of all the names associated with this Resource (i.e. the
+     *  name and all the aliases).
      *
-     * @return a list of all the names given to this Resource as a semi-colon
-     *         separated string
+     * @return a list of all the names associated with this Resource
      */
     public function getNames()
     {
-        $names = $this->name;
+        return array_push($this->getAliases(), $this->name);
+    }
+
+    /**
+     * Gets a array of all the aliases associated with this Resource.
+     *
+     * @return a list of all the aliases associated with this Resource
+     */
+    public function getAliases()
+    {
+        $aliases = array();
         foreach ($this->aliases as $alias) {
-            $names .= ';' . $alias->alias;
+            array_push($aliases, $alias->alias);
         }
-        return $names;
+        return $aliases;
     }
 
     /**
@@ -407,7 +416,6 @@ class Resource extends CActiveRecord
                 $this->formatted_formula .= $char;
             }
         }
-        
 
         return $this->formatted_formula;
     }

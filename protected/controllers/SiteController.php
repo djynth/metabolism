@@ -168,25 +168,29 @@ class SiteController extends Controller
     }
 
     /**
-     * Renders a resource visual.
-     * The visual and some metadata are returned to the client in a JSON packet.
-     * 
-     * @param resource_id string|int the ID of the Resource whose visual should
-     *                               be created
+     * Gets all the information associated with a resource and returns it to the
+     *  client as a JSON packet.
+     *
+     * @param resource_id number the ID of the resource
      */
-    public function actionResourceVisual($resource_id)
+    public function actionResourceInfo($resource_id)
     {
         $resource = Resource::model()->findByPk((int)$resource_id);
-        echo CJavaScript::jsonEncode(array(
-            'visual' => $this->renderPartial(
-                'resource-visual',
-                array('resource' => $resource),
-                true
-            ),
-            'resource' => $resource->id,
-            'resource_name' => $resource->name,
-            'sources' => $resource->getSources(),
-            'destinations' => $resource->getDestinations(),
-        ));
+        if ($resource !== null) {
+            echo CJavaScript::jsonEncode(array(
+                'name' => $resource->name,
+                'aliases' => $resource->getAliases(),
+                'formula' => $resource->formula,
+                'description' => $resource->description,
+                'soft_min' => $resource->limit->soft_min,
+                'soft_max' => $resource->limit->soft_max,
+                'hard_min' => $resource->limit->hard_min,
+                'hard_max' => $resource->limit->hard_max,
+                'rel_soft_min' => $resource->limit->rel_soft_min,
+                'rel_soft_max' => $resource->limit->rel_soft_max,
+                'rel_hard_min' => $resource->limit->rel_hard_min,
+                'rel_hard_max' => $resource->limit->rel_hard_max,
+            ));
+        }
     }
 }
