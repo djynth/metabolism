@@ -130,7 +130,7 @@
                     right: 6px;
                 }
 
-                .organ-name {
+                .name {
                     right: 32px;
                 }
 
@@ -154,35 +154,50 @@
     }
 
     #resource-visual {
+        display: none;
         position: absolute;
         right: 0;
         width:  $sidebarWidth;
-        height: $footerHeight - $footerMinimizeHeight;
+        font-size: 12px;
+        line-height: 14px;
 
-        .resource-visual-content {
-            display: none;
-            width: 92%;
-            height: $footerHeight - 10px;
-            padding: 5px 4%;
+        > div {
+            padding: 7px;
+            position: relative;
 
-            .resource-visual-image {
-                position: absolute;
-                right: 17px;
-                top:   17px;
-                max-height: 80%;
-                max-width: 40%;
+            .header {
+                border-bottom: 1px solid;
+                height: 20px;
+                font-size: 16px;
+                line-height: 20px;
+                padding-left: 8px;
+                position: relative;
+                margin-bottom: 5px;
+
+                .icon-remove {
+                    position: absolute;
+                    cursor: pointer;
+                    right: 8px;
+                    top: 2px;
+                    // top: 3px;
+                }
             }
 
-            .resource-visual-text {
-                width: 55%;
-            }
-        }
+            .content {
+                display: table;
+                table-layout: fixed;
+                width: 100%;
 
-        #resource-visual-close {
-            position: absolute;
-            cursor: pointer;
-            right: 3px;
-            top: 3px;
+                .image {
+                    width: 100%;
+                }
+
+                > div {
+                    display: table-cell;
+                    width: 50%;
+                    float: left;
+                }
+            }
         }
     }
 }
