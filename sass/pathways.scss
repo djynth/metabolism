@@ -24,12 +24,10 @@
     }
 
     p {
-        position: relative;
         text-shadow: none;
-        z-index: 3;
     }
 
-    .title {
+    > .name {
         display: inline;
         margin-right: 8px;
         font-weight: bold;

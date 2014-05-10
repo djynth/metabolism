@@ -25,7 +25,7 @@ if (!$eat) {
 
 ?>
 
-<div class="pathway <?= $pathway->catabolic ? 'catabolic' : '' ?> <?= $pathway->anabolic ? 'anabolic' : '' ?>" pathway="<?= $pathway->id ?>">
+<div class="pathway" pathway="<?= $pathway->id ?>">
     <div class="inner"></div>
     <p class="name"><?= $pathway->name ?></p>
 

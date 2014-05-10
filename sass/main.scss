@@ -43,6 +43,7 @@ p, h1, h2, h3, h4, h5, h6 {
         cursor: pointer;
         position: relative;
         border-top: 1px solid;
+        padding-left: 10px;
 
         &.active {
             border-bottom: 1px solid;
@@ -53,10 +54,6 @@ p, h1, h2, h3, h4, h5, h6 {
             right: 10px;
             top: 2px;
             cursor: pointer;
-        }
-
-        p {
-            padding-left: 10px;
         }
 
         .popup {
@@ -89,21 +86,21 @@ p, h1, h2, h3, h4, h5, h6 {
             .description {
                 padding: 5px 10px;
             }
-        }
 
-        .organ-popup-up {
-            bottom: -1px;
+            &.up {
+                bottom: -1px;
 
-            .organ-cover {
-                bottom: 0px;
+                .cover {
+                    bottom: 0px;
+                }
             }
-        }
 
-        .organ-popup-down {
-            top: -1px;
+            &:not(.up) {
+                top: -1px;
 
-            .organ-cover {
-                top: 0px;
+                .cover {
+                    top: 0px;
+                }
             }
         }
 
@@ -146,6 +143,7 @@ p, h1, h2, h3, h4, h5, h6 {
 #diagram {
     position: absolute;
     left: $sidebarWidth;
+    top: $headerHeight+1;
     width: 100% - 2*$sidebarWidth;
 
     background-image: url('/img/overview.png');

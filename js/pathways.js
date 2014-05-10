@@ -321,13 +321,11 @@ function onPathwaySuccess(data)
         setTurn(data.turn);
         setPoints(data.points);
         refreshResources(data.resources);
-        updateActionCounts(data.action_counts);
         updateLimitedResources($($.parseHTML(data.limited_resources)));
         onFilterChange();
 
-        if (data.game_over) {
-            gameOver = true;
-            setTimeout(onGameOver, 1500);
+        for (organ in data.action_counts) {
+            $('.tracker.actions').find('.organ[organ=' + organ + ']').find('.amount').text(data.action_counts[organ]);
         }
     }
 }

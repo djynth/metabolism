@@ -35,12 +35,6 @@ $(document).ready(function() {
         <?= json_encode($user !== null ? $user->theme      : User::DEFAULT_THEME) ?>,
         <?= json_encode($user !== null ? $user->theme_type : User::DEFAULT_THEME_TYPE) ?>
     );
-
-    <?php if ($user !== null): ?>
-        setHelpTooltips(parseInt(<?= json_encode($user->help); ?>));
-    <?php else: ?>
-        setHelpTooltips(<?= json_encode(User::DEFAULT_HELP) ?>);
-    <?php endif ?>
 });
 </script>
 

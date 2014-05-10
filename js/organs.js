@@ -1,22 +1,22 @@
 var ORGAN_TRANSITION = 600;  // length of an organ transition in ms
 
-// the minimum amount of space in px below a popup in order that it slides down rather than up
+// the minimum amount of space in px below the top of a popup in order that it slides down rather than up
 var ORGAN_INFO_PADDING_BOTTOM = 500;
 
 var ORGAN_SLIDE_OUT_DURATION  = 200;    // the time for an organ info popup to slide in/out of the organ header in ms
 var ORGAN_SLIDE_DOWN_DURATION = 300;    // the time for an organ info popup to slide down/up in ms
 
 $(document).ready(function() {
-    $('.accordian-title').click(function() {
-        var header = $(this).parents('.accordian-header');
-        if (!header.hasClass('active')) {
-            selectOrgan(header.attr('value'));
+    $('.accordian-header').click(function() {
+        if (!$(this).hasClass('active')) {
+            selectOrgan($(this).organ());
         }
     });
 
-    $('.organ-info, .close-popup').click(function() {
-        var popup = $(this).parents('.accordian-header').children('.organ-popup');
-        var content = popup.find('.organ-image, .organ-description');
+    $('.toggle-popup').click(function(e) {
+        e.stopPropagation();
+        var popup = $(this).parents('.accordian-header').find('.popup');
+        var content = popup.find('.content');
         popup.finish();
         content.finish();
         if (popup.is(':visible')) {
@@ -26,12 +26,7 @@ $(document).ready(function() {
                 });
             });
         } else {
-            if ($(window).height() - $(this).offset().top > ORGAN_INFO_PADDING_BOTTOM) {
-                popup.addClass('organ-popup-down').removeClass('organ-popup-up');
-            } else {
-                popup.addClass('organ-popup-up').removeClass('organ-popup-down');
-            }
-
+            popup.toggleClass('up', $(window).height() < ORGAN_INFO_PADDING_BOTTOM + $(this).offset().top);
             content.hide();
 
             popup.show().animate({ width: popup.css('max-width') }, ORGAN_SLIDE_OUT_DURATION, function() {
@@ -41,29 +36,27 @@ $(document).ready(function() {
     });
 });
 
-function selectOrgan(organ, firstTime)
+function selectOrgan(organ)
 {
     $('.accordian-header, .accordian-content').each(function() {
-        $(this).toggleClass('active', $(this).attr('value') == organ);
+        $(this).toggleClass('active', $(this).organ() === organ);
     });
 
     $('.tracker').find('.organ').each(function() {
-        $(this).toggleClass('active', $(this).attr('organ-id') == organ);
-    })
+        $(this).toggleClass('active', $(this).organ() === organ);
+    });
 
-    $('.accordian-content').each(function() {
-        if ($(this).attr('value') == organ) {
-            $(this).animate({ height: getSidebarContentHeight() }, ORGAN_TRANSITION);
-            $('#diagram').animate({ backgroundColor: '#' + $(this).attr('color') }, ORGAN_TRANSITION);
-        } else {
-            $(this).animate({ height: 0 }, ORGAN_TRANSITION);
+    $('.accordian-header').each(function() {
+        if ($(this).organ() === organ) {
+            $('#diagram').animate({
+                backgroundColor: '#' + $(this).attr('organ-color')
+            }, ORGAN_TRANSITION);
         }
     });
-}
 
-function updateActionCounts(counts)
-{
-    for (organ in counts) {
-        $('.tracker.actions').find('.organ[organ-id=' + organ + ']').find('.amount').text(counts[organ]);
-    }
+    $('.accordian-content').each(function() {
+        $(this).animate({ 
+            height: $(this).organ() === organ ? $(this).css('max-height') : 0
+        }, ORGAN_TRANSITION);
+    });
 }

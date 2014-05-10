@@ -1,38 +1,31 @@
-var DEFAULT_NOTIFICATION_DURATION = 5000;
 /* FROM PHP:
 var baseUrl
 */
 
 $(document).ready(function() {
-    selectOrgan($('.accordian-header').first().attr('value'));
     refreshResources();
     $(document).addResourceInfoSources();
     updateLimitedResources($('#point-dropdown').children());
     onResize();
+    selectOrgan($('.accordian-header').first().organ());
 
     $(window).resize(onResize);
 });
 
-function getSidebarContentHeight()
-{
-    var headers = $('.sidebar').first().find('.accordian-header');
-    var height = $(window).height() - headers.first().offset().top - $('#footer').outerHeight();
-    headers.each(function() {
-        height -= $(this).outerHeight();
-    });
-
-    return height;
-}
-
 function onResize()
 {
-    $('.accordian-content.active').height(getSidebarContentHeight());
+    var contentHeight = $(window).height() - $('#header').outerHeight() - $('#footer').outerHeight();
+    $('.sidebar').first().find('.accordian-header').each(function() {
+        contentHeight -= $(this).outerHeight();
+    });
 
-    var top = $('#header').height();
+    $('.accordian-content.active').height(contentHeight);
+    $('.accordian-content').css('max-height', contentHeight);
+
+    var top = $('#header').outerHeight();
     var bottom = $('#footer').outerHeight();
-    $('#diagram').height($(window).height() - top - bottom).offset({ top: top });
+    $('#diagram').height($(window).height() - top - bottom);
     $('#copyright').css('bottom', bottom);
-    $('#notification-bottom').css('bottom', bottom);
 
     resizeFilter();
 }
@@ -75,6 +68,18 @@ function setColorTheme(theme, type, save)
 }
 
 jQuery.fn.extend({
+    res: function() {
+        return $(this).attr('res');
+    },
+
+    organ: function() {
+        return $(this).attr('organ');
+    },
+
+    pathway: function() {
+        return $(this).attr('pathway');
+    },
+
     applyColorTheme: function(theme, type) {
         if (type === 'light') {
             this.find('i:not(.always-white)').removeClass('icon-white');
@@ -84,100 +89,26 @@ jQuery.fn.extend({
             this.find('.btn').addClass('btn-inverse');
         }
 
-        this.find('.theme-option').each(function() {
-            $(this).toggleClass('active', $(this).attr('value') === theme)
+        // this is only necessary on loading the page
+        // TODO: set the selected theme to active in HTML or something
+        this.find('.theme').each(function() {
+            $(this).toggleClass('active', $(this).attr('theme') === theme);
         });
 
-        this.find('.organ-image').each(function() {
-            $(this).attr('src', baseUrl + 'img/organs/' + type + '/' + $(this).parents('.header-text').attr('value') + '.png');
+        this.find('.accordian-header').each(function() {
+            $(this).find('.image').attr('src', '/img/organs/' + type + '/' + $(this).organ() + '.png');
         });
 
         return this;
     },
 
     addResourceInfoSources: function() {
-        this.find('.resource-info-source').click(function() {
-            if (activeResource === null || activeResource != $(this).attr('res-id')) {
-                activeResource = $(this).attr('res-id');
-                updateResourceVisual();
+        this.find('.res-info-source').click(function() {
+            if ($('#resource-visual').res() !== $(this).res()) {
+                updateResourceVisual($(this).res());
             }
         });
+
         return this;
     }
 });
-
-function setHelpTooltips(active, save)
-{
-    $('#tooltip-toggle').children().each(function() {
-        if ($(this).attr('value') === 'on') {
-            $(this).toggleClass('active', active);
-        } else {
-            $(this).toggleClass('active', !active);
-        }
-    });
-    if (active) {
-        $('.help-tooltip').tooltip({
-            delay: { show: 1500, hide: 60 }
-        });
-    } else {
-        $('.help-tooltip').tooltip('destroy');
-    }
-
-    if (save) {
-        $.ajax({
-            url: 'index.php/user/saveHelp',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                help: active
-            }
-        });
-    }
-}
-
-function createNotification(message, success)
-{
-    return $('<p>').text(message).addClass(success ? 'success' : 'error');
-}
-
-function notifyInternalError()
-{
-    notifyBottom(createNotification('An internal error occurred.', false));
-}
-
-function notifyBottom(html, duration)
-{
-    notify($('#notification-bottom'), html, duration);
-}
-
-function notify(elem, html, duration)
-{
-    if (typeof duration === 'undefined') {
-        duration = DEFAULT_NOTIFICATION_DURATION;
-    }
-
-    if (html) {
-        elem.empty().hide();
-
-        elem.append(html).slideDown(function() {
-            if (duration > 0) {
-                setTimeout(function() {
-                    elem.slideUp(function() {
-                        elem.empty();
-                    });
-                }, duration);
-            }
-        });
-    } else {
-        elem.slideUp(function() {
-            elem.empty();
-        });
-    }
-}
-
-function onGameOver()
-{
-    $('.result-cover').fadeIn(function() {
-        window.location.replace(baseUrl + 'index.php/site/result');
-    });
-}

@@ -19,11 +19,11 @@
             
             <div class="row">
                 <div class="buttons">
-                    <div class="btn-group">
+                    <div class="btn-group" data-toggle="buttons-checkbox">
                         <input class="available btn btn-mini" type="button" value="Available">
                         <input class="unavailable btn btn-mini" type="button" value="Unavailable">
                     </div>
-                    <div class="btn-group">
+                    <div class="btn-group" data-toggle="buttons-checkbox">
                         <input class="catabolic btn btn-mini" type="button" value="Catabolic">
                         <input class="anabolic btn btn-mini" type="button" value="Anabolic">
                     </div>

@@ -1,16 +1,22 @@
 $(document).ready(function() {
-    $('#filter-name, #filter-reactant, #filter-product').change(onFilterChange);
-
-    $('#filter-available, #filter-unavailable, #filter-catabolic, #filter-anabolic, #filter-passive').click(function() {
-        window.setTimeout(onFilterChange, 0);   // wait for other events bound to the button to finish so that the
-                                                // 'active' property is accurately set
-    });
-
-    $('#filter-clear').click(function() {
-        $('#filter-name, #filter-reactant, #filter-product').val('');
-        $('#filter-available, #filter-unavailable, #filter-catabolic, #filter-anabolic').removeClass('active');
-        onFilterChange();
-    });
+    $('#filter')
+        .find('input[type=text]').change(function() {
+            window.setTimeout(onFilterChange, 0);
+        })
+        .end()
+        .find('input[type=button]:not(.clear)').click(function() {
+            window.setTimeout(onFilterChange, 0);
+        })
+        .end()
+        .find('.clear').click(function() {
+            $('#filter')
+                .find('input[type=text]').val('')
+                .end()
+                .find('input[type=button]').removeClass('active')
+                .end()
+                .find('input[type=checkbox]').prop('checked', true);
+            onFilterChange();
+        });
 });
 
 function resizeFilter()
@@ -37,14 +43,15 @@ function resizeFilter()
 
 function onFilterChange()
 {
-    var name            = $('#filter-name').val();
-    var showAvailable   = $('#filter-available').hasClass('active');
-    var showUnavailable = $('#filter-unavailable').hasClass('active');
-    var showCatabolic   = $('#filter-catabolic').hasClass('active');
-    var showAnabolic    = $('#filter-anabolic').hasClass('active');
-    var showPassive     = $('#filter-passive').is(':checked');
-    var reactant        = $('#filter-reactant').val();
-    var product         = $('#filter-product').val();
+    var filter = $('#filter');
+    var name            = filter.find('.name').val();
+    var showAvailable   = filter.find('.available').hasClass('active');
+    var showUnavailable = filter.find('.unavailable').hasClass('active');
+    var showCatabolic   = filter.find('.catabolic').hasClass('active');
+    var showAnabolic    = filter.find('.anabolic').hasClass('active');
+    var showPassive     = filter.find('.passive').is(':checked');
+    var reactant        = filter.find('.reactant').val();
+    var product         = filter.find('.product').val();
 
     name     = name     ? new RegExp(name,     'i') : name;
     reactant = reactant ? new RegExp(reactant, 'i') : reactant;
@@ -56,7 +63,7 @@ function onFilterChange()
 
     $('.pathway').each(function() {
         var organ = $(this).parents('.pathway-holder').attr('value');
-        if (name && !name.test($(this).find('.title').text())) {
+        if (name && !name.test($(this).find('.name').text())) {
             return $(this).slideUp();
         }
 
@@ -69,8 +76,8 @@ function onFilterChange()
             return $(this).slideUp();
         }
 
-        var pathwayCatabolic = $(this).attr('catabolic') !== undefined;
-        var pathwayAnabolic = $(this).attr('anabolic') !== undefined;
+        var pathwayCatabolic = $(this).children('.catabolic').length;
+        var pathwayAnabolic = $(this).children('.anabolic').length;
         if ((showCatabolic && !pathwayCatabolic) || (showAnabolic && !pathwayAnabolic)) {
             return $(this).slideUp();
         }
@@ -82,7 +89,7 @@ function onFilterChange()
                     return;
                 }
 
-                res = getResourceElement($(this).attr('res-id'), $(this).attr('organ-id'));
+                res = getResourceElement($(this).res(), $(this).organ());
                 var names = res.attr('aliases').split(';');
                 for (var i = 0; i < names.length; i++) {
                     if (reactant.test(names[i])) {
@@ -104,7 +111,7 @@ function onFilterChange()
                     return;
                 }
 
-                res = getResourceElement($(this).attr('res-id'), $(this).attr('organ-id'));
+                res = getResourceElement($(this).res(), $(this).organ());
                 var names = res.attr('aliases').split(';');
                 for (var i = 0; i < names.length; i++) {
                     if (product.test(names[i])) {

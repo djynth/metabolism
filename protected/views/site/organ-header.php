@@ -5,15 +5,17 @@
  */
 ?>
 
-<div class="accordian-header" organ="<?= $organ->id ?>">
-    <p class="accordian-title"><?= $organ->name ?></p>
+<div class="accordian-header" organ="<?= $organ->id ?>" organ-color="<?= $organ->color ?>">
+    <?= $organ->name ?>
     
-    <i class="icon-info-sign"></i>
+    <i class="icon-info-sign toggle-popup"></i>
 
     <div class="popup <?= $right ? 'right' : 'left' ?>">
         <div class="cover"></div>
-        <i class="icon-remove"></i>
-        <img class="image" src="" alt="">
-        <p class="description"><?= $organ->description ?></p>
+        <i class="icon-remove toggle-popup"></i>
+        <div class="content">
+            <img class="image" src="" alt="">
+            <p class="description"><?= $organ->description ?></p>
+        </div>
     </div>
 </div>

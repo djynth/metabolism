@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    $('#footer-minimize').click(function() {
-        $('#footer-content').slideToggle({
+    $('#minimize-footer').click(function() {
+        $(this).siblings('.content').slideToggle({
             progress: onResize
         });
     });
