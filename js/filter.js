@@ -32,7 +32,6 @@ function resizeFilter()
                     parseInt($(this).css('border-right-width'));
             });
             $(this).outerWidth(w);
-            console.log(w);
         });
 }
 

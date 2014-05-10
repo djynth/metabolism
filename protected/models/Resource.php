@@ -427,6 +427,11 @@ class Resource extends CActiveRecord
         return $this->organs[0]->isGlobal();
     }
 
+    public function getOrgan($organ)
+    {
+        return $this->isGlobal() ? Organ::getGlobal() : $organ;
+    }
+
     /**
      *  Gets the total amount of penalization per turn based on resources
      *   breaking soft limits.

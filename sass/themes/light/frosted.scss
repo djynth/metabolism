@@ -80,7 +80,7 @@ body[theme=frosted] {
         background-color: $sidebarBackground;
         border-color: $border;
 
-        .header-text {
+        .header-text, .sidebar-title {
             background-color: $background;
         }
 

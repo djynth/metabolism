@@ -4,20 +4,22 @@
  */
 ?>
 
-<div class="sidebar-title header-text">
+<div class="sidebar-title">
     <p>Metabolic Pathways</p>
 </div>
 
 <?php foreach($organs as $organ):
-    $this->renderPartial('organ-header', array('organ' => $organ, 'right' => true));
-    ?>
+    $this->renderPartial('organ-header', array(
+        'organ' => $organ,
+        'right' => true,
+    )); ?>
 
-    <div class="accordian-content pathway-holder scrollbar-content" value="<?= $organ->id ?>" color="<?= $organ->color ?>">
-        <?php
-        $pathways = $organ->pathways;
-        foreach ($pathways as $pathway) {
-            $this->renderPartial('pathway', array('pathway' => $pathway, 'organ' => $organ));
-        }
-        ?>
+    <div class="accordian-content pathways" organ="<?= $organ->id ?>">
+        <?php foreach ($organ->pathways as $pathway) {
+            $this->renderPartial('pathway', array(
+                'pathway' => $pathway,
+                'organ' => $organ,
+            ));
+        } ?>
     </div>
 <?php endforeach ?>
