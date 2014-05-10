@@ -80,11 +80,11 @@ body[theme=frosted] {
         background-color: $sidebarBackground;
         border-color: $border;
 
-        .header-text, .sidebar-title {
+        .accordian-header, .sidebar-title {
             background-color: $background;
         }
 
-        .organ-popup {
+        .popup {
             background-color: inherit;
             border-color: $border;
         }

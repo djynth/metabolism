@@ -84,7 +84,7 @@ if (!$eat) {
                     <?php endif ?>
 
                     <?php if ($products[$i]):
-                        $resource = $reactants[$i]->resource; ?>
+                        $resource = $products[$i]->resource; ?>
                         <td class="product name res-info-source" res="<?= $resource->id ?>" organ="<?= $resource->getOrgan($organ)->id ?>">
                             <?= $resource->name ?>
                         </td>
@@ -109,7 +109,7 @@ if (!$eat) {
                 </button>
             <?php endif ?>
             <button class="btn btn-mini <?= $pathway->isEat() ? 'eat-run' : 'pathway-run' ?>" times="1">Run</button>
-            <?php if (!$Pathway->limit): ?>
+            <?php if (!$pathway->limit): ?>
                 <button class="btn btn-mini plus">
                     <i class="icon-plus"></i>
                 </button>

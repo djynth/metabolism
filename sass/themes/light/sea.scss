@@ -34,11 +34,7 @@ body[theme=sea] {
         text-shadow: 1px 1px $textShadow;
     }
 
-    .result-cover {
-        background-color: $resultCover;
-    }
-
-    .input-themed {
+    input[type=text], input[type=password] {
         border-color: $inputBorder !important;
         color: $inputText;
         background: $inputBackground !important;
@@ -47,79 +43,48 @@ body[theme=sea] {
         }
     }
 
-    .input-themed-add-on {
-        .add-on {
-            border-color: $inputBorder !important;
-            background: $inputAddOnBackground !important;
-        }
-
-        input {
-            border-color: $inputBorder !important;
-            background: $inputBackground !important;
-        }
-    }
-
-    .header-text {
-        background-color: $background;
+    .add-on {
+        border-color: $inputBorder !important;
+        background: $inputAddOnBackground !important;
     }
 
     #header {
         background-color: $background;
         border-color: $border;
 
-        #game-state {
+        .header-element {
             border-color: $border;
 
-            #point-dropdown {
-                background-color: $background;
-
-                #point-dist {
-                    td {
-                        border-color: $reactionBorder;
-                        color: $text;
-                    }
-
-                    .good {
-                        background-color: $resourceGood;
-                    }
-
-                    .bad {
-                        background-color: $resourceBad;
-                    }
-                }
-            }
-        }
-
-        #undo {
-            border-color: $border;
-        }
-
-        #settings {
-            border-color: $border;
-
-            .settings-dropdown {
+            .dropdown {
                 background-color: $background;
             }
         }
 
-        #account {
-            border-color: $border;
-
-            .login-dropdown {
-                background-color: $background;
+        #limited-resources {
+            td {
+                border-color: $reactionBorder;
+                color: $text;
             }
 
-            .forgot-password, .email-verified, .edit-email {
-                border-color: $inputBorder;
-                background: $inputAddOnBackground;
+            .good {
+                background-color: $resourceGood;
+            }
+
+            .bad {
+                background-color: $resourceBad;
             }
         }
     }
 
     .sidebar {
         background-color: $sidebarBackground;
+        border-color: $border;
 
-        .organ-popup {
+        .accordian-header, .sidebar-title {
+            background-color: $background;
+        }
+
+        .popup {
             background-color: inherit;
             border-color: $border;
         }
@@ -133,60 +98,52 @@ body[theme=sea] {
         background-color: $background;
     }
 
-    #pathway-holder {
-        border-color: $border;
+    .pathway {
+        background-color: $elementBackground;
+        border-color: $elementBorder;
 
-        .pathway {
-            background-color: $elementBackground;
-            border-color: $elementBorder;
+        p {
+            color: $elementText;
+        }
 
-            p {
-                color: $elementText;
+        .reaction {
+            color: $elementText;
+
+            td {
+                border-color: $reactionBorder;
             }
 
-            .reaction {
-                color: $elementText;
+            .lacking {
+                background-color: $lacking;
+            }
 
-                td {
-                    border-color: $reactionBorder;
-                }
-
-                .lacking {
-                    background-color: $lacking;
-                }
-
-                .limiting-reagent {
-                    background-color: $limitingReagent;
-                }
+            .limiting-reagent {
+                background-color: $limitingReagent;
             }
         }
     }
 
-    #resource-holder {
-        border-color: $border;
+    .resource-data {
+        .progress {
+            background-color: $elementBackground;
+            border-color: $elementBorder;
+        }
 
-        .resource-data {
-            .progress {
-                background-color: $elementBackground;
-                border-color: $elementBorder;
-            }
+        .soft {
+            background-color: $softLimit;
+        }
 
-            .soft {
-                background-color: $softLimit;
-            }
+        .hard {
+            background-color: $hardLimit;
+        }
 
-            .hard {
-                background-color: $hardLimit;
-            }
-
-            span {
-                color: $elementText;
-            }
+        span {
+            color: $elementText;
         }
     }
 
     #footer {
-        #footer-minimize {
+        #minimize-footer {
             background-color: $sidebarBackground;
             border-color: $border;
         }

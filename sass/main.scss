@@ -48,7 +48,7 @@ p, h1, h2, h3, h4, h5, h6 {
             border-bottom: 1px solid;
         }
 
-        .organ-info {
+        .icon-info-sign {
             position: absolute;
             right: 10px;
             top: 2px;
@@ -59,7 +59,7 @@ p, h1, h2, h3, h4, h5, h6 {
             padding-left: 10px;
         }
 
-        .organ-popup {
+        .popup {
             position: absolute;
             display: none;
             min-height: $accordianHeaderHeight;
@@ -68,25 +68,25 @@ p, h1, h2, h3, h4, h5, h6 {
             border: 1px solid;
             max-width: $organPopupWidth;
 
-            .close-popup {
+            .icon-remove {
                 position: absolute;
                 top: 5px;
                 cursor: pointer;
             }
 
-            .organ-cover {
+            .cover {
                 position: absolute;
                 background-color: inherit;
                 width: 1px;
                 height: $accordianHeaderHeight;
             }
 
-            .organ-image {
+            .image {
                 height: 150px;
                 margin: 25px 0;
             }
 
-            .organ-description {
+            .description {
                 padding: 5px 10px;
             }
         }
@@ -110,11 +110,11 @@ p, h1, h2, h3, h4, h5, h6 {
         .right {
             left: 100%;
 
-            .organ-cover {
+            .cover {
                 left: -1px;
             }
 
-            .close-popup {
+            .icon-remove {
                 right: 5px;
             }
         }
@@ -122,11 +122,11 @@ p, h1, h2, h3, h4, h5, h6 {
         .left {
             right: 100%;
 
-            .organ-cover {
+            .cover {
                 right: -1px;
             }
 
-            .close-popup {
+            .icon-remove {
                 left: 5px;
             }
         }
