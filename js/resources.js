@@ -122,3 +122,27 @@ function refreshResourceLimits()
         });
     });
 }
+
+jQuery.fn.extend({
+    addResourceInfoSources: function() {
+        this.find('.res-info-source').click(function() {
+            var visual = $('#resource-visual');
+            var res = $(this).res();
+            if (visual.res() !== res) {
+                if (visual.res()) {
+                    visual.fadeOut(function() {
+                        updateResourceVisual(res, visual, function() {
+                            visual.finish().fadeIn();
+                        });
+                    });
+                } else {
+                    updateResourceVisual(res, visual, function() {
+                        visual.finish().fadeIn();
+                    });
+                }
+            }
+        });
+
+        return this;
+    }
+});

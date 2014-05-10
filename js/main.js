@@ -1,11 +1,6 @@
-/* FROM PHP:
-var baseUrl
-*/
-
 $(document).ready(function() {
     refreshResources();
     $(document).addResourceInfoSources();
-    updateLimitedResources($('#point-dropdown').children());
     onResize();
     selectOrgan($('.accordian-header').first().organ());
 

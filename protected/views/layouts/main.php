@@ -21,13 +21,10 @@ foreach (glob("js/*.js") as $js): ?>
 <?php endforeach; ?>
 
 <?php
-$baseUrl = Yii::app()->request->baseUrl;
 $user = User::getCurrentUser();
 ?>
 
 <script>
-var baseUrl = <?= json_encode($baseUrl); ?>;
-
 $(document).ready(function() {
     setPoints(<?= Game::getScore() ?>);
     setTurn(<?= Game::getTurn() ?>);
