@@ -18,6 +18,7 @@ $inputAddOnBackground: rgb( 225, 225, 225);
 $inputBorder:          rgb( 135, 135, 135);
 $inputText:            rgb( 85,  85,  85);
 $inputPlaceholder:     rgb( 125, 125, 125);
+$inputError:           rgb( 255, 0,   0);
 $trackerHeaderBorder:  rgb( 140, 140, 140);
 $trackerOrganBorder:   rgb( 160, 160, 160);
 $resultCover:          rgb( 255, 255, 255);
@@ -44,6 +45,12 @@ body[theme=frosted] {
         background: $inputBackground !important;
         @include input-placeholder {
             color: $inputPlaceholder;
+        }
+
+        &.error {
+            border-color: $inputError;
+            color: $inputError;
+            //box-shadow-color: $inputError;
         }
     }
 

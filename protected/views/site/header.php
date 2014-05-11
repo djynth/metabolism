@@ -60,12 +60,18 @@
                 <div id="login">
                     <p>Login</p>
                     <input class="username" type="text" placeholder="Username">
-                    <input class="password" type="password" placeholder="Password">
-                    <div id="forgot-password">
-                        <i class="icon-question-sign"></i>
-                        <input class="forgot-password btn btn-mini" type="button" value="Forgot Password">
+                    
+                    <div>
+                        <input class="password" type="password" placeholder="Password">
+                        <div class="forgot-password add-on">
+                            <i class="icon-question-sign"></i>
+                            <input class="btn btn-mini" type="button" value="Forgot Password">
+                        </div>
                     </div>
-                    <input class="submit btn btn-small" type="submit" value="Submit">
+
+                    <div class="submit-holder">
+                        <input class="submit btn btn-small" type="submit" value="Submit">
+                    </div>
                 </div>
                 <div id="create-account">
                     <p>Create Account</p>
@@ -73,7 +79,9 @@
                     <input class="email" type="text" placeholder="Email Address">
                     <input class="new-password" type="password" placeholder="Password">
                     <input class="confirm" type="password" placeholder="Confirm Password">
-                    <input class="submit btn btn-small" type="submit" value="Submit">
+                    <div class="submit-holder">
+                        <input class="submit btn btn-small" type="submit" value="Submit">
+                    </div>
                 </div>
 
                 <p class="footer">Logging in or creating an account will restart your game.</p>
@@ -83,10 +91,12 @@
                     <input class="current-password" type="password" placeholder="Current Password">
                     <input class="new-password" type="password" placeholder="New Password">
                     <input class="confirm" type="password" placeholder="Confirm New Password">
-                    <input class="submit btn btn-small" type="submit" value="Submit">
+                    <div class="submit-holder">
+                        <input class="submit btn btn-small" type="submit" value="Submit">
+                    </div>
                 </div>
 
-                <div id="email">
+                <div id="email-info">
                     <p>Email</p>
                     <input class="email" type="text" placeholder="Email" value="<?= $user->email ?>" disabled>
 
@@ -108,11 +118,13 @@
                     </div>
                 </div>
 
-                <div class="edit-email-authentication">
+                <div id="edit-email-authentication">
                     <p>Edit Email</p>
                     <input class="password" type="password" placeholder="Current Password">
                     <input class="email" type="text" placeholder="New Email">
-                    <input class="submit btn btn-small" type="submit" value="Submit">
+                    <div class="submit-holder">
+                        <input class="submit btn btn-small" type="submit" value="Submit">
+                    </div>
                 </div>
 
                 <button id="logout" class="btn btn-small">Logout</button>
