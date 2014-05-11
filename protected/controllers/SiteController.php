@@ -95,13 +95,7 @@ class SiteController extends Controller
             'points' => Game::getScore(),
             'turn' => Game::getTurn(),
             'resources' => Resource::getAmounts(),
-            'game_over' => Game::isGameCompleted(),
             'action_counts' => Organ::getActionCounts(),
-            'limited_resources' => $this->renderPartial(
-                'limited-resources',
-                array('organs' => Organ::model()->findAll()),
-                true
-            ),
         ));
     }
 

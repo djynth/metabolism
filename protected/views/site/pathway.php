@@ -25,7 +25,7 @@ if (!$eat) {
 
 ?>
 
-<div class="pathway" pathway="<?= $pathway->id ?>">
+<div class="pathway" pathway="<?= $pathway->id ?>" organ="<?= $organ->id ?>" <?= $pathway->limit ? 'limit' : '' ?>>
     <div class="inner"></div>
     <p class="name"><?= $pathway->name ?></p>
 
@@ -108,7 +108,7 @@ if (!$eat) {
                     <i class="icon-minus"></i>
                 </button>
             <?php endif ?>
-            <button class="btn btn-mini <?= $pathway->isEat() ? 'eat-run' : 'pathway-run' ?>" times="1">Run</button>
+            <button class="btn btn-mini run" times="1">Run</button>
             <?php if (!$pathway->limit): ?>
                 <button class="btn btn-mini plus">
                     <i class="icon-plus"></i>

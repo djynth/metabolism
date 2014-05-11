@@ -2,35 +2,42 @@ var SOURCE_HIGHLIGHT_COLOR      = '82,117,255';
 var DESTINATION_HIGHLIGHT_COLOR = '233,25,44';
 
 $(document).ready(function() {
-    $('.pathway-run').click(function() {
-        var id = parseInt($(this).parents('.pathway').attr('value'));
-        var organ = parseInt($(this).parents('.pathway-holder').attr('value'));
-        var times = parseInt($(this).attr('value'));
-        var reverse = $(this).parents('.pathway').find('.pathway-reverse').hasClass('active');
-        runPathway(id, times, organ, reverse);
-    });
+    $('.pathways').find('.pathway')
+        .find('.run').each(function() {
+            var run = $(this);
+            run.click(function() {
+                var pathway = run.parents('.pathway');
+                $.ajax({
+                    url: 'index.php/site/pathway',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        pathway_id: pathway.pathway(),
+                        times: parseInt(run.attr('times')),
+                        organ_id: pathway.organ(),
+                        reverse: pathway.find('.reverse').hasClass('active')
+                    },
+                    success: onPathwaySuccess
+                });
+            });
 
-    $('.pathway-plus').click(function() {
-        var run = $(this).siblings('.pathway-run');
-        run.attr('value', parseInt(run.attr('value')) + 1);
-        updatePathwayButtons($(this).parents('.pathway'));
-    });
+            run.siblings('.top').click(function() {
+                updateRun(run, run.attr('max-runs'));
+            });
+            run.siblings('.plus').click(function() {
+                updateRun(run, parseInt(run.attr('times')) + 1);
+            });
+            run.siblings('.minus').click(function() {
+                updateRun(run, parseInt(run.attr('times')) - 1);
+            });
+            run.siblings('.bottom').click(function() {
+                updateRun(run, 1);
+            });
+        })
+        .end()
+        .find('.reverse').click(function() {
 
-    $('.pathway-minus').click(function() {
-        var run = $(this).siblings('.pathway-run');
-        run.attr('value', parseInt(run.attr('value')) - 1);
-        updatePathwayButtons($(this).parents('.pathway'));
-    });
-
-    $('.pathway-top').click(function() {
-        $(this).siblings('.pathway-run').attr('value', -1);
-        updatePathwayButtons($(this).parents('.pathway'));
-    });
-
-    $('.pathway-bottom').click(function() {
-        $(this).siblings('.pathway-run').attr('value', 1);
-        updatePathwayButtons($(this).parents('.pathway'));
-    });
+        });
 
     $('.eat-run').click(function() {
         var foodHolder = $('.food-holder');
@@ -121,127 +128,72 @@ function getPathway(pathway, organ)
 
 function refreshPathways()
 {
-    // TODO
-//     $('.pathway').each(function() {
-//         var limitingReagents = new Array();
-//         var limitingReagentMult;
-//         var lackingReactants = new Array();
-//         var organ = $(this).parents('.pathway-holder').attr('value');
+    $('.pathways').find('.pathway').each(function() {
+        var limiting = $();
+        var maxRuns = Number.POSITIVE_INFINITY;
 
-//         $(this).find('.reactant.name').each(function() {
-//             var resId = $(this).attr('res-id');
-//             var actualOrgan = $(this).hasClass('global') ? '1' : organ;
-//             var requiredAmount = Math.abs(parseInt($(this).siblings('.reactant.value').text()));
-//             var actualAmount = getResourceValue(resId, actualOrgan);
+        $(this).find('.reactant.name').each(function() {
+            $(this).removeClass('lacking limiting');
+            var required = Math.abs(parseInt($(this).siblings('.reactant.amount').text()));
+            var amount = parseInt(getRes($(this).res(), $(this).organ()).attr('amount'));
 
-//             var mult = Math.floor(actualAmount/requiredAmount);
-//             if (limitingReagents.length == 0 || mult < limitingReagentMult) {
-//                 limitingReagents = new Array();
-//                 limitingReagentMult = mult;
-//             }
-//             if (mult <= limitingReagentMult) {
-//                 limitingReagents.push(resId);
-//             }
+            var runs = Math.floor(amount/required);
+            if (runs < maxRuns) {
+                maxRuns = runs;
+                limiting = $();
+            }
+            if (runs <= maxRuns) {
+                limiting = limiting.add($(this));
+            }
+        });
 
-//             if (requiredAmount > actualAmount) {
-//                 $(this).addClass('lacking');
-//                 lackingReactants.push(getResourceName(resId, actualOrgan));
-//             } else {
-//                 $(this).removeClass('lacking');
-//             }
+        var canRun = maxRuns > 0;
+        limiting.addClass(canRun ? 'limiting' : 'lacking');
 
-//             $(this).removeClass('limiting-reagent');
-//         });
+        $(this).find('.run-holder').toggle(canRun);
+        $(this).children('.lacking').toggle(!canRun);
 
-//         for (var i = 0; i < limitingReagents.length; i++) {
-//             $(this).find('.reactant[res-id="' + limitingReagents[i] + '"]:not(.lacking)').addClass('limiting-reagent');
-//         }
+        if (canRun) {
+            $(this).attr('available', 'true');
+        } else {
+            $(this).removeAttr('available');
+            $(this).find('p.lacking').show();
 
-//         if (lackingReactants.length > 0) {
-//             $(this).find('.run-holder').hide();
-//             $(this).find('p.lacking').show();
+            var lackingList = 'Not enough ';
+            limiting.each(function() {
+                lackingList += $(this).text() + ', ';
+            })
+            $(this).find('p.lacking').text(lackingList.substring(0, lackingList.length - 2));
+        }
 
-//             var lackingList = 'Not enough ';
-//             for (var i = 0; i < lackingReactants.length; i++) {
-//                 lackingList += lackingReactants[i];
-//                 if (i == lackingReactants.length - 1) {
-//                     lackingList += '.';
-//                 } else {
-//                     lackingList += ', ';
-//                 }
-//             }
-//             $(this).find('p.lacking').text(lackingList);
+        if (typeof $(this).attr('limit') === 'undefined') {
+            var run = $(this).find('.run');
+            var plus   = run.siblings('.plus');
+            var minus  = run.siblings('.minus');
+            var top    = run.siblings('.top');
+            var bottom = run.siblings('.bottom');
+            updateRun(run, maxRuns, maxRuns);
 
-//             $(this).css('box-shadow', '0 0');
-//             $(this).attr('available', 'false')
-//         } else {
-//             $(this).find('.run-holder').show();
-//             $(this).find('p.lacking').hide();
+            plus.addClass('disabled').attr('disabled', 'disabled');
+            top.addClass('disabled').attr('disabled', 'disabled');
 
-//             $(this).css('box-shadow', '0 0 7px #' + $(this).attr('color'));
-//             $(this).attr('available', 'true');
-//         }
-
-//         updatePathwayButtons($(this), true);
-//     });
-
-//     updateEatButtons();
-}
-
-function updatePathwayButtons(pathway, reset)
-{
-    if (pathway.attr('limit')) {
-        return;
-    }
-
-    var organ = pathway.parents('.pathway-holder').attr('value');
-    var runButton = pathway.find('.pathway-run');
-    var times = parseInt(runButton.attr('value'));
-    var maxRuns = getMaxRuns(pathway.attr('value'), organ);
-    if (reset || typeof times === 'undefined' || isNaN(times) || 
-        times < 1 || times > maxRuns) {
-        times = maxRuns;
-    }
-    
-    var plus   = runButton.siblings('.pathway-plus');
-    var minus  = runButton.siblings('.pathway-minus');
-    var top    = runButton.siblings('.pathway-top');
-    var bottom = runButton.siblings('.pathway-bottom');
-
-    runButton.attr('value', times);
-    runButton.html('Run x' + times);
-
-    if (times >= maxRuns) {
-        plus.addClass('disabled').attr('disabled', 'disabled');
-        top.addClass('disabled').attr('disabled', 'disabled');
-    } else {
-        plus.removeClass('disabled').removeAttr('disabled');
-        top.removeClass('disabled').removeAttr('disabled');
-    }
-
-    if (times <= 1) {
-        minus.addClass('disabled').attr('disabled', 'disabled');
-        bottom.addClass('disabled').attr('disabled', 'disabled');
-    } else {
-        minus.removeClass('disabled').removeAttr('disabled');
-        bottom.removeClass('disabled').removeAttr('disabled');
-    }
-}
-
-function getMaxRuns(pathway, organ)
-{
-    var maxRuns = -1;
-    $('.pathway[value="' + pathway + '"]').find('.reactant.name').each(function() {
-        var actualOrgan = $(this).hasClass('global') ? '1' : organ;
-        var resId = parseInt($(this).attr('res-id'));
-        var value = Math.abs(parseInt($(this).siblings('.reactant.value').text()));
-        var amountAvailable = getResourceValue(resId, actualOrgan);
-        var limit = Math.floor(amountAvailable/value);
-        if (maxRuns == -1 || limit < maxRuns) {
-            maxRuns = limit;
+            if (maxRuns <= 1) {
+                minus.addClass('disabled').attr('disabled', 'disabled');
+                bottom.addClass('disabled').attr('disabled', 'disabled');
+            } else {
+                minus.removeClass('disabled').removeAttr('disabled');
+                bottom.removeClass('disabled').removeAttr('disabled');
+            }
         }
     });
-    return maxRuns;
+}
+
+function updateRun(run, times, maxRuns)
+{
+    run.text('Run x' + times).attr('times', times);
+    if (typeof maxRuns !== 'undefined') {
+        run.attr('max-runs', maxRuns);
+    }
 }
 
 function updateEatButtons()
@@ -332,45 +284,12 @@ function onPathwaySuccess(data)
         setTurn(data.turn);
         setPoints(data.points);
         refreshResources(data.resources);
-        updateLimitedResources($($.parseHTML(data.limited_resources)));
+        refreshLimitedResources();
+        refreshPathways();
         onFilterChange();
 
         for (organ in data.action_counts) {
             $('.tracker.actions').find('.organ[organ=' + organ + ']').find('.amount').text(data.action_counts[organ]);
         }
     }
-}
-
-function highlightSource(pathwayId, highlight)
-{
-    var pathway = $('.pathway[value="' + pathwayId + '"]');
-    pathway.addClass('source');
-    if (highlight) {
-        pathway.find('.pathway-inner').stop().animate({
-            boxShadow: '0 0 9px rgb(' + SOURCE_HIGHLIGHT_COLOR + ') inset',
-            borderColor: 'rgb(' + SOURCE_HIGHLIGHT_COLOR + ')'
-        });
-    } else {
-        pathway.find('.pathway-inner').stop().animate({
-            boxShadow: '0 0 9px rgba(' + SOURCE_HIGHLIGHT_COLOR + ',0) inset',
-            borderColor: 'rgba(' + SOURCE_HIGHLIGHT_COLOR + ', 0)'
-        });
-    }
-}
-
-function highlightDestination(pathwayId, highlight)
-{
-    var pathway = $('.pathway[value="' + pathwayId + '"]');
-    pathway.addClass('destination');
-    if (highlight) {
-        pathway.find('.pathway-inner').stop().animate({
-            boxShadow: '0 0 9px rgb(' + DESTINATION_HIGHLIGHT_COLOR + ') inset',
-            borderColor: 'rgb(' + DESTINATION_HIGHLIGHT_COLOR + ')'
-        });
-    } else {
-        pathway.find('.pathway-inner').stop().animate({
-            boxShadow: '0 0 9px rgba(' + DESTINATION_HIGHLIGHT_COLOR + ',0) inset',
-            borderColor: 'rgba(' + DESTINATION_HIGHLIGHT_COLOR + ', 0)'
-        });
-    }   
 }

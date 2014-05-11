@@ -1,6 +1,7 @@
 $(document).ready(function() {
     $('#resource-visual').find('.icon-remove').click(function() {
         updateResourceVisual().fadeOut();
+        $('.pathways').find('.pathway').removeClass('source destination');
     });
 });
 
@@ -42,13 +43,42 @@ function updateResourceVisual(res, visual, onComplete)
 function getLimitText(prefix, limit, rel_limit)
 {
     if (limit && rel_limit) {
-        return prefix + limit + ', ' + getResourceName(rel_limit);
+        return prefix + limit + ', ' + getRes(rel_limit).attr('name');
     }
     if (limit) {
         return prefix + limit;
     }
     if (rel_limit) {
-        return prefix + getResourceName(rel_limit);
+        return prefix + getRes(rel_limit).attr('name');
     }
     return '';
 }
+
+jQuery.fn.extend({
+    addResourceInfoSources: function() {
+        this.find('.res-info-source').click(function() {
+            var visual = $('#resource-visual');
+            var res = $(this).res();
+            if (visual.res() !== res) {
+                if (visual.res()) {
+                    visual.fadeOut(function() {
+                        updateResourceVisual(res, visual, function() {
+                            visual.finish().fadeIn();
+                        });
+                    });
+                } else {
+                    updateResourceVisual(res, visual, function() {
+                        visual.finish().fadeIn();
+                    });
+                }
+                
+                $('.pathways').find('.pathway').each(function() {
+                    $(this).toggleClass('destination', $(this).find('.reactant[res="' + res + '"]').length > 0);
+                    $(this).toggleClass('source', $(this).find('.product[res="' + res + '"]').length > 0);
+                });
+            }
+        });
+
+        return this;
+    }
+});
