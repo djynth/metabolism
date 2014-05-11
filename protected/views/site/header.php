@@ -98,28 +98,29 @@
 
                 <div id="email-info">
                     <p>Email</p>
-                    <input class="email" type="text" placeholder="Email" value="<?= $user->email ?>" disabled>
+                    <div>
+                        <input class="email" type="text" placeholder="Email" value="<?= $user->email ?>" disabled>
 
-                    <?php if ($user->email_verified): ?>
-                        <div class="verified" verified>
-                            <i class="icon-ok"></i>
-                            <p>Email Verified</p>
-                        </div>
-                    <?php else: ?>
-                        <div class="verified">
-                            <i class="icon-remove"></i>
-                            <button class="resend-email btn btn-mini">Resend Verification Email</button>
-                        </div>
-                    <?php endif ?>
+                        <?php if ($user->email_verified): ?>
+                            <div class="verified add-on" verified>
+                                <i class="icon-ok"></i>
+                                <p>Email Verified</p>
+                            </div>
+                        <?php else: ?>
+                            <div class="verified add-on">
+                                <i class="icon-remove"></i>
+                                <button class="resend-email btn btn-mini">Resend Verification Email</button>
+                            </div>
+                        <?php endif ?>
 
-                    <div class="edit-email">
-                        <i class="icon-edit"> </i>
-                        <button id="edit-email" class="btn btn-mini">Edit</button>
+                        <div class="edit-email add-on">
+                            <i class="icon-edit"> </i>
+                            <button id="edit-email" class="btn btn-mini">Edit</button>
+                        </div>
                     </div>
                 </div>
 
                 <div id="edit-email-authentication">
-                    <p>Edit Email</p>
                     <input class="password" type="password" placeholder="Current Password">
                     <input class="email" type="text" placeholder="New Email">
                     <div class="submit-holder">

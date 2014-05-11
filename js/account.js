@@ -138,12 +138,12 @@ $(document).ready(function() {
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    current_password: changePassword.find('.current_password').val(),
-                    new_password: new_password
+                    current_password: changePassword.find('.current-password').val(),
+                    new_password: password
                 },
                 success: function(data) {
                     if (data.success) {
-                        $('.change-password').find('input[type=password]').val('');
+                        $('#change-password').find('input[type=password]').val('');
                     }
                 }
             });
@@ -153,12 +153,20 @@ $(document).ready(function() {
     $('.forgot-password, .verified, .edit-email').hover(function() {
         var elem = $(this);
         $(this).data('timeout', setTimeout(function() {
-            elem.animate({ width: elem.css('max-width') });
+            elem.animate({ width: elem.css('max-width') }, {
+                progress: function() {
+                    $(this).nextAll('.add-on').css('right', parseInt($(this).css('right')) + $(this).width());
+                }
+            });
             elem.find('*').fadeIn();
         }, 250));
     }, function() {
         clearTimeout($(this).data('timeout'));
-        $(this).animate({ width: $(this).css('min-width') });
+        $(this).animate({ width: $(this).css('min-width') }, {
+                progress: function() {
+                    $(this).nextAll('.add-on').css('right', parseInt($(this).css('right')) + $(this).width());
+                }
+            });
         $(this).find('*:not(i)').fadeOut();
     });
 
@@ -187,7 +195,7 @@ $(document).ready(function() {
     });
 
     $('#edit-email').click(function() {
-        $('.edit-email-authentication').slideToggle();
+        $('#edit-email-authentication').slideToggle();
     });
 
     $('#edit-email-authentication').find('.submit').click(function() {
@@ -202,7 +210,8 @@ $(document).ready(function() {
             },
             success: function(data) {
                 if (data.success) {
-                    $('.email-info').find('.email').val(editEmailAuthentication.find('.email').val());
+                    $('#email-info').find('.email').val(editEmailAuthentication.find('.email').val());
+                    editEmailAuthentication.slideUp();
                 }
             }
         });
