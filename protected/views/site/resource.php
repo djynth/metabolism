@@ -10,11 +10,11 @@ $amount = $resource->getAmount($organ->id);
     <div class="progress">
         <div class="bar"></div>
         <span class="name"><?= $resource->name ?></span>
-        <span class="amount"><?= $amount ?></span>
+        <span class="amount"></span>
 
-        <div class="limit soft min" <?= $resource->limit->soft_min === null ? '' : 'min="' . $resource->limit->soft_min . '"' ?> <?= $resource->limit->rel_soft_min === null ? '' : 'rel-min="' . $resource->limit->rel_soft_min . '"' ?>></div>
-        <div class="limit hard min" <?= $resource->limit->hard_min === null ? '' : 'min="' . $resource->limit->hard_min . '"' ?> <?= $resource->limit->rel_hard_min === null ? '' : 'rel-min="' . $resource->limit->rel_hard_min . '"' ?>></div>
-        <div class="limit soft max" <?= $resource->limit->soft_max === null ? '' : 'max="' . $resource->limit->soft_max . '"' ?> <?= $resource->limit->rel_soft_max === null ? '' : 'rel-max="' . $resource->limit->rel_soft_max . '"' ?>></div>
-        <div class="limit hard max" <?= $resource->limit->hard_max === null ? '' : 'max="' . $resource->limit->hard_max . '"' ?> <?= $resource->limit->rel_hard_max === null ? '' : 'rel-max="' . $resource->limit->rel_hard_max . '"' ?>></div>
+        <div class="limit soft min" <?= $resource->limit->soft_min === null ? '' : 'limit="' . $resource->limit->soft_min . '"' ?> <?= $resource->limit->rel_soft_min === null ? '' : 'rel-limit="' . $resource->limit->rel_soft_min . '"' ?>></div>
+        <div class="limit hard min" <?= $resource->limit->hard_min === null ? '' : 'limit="' . $resource->limit->hard_min . '"' ?> <?= $resource->limit->rel_hard_min === null ? '' : 'rel-limit="' . $resource->limit->rel_hard_min . '"' ?>></div>
+        <div class="limit soft max" <?= $resource->limit->soft_max === null ? '' : 'limit="' . $resource->limit->soft_max . '"' ?> <?= $resource->limit->rel_soft_max === null ? '' : 'rel-limit="' . $resource->limit->rel_soft_max . '"' ?>></div>
+        <div class="limit hard max" <?= $resource->limit->hard_max === null ? '' : 'limit="' . $resource->limit->hard_max . '"' ?> <?= $resource->limit->rel_hard_max === null ? '' : 'rel-limit="' . $resource->limit->rel_hard_max . '"' ?>></div>
     </div>
 </div>

@@ -17,18 +17,27 @@ function getRes(resource, organ)
 function refreshResources(resources)
 {
     if (typeof resources === 'undefined') {
-        $('.resource-holder').find('.resource-data').each(function() {
-            onResourceChange(
-                $(this).attr('res-id'),
-                $(this).parents('.resource-holder').attr('value'),
-                parseInt($(this).find('.resource-value').html())
-            );
+        $('.resources').find('.res').each(function() {
+            updateRes($(this), parseInt($(this).attr('amount')));
         });
     } else {
         for (var resource in resources) {
             for (var organ in resources[resource]) {
-                var value = resources[resource][organ];
-                onResourceChange(resource, organ, value);
+                var amount = resources[resource][organ];
+                var res = getRes(resource, organ);
+                var change = amount - parseInt(res.attr('amount'));
+                if (change === 0) {
+                    continue;
+                }
+
+                var increase = change > 0 ? 'increase' : 'decrease';
+                res.addClass(increase).delay(1000).queue(function() {
+                    $(this).removeClass(increase).dequeue();
+                });
+                res.res(amount);
+
+                updateRes(res, amount);
+                updateTracker(resource, organ);
             }
         }
     }
@@ -36,78 +45,33 @@ function refreshResources(resources)
     refreshLimitedResources();
 }
 
-function onResourceChange(resource, organ, value)
+function updateRes(res, amount)
 {
-    var change = value - getResourceValue(resource, organ);
-    var elem = getResourceElement(resource, organ);
-    var color = change > 0 ? COLOR_INCREASE : COLOR_DECREASE;
-    if (change == 0) {
-        if (elem.attr('init')) {
-            color = false;
-            elem.removeAttr('init');
-        } else {
-            return;
-        }
-    }
-    
-    if (color) {
-        elem.animate({ boxShadow : "0 0 5px 5px rgb("+color+")" }, function() {
-            elem.animate({ boxShadow : "0 0 5px 5px rgba("+color+", 0)" });
-        });
-    }
-
-    elem.find('.resource-value').text(value);
-    elem.find('.bar').css('width', Math.min(100, 100*(value/parseInt(elem.attr('max-shown')))) + '%');
-
-    var tracker = $('.tracker[res-id="' + resource + '"]');
-    if (tracker.length) {
-        updateTracker(resource, organ, value, change, tracker);
-    }
+    res.find('.amount').html(amount);
+    res.find('.bar').css('width', Math.min(100, 100*(amount/parseInt(res.attr('max-shown')))) + '%');
 }
 
 function refreshResourceLimits()
 {
-    $('.resource-data').each(function() {
+    $('.resources').find('.res').each(function() {
         var maxShown = $(this).attr('max-shown');
-        var organ = $(this).parents('.resource-holder').attr('value');
-        $(this).find('.res-limit').each(function() {
-            if (typeof $(this).attr('value') === "undefined" && typeof $(this).attr('rel-value') === "undefined") {
+        var organ = $(this).organ();
+        $(this).find('.limit').each(function() {
+            var val1 = null, val2 = null;
+            if (typeof $(this).attr('rel-limit') !== "undefined") {
+                val1 = getRes($(this).attr('rel-limit'), organ).attr('amount');
+            }
+            if (typeof $(this).attr('limit') !== "undefined") {
+                val2 = $(this).attr('limit');
+            }
+            if (val1 === null && val2 === null) {
                 return;
-            }
-            var val1 = null;
-            var val2 = null;
-            var value = null;
-            if (typeof $(this).attr('value') === "undefined") {
-                val1 = getResourceValue(parseInt($(this).attr('rel-value')), organ);
-            }
-            if (typeof $(this).attr('rel-value') === "undefined") {
-                val2 = parseInt($(this).attr('value'));
             }
 
             if ($(this).hasClass('max')) {
-                if (val1 === null) {
-                    value = val2;
-                } else if (val2 === null) {
-                    value = val1;
-                } else {
-                    value = Math.min(val1, val2);
-                }
-
-                if (value <= maxShown) {
-                    $(this).width(100*Math.abs(maxShown - value)/maxShown + "%");
-                }
+                $(this).width(min(100, 100*(maxShown - min(val1, val2))/maxShown) + "%");
             } else {
-                if (val1 === null) {
-                    value = val2;
-                } else if (val2 === null) {
-                    value = val1;
-                } else {
-                    value = Math.max(val1, val2);
-                }
-
-                if (value >= 0) {
-                    $(this).width(100*value/maxShown + "%");
-                }
+                $(this).width(max(0, 100*max(val1, val2)/maxShown) + "%");
             }
         });
     });

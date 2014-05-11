@@ -8,6 +8,8 @@ $sidebarBackground:    rgb( 92,  92,  92);
 $elementBackground:    rgb( 76,  76,  76);
 $elementBorder:        rgb( 48,  48,  48);
 $elementText:          rgb( 2,   2,   2);
+$colorIncrease:        rgb( 72,  144, 229);
+$colorDecrease:        rgb( 232, 12,  15);
 $reactionBorder:       rgb( 22,  22,  22);
 $inputBackground:      rgb( 41,  41,  41);
 $inputAddOnBackground: rgb( 50,  50,  50);
@@ -104,6 +106,7 @@ body[theme=night] {
 
         p {
             color: $elementText;
+            text-shadow: none;
         }
 
         .reaction {
@@ -123,7 +126,17 @@ body[theme=night] {
         }
     }
 
-    .resource-data {
+    .res {
+        @include single-transition(all, 1000ms, false, false);
+
+        &.increase {
+            box-shadow: 0 0 5px 5px $colorIncrease;
+        }
+
+        &.decrease {
+            box-shadow: 0 0 5px 5px $colorDecrease;
+        }
+
         .progress {
             background-color: $elementBackground;
             border-color: $elementBorder;

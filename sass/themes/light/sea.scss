@@ -8,6 +8,8 @@ $sidebarBackground:    rgb( 49,  203, 255);
 $elementBackground:    rgb( 153, 216, 237);
 $elementBorder:        rgb( 60,  60,  60);
 $elementText:          rgb( 55,  55,  55);
+$colorIncrease:        rgb( 72,  144, 229);
+$colorDecrease:        rgb( 232, 12,  15);
 $reactionBorder:       rgb( 130, 130, 130);
 $inputBackground:      rgb( 200, 220, 220);
 $inputAddOnBackground: rgb( 195, 225, 225);
@@ -104,6 +106,7 @@ body[theme=sea] {
 
         p {
             color: $elementText;
+            text-shadow: none;
         }
 
         .reaction {
@@ -123,7 +126,17 @@ body[theme=sea] {
         }
     }
 
-    .resource-data {
+    .res {
+        @include single-transition(all, 1000ms, false, false);
+
+        &.increase {
+            box-shadow: 0 0 5px 5px $colorIncrease;
+        }
+
+        &.decrease {
+            box-shadow: 0 0 5px 5px $colorDecrease;
+        }
+
         .progress {
             background-color: $elementBackground;
             border-color: $elementBorder;

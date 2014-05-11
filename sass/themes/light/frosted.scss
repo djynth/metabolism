@@ -8,6 +8,8 @@ $sidebarBackground:    rgb( 225, 225, 225);
 $elementBackground:    rgb( 200, 200, 200);
 $elementBorder:        rgb( 170, 170, 170);
 $elementText:          rgb( 55,  55,  55);
+$colorIncrease:        rgb( 72,  144, 229);
+$colorDecrease:        rgb( 232, 12,  15);
 $reactionBorder:       rgb( 130, 130, 130);
 $inputBackground:      rgb( 220, 220, 220);
 $inputAddOnBackground: rgb( 225, 225, 225);
@@ -125,6 +127,16 @@ body[theme=frosted] {
     }
 
     .res {
+        @include single-transition(all, 1000ms, false, false);
+
+        &.increase {
+            box-shadow: 0 0 5px 5px $colorIncrease;
+        }
+
+        &.decrease {
+            box-shadow: 0 0 5px 5px $colorDecrease;
+        }
+
         .progress {
             background-color: $elementBackground;
             border-color: $elementBorder;
