@@ -105,7 +105,7 @@ body[theme=frosted] {
     .pathway {
         background-color: $elementBackground;
         border-color: $elementBorder;
-        @include single-transition(all, 1000ms, false, false);
+        @include transition(box-shadow 1s, border-color 1s);
 
         &.source {
             box-shadow: 0 0 9px $source inset;
@@ -140,7 +140,7 @@ body[theme=frosted] {
     }
 
     .res {
-        @include single-transition(all, 1000ms, false, false);
+        @include transition(box-shadow 1s);
 
         &.increase {
             box-shadow: 0 0 5px 5px $increase;

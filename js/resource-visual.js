@@ -10,7 +10,7 @@ function updateResourceVisual(res, visual, onComplete)
     visual = typeof visual === 'undefined' ? $('#resource-visual') : visual;
 
     if (typeof res === 'undefined') {
-        return visual.removeAttr(res);
+        return visual.removeAttr('res');
     } else {
         $.ajax({
             url: 'index.php/site/resourceInfo',

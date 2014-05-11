@@ -8,8 +8,10 @@ $sidebarBackground:    rgb( 92,  92,  92);
 $elementBackground:    rgb( 76,  76,  76);
 $elementBorder:        rgb( 48,  48,  48);
 $elementText:          rgb( 2,   2,   2);
-$colorIncrease:        rgb( 72,  144, 229);
-$colorDecrease:        rgb( 232, 12,  15);
+$increase:             rgb( 72,  144, 229);
+$decrease:             rgb( 232, 12,  15);
+$source:               rgb( 82,  117, 255);
+$destination:          rgb( 233, 25,  44);
 $reactionBorder:       rgb( 22,  22,  22);
 $inputBackground:      rgb( 41,  41,  41);
 $inputAddOnBackground: rgb( 50,  50,  50);
@@ -103,6 +105,17 @@ body[theme=night] {
     .pathway {
         background-color: $elementBackground;
         border-color: $elementBorder;
+        @include transition(box-shadow 1s, border-color 1s);
+
+        &.source {
+            box-shadow: 0 0 9px $source inset;
+            border-color: $source;
+        }
+
+        &.destination {
+            box-shadow: 0 0 9px $destination inset;
+            border-color: $destination;
+        }
 
         p {
             color: $elementText;
@@ -127,14 +140,14 @@ body[theme=night] {
     }
 
     .res {
-        @include single-transition(all, 1000ms, false, false);
+        @include transition(box-shadow 1s);
 
         &.increase {
-            box-shadow: 0 0 5px 5px $colorIncrease;
+            box-shadow: 0 0 5px 5px $increase;
         }
 
         &.decrease {
-            box-shadow: 0 0 5px 5px $colorDecrease;
+            box-shadow: 0 0 5px 5px $decrease;
         }
 
         .progress {

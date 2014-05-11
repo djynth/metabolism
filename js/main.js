@@ -1,6 +1,8 @@
 $(document).ready(function() {
     refreshResources();
     refreshPathways();
+    refreshLimitedResources();
+    refreshResourceLimits();
     $(document).addResourceInfoSources();
     onResize();
     selectOrgan($('.accordian-header').first().organ());
@@ -68,21 +70,21 @@ jQuery.fn.extend({
         if (typeof res !== 'undefined') {
             return $(this).attr('res', res);
         }
-        return $(this).attr('res');
+        return parseInt($(this).attr('res'));
     },
 
     organ: function(organ) {
         if (typeof organ !== 'undefined') {
             return $(this).attr('organ', organ);
         }
-        return $(this).attr('organ');
+        return parseInt($(this).attr('organ'));
     },
 
     pathway: function(pathway) {
         if (typeof pathway !== 'undefined') {
             return $(this).attr('pathway', pathway);
         }
-        return $(this).attr('pathway');
+        return parseInt($(this).attr('pathway'));
     },
 
     applyColorTheme: function(theme, type) {

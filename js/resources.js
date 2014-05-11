@@ -32,21 +32,21 @@ function refreshResources(resources)
 
                 var increase = change > 0 ? 'increase' : 'decrease';
                 res.addClass(increase).delay(1000).queue(function() {
-                    $(this).removeClass(increase).dequeue();
+                    $(this).removeClass('increase decrease').dequeue();
+                    // TODO: if 'increase decrease' is replaced with the variable
+                    //       increase, this doesn't work
                 });
-                res.res(amount);
 
                 updateRes(res, amount);
                 //updateTracker(resource, organ); TODO
             }
         }
     }
-    refreshResourceLimits();
-    refreshLimitedResources();
 }
 
 function updateRes(res, amount)
 {
+    res.attr('amount', amount);
     res.find('.amount').html(amount);
     res.find('.bar').css('width', Math.min(100, 100*(amount/parseInt(res.attr('max-shown')))) + '%');
 }

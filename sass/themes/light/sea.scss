@@ -8,8 +8,10 @@ $sidebarBackground:    rgb( 49,  203, 255);
 $elementBackground:    rgb( 153, 216, 237);
 $elementBorder:        rgb( 60,  60,  60);
 $elementText:          rgb( 55,  55,  55);
-$colorIncrease:        rgb( 72,  144, 229);
-$colorDecrease:        rgb( 232, 12,  15);
+$increase:             rgb( 72,  144, 229);
+$decrease:             rgb( 232, 12,  15);
+$source:               rgb( 82,  117, 255);
+$destination:          rgb( 233, 25,  44);
 $reactionBorder:       rgb( 130, 130, 130);
 $inputBackground:      rgb( 200, 220, 220);
 $inputAddOnBackground: rgb( 195, 225, 225);
@@ -103,6 +105,17 @@ body[theme=sea] {
     .pathway {
         background-color: $elementBackground;
         border-color: $elementBorder;
+        @include transition(box-shadow 1s, border-color 1s);
+
+        &.source {
+            box-shadow: 0 0 9px $source inset;
+            border-color: $source;
+        }
+
+        &.destination {
+            box-shadow: 0 0 9px $destination inset;
+            border-color: $destination;
+        }
 
         p {
             color: $elementText;
@@ -127,14 +140,14 @@ body[theme=sea] {
     }
 
     .res {
-        @include single-transition(all, 1000ms, false, false);
+        @include transition(box-shadow 1s);
 
         &.increase {
-            box-shadow: 0 0 5px 5px $colorIncrease;
+            box-shadow: 0 0 5px 5px $increase;
         }
 
         &.decrease {
-            box-shadow: 0 0 5px 5px $colorDecrease;
+            box-shadow: 0 0 5px 5px $decrease;
         }
 
         .progress {

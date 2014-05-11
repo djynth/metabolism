@@ -25,7 +25,7 @@ if (!$eat) {
 
 ?>
 
-<div class="pathway" pathway="<?= $pathway->id ?>" organ="<?= $organ->id ?>" <?= $pathway->limit ? 'limit' : '' ?>>
+<div class="pathway <?= $eat ? 'eat' : '' ?>" pathway="<?= $pathway->id ?>" organ="<?= $organ->id ?>" <?= $pathway->limit ? 'limit' : '' ?>>
     <div class="inner"></div>
     <p class="name"><?= $pathway->name ?></p>
 
@@ -44,14 +44,14 @@ if (!$eat) {
     <?php if ($eat): ?>
         <div class="food" eat-max="<?= Pathway::EAT_MAX ?>">
             <?php foreach ($pathway->resources as $resource): ?>
-                <div class="btn-group" res="<?= $resource->resource->id ?>" amount="<?= $resource->value ?>">
+                <div class="btn-group">
                     <button class="btn btn-mini bottom">
                         <i class="icon-chevron-down"></i>
                     </button>
                     <button class="btn btn-mini minus">
                         <i class="icon-minus"></i>
                     </button>
-                    <button class="btn btn-mini eat"></button>
+                    <button class="btn btn-mini eat" res="<?= $resource->resource->id ?>" amount="<?= $resource->value ?>"></button>
                     <button class="btn btn-mini plus">
                         <i class="icon-plus"></i>
                     </button>

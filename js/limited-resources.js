@@ -35,7 +35,7 @@ function refreshLimitedResources()
         .find('.process').each(function() {
             var pathway = getPathway($(this).pathway());
             var points = 0;
-            if (pathway.hasClass('active')) {
+            if (pathway.attr('available')) {
                 $(this).addClass('good').removeClass('bad');
                 var points = $(this).attr('times') * pathway.find('.points').text();
             } else {
