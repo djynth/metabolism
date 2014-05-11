@@ -64,6 +64,7 @@
                         <div class="organ" organ="<?= $organ->id ?>">
                             <p class="amount"></p>
                             <p class="name"><?= $organ->name ?></p>
+                            <div class="icons"></div>
                         </div>
                     <?php endforeach ?>
                 </td>

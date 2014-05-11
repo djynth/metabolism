@@ -193,11 +193,8 @@ body[theme=night] {
         }
 
         #resource-visual {
-            .resource-visual-content {
-                p {
-                    color: $elementText;
-                    text-shadow: none;
-                }
+            .header {
+                border-color: $border;
             }
         }
     }

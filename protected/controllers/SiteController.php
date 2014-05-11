@@ -155,4 +155,13 @@ class SiteController extends Controller
             ));
         }
     }
+
+    public function actionTrackerIcon($resource_id, $level, $theme_type)
+    {
+        $resource = Resource::model()->findByPk((int)$resource_id);
+        $files = glob("img/primary-icons/" . $theme_type . "/" . strtolower($resource->name) . "/level" . $level . "/*.png");
+        echo CJavaScript::jsonEncode(array(
+            'src' => $files[rand(0, count($files)-1)]
+        ));
+    }
 }

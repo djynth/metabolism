@@ -1,9 +1,3 @@
-var COLOR_INCREASE = "72,144,229";
-var COLOR_DECREASE = "232,12,15";
-var TRACKER_ICONS = 5;
-var TRACKER_WAIT = 300;         // the amount of time between tracker animations, in ms
-var TRACKER_ANIMATION = 600;    // the duration of a tracker animtion, in ms
-
 function getRes(resource, organ)
 {
     if (typeof organ === 'undefined') {
@@ -34,7 +28,6 @@ function refreshResources(resources)
             }
 
             updateRes(res, amount);
-            updateTracker(resource, organ);
         }
     }
 }

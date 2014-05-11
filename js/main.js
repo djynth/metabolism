@@ -32,6 +32,7 @@ function onTurn(data)
     refreshLimitedResources();
     refreshResourceLimits();
     refreshPathways();
+    refreshTrackers();
     onFilterChange();
 
     for (organ in data.action_counts) {
@@ -110,6 +111,10 @@ jQuery.fn.extend({
         this.find('.accordian-header').each(function() {
             $(this).find('.image').attr('src', '/img/organs/' + type + '/' + $(this).organ() + '.png');
         });
+
+        this.find('#trackers').find('.icon').each(function() {
+            updateIcon($(this));
+        })
 
         return this;
     }

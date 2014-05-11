@@ -1,11 +1,15 @@
 $(document).ready(function() {
     $('#filter')
         .find('input[type=text]').change(function() {
-            window.setTimeout(onFilterChange, 0);
+            setTimeout(onFilterChange, 0);
         })
         .end()
         .find('input[type=button]:not(.clear)').click(function() {
-            window.setTimeout(onFilterChange, 0);
+            setTimeout(onFilterChange, 0);
+        })
+        .end()
+        .find('input[type=checkbox]').click(function() {
+            setTimeout(onFilterChange, 0);
         })
         .end()
         .find('.clear').click(function() {

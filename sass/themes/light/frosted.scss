@@ -193,11 +193,8 @@ body[theme=frosted] {
         }
 
         #resource-visual {
-            .resource-visual-content {
-                p {
-                    color: $elementText;
-                    text-shadow: none;
-                }
+            .header {
+                border-color: $border;
             }
         }
     }
