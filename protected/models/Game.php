@@ -222,7 +222,8 @@ class Game extends CActiveRecord
      * @param points number the number of points to add
      * @return true if the game's points were updated, false otherwise
      */
-    public static function addPoints($points) {
+    public static function addPoints($points)
+    {
         if (($game = self::getGameInstance()) !== null) {
             $game->score += $points;
             return true;
@@ -235,7 +236,8 @@ class Game extends CActiveRecord
      *
      * @return the current game's score, or 0 if no game has yet been created
      */
-    public static function getScore() {
+    public static function getScore()
+    {
         if (($game = self::getGameInstance()) !== null) {
             return $game->score;
         }
@@ -247,7 +249,8 @@ class Game extends CActiveRecord
      *
      * @return the current game's turn, or 0 if no game has yet been created
      */
-    public static function getTurn() {
+    public static function getTurn()
+    {
         if (($game = self::getGameInstance()) !== null) {
             return $game->turn;
         }
@@ -260,11 +263,22 @@ class Game extends CActiveRecord
      * @return the completion state of the current game, true if the game is
      *         ongoing; defaults to false if no game has yet been created
      */
-    public static function isGameCompleted() {
+    public static function isGameCompleted()
+    {
         if (($game = self::getGameInstance()) !== null) {
             return $game->completed;
         }
         return false;
+    }
+
+    public static function getState()
+    {
+        return array(
+            'points' => Game::getScore(),
+            'turn' => Game::getTurn(),
+            'resources' => Resource::getAmounts(),
+            'action_counts' => Organ::getActionCounts(),
+        );
     }
 
     /**

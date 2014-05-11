@@ -1,8 +1,4 @@
 $(document).ready(function() {
-    refreshResources();
-    refreshPathways();
-    refreshLimitedResources();
-    refreshResourceLimits();
     $(document).addResourceInfoSources();
     onResize();
     selectOrgan($('.accordian-header').first().organ());
@@ -26,6 +22,21 @@ function onResize()
     $('#copyright').css('bottom', bottom);
 
     resizeFilter();
+}
+
+function onTurn(data)
+{
+    setTurn(data.turn);
+    setPoints(data.points);
+    refreshResources(data.resources);
+    refreshLimitedResources();
+    refreshResourceLimits();
+    refreshPathways();
+    onFilterChange();
+
+    for (organ in data.action_counts) {
+        $('.tracker.actions').find('.organ[organ=' + organ + ']').find('.amount').text(data.action_counts[organ]);
+    }
 }
 
 function setTurn(turn)
@@ -95,12 +106,6 @@ jQuery.fn.extend({
             this.find('i:not(.always-black)').addClass('icon-white');
             this.find('.btn').addClass('btn-inverse');
         }
-
-        // this is only necessary on loading the page
-        // TODO: set the selected theme to active in HTML or something
-        this.find('.theme').each(function() {
-            $(this).toggleClass('active', $(this).attr('theme') === theme);
-        });
 
         this.find('.accordian-header').each(function() {
             $(this).find('.image').attr('src', '/img/organs/' + type + '/' + $(this).organ() + '.png');

@@ -6,7 +6,7 @@
 $amount = $resource->getAmount($organ->id);
 ?>
 
-<div class="res res-info-source <?= $resource->primary ? 'primary' : '' ?>" res="<?= $resource->id ?>" organ="<?= $organ->id ?>" amount="<?= $amount ?>" max-shown="<?= $resource->max_shown_value ?>" name="<?= $resource->name ?>" names="<?= implode($resource->getNames(), ';') ?>">
+<div class="res res-info-source <?= $resource->primary ? 'primary' : '' ?>" res="<?= $resource->id ?>" organ="<?= $organ->id ?>" max-shown="<?= $resource->max_shown_value ?>" name="<?= $resource->name ?>" names="<?= implode($resource->getNames(), ';') ?>">
     <div class="progress">
         <div class="bar"></div>
         <span class="name"><?= $resource->name ?></span>

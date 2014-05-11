@@ -9,19 +9,20 @@ function refreshLimitedResources()
     var total = 0;
     $('#limited-resources')
         .find('.limited-resource').each(function() {
-            var res = getRes($(this).res());
+            var organ = $(this).organ();
+            var res = getRes($(this).res(), organ);
             var amount = res.attr('amount');
             var points = 0;
             var pen = $(this).attr('pen');
             $(this).find('.max').each(function() {
-                var max = min($(this).attr('max'), getRes($(this).attr('rel-max')).attr('amount'));
+                var max = min($(this).attr('max'), getRes($(this).attr('rel-max'), organ).attr('amount'));
                 $(this).html(max);
                 if (amount > max) {
                     points -= pen * (amount - max);
                 }
             });
             $(this).find('.min').each(function() {
-                var min = max($(this).attr('min'), getRes($(this).attr('rel-min')).attr('amount'));
+                var min = max($(this).attr('min'), getRes($(this).attr('rel-min'), organ).attr('amount'));
                 $(this).html(min);
                 if (amount < min) {
                     points -= pen * (min - amount);

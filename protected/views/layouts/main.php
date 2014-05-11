@@ -22,16 +22,14 @@ foreach (glob("js/*.js") as $js): ?>
 
 <?php
 $user = User::getCurrentUser();
+$theme      = json_encode($user !== null ? $user->theme      : User::DEFAULT_THEME);
+$theme_type = json_encode($user !== null ? $user->theme_type : User::DEFAULT_THEME_TYPE);
 ?>
 
 <script>
 $(document).ready(function() {
-    setPoints(<?= Game::getScore() ?>);
-    setTurn(<?= Game::getTurn() ?>);
-    setColorTheme(
-        <?= json_encode($user !== null ? $user->theme      : User::DEFAULT_THEME) ?>,
-        <?= json_encode($user !== null ? $user->theme_type : User::DEFAULT_THEME_TYPE) ?>
-    );
+    onTurn(<?= json_encode(Game::getState()) ?>);
+    $('.theme[type=<?= $theme_type ?>][theme=<?= $theme ?>]').click();
 });
 </script>
 

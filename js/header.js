@@ -11,8 +11,7 @@ $(document).ready(function() {
             type: 'POST',
             dataType: 'json',
             data: { },
-            success: onPathwaySuccess,
-            error: notifyInternalError
+            success: onTurn
         });
     });
 });

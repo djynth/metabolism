@@ -87,16 +87,9 @@ class SiteController extends Controller
         $pathway = Pathway::model()->findByPk((int)$pathway_id);
         $organ = Organ::model()->findByPk((int)$organ_id);
         $reverse = ($reverse === "true");
+        $pathway->run((int)$times, $organ, $reverse, false);
 
-        $success = $pathway->run((int)$times, $organ, $reverse, false);
-
-        echo CJavaScript::jsonEncode(array(
-            'success' => $success,
-            'points' => Game::getScore(),
-            'turn' => Game::getTurn(),
-            'resources' => Resource::getAmounts(),
-            'action_counts' => Organ::getActionCounts(),
-        ));
+        echo CJavaScript::jsonEncode(Game::getState());
     }
 
     /**
@@ -119,16 +112,9 @@ class SiteController extends Controller
                 $parsed_nutrients[$id] = (int)$amount;
             }
         }
+        Pathway::eat($parsed_nutrients);
 
-        $success = Pathway::eat($parsed_nutrients);
-
-        echo CJavaScript::jsonEncode(array(
-            'success' => $success,
-            'points' => Game::getScore(),
-            'turn' => Game::getTurn(),
-            'resources' => Resource::getAmounts(),
-            'action_counts' => Organ::getActionCounts(),
-        ));
+        echo CJavaScript::jsonEncode(Game::getState());
     }
 
     /**
@@ -138,15 +124,9 @@ class SiteController extends Controller
      */
     public function actionUndo()
     {
-        $success = Game::undo();
+        Game::undo();
 
-        echo CJavaScript::jsonEncode(array(
-            'success' => $success,
-            'points' => Game::getScore(),
-            'turn' => Game::getTurn(),
-            'resources' => Resource::getAmounts(),
-            'action_counts' => Organ::getActionCounts(),
-        ));
+        echo CJavaScript::jsonEncode(Game::getState());
     }
 
     /**

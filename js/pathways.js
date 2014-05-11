@@ -22,7 +22,7 @@ $(document).ready(function() {
                             organ_id: pathway.organ(),
                             reverse: pathway.find('.reverse').hasClass('active')
                         },
-                        success: onPathwaySuccess
+                        success: onTurn
                     });
                 });
 
@@ -97,7 +97,7 @@ $(document).ready(function() {
                     data: {
                         nutrients: nutrients
                     },
-                    success: onPathwaySuccess
+                    success: onTurn
                 });
             });
 });
@@ -206,22 +206,5 @@ function updateEat(food, eat, amount)
         eat.siblings('.minus, .bottom').addClass('disabled').attr('disabled', 'disabled');
     } else {
         eat.siblings('.minus, .bottom').removeClass('disabled').removeAttr('disabled');
-    }
-}
-
-function onPathwaySuccess(data)
-{
-    if (data.success) {
-        setTurn(data.turn);
-        setPoints(data.points);
-        refreshResources(data.resources);
-        refreshLimitedResources();
-        refreshResourceLimits();
-        refreshPathways();
-        onFilterChange();
-
-        for (organ in data.action_counts) {
-            $('.tracker.actions').find('.organ[organ=' + organ + ']').find('.amount').text(data.action_counts[organ]);
-        }
     }
 }

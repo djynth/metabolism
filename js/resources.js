@@ -16,15 +16,12 @@ function getRes(resource, organ)
 
 function refreshResources(resources)
 {
-    if (typeof resources === 'undefined') {
-        $('.resources').find('.res').each(function() {
-            updateRes($(this), parseInt($(this).attr('amount')));
-        });
-    } else {
-        for (var resource in resources) {
-            for (var organ in resources[resource]) {
-                var amount = resources[resource][organ];
-                var res = getRes(resource, organ);
+    for (var resource in resources) {
+        for (var organ in resources[resource]) {
+            var amount = resources[resource][organ];
+            var res = getRes(resource, organ);
+
+            if (typeof res.attr('amount') !== 'undefined') {
                 var change = amount - parseInt(res.attr('amount'));
                 if (change === 0) {
                     continue;
@@ -33,13 +30,11 @@ function refreshResources(resources)
                 var increase = change > 0 ? 'increase' : 'decrease';
                 res.addClass(increase).delay(1000).queue(function() {
                     $(this).removeClass('increase decrease').dequeue();
-                    // TODO: if 'increase decrease' is replaced with the variable
-                    //       increase, this doesn't work
                 });
-
-                updateRes(res, amount);
-                //updateTracker(resource, organ); TODO
             }
+
+            updateRes(res, amount);
+            //updateTracker(resource, organ); TODO
         }
     }
 }
