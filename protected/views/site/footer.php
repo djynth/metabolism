@@ -62,9 +62,8 @@
 
                     <?php foreach ($non_global as $organ): ?>
                         <div class="organ" organ="<?= $organ->id ?>">
-                            <p class="amount"><?= $resource->getAmount($organ->id) ?></p>
+                            <p class="amount"></p>
                             <p class="name"><?= $organ->name ?></p>
-                            <div class="icons"></div>
                         </div>
                     <?php endforeach ?>
                 </td>

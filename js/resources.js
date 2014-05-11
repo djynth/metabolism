@@ -34,7 +34,7 @@ function refreshResources(resources)
             }
 
             updateRes(res, amount);
-            //updateTracker(resource, organ); TODO
+            updateTracker(resource, organ);
         }
     }
 }
