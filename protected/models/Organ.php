@@ -192,9 +192,9 @@ class Organ extends CActiveRecord
     {
         $resources = array();
         foreach ($this->resources as $resource) {
-            if ($resource->limit->soft_max || $resource->limit->soft_min || 
-                $resource->limit->rel_soft_max || 
-                $resource->limit->rel_soft_min) {
+            if ($resource->soft_max !== null || $resource->soft_min !== null || 
+                $resource->rel_soft_max !== null ||
+                $resource->rel_soft_min !== null) {
                 array_push($resources, $resource);
             }
         }

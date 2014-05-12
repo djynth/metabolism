@@ -136,14 +136,14 @@ class SiteController extends Controller
                 'aliases' => $resource->getAliases(),
                 'formula' => $resource->formula,
                 'description' => $resource->description,
-                'soft_min' => $resource->limit->soft_min,
-                'soft_max' => $resource->limit->soft_max,
-                'hard_min' => $resource->limit->hard_min,
-                'hard_max' => $resource->limit->hard_max,
-                'rel_soft_min' => $resource->limit->rel_soft_min,
-                'rel_soft_max' => $resource->limit->rel_soft_max,
-                'rel_hard_min' => $resource->limit->rel_hard_min,
-                'rel_hard_max' => $resource->limit->rel_hard_max,
+                'soft_min' => $resource->soft_min,
+                'soft_max' => $resource->soft_max,
+                'hard_min' => $resource->hard_min,
+                'hard_max' => $resource->hard_max,
+                'rel_soft_min' => $resource->rel_soft_min,
+                'rel_soft_max' => $resource->rel_soft_max,
+                'rel_hard_min' => $resource->rel_hard_min,
+                'rel_hard_max' => $resource->rel_hard_max,
             ));
         }
     }

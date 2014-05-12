@@ -34,11 +34,11 @@
 
         <?php
         foreach ($organ->getSoftLimitResources() as $resource) {
-            $pen = $resource->limit->penalization;
-            $min = $resource->limit->soft_min;
-            $max = $resource->limit->soft_max;
-            $rel_min = $resource->limit->rel_soft_min;
-            $rel_max = $resource->limit->rel_soft_max; ?>
+            $pen = $resource->penalization;
+            $min = $resource->soft_min;
+            $max = $resource->soft_max;
+            $rel_min = $resource->rel_soft_min;
+            $rel_max = $resource->rel_soft_max; ?>
             <tr class="limited-resource res-info-source" res="<?= $resource->id ?>" organ="<?= $organ->id ?>" pen="<?= $pen ?>">
                 <td><?= $resource->name ?></td>
 

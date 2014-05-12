@@ -1,25 +1,43 @@
 <?php
 
 /**
- * @db id              smallint(6) a unique resource ID
- * @db name            varchar(20) the most common user-readable name for this
- *                                 resource
- * @db starting_value  int(11)     the amount to which this resource is
- *                                 initialized
- * @db max_shown_value int(11)     the point at which the indicator for this
- *                                 resource is maxed out
- * @db color           char(6)     the color of this resource
- * @db primary         tinyint(1)  whether this resource is a primary resource
- *                                 monitored at all times in the footer
- * @db formula         varchar(20) the chemical formula of this resource
- * @db description     text        a full-text and user-readable description of
- *                                 the function and structure of this resource
- * @db group           smallint(6) the non-unique group of this resource - 
- *                                 resources in the same group are placed
- *                                 together in the pathway reaction table
+ * @db id              smallint(6)   a unique resource ID
+ * @db name            varchar(20)   the most common user-readable name for this
+ *                                   resource
+ * @db starting_value  int(11)       the amount to which this resource is
+ *                                   initialized
+ * @db max_shown_value int(11)       the point at which the indicator for this
+ *                                   resource is maxed out
+ * @db color           char(6)       the color of this resource
+ * @db primary         tinyint(1)    whether this resource is a primary resource
+ *                                   monitored at all times in the footer
+ * @db formula         varchar(20)   the chemical formula of this resource
+ * @db description     text          a full-text and user-readable description
+ *                                   of the properties of this resource
+ * @db group           smallint(6)   the non-unique group of this resource - 
+ *                                   resources in the same group are placed
+ *                                   together in the pathway reaction table
+ * @db soft_max        int(11)       the point above which points are deducted
+ * @db hard_max        int(11)       the point which the resource may not exceed
+ * @db soft_min        int(11)       the point below which points are deducted
+ * @db hard_min        int(11)       the point which the resource may not drop
+ *                                   below
+ * @db rel_soft_max    smallint(6)   the resource for which points are deducted
+ *                                   if exceeded by this resource
+ * @db rel_hard_max    smallint(6)   the resource for which this resource may
+ *                                   not exceed
+ * @db rel_soft_min    smallint(6)   the resource for which points are deducted
+ *                                   if this resource drops below
+ * @db rel_hard_min    smallint(6)   the resource for which this resource may
+ *                                   not drop below
+ * @db penalization    decimal(10,4) the points deducted per turn and per amount
+ *                                   by which the soft limit was broken
  * @fk organs          array(Organ)
- * @fk limit           ResourceLimit
  * @fk aliases         array(ResourceAlias)
+ * @fk res_soft_max    Resource
+ * @fk res_hard_max    Resource
+ * @fk res_soft_min    Resource
+ * @fk res_hard_min    Resource
  */
 class Resource extends CActiveRecord
 {
@@ -50,15 +68,30 @@ class Resource extends CActiveRecord
                 'Organ',
                 'resource_organs(resource_id, organ_id)',
             ),
-            'limit' => array(
-                self::HAS_ONE,
-                'ResourceLimit',
-                array('resource_id' => 'id'),
-            ),
             'aliases' => array(
                 self::HAS_MANY,
                 'ResourceAlias',
                 array('resource_id' => 'id'),
+            ),
+            'res_soft_max' => array(
+                self::BELONGS_TO,
+                'Resource',
+                'rel_soft_max',
+            ),
+            'res_hard_max' => array(
+                self::BELONGS_TO,
+                'Resource',
+                'rel_hard_max',
+            ),
+            'res_soft_min' => array(
+                self::BELONGS_TO,
+                'Resource',
+                'rel_soft_min',
+            ),
+            'res_hard_min' => array(
+                self::BELONGS_TO,
+                'Resource',
+                'rel_hard_min',
             ),
         );
     }
@@ -268,8 +301,19 @@ class Resource extends CActiveRecord
     {
         foreach ($this->organs as $organ) {
             if ($organ_id === $organ->id) {
-                if ($this->limit !== null) {
-                    return $this->limit->isValidAmount($amount, $organ);    
+                if ($this->hard_max !== null && $amount > $this->hard_max) {
+                    return false;
+                }
+                if ($this->hard_min !== null && $amount < $this->hard_min) {
+                    return false;
+                }
+                if ($this->res_hard_max !== null && 
+                    $amount > $this->res_hard_max->getAmount($organ_id)) {
+                    return false;
+                }
+                if ($this->res_hard_min !== null && 
+                    $amount < $this->res_hard_min->getAmount($organ_id)) {
+                    return false;
                 }
                 return true;
             }
@@ -291,10 +335,7 @@ class Resource extends CActiveRecord
     {
         foreach ($this->organs as $organ) {
             if ($organ_id === $organ->id) {
-                if ($this->limit !== null) {
-                    return $this->limit->getPenalization($amount, $organ);    
-                }
-                return false;
+                return $this->getPenalization($amount, $organ);    
             }
         }
         return false;
@@ -455,7 +496,7 @@ class Resource extends CActiveRecord
 
         foreach (self::model()->findAll() as $resource) {
             foreach ($resource->organs as $organ) {
-                $pen += $resource->limit->getPenalization(
+                $pen += $resource->getPenalization(
                     $resource->getAmount($organ->id),
                     $organ
                 );
@@ -463,5 +504,82 @@ class Resource extends CActiveRecord
         }
 
         return $pen;
+    }
+    
+    /**
+     * Determines the amount of penalization per turn that should be deducted
+     *  from the player's score for having the associated resource at the given
+     *  amount in the given Organ.
+     *
+     * @param amount int   the amount taken on by the associated resource
+     * @param organ  Organ the Organ in which the resource has taken on the
+     *                     given amount
+     * @return the number of points to be deducted from the player's score per
+     *         turn
+     */
+    public function getPenalization($amount, $organ)
+    {
+        $pen = 0;
+        $min = $this->getSoftMin($organ->id);
+        $max = $this->getSoftMax($organ->id);
+        if ($min !== null) {
+            $pen += max(0, $this->penalization * ($min - $amount));
+        }
+        if ($max !== null) {
+            $pen += max(0, $this->penalization * ($amount - $max));
+        }
+        return $pen;
+    }
+
+    /**
+     * Gets the soft minimum of this ResourceLimit in the organ with the given
+     *  ID.
+     * If the limit has neither a soft minimum or relative soft minimum, null is
+     *  returned, otherwise the larger of these two soft minimums is returned.
+     *
+     * @param organ_id number the ID of the Organ in which to get the soft min
+     * @return the current soft minimum of this limit in the given organ
+     */
+    public function getSoftMin($organ_id)
+    {
+        if ($this->soft_min === null && $this->rel_soft_min === null) {
+            return null;
+        }
+
+        if ($this->soft_min === null) {
+            return $this->res_soft_min->getAmount($organ_id);
+        }
+
+        if ($this->rel_soft_min === null) {
+            return $this->soft_min;
+        }
+
+        return max($this->res_soft_min->getAmount($organ_id), $this->soft_min);
+    }
+
+    /**
+     * Gets the soft maximum of this ResourceLimit in the organ with the given
+     *  ID.
+     * If the limit has neither a soft maximum or relative soft maximum, null is
+     *  returned, otherwise the smaller of these two soft maximums is returned.
+     *
+     * @param organ_id number the ID of the Organ in which to get the soft max
+     * @return the current soft maximum of this limit in the given organ
+     */
+    public function getSoftMax($organ_id)
+    {
+        if ($this->soft_max === null && $this->rel_soft_max === null) {
+            return null;
+        }
+
+        if ($this->soft_max === null) {
+            return $this->res_soft_max->getAmount($organ_id);
+        }
+
+        if ($this->rel_soft_max === null) {
+            return $this->soft_max;
+        }
+
+        return min($this->res_soft_max->getAmount($organ_id), $this->soft_max);
     }
 }

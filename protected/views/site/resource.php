@@ -12,9 +12,9 @@ $amount = $resource->getAmount($organ->id);
         <span class="name"><?= $resource->name ?></span>
         <span class="amount"></span>
 
-        <div class="limit soft min" <?= $resource->limit->soft_min === null ? '' : 'limit="' . $resource->limit->soft_min . '"' ?> <?= $resource->limit->rel_soft_min === null ? '' : 'rel-limit="' . $resource->limit->rel_soft_min . '"' ?>></div>
-        <div class="limit hard min" <?= $resource->limit->hard_min === null ? '' : 'limit="' . $resource->limit->hard_min . '"' ?> <?= $resource->limit->rel_hard_min === null ? '' : 'rel-limit="' . $resource->limit->rel_hard_min . '"' ?>></div>
-        <div class="limit soft max" <?= $resource->limit->soft_max === null ? '' : 'limit="' . $resource->limit->soft_max . '"' ?> <?= $resource->limit->rel_soft_max === null ? '' : 'rel-limit="' . $resource->limit->rel_soft_max . '"' ?>></div>
-        <div class="limit hard max" <?= $resource->limit->hard_max === null ? '' : 'limit="' . $resource->limit->hard_max . '"' ?> <?= $resource->limit->rel_hard_max === null ? '' : 'rel-limit="' . $resource->limit->rel_hard_max . '"' ?>></div>
+        <div class="limit soft min" <?= $resource->soft_min === null ? '' : 'limit="' . $resource->soft_min . '"' ?> <?= $resource->rel_soft_min === null ? '' : 'rel-limit="' . $resource->rel_soft_min . '"' ?>></div>
+        <div class="limit hard min" <?= $resource->hard_min === null ? '' : 'limit="' . $resource->hard_min . '"' ?> <?= $resource->rel_hard_min === null ? '' : 'rel-limit="' . $resource->rel_hard_min . '"' ?>></div>
+        <div class="limit soft max" <?= $resource->soft_max === null ? '' : 'limit="' . $resource->soft_max . '"' ?> <?= $resource->rel_soft_max === null ? '' : 'rel-limit="' . $resource->rel_soft_max . '"' ?>></div>
+        <div class="limit hard max" <?= $resource->hard_max === null ? '' : 'limit="' . $resource->hard_max . '"' ?> <?= $resource->rel_hard_max === null ? '' : 'rel-limit="' . $resource->rel_hard_max . '"' ?>></div>
     </div>
 </div>
