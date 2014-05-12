@@ -1,120 +1,77 @@
-var ACCOUNT_TOOLTIP_OFFSET = -10;       // move the tooltips associated with each text input by a certain px amount
+var LOGIN;
+var CREATE_ACCOUNT;
+var CHANGE_PASSWORD;
+var EDIT_EMAIL_AUTHENTICATION;
 
 $(document).ready(function() {
+    LOGIN = $('#login');
+    CREATE_ACCOUNT = $('#create-account');
+    CHANGE_PASSWORD = $('change-password');
+    EDIT_EMAIL_AUTHENTICATION = $('edit-email-authentication');
+
     $('input[type=text], input[type=password]').keypress(function(event) {
         if (event.which == 13) {    // enter
-            $(this).siblings('input[type=submit]').click();
+            $(this).parents('form').find('input[type=submit]').click();
         }
     });
 
     $('.username').change(function() {
-        if ($(this).val()) {
-            $.ajax({
-                url: 'index.php/user/validateUsername',
-                type: 'POST',
-                dataType: 'json',
-                context: $(this),
-                data: {
-                    username: $(this).val()
-                },
-                success: function(data) {
-                    $(this).toggleClass('error', !data.valid);
-                }
-            });
-        } else {
-            $(this).removeClass('error');
-        }
+        validate($(this), 'username');
     });
 
     $('.email').change(function() {
-        if ($(this).val()) {
-            $.ajax({
-                url: 'index.php/user/validateEmail',
-                type: 'POST',
-                dataType: 'json',
-                context: $(this),
-                data: {
-                    email: $(this).val()
-                },
-                success: function(data) {
-                    $(this).toggleClass('error', !data.valid);
-                }
-            });
-        } else {
-            $(this).removeClass('error');
-        }
+        validate($(this), 'email');
     });
 
     $('.new-password').change(function() {
-        var confirm = $($(this).attr('confirm'));
-        confirm.toggleClass('error', !match($(this), confirm));
-
-        if ($(this).val()) {
-            $.ajax({
-                url: 'index.php/user/validatePassword',
-                type: 'POST',
-                dataType: 'json',
-                context: $(this),
-                data: {
-                    password: $(this).val()
-                },
-                success: function(data) {
-                    $(this).toggleClass('error', !data.valid);
-                }
-            });    
-        } else {
-            $(this).removeClass('error');
-        }
+        validate($(this), 'password');
     }).each(function() {
         var password = $(this);
         var confirm = $(this).siblings('.confirm');
-        confirm.change(function() {
-            confirm.parent().toggleClass('error', !match(password, confirm));
+        confirm.add(password).change(function() {
+            confirm.toggleClass('error', !match(password, confirm));
         });
     });
 
-    $('#login').find('.submit').click(function() {
-        var login = $('#login');
+    $('.forgot-password, .verified, .edit-email').hover(
+        function() {
+            var elem = $(this);
+            $(this).data('timeout', setTimeout(function() {
+                elem.animate({ width: elem.css('max-width') }, {
+                    progress: function() {
+                        $(this).nextAll('.add-on').css('right', parseInt($(this).css('right')) + $(this).width());
+                    }
+                });
+                elem.find('*').fadeIn();
+            }, 250));
+        },
+        function() {
+            clearTimeout($(this).data('timeout'));
+            $(this).animate({ width: $(this).css('min-width') }, {
+                    progress: function() {
+                        $(this).nextAll('.add-on').css('right', parseInt($(this).css('right')) + $(this).width());
+                    }
+                });
+            $(this).find('*:not(i)').fadeOut();
+        }
+    );
+
+    $('.forgot-password').find('input[type=button]').click(function() {
         $.ajax({
-            url: 'index.php/user/login',
+            url: 'index.php/user/forgotPassword',
             type: 'POST',
             dataType: 'json',
             data: {
-                username: login.find('.username').val(),
-                password: login.find('.password').val()
-            },
-            success: function(data) {
-                if (data.success) {
-                    location.reload();
-                }
+                username: LOGIN.find('.username').val()
             }
         });
     });
 
-    $('#create-account').find('.submit').click(function() {
-        var createAccount = $('#create-account');
-        var password = createAccount.find('.new-password').val();
-        var confirm = createAccount.find('.confirm').val();
-        if (password === confirm) {
-            var theme = getColorTheme();
-            $.ajax({
-                url: 'index.php/user/createAccount',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    username:   createAccount.find('.username').val(),
-                    password:   password,
-                    email:      createAccount.find('.email').val(),
-                    theme:      theme.theme,
-                    theme_type: theme.type
-                },
-                success: function(data) {
-                    if (data.success) {
-                        location.reload();
-                    }
-                }
-            });
-        }
+    $('.resend-email').click(function() {
+        $.ajax({
+            url: 'index.php/user/resendEmailVerification',
+            type: 'POST'
+        });
     });
 
     $('#logout').click(function() {
@@ -128,93 +85,87 @@ $(document).ready(function() {
         });
     });
 
-    $('#change-password').find('.submit').click(function() {
-        var changePassword = $('#change-password');
-        var password = changePassword.find('.new-password').val();
-        var confirm = changePassword.find('.confirm').val();
-        if (password === confirm) {
+    $('#edit-email').click(function() {
+        EDIT_EMAIL_AUTHENTICATION.slideToggle();
+    });
+
+    LOGIN.find('.submit').click(function() {
+        $.ajax({
+            url: 'index.php/user/login',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                username: LOGIN.find('.username').val(),
+                password: LOGIN.find('.password').val()
+            },
+            success: function(data) {
+                if (data.success) {
+                    location.reload();
+                }
+            }
+        });
+    });
+
+    CREATE_ACCOUNT.find('.submit').click(function() {
+        if (!hasError(CREATE_ACCOUNT)) {
+            var theme = getColorTheme();
             $.ajax({
-                url: 'index.php/user/changePassword',
+                url: 'index.php/user/createAccount',
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    current_password: changePassword.find('.current-password').val(),
-                    new_password: password
+                    username:   CREATE_ACCOUNT.find('.username').val(),
+                    password:   CREATE_ACCOUNT.find('.new-password').val(),
+                    email:      CREATE_ACCOUNT.find('.email').val(),
+                    theme:      theme.theme,
+                    theme_type: theme.type
                 },
                 success: function(data) {
                     if (data.success) {
-                        $('#change-password').find('input[type=password]').val('');
+                        location.reload();
                     }
                 }
             });
         }
     });
 
-    $('.forgot-password, .verified, .edit-email').hover(function() {
-        var elem = $(this);
-        $(this).data('timeout', setTimeout(function() {
-            elem.animate({ width: elem.css('max-width') }, {
-                progress: function() {
-                    $(this).nextAll('.add-on').css('right', parseInt($(this).css('right')) + $(this).width());
+    CHANGE_PASSWORD.find('.submit').click(function() {
+        if (!hasError(CHANGE_PASSWORD)) {
+            $.ajax({
+                url: 'index.php/user/changePassword',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    current_password: CHANGE_PASSWORD.find('.current-password').val(),
+                    new_password: CHANGE_PASSWORD.find('.new-password').val()
+                },
+                success: function(data) {
+                    if (data.success) {
+                        CHANGE_PASSWORD.find('input[type=password]').val('');
+                    }
                 }
             });
-            elem.find('*').fadeIn();
-        }, 250));
-    }, function() {
-        clearTimeout($(this).data('timeout'));
-        $(this).animate({ width: $(this).css('min-width') }, {
-                progress: function() {
-                    $(this).nextAll('.add-on').css('right', parseInt($(this).css('right')) + $(this).width());
+        }
+    });
+
+    EDIT_EMAIL_AUTHENTICATION.find('.submit').click(function() {
+        if (!hasError(EDIT_EMAIL_AUTHENTICATION)) {
+            $.ajax({
+                url: 'index.php/user/changeEmail',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    email: EDIT_EMAIL_AUTHENTICATION.find('.email').val(),
+                    password: EDIT_EMAIL_AUTHENTICATION.find('.password').val()
+                },
+                success: function(data) {
+                    if (data.success) {
+                        $('#email-info').find('.email').val(EDIT_EMAIL_AUTHENTICATION.find('.email').val());
+                        EDIT_EMAIL_AUTHENTICATION.slideUp();
+                    }
                 }
             });
-        $(this).find('*:not(i)').fadeOut();
-    });
-
-    $('.forgot-password').find('input[type=button]').click(function() {
-        $.ajax({
-            url: 'index.php/user/forgotPassword',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                username: $('#login').find('.username').val()
-            },
-            success: function(data) {
-                
-            }
-        });
-    });
-
-    $('.resend-email').click(function() {
-        $.ajax({
-            url: 'index.php/user/resendEmailVerification',
-            type: 'POST',
-            success: function(data) {
-                
-            }
-        });
-    });
-
-    $('#edit-email').click(function() {
-        $('#edit-email-authentication').slideToggle();
-    });
-
-    $('#edit-email-authentication').find('.submit').click(function() {
-        var editEmailAuthentication = $('#edit-email-authentication');
-        $.ajax({
-            url: 'index.php/user/changeEmail',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                email: editEmailAuthentication.find('.email').val(),
-                password: editEmailAuthentication.find('.password').val()
-            },
-            success: function(data) {
-                if (data.success) {
-                    $('#email-info').find('.email').val(editEmailAuthentication.find('.email').val());
-                    editEmailAuthentication.slideUp();
-                }
-            }
-        });
+        }
     });
 });
 
@@ -222,4 +173,34 @@ function match(password, confirm)
 {
     return password.val() == confirm.val() || password.val() == '' ||
            confirm.val() == '';
+}
+
+function validate(input, type)
+{
+    input.removeClass('error');
+    $.ajax({
+        url: 'index.php/user/validate',
+        type: 'POST',
+        dataType: 'json',
+        context: $(this),
+        data: {
+            type: type,
+            value: input.val()
+        },
+        success: function(data) {
+            input.toggleClass('error', !data.valid);
+        }
+    });
+}
+
+function hasError(form)
+{
+    var error = false;
+    form.find('input:not([type=submit])').each(function() {
+        if ($(this).hasClass('error')) {
+            error = true;
+            return false;
+        }
+    });
+    return error;
 }

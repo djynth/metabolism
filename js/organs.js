@@ -38,11 +38,11 @@ $(document).ready(function() {
 
 function selectOrgan(organ)
 {
-    $('#diagram').animate({
+    DIAGRAM.animate({
         backgroundColor: $('.accordian-header[organ=' + organ + ']').attr('organ-color')
     }, ORGAN_TRANSITION);
 
-    $('.tracker').find('.organ').add('.accordian-header, .accordian-content').each(function() {
+    TRACKERS.find('.tracker').find('.organ').add('.accordian-header, .accordian-content').each(function() {
         $(this).toggleClass('active', $(this).organ() === organ);
     });
 

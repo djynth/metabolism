@@ -28,6 +28,8 @@ $theme_type = json_encode($user !== null ? $user->theme_type : User::DEFAULT_THE
 
 <script>
 $(document).ready(function() {
+    onResize();
+    selectOrgan($('.accordian-header').first().organ());
     onTurn(<?= json_encode(Game::getState()) ?>);
     $('.theme[type=<?= $theme_type ?>][theme=<?= $theme ?>]').click();
 });

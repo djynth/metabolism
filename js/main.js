@@ -1,24 +1,30 @@
+var BODY;
+var TURNS;
+var POINTS;
+var DIAGRAM;
+var COPYRIGHT;
+
 $(document).ready(function() {
-    onResize();
-    selectOrgan($('.accordian-header').first().organ());
+    BODY = $('body');
+    TURNS = $('#turns');
+    POINTS = $('#points');
+    DIAGRAM = $('#diagram');
+    COPYRIGHT = $('#copyright');
 
     $(window).resize(onResize);
 });
 
 function onResize()
 {
-    var contentHeight = $(window).height() - $('#header').outerHeight() - $('#footer').outerHeight();
+    var contentHeight = $(window).height() - HEADER.outerHeight() - FOOTER.outerHeight();
+    DIAGRAM.height(contentHeight);
     $('.sidebar').first().find('.accordian-header').each(function() {
         contentHeight -= $(this).outerHeight();
     });
 
     $('.accordian-content.active').height(contentHeight);
     $('.accordian-content').css('max-height', contentHeight);
-
-    var top = $('#header').outerHeight();
-    var bottom = $('#footer').outerHeight();
-    $('#diagram').height($(window).height() - top - bottom);
-    $('#copyright').css('bottom', bottom);
+    COPYRIGHT.css('bottom', FOOTER.outerHeight());
 
     resizeFilter();
 }
@@ -36,33 +42,32 @@ function onTurn(data)
     }
 
     for (organ in data.action_counts) {
-        $('.tracker.actions').find('.organ[organ=' + organ + ']').find('.amount').text(data.action_counts[organ]);
+        TRACKER.find('.actions').find('.organ[organ=' + organ + ']').find('.amount').text(data.action_counts[organ]);
     }
 }
 
 function setTurn(turn)
 {
-    var turns = $('#turns');
-    var maxTurns = turns.attr('max-turns');
-    turns.text((maxTurns-turn) + '/' + maxTurns + ' Turns Remaining');
+    var maxTurns = TURNS.attr('max-turns');
+    TURNS.text((maxTurns - turn) + '/' + maxTurns + ' Turns Remaining');
 }
 
 function setPoints(points)
 {
-    $('#points').text(points + ' Points');
+    POINTS.text(points + ' Points');
 }
 
 function getColorTheme()
 {
     return {
-        theme : $('body').attr('theme'),
-        type  : $('body').attr('type')
+        theme : BODY.attr('theme'),
+        type  : BODY.attr('type')
     };
 }
 
 function setColorTheme(theme, type, save)
 {
-    $('body').attr({ theme : theme, type : type }).applyColorTheme(theme, type);
+    BODY.attr({ theme : theme, type : type }).applyColorTheme(theme, type);
 
     if (save) {
         $.ajax({
@@ -80,23 +85,27 @@ function setColorTheme(theme, type, save)
 jQuery.fn.extend({
     res: function(res) {
         if (typeof res !== 'undefined') {
-            return $(this).attr('res', res);
+            return this.attr('res', res);
         }
-        return parseInt($(this).attr('res'));
+        return parseInt(this.attr('res'));
     },
 
     organ: function(organ) {
         if (typeof organ !== 'undefined') {
-            return $(this).attr('organ', organ);
+            return this.attr('organ', organ);
         }
-        return parseInt($(this).attr('organ'));
+        return parseInt(this.attr('organ'));
     },
 
     pathway: function(pathway) {
         if (typeof pathway !== 'undefined') {
-            return $(this).attr('pathway', pathway);
+            return this.attr('pathway', pathway);
         }
-        return parseInt($(this).attr('pathway'));
+        return parseInt(this.attr('pathway'));
+    },
+
+    formSiblings: function(selector) {
+        return this.parents('form').find(selector);
     },
 
     applyColorTheme: function(theme, type) {
@@ -112,7 +121,7 @@ jQuery.fn.extend({
             $(this).find('.image').attr('src', '/img/organs/' + type + '/' + $(this).organ() + '.png');
         });
 
-        this.find('#trackers').find('.icon').each(function() {
+        TRACKERS.find('.icon').each(function() {
             updateIcon($(this));
         })
 

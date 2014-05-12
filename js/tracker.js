@@ -1,10 +1,16 @@
+var TRACKER;
+
 var TRACKER_ICONS = 5;
 var TRACKER_WAIT = 250;         // the amount of time between tracker animations, in ms
 var TRACKER_ANIMATION = 500;    // the duration of a tracker animtion, in ms
 
+$(document).ready(function() {
+    TRACKER = $('#tracker');
+});
+
 function refreshTrackers()
 {
-    $('#trackers').find('.tracker:not(.actions)').each(function() {
+    $('#tracker').find('.tracker:not(.actions)').each(function() {
         var resource = $(this).res();
         $(this).find('.organ').each(function() {
             var res = getRes(resource, $(this).organ());

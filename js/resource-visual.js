@@ -1,4 +1,8 @@
+var RESOURCE_VISUAL;
+
 $(document).ready(function() {
+    RESOURCE_VISUAL = $('#resource-visual');
+
     $('#resource-visual').find('.icon-remove').click(function() {
         updateResourceVisual().fadeOut();
         $('.pathways').find('.pathway').removeClass('source destination');

@@ -25,10 +25,23 @@ class UserController extends Controller
             'Your email address has already been verified',
         'email_verified' => 'Your email address has been verified',
         'email_verification_impossible' => 
-            'Either that user does not exist or does not have a verified email address. Contact us to recovery your account.',
+            'Either that user does not exist or does not have a verified email address. Contact us to recover your account.',
         'password_reset_sent' =>
             'A password recovery email was sent to your email address at %domain.',
     );
+
+    public function actionValidate($type, $value)
+    {
+        $valid = false;
+        if ($type === 'username') {
+            $valid = User::isValidUsername($value);
+        } else if ($type === 'password') {
+            $valid = User::isValidPassword($value);
+        } else if ($type === 'email') {
+            $valid = User::isValidEmail($value);
+        }
+        echo CJavaScript::jsonEncode(array('valid' => $valid));
+    }
 
     /**
      * Attempts to log the player in with the given authentication information.

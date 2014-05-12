@@ -1,4 +1,8 @@
+var PATHWAYS;
+
 $(document).ready(function() {
+    PATHWAYS = $('.pathways').find('.pathway');
+
     $('.food').each(function() {
         var food = $(this);
         food.find('.eat').each(function() {
@@ -6,6 +10,7 @@ $(document).ready(function() {
         });
     });
 
+    // TODO: stopped here
     $('.pathways')
         .find('.pathway:not(.eat)')
             .find('.run').each(function() {
@@ -87,7 +92,6 @@ $(document).ready(function() {
             .find('.run').click(function() {
                 var nutrients = new Array();
                 $(this).parents('.pathway').find('.eat').each(function() {
-                    console.log($(this).res());
                     nutrients[$(this).res()] = parseInt($(this).attr('amount'));
                 });
                 $.ajax({
@@ -114,7 +118,7 @@ function getPathway(pathway, organ)
 
 function refreshPathways(changedResources)
 {
-    $('.pathways').find('.pathway').each(function() {
+    PATHWAYS.each(function() {
         var pathway = $(this);
         $(this).find('.reaction').find('.name').each(function() {
             if ($.inArray($(this).res(), changedResources) !== -1) {

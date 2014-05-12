@@ -1,5 +1,9 @@
+var HEADER;
+
 $(document).ready(function() {
-    $('.title').click(function() {
+    HEADER = $('#header');
+
+    HEADER.find('.title').click(function() {
         $(this).siblings('.dropdown').slideToggle(function() {
             $(this).find('input').first().focus();
         });

@@ -52,7 +52,7 @@
             </div>
         </div>
 
-        <table id="trackers">
+        <table id="tracker">
             <?php foreach ($primary_resources as $resource): ?>
                 <td class="tracker res-info-source" res="<?= $resource->id ?>">
                     <div class="header">

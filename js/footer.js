@@ -1,6 +1,10 @@
+var FOOTER;
+
 $(document).ready(function() {
+    FOOTER = $('#footer');
+
     $('#minimize-footer').click(function() {
-        $(this).siblings('.content').slideToggle({
+        FOOTER.find('.content').slideToggle({
             progress: onResize
         });
     });

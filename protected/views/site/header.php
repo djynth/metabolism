@@ -57,7 +57,7 @@
 
         <div class="dropdown">
             <?php if ($user === null): ?>
-                <div id="login">
+                <form id="login">
                     <p>Login</p>
                     <input class="username" type="text" placeholder="Username">
                     
@@ -72,8 +72,8 @@
                     <div class="submit-holder">
                         <input class="submit btn btn-small" type="submit" value="Submit">
                     </div>
-                </div>
-                <div id="create-account">
+                </form>
+                <form id="create-account">
                     <p>Create Account</p>
                     <input class="username" type="text" placeholder="Username">
                     <input class="email" type="text" placeholder="Email Address">
@@ -82,11 +82,11 @@
                     <div class="submit-holder">
                         <input class="submit btn btn-small" type="submit" value="Submit">
                     </div>
-                </div>
+                </form>
 
                 <p class="footer">Logging in or creating an account will restart your game.</p>
             <?php else: ?>
-                <div id="change-password">
+                <form id="change-password">
                     <p>Change Password</p>
                     <input class="current-password" type="password" placeholder="Current Password">
                     <input class="new-password" type="password" placeholder="New Password">
@@ -94,9 +94,9 @@
                     <div class="submit-holder">
                         <input class="submit btn btn-small" type="submit" value="Submit">
                     </div>
-                </div>
+                </form>
 
-                <div id="email-info">
+                <form id="email-info">
                     <p>Email</p>
                     <div>
                         <input class="email" type="text" placeholder="Email" value="<?= $user->email ?>" disabled>
@@ -118,15 +118,15 @@
                             <button id="edit-email" class="btn btn-mini">Edit</button>
                         </div>
                     </div>
-                </div>
+                </form>
 
-                <div id="edit-email-authentication">
+                <form id="edit-email-authentication">
                     <input class="password" type="password" placeholder="Current Password">
                     <input class="email" type="text" placeholder="New Email">
                     <div class="submit-holder">
                         <input class="submit btn btn-small" type="submit" value="Submit">
                     </div>
-                </div>
+                </form>
 
                 <button id="logout" class="btn btn-small">Logout</button>
                 <p class="footer">Logging out will restart your game.</p>
