@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    $(document).addResourceInfoSources();
     onResize();
     selectOrgan($('.accordian-header').first().organ());
 
@@ -29,7 +28,7 @@ function onTurn(data)
     setTurn(data.turn);
     setPoints(data.points);
     refreshResources(data.resources);
-    refreshLimitedResources();
+    refreshLimitedResources(data.passive_pathways);
     refreshResourceLimits();
     refreshPathways();
     refreshTrackers();

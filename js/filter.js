@@ -93,8 +93,7 @@ function onFilterChange()
                     return;
                 }
 
-                res = getResourceElement($(this).res(), $(this).organ());
-                var names = res.attr('names').split(';');
+                var names = getRes($(this).res(), $(this).organ()).attr('names').split(';');
                 for (var i = 0; i < names.length; i++) {
                     if (reactant.test(names[i])) {
                         match = true;
@@ -115,8 +114,7 @@ function onFilterChange()
                     return;
                 }
 
-                res = getResourceElement($(this).res(), $(this).organ());
-                var names = res.attr('names').split(';');
+                var names = getRes($(this).res(), $(this).organ()).attr('names').split(';');
                 for (var i = 0; i < names.length; i++) {
                     if (product.test(names[i])) {
                         match = true;

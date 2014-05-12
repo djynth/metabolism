@@ -4,7 +4,7 @@ $(document).ready(function() {
     });
 });
 
-function refreshLimitedResources()
+function refreshLimitedResources(passivePathways)
 {
     var total = 0;
     $('#limited-resources')
@@ -34,9 +34,9 @@ function refreshLimitedResources()
         })
         .end()
         .find('.process').each(function() {
-            var pathway = getPathway($(this).pathway());
+            var pathway = getPathway($(this).pathway(), $(this).organ());
             var points = 0;
-            if (pathway.attr('available')) {
+            if (passivePathways[pathway.pathway()][$(this).organ()]) {
                 $(this).addClass('good').removeClass('bad');
                 var points = $(this).attr('times') * pathway.find('.points').text();
             } else {

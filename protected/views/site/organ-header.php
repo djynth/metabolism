@@ -5,7 +5,7 @@
  */
 ?>
 
-<div class="accordian-header" organ="<?= $organ->id ?>" organ-color="<?= $organ->color ?>">
+<div class="accordian-header" organ="<?= $organ->id ?>" organ-color="#<?= $organ->color ?>">
     <?= $organ->name ?>
     
     <i class="icon-info-sign toggle-popup"></i>

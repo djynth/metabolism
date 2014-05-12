@@ -278,6 +278,7 @@ class Game extends CActiveRecord
             'turn' => Game::getTurn(),
             'resources' => Resource::getAmounts(),
             'action_counts' => Organ::getActionCounts(),
+            'passive_pathways' => Pathway::getPassivePathwayAvailability(),
         );
     }
 

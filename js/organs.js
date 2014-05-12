@@ -38,20 +38,12 @@ $(document).ready(function() {
 
 function selectOrgan(organ)
 {
-    $('.accordian-header, .accordian-content').each(function() {
-        $(this).toggleClass('active', $(this).organ() === organ);
-    });
+    $('#diagram').animate({
+        backgroundColor: $('.accordian-header[organ=' + organ + ']').attr('organ-color')
+    }, ORGAN_TRANSITION);
 
-    $('.tracker').find('.organ').each(function() {
+    $('.tracker').find('.organ').add('.accordian-header, .accordian-content').each(function() {
         $(this).toggleClass('active', $(this).organ() === organ);
-    });
-
-    $('.accordian-header').each(function() {
-        if ($(this).organ() === organ) {
-            $('#diagram').animate({
-                backgroundColor: '#' + $(this).attr('organ-color')
-            }, ORGAN_TRANSITION);
-        }
     });
 
     $('.accordian-content').each(function() {

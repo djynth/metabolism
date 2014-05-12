@@ -126,6 +126,18 @@ class Pathway extends CActiveRecord
         return self::model()->findAllByAttributes(array(), 'passive <> 0');
     }
 
+    public static function getPassivePathwayAvailability()
+    {
+        $availability = array();
+        foreach (self::getPassivePathways() as $pathway) {
+            foreach ($pathway->organs as $organ) {
+                $availability[$pathway->id][$organ->id] = !$pathway->wouldIncurPenalization($pathway->passive, $organ);
+            }
+            
+        }
+        return $availability;
+    }
+
     /**
      * Determiens whether the given array of nutrients to be consumed are valid.
      * The nutrients should be formatted as an array of resource ID's to amounts
