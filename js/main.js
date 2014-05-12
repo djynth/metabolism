@@ -125,6 +125,8 @@ jQuery.fn.extend({
             updateIcon($(this));
         })
 
+        updateResourceVisualImage();
+
         return this;
     }
 });

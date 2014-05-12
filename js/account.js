@@ -11,7 +11,7 @@ $(document).ready(function() {
 
     $('input[type=text], input[type=password]').keypress(function(event) {
         if (event.which == 13) {    // enter
-            $(this).parents('form').find('input[type=submit]').click();
+            $(this).parents('form').find('input.submit').click();
         }
     });
 
@@ -196,7 +196,7 @@ function validate(input, type)
 function hasError(form)
 {
     var error = false;
-    form.find('input:not([type=submit])').each(function() {
+    form.find('input:not(.submit)').each(function() {
         if ($(this).hasClass('error')) {
             error = true;
             return false;

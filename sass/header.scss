@@ -118,6 +118,10 @@
         .dropdown {
             width: $accountWidth - 20;
 
+            form {
+                margin: 0;
+            }
+
             input[type=text], input[type=password] {
                 width: $accountWidth - 26px - 10px - 2px;
                 padding-right: 5px;

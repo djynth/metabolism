@@ -70,7 +70,7 @@
                     </div>
 
                     <div class="submit-holder">
-                        <input class="submit btn btn-small" type="submit" value="Submit">
+                        <input class="submit btn btn-small" type="button" value="Submit">
                     </div>
                 </form>
                 <form id="create-account">
@@ -80,7 +80,7 @@
                     <input class="new-password" type="password" placeholder="Password">
                     <input class="confirm" type="password" placeholder="Confirm Password">
                     <div class="submit-holder">
-                        <input class="submit btn btn-small" type="submit" value="Submit">
+                        <input class="submit btn btn-small" type="button" value="Submit">
                     </div>
                 </form>
 
@@ -92,7 +92,7 @@
                     <input class="new-password" type="password" placeholder="New Password">
                     <input class="confirm" type="password" placeholder="Confirm New Password">
                     <div class="submit-holder">
-                        <input class="submit btn btn-small" type="submit" value="Submit">
+                        <input class="submit btn btn-small" type="button" value="Submit">
                     </div>
                 </form>
 
@@ -124,7 +124,7 @@
                     <input class="password" type="password" placeholder="Current Password">
                     <input class="email" type="text" placeholder="New Email">
                     <div class="submit-holder">
-                        <input class="submit btn btn-small" type="submit" value="Submit">
+                        <input class="submit btn btn-small" type="button" value="Submit">
                     </div>
                 </form>
 
