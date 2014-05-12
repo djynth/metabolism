@@ -45,6 +45,11 @@ function resizeFilter()
         });
 }
 
+function isFilterActive()
+{
+    return $('#filter').attr('active');
+}
+
 function onFilterChange()
 {
     var filter = $('#filter');
@@ -64,70 +69,86 @@ function onFilterChange()
         showAvailable = true;
         showUnavailable = true;
     }
+    if (!showCatabolic && !showAnabolic) {
+        showCatabolic = true;
+        showAnabolic = true;
+    }
 
-    $('.pathway').each(function() {
-        var organ = $(this).parents('.pathway-holder').attr('value');
-        if (name && !name.test($(this).find('.name').text())) {
-            return $(this).slideUp();
-        }
+    if (!name && showAvailable && showUnavailable && showCatabolic && showAnabolic && showPassive && !reactant && !product) {
+        filter.removeAttr('active');
 
-        if (!showPassive && $(this).children('.passive').length) {
-            return $(this).slideUp();
-        }
+        $('.pathway').slideDown();
 
-        var pathwayAvailable = $(this).attr('available');
-        if ((showAvailable && !showUnavailable && !pathwayAvailable) || (!showAvailable && showUnavailable && pathwayAvailable)) {
-            return $(this).slideUp();
-        }
+    } else {
+        filter.attr('active', true);
 
-        var pathwayCatabolic = $(this).children('.catabolic').length;
-        var pathwayAnabolic = $(this).children('.anabolic').length;
-        if ((showCatabolic && !pathwayCatabolic) || (showAnabolic && !pathwayAnabolic)) {
-            return $(this).slideUp();
-        }
+        var shown = $();
+        var hidden = $();
+        $('.pathway').each(function() {
+            var organ = $(this).parents('.pathway-holder').attr('value');
+            if (name && !name.test($(this).find('.name').text())) {
+                hidden = hidden.add($(this));
+                return;
+            }
 
-        if (reactant) {
-            var match = false;
-            $(this).find('.reactant.name').each(function() {
-                if (match) {
+            if (!showPassive && $(this).children('.passive').length) {
+                hidden = hidden.add($(this));
+                return;
+            }
+
+            var pathwayAvailable = $(this).attr('available');
+            if ((showAvailable && !showUnavailable && !pathwayAvailable) || (!showAvailable && showUnavailable && pathwayAvailable)) {
+                hidden = hidden.add($(this));
+                return;
+            }
+
+            var pathwayCatabolic = $(this).children('.catabolic').length;
+            var pathwayAnabolic = $(this).children('.anabolic').length;
+            if ((showCatabolic && !showAnabolic && !pathwayCatabolic) || (showAnabolic && !showCatabolic && !pathwayAnabolic)) {
+                hidden = hidden.add($(this));
+                return;
+            }
+
+            if (reactant) {
+                var match = false;
+                $(this).find('.reactant.name').each(function() {
+                    var names = getRes($(this).res(), $(this).organ()).attr('names').split(';');
+                    for (var i = 0; i < names.length; i++) {
+                        if (reactant.test(names[i])) {
+                            match = true;
+                            return false;
+                        }
+                    }
+                });
+
+                if (!match) {
+                    hidden = hidden.add($(this));
                     return;
                 }
-
-                var names = getRes($(this).res(), $(this).organ()).attr('names').split(';');
-                for (var i = 0; i < names.length; i++) {
-                    if (reactant.test(names[i])) {
-                        match = true;
-                        break;
-                    }
-                }
-            });
-
-            if (!match) {
-                return $(this).slideUp();
             }
-        }
 
-        if (product) {
-            var match = false;
-            $(this).find('.product.name').each(function() {
-                if (match) {
+            if (product) {
+                var match = false;
+                $(this).find('.product.name').each(function() {
+                    var names = getRes($(this).res(), $(this).organ()).attr('names').split(';');
+                    for (var i = 0; i < names.length; i++) {
+                        if (product.test(names[i])) {
+                            match = true;
+                            return false;
+                        }
+                    }
+                });
+
+                if (!match) {
+                    hidden = hidden.add($(this));
                     return;
                 }
-
-                var names = getRes($(this).res(), $(this).organ()).attr('names').split(';');
-                for (var i = 0; i < names.length; i++) {
-                    if (product.test(names[i])) {
-                        match = true;
-                        break;
-                    }
-                }
-            });
-
-            if (!match) {
-                return $(this).slideUp();
             }
-        }
 
-        return $(this).slideDown();
-    })
+            shown = shown.add($(this));
+        });
+
+        shown.slideDown();
+        hidden.slideUp();
+    }
 }

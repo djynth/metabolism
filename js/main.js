@@ -27,12 +27,13 @@ function onTurn(data)
 {
     setTurn(data.turn);
     setPoints(data.points);
-    var changedResources = refreshResources(data.resources);
+    refreshPathways(refreshResources(data.resources));
     refreshLimitedResources(data.passive_pathways);
     refreshResourceLimits();
-    refreshPathways(changedResources);
     refreshTrackers();
-    onFilterChange();
+    if (isFilterActive()) {
+        onFilterChange();    
+    }
 
     for (organ in data.action_counts) {
         $('.tracker.actions').find('.organ[organ=' + organ + ']').find('.amount').text(data.action_counts[organ]);
