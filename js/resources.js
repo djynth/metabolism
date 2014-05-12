@@ -10,6 +10,7 @@ function getRes(resource, organ)
 
 function refreshResources(resources)
 {
+    var changed = new Array();
     for (var resource in resources) {
         for (var organ in resources[resource]) {
             var amount = resources[resource][organ];
@@ -21,15 +22,19 @@ function refreshResources(resources)
                     continue;
                 }
 
+                changed.push(res.res());
                 var increase = change > 0 ? 'increase' : 'decrease';
                 res.addClass(increase).delay(1000).queue(function() {
                     $(this).removeClass('increase decrease').dequeue();
                 });
+            } else {
+                changed.push(res.res());
             }
 
             updateRes(res, amount);
         }
     }
+    return changed;
 }
 
 function updateRes(res, amount)

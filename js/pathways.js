@@ -112,10 +112,16 @@ function getPathway(pathway, organ)
     return resources.find('.pathway[pathway="' + pathway + '"]').first();
 }
 
-function refreshPathways()
+function refreshPathways(changedResources)
 {
     $('.pathways').find('.pathway').each(function() {
-        refreshPathway($(this));
+        var pathway = $(this);
+        $(this).find('.reaction').find('.name').each(function() {
+            if ($.inArray($(this).res(), changedResources) !== -1) {
+                refreshPathway(pathway);
+                return false;
+            }
+        });
     });
 }
 
@@ -145,9 +151,10 @@ function refreshPathway(pathway)
     pathway.find('.run-holder').toggle(canRun);
     pathway.children('.lacking').toggle(!canRun);
 
-    if (canRun) {
+    if (canRun && !pathway.attr('available')) {
         pathway.attr('available', 'true');
-    } else {
+    }
+    if (!canRun && pathway.attr('available')) {
         pathway.removeAttr('available');
         pathway.find('p.lacking').show();
 

@@ -27,10 +27,10 @@ function onTurn(data)
 {
     setTurn(data.turn);
     setPoints(data.points);
-    refreshResources(data.resources);
+    var changedResources = refreshResources(data.resources);
     refreshLimitedResources(data.passive_pathways);
     refreshResourceLimits();
-    refreshPathways();
+    refreshPathways(changedResources);
     refreshTrackers();
     onFilterChange();
 
