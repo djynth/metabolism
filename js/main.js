@@ -121,7 +121,7 @@ jQuery.fn.extend({
             $(this).find('.image').attr('src', '/img/organs/' + type + '/' + $(this).organ() + '.png');
         });
 
-        TRACKERS.find('.icon').each(function() {
+        TRACKER.find('.icon').each(function() {
             updateIcon($(this));
         })
 

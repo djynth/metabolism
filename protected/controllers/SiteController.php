@@ -104,16 +104,8 @@ class SiteController extends Controller
      */
     public function actionEat(array $nutrients)
     {
-        $parsed_nutrients = array();
-        foreach ($nutrients as $id => $amount) {
-            if ($amount) {  // parsing $nutrients into an array results in the
-                            // insertion of empty values at the keys 0 to the
-                            // lowest nutrient ID
-                $parsed_nutrients[$id] = (int)$amount;
-            }
-        }
-        Pathway::eat($parsed_nutrients);
-
+        Pathway::eat($nutrients);
+        
         echo CJavaScript::jsonEncode(Game::getState());
     }
 

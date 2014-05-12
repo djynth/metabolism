@@ -42,7 +42,7 @@ function selectOrgan(organ)
         backgroundColor: $('.accordian-header[organ=' + organ + ']').attr('organ-color')
     }, ORGAN_TRANSITION);
 
-    TRACKERS.find('.tracker').find('.organ').add('.accordian-header, .accordian-content').each(function() {
+    TRACKER.find('.tracker').find('.organ').add('.accordian-header, .accordian-content').each(function() {
         $(this).toggleClass('active', $(this).organ() === organ);
     });
 

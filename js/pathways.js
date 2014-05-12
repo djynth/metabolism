@@ -10,43 +10,75 @@ $(document).ready(function() {
         });
     });
 
-    // TODO: stopped here
-    $('.pathways')
-        .find('.pathway:not(.eat)')
-            .find('.run').each(function() {
-                var run = $(this);
-                run.click(function() {
-                    var pathway = run.parents('.pathway');
-                    $.ajax({
-                        url: 'index.php/site/pathway',
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {
-                            pathway_id: pathway.pathway(),
-                            times: parseInt(run.attr('times')),
-                            organ_id: pathway.organ(),
-                            reverse: pathway.find('.reverse').hasClass('active')
-                        },
-                        success: onTurn
+    PATHWAYS.each(function() {
+        var pathway = $(this);
+        var run = pathway.find('.run');
+        if (pathway.hasClass('eat')) {
+            pathway.find('.food').each(function() {
+                var food = $(this);
+                food.find('.eat').each(function() {
+                    var eat = $(this);
+                    eat.siblings('.top').click(function() {
+                        updateEat(food, eat, food.attr('eat-max'));
+                    });
+                    eat.siblings('.plus').click(function() {
+                        updateEat(food, eat, parseInt(eat.attr('amount')) + 1);
+                    });
+                    eat.siblings('.minus').click(function() {
+                        updateEat(food, eat, parseInt(eat.attr('amount')) - 1);
+                    });
+                    eat.siblings('.bottom').click(function() {
+                        updateEat(food, eat, 0);
                     });
                 });
+            });
+            run.click(function() {
+                var nutrients = { };
+                pathway.find('.eat').each(function() {
+                    nutrients[$(this).res().toString()] = parseInt($(this).attr('amount'));
+                });
+                console.log(nutrients);
+                $.ajax({
+                    url: 'index.php/site/eat',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        nutrients: nutrients
+                    },
+                    success: onTurn
+                });
+            });
+        } else {
+            var reverse = pathway.find('.reverse');
+            run.click(function() {
+                $.ajax({
+                    url: 'index.php/site/pathway',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        pathway_id: pathway.pathway(),
+                        times: parseInt(run.attr('times')),
+                        organ_id: pathway.organ(),
+                        reverse: reverse.hasClass('active')
+                    },
+                    success: onTurn
+                });
+            });
 
-                run.siblings('.top').click(function() {
-                    updateRun(run, run.attr('max-runs'));
-                });
-                run.siblings('.plus').click(function() {
-                    updateRun(run, parseInt(run.attr('times')) + 1);
-                });
-                run.siblings('.minus').click(function() {
-                    updateRun(run, parseInt(run.attr('times')) - 1);
-                });
-                run.siblings('.bottom').click(function() {
-                    updateRun(run, 1);
-                });
-            })
-            .end()
-            .find('.reverse').click(function() {
-                var pathway = $(this).parents('.pathway');
+            run.siblings('.top').click(function() {
+                updateRun(run, run.attr('max-runs'));
+            });
+            run.siblings('.plus').click(function() {
+                updateRun(run, parseInt(run.attr('times')) + 1);
+            });
+            run.siblings('.minus').click(function() {
+                updateRun(run, parseInt(run.attr('times')) - 1);
+            });
+            run.siblings('.bottom').click(function() {
+                updateRun(run, 1);
+            });
+
+            reverse.click(function() {
                 pathway.find('.points').each(function() {
                     $(this).text(-parseInt($(this).text()));
                 });
@@ -64,46 +96,9 @@ $(document).ready(function() {
                 });
 
                 refreshPathway(pathway);
-            })
-            .end()
-        .end()
-        .find('.pathway.eat')
-            .find('.food').each(function() {
-                var food = $(this);
-                var eatMax = food.attr('eat-max');
-
-                food.find('.eat').each(function() {
-                    var eat = $(this);
-                    eat.siblings('.top').click(function() {
-                        updateEat(food, eat, eatMax);
-                    });
-                    eat.siblings('.plus').click(function() {
-                        updateEat(food, eat, parseInt(eat.attr('amount')) + 1);
-                    });
-                    eat.siblings('.minus').click(function() {
-                        updateEat(food, eat, parseInt(eat.attr('amount')) - 1);
-                    });
-                    eat.siblings('.bottom').click(function() {
-                        updateEat(food, eat, 0);
-                    });
-                });
-            })
-            .end()
-            .find('.run').click(function() {
-                var nutrients = new Array();
-                $(this).parents('.pathway').find('.eat').each(function() {
-                    nutrients[$(this).res()] = parseInt($(this).attr('amount'));
-                });
-                $.ajax({
-                    url: 'index.php/site/eat',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        nutrients: nutrients
-                    },
-                    success: onTurn
-                });
             });
+        }
+    });
 });
 
 function getPathway(pathway, organ)
@@ -120,7 +115,7 @@ function refreshPathways(changedResources)
 {
     PATHWAYS.each(function() {
         var pathway = $(this);
-        $(this).find('.reaction').find('.name').each(function() {
+        pathway.find('.reaction').find('.name').each(function() {
             if ($.inArray($(this).res(), changedResources) !== -1) {
                 refreshPathway(pathway);
                 return false;

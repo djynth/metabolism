@@ -10,7 +10,7 @@ $(document).ready(function() {
 
 function refreshTrackers()
 {
-    $('#tracker').find('.tracker:not(.actions)').each(function() {
+    TRACKER.find('.tracker:not(.actions)').each(function() {
         var resource = $(this).res();
         $(this).find('.organ').each(function() {
             var res = getRes(resource, $(this).organ());
@@ -110,4 +110,5 @@ function updateIcon(icon)
             icon.attr('src', data.src);
         }
     });
+    return icon;
 }
