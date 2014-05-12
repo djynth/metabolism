@@ -28,8 +28,9 @@ $theme_type = json_encode($user !== null ? $user->theme_type : User::DEFAULT_THE
 
 <script>
 $(document).ready(function() {
+    $('.accordian-header').first().addClass('active');
     onResize();
-    selectOrgan($('.accordian-header').first().organ());
+    selectOrgan($('.accordian-header.active').organ());
     onTurn(<?= json_encode(Game::getState()) ?>);
     $('.theme[type=<?= $theme_type ?>][theme=<?= $theme ?>]').click();
 });

@@ -16,14 +16,14 @@ $(document).ready(function() {
 
 function onResize()
 {
-    var contentHeight = $(window).height() - HEADER.outerHeight() - FOOTER.outerHeight();
-    DIAGRAM.height(contentHeight);
-    $('.sidebar').first().find('.accordian-header').each(function() {
+    var contentHeight = $(window).height() - FOOTER.outerHeight();
+    $('.sidebar').first().children('.accordian-header, .sidebar-title').each(function() {
         contentHeight -= $(this).outerHeight();
     });
 
     $('.accordian-content.active').height(contentHeight);
     $('.accordian-content').css('max-height', contentHeight);
+    DIAGRAM.height($(window).height() - FOOTER.outerHeight() - HEADER.outerHeight());
     COPYRIGHT.css('bottom', FOOTER.outerHeight());
 
     resizeFilter();

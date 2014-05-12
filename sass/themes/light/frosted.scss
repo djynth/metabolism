@@ -101,12 +101,9 @@ body[theme=frosted] {
         }
 
         .accordian-header {
+            color: $text;
             border-color: $border;
         }
-    }
-
-    .notification-holder {
-        background-color: $background;
     }
 
     .pathway {

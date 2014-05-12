@@ -18,6 +18,7 @@ $inputAddOnBackground: rgb( 50,  50,  50);
 $inputBorder:          rgb( 15,  15,  15);
 $inputText:            rgb( 230, 230, 230);
 $inputPlaceholder:     rgb( 172, 172, 172);
+$inputError:           rgb( 255, 0,   0);
 $trackerHeaderBorder:  rgb( 95,  95,  95);
 $trackerOrganBorder:   rgb( 81,  81,  81);
 $resultCover:          rgb( 0,   0,   0);
@@ -44,6 +45,12 @@ body[theme=night] {
         background: $inputBackground !important;
         @include input-placeholder {
             color: $inputPlaceholder;
+        }
+
+        &.error {
+            border-color: $inputError;
+            color: $inputError;
+            //box-shadow-color: $inputError;
         }
     }
 
@@ -94,12 +101,9 @@ body[theme=night] {
         }
 
         .accordian-header {
+            color: $text;
             border-color: $border;
         }
-    }
-
-    .notification-holder {
-        background-color: $background;
     }
 
     .pathway {
