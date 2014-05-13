@@ -1,8 +1,8 @@
 var TRACKER;
 
 var TRACKER_ICONS = 5;
-var TRACKER_WAIT = 250;         // the amount of time between tracker animations, in ms
-var TRACKER_ANIMATION = 500;    // the duration of a tracker animtion, in ms
+var ICON_MAX_LEVEL = 3;
+var TRACKER_ANIMATION = 500;
 
 $(document).ready(function() {
     TRACKER = $('#tracker');
@@ -18,61 +18,7 @@ function refreshTrackers()
             var change = parseInt(res.attr('amount')) - parseInt(amount.text());
             amount.text(res.attr('amount'));
 
-            var icons = $(this).find('.icons');
-            updateTrackerIcons();
-
-            function updateTrackerIcons() {
-                if (change-- > 0) {
-                    var level1 = createIcon(res, 1);
-
-                    var left = 0;
-                    icons.find('.icon').each(function() {
-                        left += $(this).width();
-                    });
-                    
-                    icons.append(level1);
-
-                    level1.animate({ left: left, opacity: 1 }, TRACKER_ANIMATION, function() {
-                        if (icons.find('.icon[level=1]').length >= TRACKER_ICONS) {
-                            var left = 0;
-                            icons.find('.icon[level=2],.icon[level=3]').each(function() {
-                                left += $(this).width();
-                            });
-
-                            var level2 = createIcon(res, 2).css('left', left);
-
-                            icons.append(level2);
-
-                            level2.animate({ opacity: 1 }, TRACKER_ANIMATION);
-
-                            $.when(icons.find('.icon[level=1]').animate({ left: left, opacity: 0.5 }, TRACKER_ANIMATION)).then(function() {
-                                icons.find('.icon[level=1]').remove();
-                                if (icons.find('.icon[level=2]').length >= TRACKER_ICONS) {
-                                    var left = 0;
-                                    icons.find('.icon[level=3]').each(function() {
-                                        left += $(this).width();
-                                    });
-
-                                    var level3 = createIcon(res, 3).css('left', left);
-
-                                    icons.append(level3);
-
-                                    level3.animate({ opacity: 1 }, TRACKER_ANIMATION);
-
-                                    $.when(icons.find('.icon[level=2]').animate({ left: left, opacity: 0.5 }, TRACKER_ANIMATION)).then(function() {
-                                        icons.find('.icon[level=2]').remove();
-                                        setTimeout(updateTrackerIcons, TRACKER_WAIT);
-                                    });
-                                } else {
-                                    setTimeout(updateTrackerIcons, TRACKER_WAIT);
-                                }
-                            });
-                        } else {
-                            setTimeout(updateTrackerIcons, TRACKER_WAIT);
-                        }
-                    });
-                }
-            }
+            updateTrackerIcons($(this).find('.icons'), res, change);
         });
         
         var total = 0;
@@ -81,6 +27,50 @@ function refreshTrackers()
         });
         $(this).find('.total').text(total);
     });
+}
+
+function updateTrackerIcons(icons, res, change, level) {
+    if (typeof level === 'undefined') {
+        if (change > 0) {
+            var icon = createIcon(res, 1);
+
+            var left = 0;
+            icons.find('.icon').each(function() {
+                left += $(this).width();
+            });
+
+            icons.append(icon);
+            icon.animate(
+                { left: left, opacity: 1 },
+                TRACKER_ANIMATION,
+                function() {
+                    updateTrackerIcons(icons, res, change, 1);
+                }
+            );
+        }
+    } else {
+        if (level < ICON_MAX_LEVEL && 
+            icons.find('[level=' + level + ']').length >= TRACKER_ICONS) {
+            var left = 0;
+            icons.find('[level!=' + level + ']').each(function() {
+                left += $(this).width();
+            });
+
+            var icon = createIcon(res, level + 1).css('left', left);
+            icons.append(icon);
+            icon.animate({ opacity: 1 }, TRACKER_ANIMATION);
+
+            $.when(icons.find('[level=' + level + ']').animate(
+                { left : left, opacity: 0 },
+                TRACKER_ANIMATION)
+            ).then(function() {
+                icons.find('[level=' + level + ']').remove();
+                updateTrackerIcons(icons, res, change, level + 1);
+            });
+        } else {
+            updateTrackerIcons(icons, res, change - 1);
+        }
+    }
 }
 
 function createIcon(res, level)

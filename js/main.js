@@ -17,13 +17,17 @@ $(document).ready(function() {
 function onResize()
 {
     var contentHeight = $(window).height() - FOOTER.outerHeight();
-    $('.sidebar').first().children('.accordian-header, .sidebar-title').each(function() {
-        contentHeight -= $(this).outerHeight();
-    });
+    $('.sidebar').first().children('.accordian-header, .sidebar-title').each(
+        function() {
+            contentHeight -= $(this).outerHeight();
+        }
+    );
 
     $('.accordian-content.active').height(contentHeight);
     $('.accordian-content').css('max-height', contentHeight);
-    DIAGRAM.height($(window).height() - FOOTER.outerHeight() - HEADER.outerHeight());
+    DIAGRAM.height(
+        $(window).height() - FOOTER.outerHeight() - HEADER.outerHeight()
+    );
     COPYRIGHT.css('bottom', FOOTER.outerHeight());
 
     resizeFilter();
@@ -118,7 +122,10 @@ jQuery.fn.extend({
         }
 
         this.find('.accordian-header').each(function() {
-            $(this).find('.image').attr('src', '/img/organs/' + type + '/' + $(this).organ() + '.png');
+            $(this).find('.image').attr(
+                'src',
+                '/img/organs/' + type + '/' + $(this).organ() + '.png'
+            );
         });
 
         TRACKER.find('.icon').each(function() {

@@ -6,7 +6,7 @@ $(document).ready(function() {
     $('.food').each(function() {
         var food = $(this);
         food.find('.eat').each(function() {
-            updateEat(food, $(this));
+            updateEat(food, $(this), parseInt($(this).attr('amount')));
         });
     });
 
@@ -35,7 +35,8 @@ $(document).ready(function() {
             run.click(function() {
                 var nutrients = { };
                 pathway.find('.eat').each(function() {
-                    nutrients[$(this).res().toString()] = parseInt($(this).attr('amount'));
+                    nutrients[$(this).res().toString()] = 
+                        parseInt($(this).attr('amount'));
                 });
                 console.log(nutrients);
                 $.ajax({
@@ -82,11 +83,17 @@ $(document).ready(function() {
                 pathway.find('.points').each(function() {
                     $(this).text(-parseInt($(this).text()));
                 });
-                pathway.find('.reaction').find('tr:not(.header)').each(function() {
+                pathway.find('.reaction').find('tr').each(function() {
                     $(this).children().removeClass('limiting-reagent lacking');
-                    $(this).find('.reactant').removeClass('reactant').addClass('temp');
-                    $(this).find('.product').removeClass('product').addClass('reactant');
-                    $(this).find('.temp').removeClass('temp').addClass('product');
+                    $(this).find('.reactant')
+                        .removeClass('reactant')
+                        .addClass('temp');
+                    $(this).find('.product')
+                        .removeClass('product')
+                        .addClass('reactant');
+                    $(this).find('.temp')
+                        .removeClass('temp')
+                        .addClass('product');
                     $(this).find('.amount').each(function() {
                         $(this).text(-parseInt($(this).text()));
                     });
@@ -131,8 +138,12 @@ function refreshPathway(pathway)
 
     pathway.find('.reactant.name').each(function() {
         $(this).removeClass('lacking limiting');
-        var required = Math.abs(parseInt($(this).siblings('.reactant.amount').text()));
-        var amount = parseInt(getRes($(this).res(), $(this).organ()).attr('amount'));
+        var required = Math.abs(parseInt(
+            $(this).siblings('.reactant.amount').text()
+        ));
+        var amount = parseInt(
+            getRes($(this).res(), $(this).organ()).attr('amount')
+        );
 
         var runs = Math.floor(amount/required);
         if (runs < maxRuns) {
@@ -161,7 +172,8 @@ function refreshPathway(pathway)
         limiting.each(function() {
             lackingList += $(this).text() + ', ';
         })
-        pathway.find('p.lacking').text(lackingList.substring(0, lackingList.length - 2));
+        lackingList = lackingList.substring(0, lackingList.length - 2);
+        pathway.find('p.lacking').text(lackingList);
     }
 
     if (typeof pathway.attr('limit') === 'undefined') {
@@ -176,22 +188,28 @@ function updateRun(run, times, maxRuns)
         run.attr('max-runs', maxRuns);
     }
     if (times >= run.attr('max-runs')) {
-        run.siblings('.plus, .top').addClass('disabled').attr('disabled', 'disabled');
+        run.siblings('.plus, .top')
+            .addClass('disabled')
+            .attr('disabled', 'disabled');
     } else {
-        run.siblings('.plus, .top').removeClass('disabled').removeAttr('disabled');
+        run.siblings('.plus, .top')
+            .removeClass('disabled')
+            .removeAttr('disabled');
     }
 
     if (times <= 1) {
-        run.siblings('.minus, .bottom').addClass('disabled').attr('disabled', 'disabled');
+        run.siblings('.minus, .bottom')
+            .addClass('disabled')
+            .attr('disabled', 'disabled');
     } else {
-        run.siblings('.minus, .bottom').removeClass('disabled').removeAttr('disabled');
+        run.siblings('.minus, .bottom')
+            .removeClass('disabled')
+            .removeAttr('disabled');
     }
 }
 
 function updateEat(food, eat, amount)
 {
-    amount = typeof amount === 'undefined' ? parseInt(eat.attr('amount')) : amount;
-
     var total = 0;
     food.find('.eat:not([res="' + eat.res() + '"])').each(function() {
         total += parseInt($(this).attr('amount'));
@@ -199,18 +217,28 @@ function updateEat(food, eat, amount)
 
     var eatMax = food.attr('eat-max');
     amount = min(amount, eatMax - total);
-    eat.text(getRes(eat.res()).attr('name') + ' x' + amount).attr('amount', amount);
+    eat
+        .text(getRes(eat.res()).attr('name') + ' x' + amount)
+        .attr('amount', amount);
     total += amount;
 
     if (total >= eatMax) {
-        food.find('.plus, .top').addClass('disabled').attr('disabled', 'disabled');
+        food.find('.plus, .top')
+            .addClass('disabled')
+            .attr('disabled', 'disabled');
     } else {
-        food.find('.plus, .top').removeClass('disabled').removeAttr('disabled');
+        food.find('.plus, .top')
+            .removeClass('disabled')
+            .removeAttr('disabled');
     }
 
     if (amount <= 0) {
-        eat.siblings('.minus, .bottom').addClass('disabled').attr('disabled', 'disabled');
+        eat.siblings('.minus, .bottom')
+            .addClass('disabled')
+            .attr('disabled', 'disabled');
     } else {
-        eat.siblings('.minus, .bottom').removeClass('disabled').removeAttr('disabled');
+        eat.siblings('.minus, .bottom')
+            .removeClass('disabled')
+            .removeAttr('disabled');
     }
 }

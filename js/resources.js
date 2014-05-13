@@ -47,7 +47,10 @@ function updateRes(res, amount)
 {
     res.attr('amount', amount);
     res.find('.amount').html(amount);
-    res.find('.bar').css('width', Math.min(100, 100*(amount/parseInt(res.attr('max-shown')))) + '%');
+    res.find('.bar').css(
+        'width', 
+        Math.min(100, 100*(amount/parseInt(res.attr('max-shown')))) + '%'
+    );
 }
 
 function refreshResourceLimits()
@@ -68,7 +71,9 @@ function refreshResourceLimits()
             }
 
             if ($(this).hasClass('max')) {
-                $(this).width(min(100, 100*(maxShown - min(val1, val2))/maxShown) + "%");
+                $(this).width(
+                    min(100, 100*(maxShown - min(val1, val2))/maxShown) + "%"
+                );
             } else {
                 $(this).width(max(0, 100*max(val1, val2)/maxShown) + "%");
             }

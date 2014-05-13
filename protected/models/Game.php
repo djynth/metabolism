@@ -179,6 +179,26 @@ class Game extends CActiveRecord
     }
 
     /**
+     * Gets a full description of the state of the game as an array containing
+     *  the current score, turn, resource amounts, action counts, and passive
+     *  pathway availability.
+     * This array should be returned to the client whenever a turn has been
+     *  completed.
+     *
+     * @return an array containing the critical game state information
+     */
+    public static function getState()
+    {
+        return array(
+            'points' => Game::getScore(),
+            'turn' => Game::getTurn(),
+            'resources' => Resource::getAmounts(),
+            'action_counts' => Organ::getActionCounts(),
+            'passive_pathways' => Pathway::getPassivePathwayAvailability(),
+        );
+    }
+
+    /**
      * Increments the turn of the current game, increasing it by one.
      *
      * @return true if the game exists and the turn was incremented, false
@@ -213,6 +233,19 @@ class Game extends CActiveRecord
     }
 
     /**
+     * Gets the current turn of the current game, or 0 if no game exists.
+     *
+     * @return the current game's turn, or 0 if no game has yet been created
+     */
+    public static function getTurn()
+    {
+        if (($game = self::getGameInstance()) !== null) {
+            return $game->turn;
+        }
+        return 0;   
+    }
+
+    /**
      * Adds the given number of points to the current game.
      *
      * @param points number the number of points to add
@@ -241,19 +274,6 @@ class Game extends CActiveRecord
     }
 
     /**
-     * Gets the current turn of the current game, or 0 if no game exists.
-     *
-     * @return the current game's turn, or 0 if no game has yet been created
-     */
-    public static function getTurn()
-    {
-        if (($game = self::getGameInstance()) !== null) {
-            return $game->turn;
-        }
-        return 0;   
-    }
-
-    /**
      * Determines whether the current game has been completed.
      *
      * @return the completion state of the current game, true if the game is
@@ -265,17 +285,6 @@ class Game extends CActiveRecord
             return $game->completed;
         }
         return false;
-    }
-
-    public static function getState()
-    {
-        return array(
-            'points' => Game::getScore(),
-            'turn' => Game::getTurn(),
-            'resources' => Resource::getAmounts(),
-            'action_counts' => Organ::getActionCounts(),
-            'passive_pathways' => Pathway::getPassivePathwayAvailability(),
-        );
     }
 
     /**
