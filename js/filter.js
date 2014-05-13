@@ -33,7 +33,8 @@ function resizeFilter()
         var row = $(this).parents('.row');
         var w = row.outerWidth()/row.find('.product, .reactant').length;
         $(this).siblings().each(function() {
-            w -= $(this).outerWidth() + parseInt($(this).css('border-left-width')) + 
+            w -= $(this).outerWidth() + 
+                parseInt($(this).css('border-left-width')) + 
                 parseInt($(this).css('border-right-width'));
         });
         $(this).outerWidth(w);
@@ -68,7 +69,8 @@ function onFilterChange()
         showAnabolic = true;
     }
 
-    if (!name && showAvailable && showUnavailable && showCatabolic && showAnabolic && showPassive && !reactant && !product) {
+    if (!name && showAvailable && showUnavailable && showCatabolic && 
+        showAnabolic && showPassive && !reactant && !product) {
         FILTER.removeAttr('active');
         PATHWAYS.slideDown();
     } else {
@@ -88,14 +90,16 @@ function onFilterChange()
             }
 
             var pathwayAvailable = $(this).attr('available');
-            if ((showAvailable && !showUnavailable && !pathwayAvailable) || (!showAvailable && showUnavailable && pathwayAvailable)) {
+            if ((showAvailable && !showUnavailable && !pathwayAvailable) || 
+                (!showAvailable && showUnavailable && pathwayAvailable)) {
                 hidden = hidden.add($(this));
                 return;
             }
 
             var pathwayCatabolic = $(this).children('.catabolic').length;
             var pathwayAnabolic = $(this).children('.anabolic').length;
-            if ((showCatabolic && !showAnabolic && !pathwayCatabolic) || (showAnabolic && !showCatabolic && !pathwayAnabolic)) {
+            if ((showCatabolic && !showAnabolic && !pathwayCatabolic) || 
+                (showAnabolic && !showCatabolic && !pathwayAnabolic)) {
                 hidden = hidden.add($(this));
                 return;
             }
@@ -103,7 +107,9 @@ function onFilterChange()
             if (reactant) {
                 var match = false;
                 $(this).find('.reactant.name').each(function() {
-                    var names = getRes($(this).res(), $(this).organ()).attr('names').split(';');
+                    var names = getRes($(this).res(), $(this).organ()).attr(
+                        'names'
+                    ).split(';');
                     for (var i = 0; i < names.length; i++) {
                         if (reactant.test(names[i])) {
                             match = true;
@@ -121,7 +127,9 @@ function onFilterChange()
             if (product) {
                 var match = false;
                 $(this).find('.product.name').each(function() {
-                    var names = getRes($(this).res(), $(this).organ()).attr('names').split(';');
+                    var names = getRes($(this).res(), $(this).organ()).attr(
+                        'names'
+                    ).split(';');
                     for (var i = 0; i < names.length; i++) {
                         if (product.test(names[i])) {
                             match = true;

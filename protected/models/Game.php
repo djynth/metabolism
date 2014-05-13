@@ -19,11 +19,7 @@ class Game extends CActiveRecord
     public $name = "New Game";
     public $turn = 0;
     public $user_id = -1;
-    /**
-     * The maximum number of turns in a game.
-     * The turn counter begins with this value and decrements to 0, at which
-     *  point the game ends.
-     */
+    
     const MAX_TURNS = 300;
 
     public static function model($className = __CLASS__)
@@ -50,11 +46,11 @@ class Game extends CActiveRecord
                 array('user_id' => 'id')
             ),
             'moves' =>  array(
-                            self::HAS_MANY,
-                            'Move',
-                            array('id' => 'game_id'),
-                            'order' => 'moves.turn desc',
-                        ),
+                self::HAS_MANY,
+                'Move',
+                array('id' => 'game_id'),
+                'order' => 'moves.turn desc',
+            ),
         );
     }
 
@@ -66,25 +62,6 @@ class Game extends CActiveRecord
     public function hasOwner()
     {
         return $this->user_id !== -1;
-    }
-
-    /**
-     * Sets the turn of this Game to the given value, if it is a valid turn.
-     *
-     * @param turn number the new turn for this game, in the range between 0 and
-     *                    Game::MAX_TURNS, inclusive
-     * @return true if the turn was successfully set, false otherwise
-     */
-    public function setTurn($turn)
-    {
-        if ($turn > self::MAX_TURNS || $turn < 0) {
-            return false;
-        }
-        $this->turn = $turn;
-        if ($this->turn == self::MAX_TURNS) {
-            $this->completed = true;
-        }
-        return true;
     }
 
     /**
@@ -214,6 +191,25 @@ class Game extends CActiveRecord
         }
 
         return false;
+    }
+
+    /**
+     * Sets the turn of this Game to the given value, if it is a valid turn.
+     *
+     * @param turn number the new turn for this game, in the range between 0 and
+     *                    Game::MAX_TURNS, inclusive
+     * @return true if the turn was successfully set, false otherwise
+     */
+    public function setTurn($turn)
+    {
+        if ($turn > self::MAX_TURNS || $turn < 0) {
+            return false;
+        }
+        $this->turn = $turn;
+        if ($this->turn == self::MAX_TURNS) {
+            $this->completed = true;
+        }
+        return true;
     }
 
     /**

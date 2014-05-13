@@ -41,9 +41,9 @@ function onTurn(data)
         onFilterChange();    
     }
 
-    for (organ in data.action_counts) {
-        TRACKER.find('.actions').find('.organ[organ=' + organ + ']').find('.amount').text(data.action_counts[organ]);
-    }
+    TRACKER.find('.actions').find('.organ').each(function() {
+        $(this).find('.amount').text(data.action_counts[$(this).organ()]);
+    });
 }
 
 function setTurn(turn)

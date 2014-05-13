@@ -39,7 +39,10 @@ $(document).ready(function() {
             $(this).data('timeout', setTimeout(function() {
                 elem.animate({ width: elem.css('max-width') }, {
                     progress: function() {
-                        $(this).nextAll('.add-on').css('right', parseInt($(this).css('right')) + $(this).width());
+                        $(this).nextAll('.add-on').css(
+                            'right',
+                            parseInt($(this).css('right')) + $(this).width()
+                        );
                     }
                 });
                 elem.find('*').fadeIn();
@@ -49,7 +52,10 @@ $(document).ready(function() {
             clearTimeout($(this).data('timeout'));
             $(this).animate({ width: $(this).css('min-width') }, {
                     progress: function() {
-                        $(this).nextAll('.add-on').css('right', parseInt($(this).css('right')) + $(this).width());
+                        $(this).nextAll('.add-on').css(
+                            'right',
+                            parseInt($(this).css('right')) + $(this).width()
+                        );
                     }
                 });
             $(this).find('*:not(i)').fadeOut();
@@ -136,7 +142,8 @@ $(document).ready(function() {
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    current_password: CHANGE_PASSWORD.find('.current-password').val(),
+                    current_password: 
+                        CHANGE_PASSWORD.find('.current-password').val(),
                     new_password: CHANGE_PASSWORD.find('.new-password').val()
                 },
                 success: function(data) {
@@ -160,7 +167,9 @@ $(document).ready(function() {
                 },
                 success: function(data) {
                     if (data.success) {
-                        $('#email-info').find('.email').val(EDIT_EMAIL_AUTHENTICATION.find('.email').val());
+                        $('#email-info').find('.email').val(
+                            EDIT_EMAIL_AUTHENTICATION.find('.email').val()
+                        );
                         EDIT_EMAIL_AUTHENTICATION.slideUp();
                     }
                 }

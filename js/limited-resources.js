@@ -18,21 +18,30 @@ function refreshLimitedResources(passivePathways)
         var points = 0;
         var pen = $(this).attr('pen');
         $(this).find('.max').each(function() {
-            var max = min($(this).attr('max'), getRes($(this).attr('rel-max'), organ).attr('amount'));
+            var max = min($(this).attr('max'), getRes(
+                $(this).attr('rel-max'),
+                organ
+            ).attr('amount'));
             $(this).html(max);
             if (amount > max) {
                 points -= pen * (amount - max);
             }
         });
         $(this).find('.min').each(function() {
-            var min = max($(this).attr('min'), getRes($(this).attr('rel-min'), organ).attr('amount'));
+            var min = max($(this).attr('min'), getRes(
+                $(this).attr('rel-min'),
+                organ
+            ).attr('amount'));
             $(this).html(min);
             if (amount < min) {
                 points -= pen * (min - amount);
             }
         });
         total += points;
-        $(this).find('.amount').html(amount).toggleClass('good', points >= 0).toggleClass('bad', points < 0);
+        $(this).find('.amount')
+            .html(amount)
+            .toggleClass('good', points >= 0)
+            .toggleClass('bad', points < 0);
         $(this).find('.change').html(formatPoints(points));
     });
     LIMITED_RESOURCES.find('.process').each(function() {

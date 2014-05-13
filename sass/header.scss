@@ -51,7 +51,8 @@
 
                 td {
                     padding: 3px;
-                    border: 1px solid;
+                    border-width: 1px;
+                    border-style: solid;
                 }
 
                 .change, .amount, .min, .max, .total {
