@@ -22,20 +22,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Renders the result page, which displays statistics and information to the
-     *  player upon the completion of a game.
-     */
-    public function actionResult()
-    {
-        $user = User::getCurrentUser();
-        if ($user !== null || Game::isGameCompleted()) {
-            $this->render('result', array(
-                'game_id' => Game::getGameInstance()->id,
-            ));
-        }
-    }
-
-    /**
      * Renders the error page, simply dumping the error and exiting.
      */
     public function actionError()
@@ -44,28 +30,6 @@ class SiteController extends Controller
             var_dump($error);
             die;
         }
-    }
-
-    /**
-     * Renders the email verification page, inserting the email address and
-     *  username if they are given.
-     */
-    public function actionVerifyEmail($email='', $username='')
-    {
-        $this->render('verify-email', array(
-            'email' => $email,
-            'username' => $username,
-        ));
-    }
-
-    /**
-     * Renders the password reset page, inserting the username if it is given.
-     */
-    public function actionResetPassword($username='')
-    {
-        $this->render('reset-password', array(
-            'username' => $username,
-        ));
     }
 
     /**
@@ -148,10 +112,22 @@ class SiteController extends Controller
         }
     }
 
+    /**
+     * Selects a random tracker icon for the given resource, level, and theme
+     *  type and returns its URL to the client in a JSON packet.
+     *
+     * @param resource_id number the ID of the resource for which to get a 
+     *                           tracker icon
+     * @param level       number the level of the icon
+     * @param theme_type  string the type of the current theme
+     */
     public function actionTrackerIcon($resource_id, $level, $theme_type)
     {
         $resource = Resource::model()->findByPk((int)$resource_id);
-        $files = glob("img/primary-icons/" . $theme_type . "/" . strtolower($resource->name) . "/level" . $level . "/*.png");
+        $files = glob(
+            "img/primary-icons/" . $theme_type . "/" . 
+                strtolower($resource->name) . "/level" . $level . "/*.png"
+        );
         echo CJavaScript::jsonEncode(array(
             'src' => $files[rand(0, count($files)-1)]
         ));

@@ -307,45 +307,6 @@ class UserController extends Controller
     }
 
     /**
-     * Determines whether the given username is valid.
-     * The result is returned to the client in a JSON packet.
-     *
-     * @param username string a potential username
-     */
-    public function actionValidateUsername($username)
-    {
-        echo CJavaScript::jsonEncode(array(
-            'valid' => User::isValidUsername($username)
-        ));
-    }
-
-    /**
-     * Determines whether the given password is valid.
-     * The result is returned to the client in a JSON packet.
-     *
-     * @param password string a potential password
-     */
-    public function actionValidatePassword($password)
-    {
-        echo CJavaScript::jsonEncode(array(
-            'valid' => User::isValidPassword($password)
-        ));
-    }
-
-    /**
-     * Determines whether the given email address is valid.
-     * The result is returned to the client in a JSON packet.
-     *
-     * @param email string a potential email address
-     */
-    public function actionValidateEmail($email)
-    {
-        echo CJavaScript::jsonEncode(array(
-            'valid' => User::isValidEmail($email)
-        ));
-    }
-
-    /**
      * Saves the given color theme and type as the preference for the current
      *  user, if one is logged in.
      * No data is returned to the client regarding the success of this
@@ -360,24 +321,6 @@ class UserController extends Controller
         if ($user !== null) {
             $user->theme = $theme;
             $user->theme_type = $type;
-            $user->save();
-        }
-    }
-
-    /**
-     * Saves the given help setting as the preference for the current user, if
-     *  one is logged in.
-     * No data is returned to the client regarding the success of this
-     *  operation.
-     *
-     * @param help string whether help tooltips should be shown, either "true"
-     *                    or "false"
-     */
-    public function actionSaveHelp($help)
-    {
-        $user = User::getCurrentUser();
-        if ($user !== null) {
-            $user->help = filter_var($help, FILTER_VALIDATE_BOOLEAN);
             $user->save();
         }
     }
