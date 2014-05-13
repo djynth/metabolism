@@ -1,0 +1,34 @@
+@import "base";
+
+#state {
+    left: 0;
+    width: $gameStateWidth;
+
+    .dropdown {
+        width: $gameStateWidth - 20;
+
+        #limited-resources {
+            width: 100%;
+            line-height: 14px;
+            font-size: 12px;
+
+            .organ-header {
+                cursor: pointer;
+            }
+
+            td {
+                padding: 3px;
+                border-width: 1px;
+                border-style: solid;
+            }
+
+            .change, .amount, .min, .max, .total {
+                text-align: right;
+            }
+
+            .center {
+                text-align: center;
+            }
+        }
+    }
+}

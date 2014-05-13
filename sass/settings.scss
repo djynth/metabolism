@@ -1,0 +1,34 @@
+@import "base";
+
+#settings {
+    right: $accountWidth + 1;
+    width: $settingsWidth;
+
+    .icon-cog {
+        position: absolute;
+        top: 7px;
+        right: 7px;
+    }
+
+    .dropdown {
+        width: $settingsWidth - 20;
+
+        p {
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        #themes {
+            width: 100%;
+            margin-bottom: 10px;
+            display: table;
+            table-layout: fixed;
+
+            .theme {
+                display: table-cell;
+                padding-right: 0;
+                padding-left: 0;
+            }
+        }
+    }
+}

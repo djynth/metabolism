@@ -1,0 +1,50 @@
+@import "base";
+
+#resource-visual {
+    display: none;
+    position: absolute;
+    right: 0;
+    width:  $sidebarWidth;
+    font-size: 12px;
+    line-height: 14px;
+
+    > div {
+        padding: 7px;
+        position: relative;
+
+        .header {
+            border-bottom: 1px solid;
+            height: 20px;
+            font-size: 16px;
+            line-height: 20px;
+            padding-left: 8px;
+            position: relative;
+            margin-bottom: 5px;
+
+            .icon-remove {
+                position: absolute;
+                cursor: pointer;
+                right: 8px;
+                top: 2px;
+                // top: 3px;
+            }
+        }
+
+        .content {
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+
+            .image {
+                max-height: $footerHeight - $footerMinimizeHeight - 40;
+                float: right;
+            }
+
+            > div {
+                display: table-cell;
+                width: 50%;
+                float: left;
+            }
+        }
+    }
+}
