@@ -29,30 +29,36 @@ class SiteController extends Controller
     {
         $game = Yii::app()->session['game'];
 
-        $pathway = Pathway::model()->findByPk((int)$pathway_id);
-        $organ = Organ::model()->findByPk((int)$organ_id);
-        $reverse = ($reverse === "true");
-        $pathway->run($game, (int)$times, $organ, $reverse, false);
+        if ($game !== null) {
+            $pathway = Pathway::model()->findByPk((int)$pathway_id);
+            $organ = Organ::model()->findByPk((int)$organ_id);
+            $reverse = ($reverse === "true");
+            $pathway->run($game, (int)$times, $organ, $reverse, false);
 
-        echo CJavaScript::jsonEncode($game->getState());
+            echo CJavaScript::jsonEncode($game->getState());
+        }
     }
 
     public function actionEat(array $nutrients)
     {
         $game = Yii::app()->session['game'];
 
-        Pathway::eat($game, $nutrients);
+        if ($game !== null) {
+            Pathway::eat($game, $nutrients);
         
-        echo CJavaScript::jsonEncode($game->getState());
+            echo CJavaScript::jsonEncode($game->getState());
+        }
     }
 
     public function actionUndo()
     {
         $game = Yii::app()->session['game'];
 
-        $game->undo();
+        if ($game !== null) {
+            $game->undo();
 
-        echo CJavaScript::jsonEncode($game->getState());
+            echo CJavaScript::jsonEncode($game->getState());
+        }
     }
 
     public function actionResourceInfo($resource_id)
