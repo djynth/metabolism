@@ -38,12 +38,16 @@
                 </tr>
 
                 <?php
-                foreach ($organ->getSoftLimitResources() as $resource) {
+                foreach ($organ->resources as $resource) {
                     $pen = $resource->penalization;
                     $min = $resource->soft_min;
                     $max = $resource->soft_max;
                     $rel_min = $resource->rel_soft_min;
-                    $rel_max = $resource->rel_soft_max; ?>
+                    $rel_max = $resource->rel_soft_max;
+                    if ($min === null && $max === null && $rel_min === null && $rel_max === null) {
+                        continue;
+                    }
+                    ?>
                     <tr class="limited-resource res-info-source" res="<?= $resource->id ?>" organ="<?= $organ->id ?>" pen="<?= $pen ?>">
                         <td><?= $resource->name ?></td>
 
@@ -66,7 +70,7 @@
                         <?php elseif ($rel_max === null): ?>
                             <td class="max" max="<?= $max ?>"></td>
                         <?php else: ?>
-                            <td class="max" max="<?= $max ?>" rel-max="<?= rel_max ?>"></td>
+                            <td class="max" max="<?= $max ?>" rel-max="<?= $rel_max ?>"></td>
                         <?php endif ?>
 
                         <td class="change"></td>

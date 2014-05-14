@@ -41,95 +41,26 @@ class PathwayResource extends CActiveRecord
         );
     }
 
-    /**
-     * Gets the organ in which the resource ought to be modified, if the given
-     *  organ is invalid.
-     * That is, if the resource held by this PathwayResource is not in the given
-     *  organ, this method returns the global organ, otherwise it returns the
-     *  given one.
-     *
-     * @param organ Organ the Organ in which this PathwayResource may be
-     *                    modified, if possible
-     * @return the proper Organ in which the resource can be found
-     */
-    public function getProperOrgan($organ)
-    {
-        foreach ($this->resource->organs as $valid_organ) {
-            if ($valid_organ->id === $organ->id) {
-                return $organ;
-            }
-        }
-        return Organ::getGlobal();
-    }
-
-    /**
-     * Determines whether running the associated Pathway in the given organ the
-     *  given number of times is a valid aciton.
-     * Note that if this PathwayResource does not exist in the given Organ, it
-     *  will default to checking in the global Organ.
-     *
-     * @param times   int     the number of times the Pathway in question would
-     *                        be run
-     * @param organ   Organ   the Organ in which the Pathway in question would
-     *                        be run
-     * @param reverse boolean whether the Pathway in question would be reversed,
-     *                        default is false
-     * @return true if the associated Pathway may be run with the given
-     *         parameters, false otherwise
-     */
     public function canModify($times, $organ, $reverse=false)
     {
         return $this->resource->isValidChange(
-            $this->getProperOrgan($organ)->id,
+            $this->resource->getProperOrgan($organ),
             ($reverse ? -1 : 1) * $this->value * $times
         );
     }
 
-    /**
-     * Determines whether running the associated Pathway in the given organ the
-     *  given number of times would result in the associated Resource crossing a
-     *  soft limit and thus incurring a penalization.
-     * Note that if this PathwayResource does not exist in the given Organ, it
-     *  will default to checking in the global Organ.
-     *
-     * @param times   int     the number of times the Pathway in question would
-     *                        be run
-     * @param organ   Organ   the Organ in which the Pathway in question would
-     *                        be run
-     * @param reverse boolean whether the Pathway in question would be reversed,
-     *                        default is false
-     * @return true if running the associated Pathway with the given parameters
-     *         would result in a penalization
-     */
     public function wouldIncurPenalization($times, $organ, $reverse=false)
     {
         return $this->resource->isPenalizableChange(
-            $this->getProperOrgan($organ)->id,
+            $this->resource->getProperOrgan($organ),
             ($reverse ? -1 : 1) * $this->value * $times
         );
     }
 
-    /**
-     * Effects the change of running the associated Pathway in the given organ
-     *  the given number of times.
-     * Note that this function does not check whether the resulting resource
-     *  level is valid, and so an appropriate call to
-     *  PathwayResource::canModify() should be made before invoking this
-     *  function.
-     * Note also that if this PathwayResource does not exist in the given Organ,
-     *  it will default to running in the global organ.
-     *
-     * @param times   int     the number of times to run the Pathway
-     * @param organ   Organ   the Organ in which to run the Pathway
-     * @param reverse boolean whether the Pathway should be reversed, default is
-     *                        false
-     * @return the new amount of the associated Resource in the given organ
-     *         after the Pathway has been run
-     */
     public function modify($times, $organ, $reverse=false)
     {
         return $this->resource->changeAmount(
-            $this->getProperOrgan($organ)->id,
+            $this->resource->getProperOrgan($organ),
             ($reverse ? -1 : 1) * $this->value * $times
         );
     }

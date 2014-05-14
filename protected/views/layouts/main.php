@@ -31,7 +31,7 @@ $(document).ready(function() {
     $('.accordian-header').first().addClass('active');
     onResize();
     selectOrgan($('.accordian-header.active').organ());
-    onTurn(<?= json_encode(Game::getState()) ?>);
+    onTurn(<?= json_encode(Game::getInitialState()) ?>);
     $('.theme[type=<?= $theme_type ?>][theme=<?= $theme ?>]').click();
 });
 </script>

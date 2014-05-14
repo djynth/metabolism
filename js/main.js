@@ -36,9 +36,9 @@ function onResize()
 function onTurn(data)
 {
     setTurn(data.turn);
-    setPoints(data.points);
+    setPoints(data.score);
     refreshPathways(refreshResources(data.resources));
-    refreshLimitedResources(data.passive_pathways);
+    refreshLimitedResources();
     refreshResourceLimits();
     refreshTrackers();
     if (isFilterActive()) {

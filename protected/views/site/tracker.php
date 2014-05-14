@@ -30,7 +30,7 @@
 
         <?php foreach ($non_global as $organ): ?>
             <div class="organ" organ="<?= $organ->id ?>">
-                <?php if ($organ->hasAction()): ?>
+                <?php if ($organ->action_name !== null): ?>
                     <p class="amount"><?= $organ->getActionCount() ?></p>
                     <p class="name"><?= $organ->action_name ?></p>
                 <?php endif ?>

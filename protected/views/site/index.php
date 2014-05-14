@@ -4,6 +4,7 @@
  * @param non_global
  * @param primary_resources
  * @param user
+ * @param passive_pathways
  */
 ?>
 

@@ -43,7 +43,7 @@ if (!$eat) {
 
     <?php if ($eat): ?>
         <div class="food" eat-max="<?= Pathway::EAT_MAX ?>">
-            <?php foreach ($pathway->resources as $resource): ?>
+            <?php foreach ($pathway->resource_amounts as $resource): ?>
                 <div class="btn-group">
                     <button class="btn btn-mini bottom">
                         <i class="icon-chevron-down"></i>
@@ -76,7 +76,7 @@ if (!$eat) {
                     <?php if ($reactants[$i]): 
                         $resource = $reactants[$i]->resource; ?>
                         <td class="reactant amount"><?= $reactants[$i]->value ?></td>
-                        <td class="reactant name res-info-source" res="<?= $resource->id ?>" organ="<?= $resource->getOrgan($organ)->id ?>">
+                        <td class="reactant name res-info-source" res="<?= $resource->id ?>" organ="<?= $resource->getProperOrgan($organ)->id ?>">
                             <?= $resource->name ?>
                         </td>
                     <?php else: ?>
@@ -85,7 +85,7 @@ if (!$eat) {
 
                     <?php if ($products[$i]):
                         $resource = $products[$i]->resource; ?>
-                        <td class="product name res-info-source" res="<?= $resource->id ?>" organ="<?= $resource->getOrgan($organ)->id ?>">
+                        <td class="product name res-info-source" res="<?= $resource->id ?>" organ="<?= $resource->getProperOrgan($organ)->id ?>">
                             <?= $resource->name ?>
                         </td>
                         <td class="product amount"><?= $products[$i]->value ?></td>

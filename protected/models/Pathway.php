@@ -14,23 +14,13 @@
  * @db action     int(1)          whether this Pathway is associated with an
  *                                organ-specific action
  * @db passive    int(1)          whether this Pathway is passive
- * @fk organs     array(Organ)
- * @fk resource   array(Resource) ordered by resource group
+ * @fk organs           array(Organ)
+ * @fk resource_amounts array(PathwayResource)
  */
 class Pathway extends CActiveRecord
 {
-    /**
-     * The maximum total number of nutrients that can be consumed in one turn by
-     *  eating.
-     */
     const EAT_MAX = 100;
-    /**
-     * The name of the special eat pathway, used to locate it in the database.
-     */
     const EAT_NAME = "Eat";
-    private static $eat = null;
-    private $reactants = null;
-    private $products = null;
 
     public static function model($className = __CLASS__)
     {
@@ -55,7 +45,7 @@ class Pathway extends CActiveRecord
                 'Organ',
                 'pathway_organs(pathway_id, organ_id)',
             ),
-            'resources' => array(
+            'resource_amounts' => array(
                 self::HAS_MANY,
                 'PathwayResource',
                 array('pathway_id' => 'id'),
@@ -65,97 +55,34 @@ class Pathway extends CActiveRecord
         );
     }
 
-    /**
-     * Determines whether this Pathway operates in the organ with the given ID.
-     *
-     * @param organ_id number the ID of the organ to check
-     * @return true if this Pathway runs in the organ with ID organ_id, false
-     *         otherwise
-     */
-    public function hasOrgan($organ_id)
-    {
-        foreach ($this->organs as $organ) {
-            if ($organ->id === $organ_id) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Determines whether this Pathway affects the reource with the given ID.
-     *
-     * @param resource_id number the ID of the resource to check
-     * @return true if this Pathway modifies the resource with ID resource_id,
-     *         false otherwise
-     */
-    public function hasResource($resource_id)
-    {
-        foreach ($this->resources as $resource) {
-            if ($resource->resource->id == $resource_id) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Finds and returns the special eat pathway.
-     * Note that the result is memoized so this function can be safely called
-     *  repeatedly without multiple database queries.
-     *
-     * @return the eat pathway
-     */
     public static function getEat()
     {
-        if (self::$eat === null) {
-            self::$eat = self::model()->findByAttributes(
-                array('name' => self::EAT_NAME)
-            );
-        }
-        return self::$eat;
+        return self::model()->findByAttributes(
+            array('name' => self::EAT_NAME)
+        );
     }
 
-    /**
-     * Gets all the Pathways which are run passively.
-     *
-     * @return an array of the passive Pathways
-     */
     public static function getPassivePathways()
     {
         return self::model()->findAllByAttributes(array(), 'passive <> 0');
     }
 
-    public static function getPassivePathwayAvailability()
-    {
-        $availability = array();
-        foreach (self::getPassivePathways() as $pathway) {
-            foreach ($pathway->organs as $organ) {
-                $availability[$pathway->id][$organ->id] = !$pathway->wouldIncurPenalization($pathway->passive, $organ);
-            }
-            
-        }
-        return $availability;
-    }
-
-    /**
-     * Determiens whether the given array of nutrients to be consumed are valid.
-     * The nutrients should be formatted as an array of resource ID's to amounts
-     *  eaten, and each amount must be non-negative, summing to at most
-     *  Pathway::EAT_MAX.
-     *
-     * @return true if the given nutrients should be allowed to be eaten, false
-     *         otherwise
-     */
     public static function areValidNutrients($nutrients)
     {
         $eat = self::getEat();
-        if (count($nutrients) > count($eat->resources)) {
+        if (count($nutrients) !== count($eat->resource_amounts)) {
             return false;
         }
         $total = 0;
         foreach ($nutrients as $id => $nutrient) {
-            if (!$eat->hasResource($id) || $nutrient < 0) {
+            $hasResource = false;
+            foreach ($eat->resource_amounts as $resource) {
+                if ($resource->resource->id == $id) {
+                    $hasResource = true;
+                    break;
+                }
+            }
+            if (!$hasResource || $nutrient < 0) {
                 return false;
             }
             $total += $nutrient;
@@ -163,117 +90,53 @@ class Pathway extends CActiveRecord
         return $total <= self::EAT_MAX;
     }
 
-    /**
-     * Determines whether this Pathway is the special eat Pathway.
-     *
-     * @return true if this is the eat Pathway, false otherwise
-     */
     public function isEat()
     {
         return $this->name === self::EAT_NAME;
     }
 
-    /**
-     * Returns an array, ordered by resource group, of the reactants of this
-     *  Pathway.
-     * Note that the results are memoized so calling this function repeatedly
-     *  does not involve multiple database queries.
-     *
-     * @return the reactants of this Pathway
-     */
     public function getReactants()
     {
-        if ($this->reactants === null) {
-            $this->reactants = array();
-            foreach ($this->resources as $resource) {
-                if (intval($resource->value) < 0) {
-                    $this->reactants[] = $resource;
-                }
+        $reactants = array();
+        foreach ($this->resource_amounts as $resource) {
+            if (intval($resource->value) < 0) {
+                $reactants[] = $resource;
             }
         }
-        
-        return $this->reactants;
+        return $reactants;
     }
 
-    /**
-     * Returns an array, ordered by resource group, of the products of this
-     *  Pathway.
-     * Note that the results are memoized so calling this function repeatedly
-     *  does not involve multiple database queries.
-     *
-     * @return the products of this Pathway
-     */
     public function getProducts()
     {
-        if ($this->products === null) {
-            $this->products = array();
-            foreach ($this->resources as $resource) {
-                if (intval($resource->value) > 0) {
-                    $this->products[] = $resource;
-                }
+        $products = array();
+        foreach ($this->resource_amounts as $resource) {
+            if (intval($resource->value) > 0) {
+                $products[] = $resource;
             }
         }
-        
-        return $this->products;
+        return $products;
     }
 
-    /**
-     * Determines whether this Pathway can be run with the given parameters
-     *  (i.e. whether it would cause any resources to cross a hard limit).
-     *
-     * @param times   number  the number of times to run the Pathway
-     * @param organ   Organ   the Organ in which to run the Pathway
-     * @param reverse boolean whether to run the Pathway in reverse (default is
-     *                        false)
-     * @return true if the Pathway can be run with the given parameters, false
-     *         otherwise
-     */
     public function canRun($times, $organ, $reverse=false)
     {
-        foreach ($this->resources as $resource) {
-            if (!$resource->canModify($times, $organ, $reverse)) {
-                return false;
+        foreach ($this->resource_amounts as $resource) {
+            if ($this->passive) {
+                if ($resource->wouldIncurPenalization($times, $organ, $reverse)) {
+                    return false;
+                }
+            } else {
+                if (!$resource->canModify($times, $organ, $reverse)) {
+                    return false;
+                }
             }
         }
         return true;
     }
 
-    /**
-     * Determines whether this Pathway would incur any penalization if it were
-     *  run with the given parameters (i.e. whether it would cause any resources
-     *  to cross a soft limit).
-     * Note: this function will return true if any of the resources it affects
-     *  would be across a soft limit after it is run, regardless of whether they
-     *  were already across that soft limit.
-     *
-     * @param times   number  the number of times to run the Pathway
-     * @param organ   Organ   the Organ in which to run the Pathway
-     * @param reverse boolean whether to run the Pathway in reverse (default is
-     *                        false)
-     * @return true if running the Pathway with the given parameters would cause
-     *         a penalization, false otherwise
-     */
-    public function wouldIncurPenalization($times, $organ, $reverse=false)
-    {
-        foreach ($this->resources as $resource) {
-            if ($resource->wouldIncurPenalization($times, $organ, $reverse)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Runs the special eat pathway with the given nutrients.
-     *
-     * @see Pathway::areValidNutrients() which specifies the proper format and
-     *                                   requirements for the nutrients
-     * @param nutrients array the combination of nutrients to be eaten
-     * @return true if running the eat pathway was successfuly, false otherwise
-     */
-    public static function eat($nutrients)
+    public static function eat($game, $nutrients)
     {
         return self::getEat()->run(
+            $game,
             1,
             Organ::getGlobal(),
             false,
@@ -282,26 +145,10 @@ class Pathway extends CActiveRecord
         );
     }
 
-    /**
-     * Runs this Pathway with the given parameters.
-     *
-     * @see Pathway::areValidNutrients() which specifies the proper format and
-     *                                   requirements for the nutrients
-     * @param times     int        the number of times to run this Pathway; the
-     *                             action will count as a single turn regardless
-     * @param organ     Organ      the Organ in which to run this Pathway
-     * @param reverse   boolean    whether the Pathway should be reversed
-     * @param passive   boolean    whether the Pathway was run passively
-     * @param nutrients array|null for the eat pathway, the nutrients to be
-     *                             consumed, ignored otherwise; default is null
-     * @return true if the Pathway was run successfully, false otherwise
-     */
-    public function run($times, $organ, $reverse, $passive, $nutrients=null)
+    public function run($game, $times, $organ, $reverse, $passive=false,
+                        $nutrients=null)
     {
-        if (Game::isGameCompleted()) {
-            return false;
-        }
-        if (!$this->hasOrgan($organ->id)) {
+        if (!$this->passive && $game->completed) {
             return false;
         }
         if ($times < 1 || ($this->limit && $times !== 1)) {
@@ -317,7 +164,19 @@ class Pathway extends CActiveRecord
             return false;
         }
 
-        $resources = $this->resources;
+        $hasOrgan = false;
+        foreach ($this->organs as $myOrgan) {
+            if ($organ->id === $myOrgan->id) {
+                $hasOrgan = true;
+                break;
+            }
+        }
+
+        if (!$hasOrgan) {
+            return false;
+        }
+
+        $resources = $this->resource_amounts;
 
         if ($this->isEat()) {
             if (!self::areValidNutrients($nutrients)) {
@@ -331,11 +190,7 @@ class Pathway extends CActiveRecord
             )->id;
 
             foreach ($resources as $resource) {
-                if (array_key_exists($resource->resource->id, $nutrients)) {
-                    $resource->value = $nutrients[$resource->resource->id];
-                } else {
-                    $resource->value = 0;
-                }
+                $resource->value = $nutrients[$resource->resource->id];
 
                 if ($resource->resource->name === 'Palmitate') {
                     $glycerol->value = floor(intval($resource->value)/3);
@@ -349,7 +204,7 @@ class Pathway extends CActiveRecord
             $resource->modify($times, $organ, $reverse);
         }
 
-        Game::onTurnSuccess($this, $organ, $times, $reverse);
+        $game->onTurn($this, $organ, $times, $reverse);
         
         return true;
     }

@@ -2,14 +2,10 @@
 
 class SiteController extends Controller
 {
-    /**
-     * Renders the main page.
-     * The Game is reset to the initial state.
-     */
     public function actionIndex()
     {
-        Game::initGame();
-
+        Yii::app()->session->clear();
+        Yii::app()->session['game'] = new Game;
         $this->render('index', array(
             'organs' => Organ::model()->findAll(),
             'non_global' => Organ::getNotGlobal(),
@@ -21,9 +17,6 @@ class SiteController extends Controller
         ));
     }
 
-    /**
-     * Renders the error page, simply dumping the error and exiting.
-     */
     public function actionError()
     {
         if ($error = Yii::app()->errorHandler->error) {
@@ -32,65 +25,36 @@ class SiteController extends Controller
         }
     }
 
-    /**
-     * Runs a pathway besides the special Eat pathway.
-     * This action, if successfully completed, will result in the progression of
-     *  the game by a single turn.
-     * The game's state after the Pathway is run is returned to the client by
-     *  means of a JSON packet.
-     * 
-     * @param pathway_id string|int the ID of the Pathway to be run
-     * @param times      string|int the number of times to run the Pathway
-     * @param organ_id   string|int the ID of the Organ in which to run the
-     *                              Pathway
-     * @param reverse    string     whether the Pathway should be reversed,
-     *                              either "true" or "false"
-     */
     public function actionPathway($pathway_id, $times, $organ_id, $reverse)
     {
+        $game = Yii::app()->session['game'];
+
         $pathway = Pathway::model()->findByPk((int)$pathway_id);
         $organ = Organ::model()->findByPk((int)$organ_id);
         $reverse = ($reverse === "true");
-        $pathway->run((int)$times, $organ, $reverse, false);
+        $pathway->run($game, (int)$times, $organ, $reverse, false);
 
-        echo CJavaScript::jsonEncode(Game::getState());
+        echo CJavaScript::jsonEncode($game->getState());
     }
 
-    /**
-     * Runs the special Eat pathway.
-     * This action, if successfully completed, will result in the progression of
-     *  the game by a single turn.
-     * The game's state after Eat is run is returned to the client by means of a
-     *  JSON packet.
-     *
-     * @param nutrients array the nutrients to be eaten, in the format
-     *                        resource_id => amount
-     */
     public function actionEat(array $nutrients)
     {
-        Pathway::eat($nutrients);
+        $game = Yii::app()->session['game'];
+
+        Pathway::eat($game, $nutrients);
         
-        echo CJavaScript::jsonEncode(Game::getState());
+        echo CJavaScript::jsonEncode($game->getState());
     }
 
-    /**
-     * Undoes the most recently run pathway.
-     * The game's state after the undo is completed is returned to the client by
-     *  means of a JSON packet.
-     */
     public function actionUndo()
     {
-        Game::undo();
+        $game = Yii::app()->session['game'];
 
-        echo CJavaScript::jsonEncode(Game::getState());
+        $game->undo();
+
+        echo CJavaScript::jsonEncode($game->getState());
     }
 
-    /**
-     * Gets all the information associated with a resource and returns it to the
-     *  client as a JSON packet.
-     *
-     * @param resource_id number the ID of the resource
-     */
     public function actionResourceInfo($resource_id)
     {
         $resource = Resource::model()->findByPk((int)$resource_id);
@@ -112,15 +76,6 @@ class SiteController extends Controller
         }
     }
 
-    /**
-     * Selects a random tracker icon for the given resource, level, and theme
-     *  type and returns its URL to the client in a JSON packet.
-     *
-     * @param resource_id number the ID of the resource for which to get a 
-     *                           tracker icon
-     * @param level       number the level of the icon
-     * @param theme_type  string the type of the current theme
-     */
     public function actionTrackerIcon($resource_id, $level, $theme_type)
     {
         $resource = Resource::model()->findByPk((int)$resource_id);

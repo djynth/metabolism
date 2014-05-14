@@ -3,7 +3,7 @@
  * @param resource
  * @param organ
  */
-$amount = $resource->getAmount($organ->id);
+$amount = $resource->getAmount($organ);
 ?>
 
 <div class="res res-info-source <?= $resource->primary ? 'primary' : '' ?>" res="<?= $resource->id ?>" organ="<?= $organ->id ?>" max-shown="<?= $resource->max_shown_value ?>" name="<?= $resource->name ?>" names="<?= implode($resource->getNames(), ';') ?>">
