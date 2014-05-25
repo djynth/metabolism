@@ -1,35 +1,51 @@
 @import "base";
 
+// GENERAL
 $text:                 rgb( 80,  80,  80);
 $textShadow:           rgb( 230, 230, 230);
 $border:               rgb( 70,  70,  70);
 $background:           rgb( 240, 240, 240);
-$overlay:              rgba(0,   0,   0,   0.3);
 $sidebarBackground:    rgb( 225, 225, 225);
-$elementBackground:    rgb( 200, 200, 200);
-$elementBorder:        rgb( 170, 170, 170);
-$elementText:          rgb( 55,  55,  55);
-$increase:             rgb( 72,  144, 229);
-$decrease:             rgb( 232, 12,  15);
-$source:               rgb( 82,  117, 255);
-$destination:          rgb( 233, 25,  44);
-$reactionBorder:       rgb( 130, 130, 130);
+$copyright:            rgba(80,  80,  80,  0.85);
+$overlay:              rgba(0,   0,   0,   0.3);
+
+// INPUT
 $inputBackground:      rgb( 220, 220, 220);
 $inputAddOnBackground: rgb( 225, 225, 225);
 $inputBorder:          rgb( 135, 135, 135);
 $inputText:            rgb( 85,  85,  85);
 $inputPlaceholder:     rgb( 125, 125, 125);
 $inputError:           rgb( 255, 0,   0);
-$trackerHeaderBorder:  rgb( 140, 140, 140);
-$trackerOrganBorder:   rgb( 160, 160, 160);
+
+// PATHWAY
+$source:               rgb( 82,  117, 255);
+$destination:          rgb( 233, 25,  44);
+$reactionBorder:       rgb( 130, 130, 130);
 $lacking:              rgba(111, 0,   0,   0.25);
 $limitingReagent:      rgba(0,   0,   111, 0.25);
-$resourceGood:         rgba(0,   130, 0,   0.3);
-$resourceBad:          rgba(220, 0,   0,   0.6);
+
+// RESOURCE
+$elementBackground:    rgb( 200, 200, 200);
+$elementBorder:        rgb( 170, 170, 170);
+$elementText:          rgb( 55,  55,  55);
+$increase:             rgb( 72,  144, 229);
+$decrease:             rgb( 232, 12,  15);
 $softLimit:            rgba(255, 0,   0,   0.4);
 $hardLimit:            rgba(65,  65,  65,  0.9);
-$copyright:            rgba(80,  80,  80,  0.85);
+
+// TRACKER
+$trackerHeaderBorder:  rgb( 140, 140, 140);
+$trackerOrganBorder:   rgb( 160, 160, 160);
 $trackerActive:        darken($background, 9%);
+
+// HEADER
+$resourceGood:         rgba(0,   130, 0,   0.3);
+$resourceBad:          rgba(220, 0,   0,   0.6);
+
+// WELCOME
+$optionBackground:     rgba(0,   0,   0,   0.02);
+$optionBorder:         rgb( 140, 140, 140);
+$labelBorder:          rgba(0,   0,   0,   0.18);
 
 body[theme=frosted] {
     background-color: $background;
@@ -68,6 +84,18 @@ body[theme=frosted] {
 
             .header {
                 border-color: $border;
+            }
+        }
+    }
+
+    #welcome {
+        .option {
+            border-color: $optionBorder;
+            box-shadow: 0 0 10px $optionBorder inset;
+            background-color: $optionBackground;
+
+            label {
+                border-color: $labelBorder;
             }
         }
     }

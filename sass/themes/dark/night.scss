@@ -1,35 +1,51 @@
 @import "base";
 
+// GENERAL
 $text:                 rgb( 230, 230, 230);
 $textShadow:           rgb( 8,   8,   8);
 $border:               rgb( 2,   2,   2);
 $background:           rgb( 58,  58,  58);
 $sidebarBackground:    rgb( 92,  92,  92);
-$elementBackground:    rgb( 76,  76,  76);
-$elementBorder:        rgb( 48,  48,  48);
-$elementText:          rgb( 2,   2,   2);
-$increase:             rgb( 72,  144, 229);
-$decrease:             rgb( 232, 12,  15);
-$source:               rgb( 82,  117, 255);
-$destination:          rgb( 233, 25,  44);
-$reactionBorder:       rgb( 22,  22,  22);
+$copyright:            rgba(35,  35,  35,  0.9);
+$overlay:              rgba(0,   0,   0,   0.3);
+
+// INPUT
 $inputBackground:      rgb( 41,  41,  41);
 $inputAddOnBackground: rgb( 50,  50,  50);
 $inputBorder:          rgb( 15,  15,  15);
 $inputText:            rgb( 230, 230, 230);
 $inputPlaceholder:     rgb( 172, 172, 172);
 $inputError:           rgb( 255, 0,   0);
-$trackerHeaderBorder:  rgb( 95,  95,  95);
-$trackerOrganBorder:   rgb( 81,  81,  81);
-$resultCover:          rgb( 0,   0,   0);
+
+// PATHWAY
+$source:               rgb( 82,  117, 255);
+$destination:          rgb( 233, 25,  44);
+$reactionBorder:       rgb( 22,  22,  22);
 $lacking:              rgba(121, 0,   0,   0.3);
 $limitingReagent:      rgba(0,   0,   121, 0.3);
-$resourceGood:         rgba(0,   121, 0,   0.3);
-$resourceBad:          rgba(161, 0,   0,   0.3);
+
+// RESOURCE
+$elementBackground:    rgb( 76,  76,  76);
+$elementBorder:        rgb( 48,  48,  48);
+$elementText:          rgb( 2,   2,   2);
+$increase:             rgb( 72,  144, 229);
+$decrease:             rgb( 232, 12,  15);
 $softLimit:            rgba(210, 0,   0,   0.4);
 $hardLimit:            rgba(35,  35,  35,  0.9);
-$copyright:            rgba(35,  35,  35,  0.9);
+
+// TRACKER
+$trackerHeaderBorder:  rgb( 95,  95,  95);
+$trackerOrganBorder:   rgb( 81,  81,  81);
 $trackerActive:        lighten($background, 1.75%);
+
+// HEADER
+$resourceGood:         rgba(0,   121, 0,   0.3);
+$resourceBad:          rgba(161, 0,   0,   0.3);
+
+// WELCOME
+$optionBackground:     rgba(255, 255, 255, 0.03);
+$optionBorder:         rgb( 35,  35,  35);
+$labelBorder:          rgba(0,   0,   0,   0.25);
 
 body[theme=night] {
     background-color: $background;
@@ -57,6 +73,31 @@ body[theme=night] {
     .add-on {
         border-color: $inputBorder !important;
         background: $inputAddOnBackground !important;
+    }
+
+    .overlay {
+        background-color: $overlay;
+
+        .window {
+            background-color: $background;
+            border-color: $border;
+
+            .header {
+                border-color: $border;
+            }
+        }
+    }
+
+    #welcome {
+        .option {
+            border-color: $optionBorder;
+            box-shadow: 0 0 10px $optionBorder inset;
+            background-color: $optionBackground;
+
+            label {
+                border-color: $labelBorder;
+            }
+        }
     }
 
     #header {

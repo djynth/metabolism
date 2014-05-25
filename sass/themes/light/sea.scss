@@ -1,35 +1,51 @@
 @import "base";
 
+// GENERAL
 $text:                 rgb( 80,  80,  80);
 $textShadow:           rgba(200, 200, 200, 0.5);
 $border:               rgb( 70,  70,  70);
 $background:           rgb( 191, 235, 250);
 $sidebarBackground:    rgb( 49,  203, 255);
-$elementBackground:    rgb( 153, 216, 237);
-$elementBorder:        rgb( 60,  60,  60);
-$elementText:          rgb( 55,  55,  55);
-$increase:             rgb( 72,  144, 229);
-$decrease:             rgb( 232, 12,  15);
-$source:               rgb( 82,  117, 255);
-$destination:          rgb( 233, 25,  44);
-$reactionBorder:       rgb( 130, 130, 130);
+$copyright:            rgba(80,  80,  80,  0.85);
+$overlay:              rgba(0,   0,   0,   0.3);
+
+// INPUT
 $inputBackground:      rgb( 200, 220, 220);
 $inputAddOnBackground: rgb( 195, 225, 225);
 $inputBorder:          rgb( 135, 135, 135);
 $inputText:            rgb( 85,  85,  85);
 $inputPlaceholder:     rgb( 125, 125, 125);
 $inputError:           rgb( 255, 0,   0);
-$trackerHeaderBorder:  rgb( 140, 140, 140);
-$trackerOrganBorder:   rgb( 160, 160, 160);
-$resultCover:          rgb( 0,   0,   255);
+
+// PATHWAY
+$source:               rgb( 82,  117, 255);
+$destination:          rgb( 233, 25,  44);
+$reactionBorder:       rgb( 130, 130, 130);
 $lacking:              rgba(230, 0,   0,   0.3);
 $limitingReagent:      rgba(0,   0,   111, 0.25);
-$resourceGood:         rgba(0,   190, 0,   0.3);
-$resourceBad:          rgba(230, 0,   0,   0.55);
+
+// RESOURCE
+$elementBackground:    rgb( 153, 216, 237);
+$elementBorder:        rgb( 60,  60,  60);
+$elementText:          rgb( 55,  55,  55);
+$increase:             rgb( 72,  144, 229);
+$decrease:             rgb( 232, 12,  15);
 $softLimit:            rgba(255, 0,   0,   0.4);
 $hardLimit:            rgba(65,  65,  65,  0.9);
-$copyright:            rgba(80,  80,  80,  0.85);
+
+// TRACKER
+$trackerHeaderBorder:  rgb( 140, 140, 140);
+$trackerOrganBorder:   rgb( 160, 160, 160);
 $trackerActive:        darken($background, 9%);
+
+// HEADER
+$resourceGood:         rgba(0,   190, 0,   0.3);
+$resourceBad:          rgba(230, 0,   0,   0.55);
+
+// WELCOME
+$optionBackground:     rgba(0,   0,   0,   0.03);
+$optionBorder:         rgb( 130, 130, 130);
+$labelBorder:          rgba(0,   0,   0,   0.2);
 
 body[theme=sea] {
     background-color: $background;
@@ -57,6 +73,31 @@ body[theme=sea] {
     .add-on {
         border-color: $inputBorder !important;
         background: $inputAddOnBackground !important;
+    }
+
+    .overlay {
+        background-color: $overlay;
+
+        .window {
+            background-color: $background;
+            border-color: $border;
+
+            .header {
+                border-color: $border;
+            }
+        }
+    }
+
+    #welcome {
+        .option {
+            border-color: $optionBorder;
+            box-shadow: 0 0 10px $optionBorder inset;
+            background-color: $optionBackground;
+
+            label {
+                border-color: $labelBorder;
+            }
+        }
     }
 
     #header {
