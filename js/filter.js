@@ -22,22 +22,8 @@ $(document).ready(function() {
 
 function resizeFilter()
 {
-    FILTER.find('.name').each(function() {
-        var w = $(this).parent().outerWidth();
-        $(this).siblings().each(function() {
-            w -= $(this).outerWidth();
-        });
-        $(this).outerWidth(w);
-    });
-    FILTER.find('.product, .reactant').each(function() {
-        var row = $(this).parents('.row');
-        var w = row.outerWidth()/row.find('.product, .reactant').length;
-        $(this).siblings().each(function() {
-            w -= $(this).outerWidth() + 
-                parseInt($(this).css('border-left-width')) + 
-                parseInt($(this).css('border-right-width'));
-        });
-        $(this).outerWidth(w);
+    FILTER.find('input[type=text]').each(function() {
+        $(this).outerWidth($(this).parent().width());
     });
 }
 

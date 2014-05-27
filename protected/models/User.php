@@ -64,7 +64,7 @@ class User extends CActiveRecord
             return null;
         }
 
-        return self::findByUsername(Yii::app()->user->id);
+        return self::model()->findByAttributes(array('username' => Yii::app()->user->id));
     }
 
     public static function isValidUsername($username)

@@ -3,6 +3,8 @@
 
 <head>
 
+<link rel="stylesheet" href="lib/font-awesome-4.1.0/css/font-awesome.min.css">
+
 <!-- load all the CSS and JS assets -->
 <?php foreach (glob("lib/*.css") as $css): ?>
     <link type='text/css' rel='stylesheet' href='<?= $css ?>'>

@@ -187,19 +187,21 @@ function match(password, confirm)
 function validate(input, type)
 {
     input.removeClass('error');
-    $.ajax({
-        url: 'index.php/user/validate',
-        type: 'POST',
-        dataType: 'json',
-        context: $(this),
-        data: {
-            type: type,
-            value: input.val()
-        },
-        success: function(data) {
-            input.toggleClass('error', !data.valid);
-        }
-    });
+    if (input.val()) {
+        $.ajax({
+            url: 'index.php/user/validate',
+            type: 'POST',
+            dataType: 'json',
+            context: $(this),
+            data: {
+                type: type,
+                value: input.val()
+            },
+            success: function(data) {
+                input.toggleClass('error', !data.valid);
+            }
+        });
+    }
 }
 
 function hasError(form)

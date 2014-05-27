@@ -9,6 +9,7 @@
     <div class="title">
         <p id="points"></p>
         <p id="turns" max-turns="<?= Game::MAX_TURNS ?>"></p>
+        <i class="fa fa-dashboard"></i>
     </div>
 
     <div class="dropdown">

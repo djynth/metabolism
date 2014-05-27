@@ -7,7 +7,7 @@
 <div id="account" class="header-element">
     <div class="title">
         <p><?= $user === null ? 'Not logged in' : 'Logged in as ' . $user->username ?></p>
-        <i class="icon-user"></i>
+        <i class="fa fa-user"></i>
     </div>
 
     <div class="dropdown">
@@ -18,14 +18,14 @@
                 
                 <div>
                     <input class="password" type="password" placeholder="Password">
-                    <div class="forgot-password add-on">
-                        <i class="icon-question-sign"></i>
-                        <input class="btn btn-mini" type="button" value="Forgot Password">
+                    <div class="forgot-password add-on right">
+                        <i class="fa fa-question-circle"></i>
+                        <input class="btn mini" type="button" value="Forgot Password">
                     </div>
                 </div>
 
                 <div class="submit-holder">
-                    <input class="submit btn btn-small" type="button" value="Submit">
+                    <input class="submit btn small" type="button" value="Submit">
                 </div>
             </form>
             <form id="create-account">
@@ -35,7 +35,7 @@
                 <input class="new-password" type="password" placeholder="Password">
                 <input class="confirm" type="password" placeholder="Confirm Password">
                 <div class="submit-holder">
-                    <input class="submit btn btn-small" type="button" value="Submit">
+                    <input class="submit btn small" type="button" value="Submit">
                 </div>
             </form>
 
@@ -47,7 +47,7 @@
                 <input class="new-password" type="password" placeholder="New Password">
                 <input class="confirm" type="password" placeholder="Confirm New Password">
                 <div class="submit-holder">
-                    <input class="submit btn btn-small" type="button" value="Submit">
+                    <input class="submit btn small" type="button" value="Submit">
                 </div>
             </form>
 
@@ -57,20 +57,20 @@
                     <input class="email" type="text" placeholder="Email" value="<?= $user->email ?>" disabled>
 
                     <?php if ($user->email_verified): ?>
-                        <div class="verified add-on" verified>
-                            <i class="icon-ok"></i>
+                        <div class="verified add-on right" verified>
+                            <i class="fa fa-check"></i>
                             <p>Email Verified</p>
                         </div>
                     <?php else: ?>
-                        <div class="verified add-on">
-                            <i class="icon-remove"></i>
-                            <button class="resend-email btn btn-mini">Resend Verification Email</button>
+                        <div class="verified add-on right">
+                            <i class="fa fa-exclamation"></i>
+                            <button class="resend-email btn mini">Resend Verification Email</button>
                         </div>
                     <?php endif ?>
 
-                    <div class="edit-email add-on">
-                        <i class="icon-edit"> </i>
-                        <button id="edit-email" class="btn btn-mini">Edit</button>
+                    <div class="edit-email add-on right">
+                        <i class="fa fa-edit"> </i>
+                        <button id="edit-email" class="btn mini">Edit</button>
                     </div>
                 </div>
             </form>
@@ -79,11 +79,11 @@
                 <input class="password" type="password" placeholder="Current Password">
                 <input class="email" type="text" placeholder="New Email">
                 <div class="submit-holder">
-                    <input class="submit btn btn-small" type="button" value="Submit">
+                    <input class="submit btn small" type="button" value="Submit">
                 </div>
             </form>
 
-            <button id="logout" class="btn btn-small">Logout</button>
+            <button id="logout" class="btn small">Logout</button>
             <p class="footer">Logging out will restart your game.</p>
         <?php endif ?>
     </div>

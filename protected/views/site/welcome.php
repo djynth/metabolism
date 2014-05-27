@@ -8,7 +8,7 @@
     <div id="welcome" class="window">
         <div class="header">
             <p class="title">Welcome to Metabolism Fun ™</p>
-            <i class="icon-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
 
         <div class="content">

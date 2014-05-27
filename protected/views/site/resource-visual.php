@@ -2,7 +2,7 @@
     <div>
         <div class="header">
             <p class="name"></p>
-            <i class="icon-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
         <div class="content">
             <div>

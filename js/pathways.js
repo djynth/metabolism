@@ -161,10 +161,9 @@ function refreshPathway(pathway)
     pathway.find('.run-holder').toggle(canRun);
     pathway.children('.lacking').toggle(!canRun);
 
-    if (canRun && !pathway.attr('available')) {
+    if (canRun) {
         pathway.attr('available', 'true');
-    }
-    if (!canRun && pathway.attr('available')) {
+    } else {
         pathway.removeAttr('available');
         pathway.find('p.lacking').show();
 

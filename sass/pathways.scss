@@ -84,7 +84,7 @@
                 text-align: center;
             }
 
-            .icon-arrow-right {
+            .fa {
                 width: 5%;
             }
         }
@@ -96,6 +96,10 @@
 
         .btn-group {
             margin: 2px 0;
+
+            .btn {
+                margin: 0;
+            }
         }
 
         .eat {
@@ -115,10 +119,14 @@
         display: inline-block;
         position: relative;
         margin-top: 3px;
-    }
 
-    .run {
-        min-width: 64px;
+        .btn {
+            margin: 0;
+        }
+
+        .run {
+            min-width: 64px;
+        }
     }
 
     .reverse {

@@ -24,6 +24,12 @@
         .title {
             height: $headerHeight;
             cursor: pointer;
+
+            .fa {
+                position: absolute;
+                top: 8px;
+                right: 9px;
+            }
         }
 
         .dropdown {

@@ -16,6 +16,13 @@ $inputBorder:          rgb( 135, 135, 135);
 $inputText:            rgb( 85,  85,  85);
 $inputPlaceholder:     rgb( 125, 125, 125);
 $inputError:           rgb( 255, 0,   0);
+$inputFocus:           rgba(82, 168, 236, 0.6);
+
+// BUTTON
+$btnBackground:        rgb( 230, 230, 230);
+$btnBackgroundFade:    rgb( 255, 255, 255);
+$btnShadow:            rgb( 179, 179, 179);
+$btnHover:             rgba(0,   0,   0,  0.1);
 
 // PATHWAY
 $source:               rgb( 82,  117, 255);
@@ -55,18 +62,49 @@ body[theme=sea] {
         text-shadow: 1px 1px $textShadow;
     }
 
-    input[type=text], input[type=password] {
-        border-color: $inputBorder !important;
+    input[type=text], input[type=password], input[type=email] {
+        border-color: $inputBorder;
         color: $inputText;
-        background: $inputBackground !important;
+        background-color: $inputBackground;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
         @include input-placeholder {
             color: $inputPlaceholder;
+        }
+
+        &:focus {
+            border-color: $inputFocus;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px $inputFocus;
+
+            &.error {
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px $inputError;
+            }
         }
 
         &.error {
             border-color: $inputError;
             color: $inputError;
-            //box-shadow-color: $inputError;
+        }
+    }
+
+    .btn {
+        color: $text;
+        text-shadow: 1px 1px $textShadow;
+        background-image: linear-gradient(to bottom, $btnBackgroundFade, $btnBackground);
+        border-color: $btnBackground;
+        border-bottom-color: $btnShadow;
+
+        &:hover,
+        &:active,
+        &.active {
+            box-shadow: inset 0 0 7px $btnHover, 0 0 3px $btnHover;
+        }
+
+        &:active,
+        &.active,
+        &.disabled,
+        &[disabled] {
+            background-color: $btnBackground;
+            background-image: none;
         }
     }
 
@@ -186,6 +224,8 @@ body[theme=sea] {
 
     .res {
         @include transition(box-shadow 1s);
+        background-color: $elementBackground;
+        border-color: $elementBorder;
 
         &.increase {
             box-shadow: 0 0 5px 5px $increase;
@@ -195,17 +235,19 @@ body[theme=sea] {
             box-shadow: 0 0 5px 5px $decrease;
         }
 
-        .progress {
-            background-color: $elementBackground;
-            border-color: $elementBorder;
+        .bar {
+            background-image: linear-gradient(to bottom, #149bdf, #0480be);
+            box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
         }
 
         .soft {
             background-color: $softLimit;
+            box-shadow: rgba(0, 0, 0, 0.2) 0 0 1px 1px inset;
         }
 
         .hard {
             background-color: $hardLimit;
+            box-shadow: rgba(0, 0, 0, 0.8) 0 0 2px 2px inset;
         }
 
         span {

@@ -45,18 +45,18 @@ if (!$eat) {
         <div class="food" eat-max="<?= Pathway::EAT_MAX ?>">
             <?php foreach ($pathway->resource_amounts as $resource): ?>
                 <div class="btn-group">
-                    <button class="btn btn-mini bottom">
-                        <i class="icon-chevron-down"></i>
+                    <button class="btn mini bottom">
+                        <i class="fa fa-chevron-down"></i>
                     </button>
-                    <button class="btn btn-mini minus">
-                        <i class="icon-minus"></i>
+                    <button class="btn mini minus">
+                        <i class="fa fa-minus"></i>
                     </button>
-                    <button class="btn btn-mini eat" res="<?= $resource->resource->id ?>" amount="<?= $resource->value ?>"></button>
-                    <button class="btn btn-mini plus">
-                        <i class="icon-plus"></i>
+                    <button class="btn mini eat" res="<?= $resource->resource->id ?>" amount="<?= $resource->value ?>"></button>
+                    <button class="btn mini plus">
+                        <i class="fa fa-plus"></i>
                     </button>
-                    <button class="btn btn-mini top">
-                        <i class="icon-chevron-up"></i>
+                    <button class="btn mini top">
+                        <i class="fa fa-chevron-up"></i>
                     </button>
                 </div>
             <?php endforeach ?>
@@ -66,7 +66,7 @@ if (!$eat) {
             <tr class="header">
                 <td colspan="4">
                     <p class="header-reactants">Reactants</p>
-                    <i class="icon-arrow-right always-black"></i>
+                    <i class="fa fa-long-arrow-right always-black"></i>
                     <p class="header-products">Products</p>
                 </td>
             </tr>
@@ -101,27 +101,27 @@ if (!$eat) {
         <p class="lacking"></p>
         <div class="btn-group run-holder">
             <?php if (!$pathway->limit): ?>
-                <button class="btn btn-mini bottom">
-                    <i class="icon-chevron-down"></i>
+                <button class="btn mini bottom">
+                    <i class="fa fa-chevron-down"></i>
                 </button>
-                <button class="btn btn-mini minus">
-                    <i class="icon-minus"></i>
+                <button class="btn mini minus">
+                    <i class="fa fa-minus"></i>
                 </button>
             <?php endif ?>
-            <button class="btn btn-mini run" times="1">Run</button>
+            <button class="btn mini run" times="1">Run</button>
             <?php if (!$pathway->limit): ?>
-                <button class="btn btn-mini plus">
-                    <i class="icon-plus"></i>
+                <button class="btn mini plus">
+                    <i class="fa fa-plus"></i>
                 </button>
-                <button class="btn btn-mini top">
-                    <i class="icon-chevron-up"></i>
+                <button class="btn mini top">
+                    <i class="fa fa-chevron-up"></i>
                 </button>
             <?php endif ?>
         </div>
 
         <?php if ($pathway->reversible): ?>
-            <button class="btn btn-mini reverse" type="button" data-toggle="button">
-                <i class="icon-random"></i>
+            <button class="btn mini reverse toggle">
+                <i class="fa fa-random"></i>
             </button>
         <?php endif ?>
     <?php endif ?>

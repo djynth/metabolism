@@ -12,6 +12,19 @@ $(document).ready(function() {
     COPYRIGHT = $('#copyright');
 
     $(window).resize(onResize);
+
+    $('.btn-group.checkbox').find('.btn').click(function() {
+        $(this).toggleClass('active');
+    });
+
+    $('.btn-group.radio').find('.btn').click(function() {
+        $(this).siblings('.btn').removeClass('active');
+        $(this).addClass('active');
+    });
+
+    $('.btn.toggle').click(function() {
+        $(this).toggleClass('active');
+    })
 });
 
 function onResize()
@@ -114,11 +127,9 @@ jQuery.fn.extend({
 
     applyColorTheme: function(theme, type) {
         if (type === 'light') {
-            this.find('i:not(.always-white)').removeClass('icon-white');
-            this.find('.btn').removeClass('btn-inverse');
+            this.find('.fa:not(.always-white)').removeClass('fa-inverse');
         } else /* type === 'dark' */ {
-            this.find('i:not(.always-black)').addClass('icon-white');
-            this.find('.btn').addClass('btn-inverse');
+            this.find('.fa:not(.always-black)').addClass('fa-inverse');
         }
 
         this.find('.accordian-header').each(function() {
