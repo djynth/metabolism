@@ -8,24 +8,29 @@
     <div id="welcome" class="window">
         <div class="header">
             <p class="title">Welcome to Metabolism Fun ™</p>
-            <i class="fa fa-times"></i>
         </div>
 
         <div class="content">
             <div class="options">
                 <div class="option">
                     <label>New Game</label>
-                    <img alt="New Game">
+                    <div class="icon-holder">
+                        <i class="fa fa-certificate"></i>
+                    </div>
                 </div>
 
                 <div class="option">
                     <label>Resume Game</label>
-                    <img alt="Resume Game">
+                    <div class="icon-holder">
+                        <i class="fa fa-share"></i>
+                    </div>
                 </div>
 
                 <div class="option">
                     <label>Tutorial</label>
-                    <img alt="Tutorial">
+                    <div class="icon-holder">
+                        <i class="fa fa-graduation-cap"></i>
+                    </div>
                 </div>
 
                 <?php if ($user === null): ?>

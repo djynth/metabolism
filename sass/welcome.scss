@@ -31,6 +31,17 @@ $welcomeHeight: 300px;
                 width: 85%;
                 padding-top: 5px;
                 margin-bottom: 5px;
+                cursor: pointer;
+            }
+
+            .icon-holder {
+                line-height: 160px;
+                font-size: 140px;
+                text-align: center;
+
+                .fa {
+                    vertical-align: middle;
+                }
             }
         }
     }

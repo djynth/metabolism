@@ -218,7 +218,6 @@ input[type=text], input[type=password], input[type=email] {
     height: 100%;
     position: absolute;
     z-index: 5;
-    display: none;
 
     .window {
         margin: auto;
@@ -242,13 +241,6 @@ input[type=text], input[type=password], input[type=email] {
                 padding-left: 10px;
                 font-size: 18px;
                 line-height: 22px;
-            }
-
-            .fa {
-                position: absolute;
-                right: 0;
-                top: 0;
-                cursor: pointer;
             }
         }
     }

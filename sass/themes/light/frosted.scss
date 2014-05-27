@@ -132,8 +132,18 @@ body[theme=frosted] {
             box-shadow: 0 0 10px $optionBorder inset;
             background-color: $optionBackground;
 
+            &:hover {
+                .fa {
+                    opacity: 0.5;
+                }
+            }
+
             label {
                 border-color: $labelBorder;
+            }
+
+            .fa {
+                opacity: 0.35;
             }
         }
     }
