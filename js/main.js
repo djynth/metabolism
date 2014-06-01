@@ -35,12 +35,16 @@ function onResize()
             contentHeight -= $(this).outerHeight();
         }
     );
+    var centerWidth = $(window).width() - 2*$('.sidebar').width();
 
     $('.accordian-content.active').height(contentHeight);
     $('.accordian-content').css('max-height', contentHeight);
     DIAGRAM.height(
         $(window).height() - FOOTER.outerHeight() - HEADER.outerHeight()
     );
+    DIAGRAM.width(centerWidth);
+    TRACKER.width(centerWidth);
+    HEADER.width(centerWidth);
     COPYRIGHT.css('bottom', FOOTER.outerHeight());
 
     resizeFilter();
@@ -66,7 +70,7 @@ function onTurn(data)
 function setTurn(turn)
 {
     var maxTurns = TURNS.attr('max-turns');
-    TURNS.text((maxTurns - turn) + '/' + maxTurns + ' Turns Remaining');
+    TURNS.text((maxTurns - turn) + '/' + maxTurns + ' Turns');
 }
 
 function setPoints(points)
