@@ -66,8 +66,15 @@ function selectOrgan(organ)
     });
 
     $('.accordian-content').each(function() {
-        $(this).animate({ 
-            height: $(this).organ() === organ ? $(this).css('max-height') : 0
-        }, ORGAN_TRANSITION);
+        $(this).animate(
+            { 
+                height: $(this).organ() === organ ? $(this).css('max-height') : 0
+            },
+            {
+                duration: ORGAN_TRANSITION,
+                complete: function() {
+                    $(this).data('jsp').reinitialise();
+                }
+            });
     });
 }

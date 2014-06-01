@@ -8,6 +8,7 @@ $background:           rgb( 191, 235, 250);
 $sidebarBackground:    rgb( 49,  203, 255);
 $copyright:            rgba(80,  80,  80,  0.85);
 $overlay:              rgba(0,   0,   0,   0.3);
+$scrollbar:            rgb( 0,   96,  181);
 
 // INPUT
 $inputBackground:      rgb( 200, 220, 220);
@@ -122,6 +123,18 @@ body[theme=sea] {
 
             .header {
                 border-color: $border;
+            }
+        }
+    }
+
+    .jspVerticalBar {
+        background-color: $sidebarBackground;
+
+        .jspTrack {
+            background-color: $sidebarBackground;
+
+            .jspDrag {
+                background-color: $scrollbar;
             }
         }
     }

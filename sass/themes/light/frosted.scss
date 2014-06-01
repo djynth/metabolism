@@ -8,6 +8,7 @@ $background:           rgb( 240, 240, 240);
 $sidebarBackground:    rgb( 225, 225, 225);
 $copyright:            rgba(80,  80,  80,  0.85);
 $overlay:              rgba(0,   0,   0,   0.3);
+$scrollbar:            rgb( 175, 175, 175);
 
 // INPUT
 $inputBackground:      rgb( 220, 220, 220);
@@ -68,7 +69,7 @@ body[theme=frosted] {
         background-color: $inputBackground;
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
         @include input-placeholder {
-            color: $inputPlaceholder;
+            //color: $inputPlaceholder;
         }
 
         &:focus {
@@ -122,6 +123,18 @@ body[theme=frosted] {
 
             .header {
                 border-color: $border;
+            }
+        }
+    }
+
+    .jspVerticalBar {
+        background-color: $sidebarBackground;
+
+        .jspTrack {
+            background-color: $sidebarBackground;
+
+            .jspDrag {
+                background-color: $scrollbar;
             }
         }
     }

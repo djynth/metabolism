@@ -9,7 +9,7 @@
 <div id="header">
     <div class="header-element left sidebar-title">
         <div class="title">
-            <p>Molecular Resources</p>
+            <p>Metabolic Pathways</p>
         </div>
     </div>
 
@@ -26,7 +26,7 @@
 
     <div class="header-element right sidebar-title">
         <div class="title">
-            <p>Metabolic Pathways</p>
+            <p>Molecular Resources</p>
         </div>
     </div>
 

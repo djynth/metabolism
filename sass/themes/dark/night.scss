@@ -8,6 +8,7 @@ $background:           rgb( 58,  58,  58);
 $sidebarBackground:    rgb( 92,  92,  92);
 $copyright:            rgba(35,  35,  35,  0.9);
 $overlay:              rgba(0,   0,   0,   0.3);
+$scrollbar:            rgb( 60,  60,  60);
 
 // INPUT
 $inputBackground:      rgb( 41,  41,  41);
@@ -122,6 +123,18 @@ body[theme=night] {
 
             .header {
                 border-color: $border;
+            }
+        }
+    }
+
+    .jspVerticalBar {
+        background-color: $sidebarBackground;
+
+        .jspTrack {
+            background-color: $sidebarBackground;
+
+            .jspDrag {
+                background-color: $scrollbar;
             }
         }
     }

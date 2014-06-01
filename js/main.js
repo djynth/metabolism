@@ -13,6 +13,8 @@ $(document).ready(function() {
 
     $(window).resize(onResize);
 
+    $('.accordian-content').jScrollPane();
+
     $('.btn-group.checkbox').find('.btn').click(function() {
         $(this).toggleClass('active');
     });
@@ -38,9 +40,12 @@ function onResize()
         }
     );
     
-    $('.accordian-content')
-        .css('max-height', contentHeight)
-        .filter('.active').height(contentHeight);
+    $('.accordian-content').each(function() {
+        $(this).css('max-height', contentHeight);
+        if ($(this).hasClass('active')) {
+            $(this).height(contentHeight).data('jsp').reinitialise();
+        }
+    });
 
     COPYRIGHT.css('bottom', FOOTER.outerHeight());
 
