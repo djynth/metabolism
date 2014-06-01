@@ -180,10 +180,6 @@ body[theme=night] {
         background-color: $sidebarBackground;
         border-color: $border;
 
-        .accordian-header, .sidebar-title {
-            background-color: $background;
-        }
-
         .popup {
             background-color: inherit;
             border-color: $border;
@@ -192,6 +188,7 @@ body[theme=night] {
         .accordian-header {
             color: $text;
             border-color: $border;
+            background-color: $background;
         }
     }
 

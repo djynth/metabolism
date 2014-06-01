@@ -1,12 +1,9 @@
 @import "base";
 
 #state {
-    left: 0;
     width: $gameStateWidth;
 
     .dropdown {
-        width: $gameStateWidth - 20;
-
         #limited-resources {
             width: 100%;
             line-height: 14px;

@@ -20,13 +20,6 @@ $(document).ready(function() {
     });
 });
 
-function resizeFilter()
-{
-    FILTER.find('input[type=text]').each(function() {
-        $(this).outerWidth($(this).parent().width());
-    });
-}
-
 function isFilterActive()
 {
     return FILTER.attr('active');

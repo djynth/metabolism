@@ -4,10 +4,6 @@
  */
 ?>
 
-<div class="sidebar-title">
-    <p>Molecular Resources</p>
-</div>
-
 <?php foreach($organs as $organ):
     $this->renderPartial('organ-header', array(
         'organ' => $organ,

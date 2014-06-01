@@ -29,25 +29,24 @@ $(document).ready(function() {
 
 function onResize()
 {
-    var contentHeight = $(window).height() - FOOTER.outerHeight();
-    $('.sidebar').first().children('.accordian-header, .sidebar-title').each(
+    var contentHeight = 
+        $(window).height() - HEADER.outerHeight() - FOOTER.outerHeight();
+    DIAGRAM.height(contentHeight);
+    $('.sidebar').first().children('.accordian-header').each(
         function() {
             contentHeight -= $(this).outerHeight();
         }
     );
-    var centerWidth = $(window).width() - 2*$('.sidebar').width();
+    
+    $('.accordian-content')
+        .css('max-height', contentHeight)
+        .filter('.active').height(contentHeight);
 
-    $('.accordian-content.active').height(contentHeight);
-    $('.accordian-content').css('max-height', contentHeight);
-    DIAGRAM.height(
-        $(window).height() - FOOTER.outerHeight() - HEADER.outerHeight()
-    );
-    DIAGRAM.width(centerWidth);
-    TRACKER.width(centerWidth);
-    HEADER.width(centerWidth);
     COPYRIGHT.css('bottom', FOOTER.outerHeight());
 
-    resizeFilter();
+    FILTER.find('input[type=text]').each(function() {
+        $(this).outerWidth($(this).parent().width());
+    });
 }
 
 function onTurn(data)

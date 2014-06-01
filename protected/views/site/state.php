@@ -5,7 +5,7 @@
  */
 ?>
 
-<div id="state" class="header-element">
+<div id="state" class="header-element left">
     <div class="title">
         <p id="points"></p>
         <p id="turns" max-turns="<?= Game::MAX_TURNS ?>"></p>

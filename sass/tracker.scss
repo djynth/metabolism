@@ -2,13 +2,18 @@
 
 #tracker {
     position: absolute;
-    left: $sidebarWidth;
+    display: table;
+    margin: 0 $sidebarWidth;
     table-layout: fixed;
 
     .tracker {
-        bottom: 0;
-        border-right: 1px solid;
+        display: table-cell;
+        width: 2%;
         border-left: 1px solid;
+
+        &:last-of-type {
+            border-right: 1px solid;
+        }
 
         .header {
             position: relative;
@@ -48,7 +53,6 @@
                 line-height: 13px;
                 font-size: 13px;
                 position: absolute;
-                float: right;
             }
 
             .amount {
@@ -78,6 +82,6 @@
     }
 
     .actions {
-        width: 250px;
+        width: 1%;
     }
 }

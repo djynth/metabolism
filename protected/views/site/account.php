@@ -4,7 +4,7 @@
  */
 ?>
 
-<div id="account" class="header-element">
+<div id="account" class="header-element right">
     <div class="title">
         <p><?= $user === null ? 'Not logged in' : 'Logged in as ' . $user->username ?></p>
         <i class="fa fa-user"></i>

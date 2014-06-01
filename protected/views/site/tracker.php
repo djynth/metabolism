@@ -5,9 +5,9 @@
  */
 ?>
 
-<table id="tracker">
+<div id="tracker">
     <?php foreach ($primary_resources as $resource): ?>
-        <td class="tracker res-info-source" res="<?= $resource->id ?>">
+        <div class="tracker res-info-source" res="<?= $resource->id ?>">
             <div class="header">
                 <p class="title"><?= $resource->name ?></p>
                 <p class="total"></p>
@@ -20,10 +20,10 @@
                     <div class="icons"></div>
                 </div>
             <?php endforeach ?>
-        </td>
+        </div>
     <?php endforeach ?>
 
-    <td class="tracker actions">
+    <div class="tracker actions">
         <div class="header">
             <p class="title">Organ-Specific Actions</p>
         </div>
@@ -36,5 +36,5 @@
                 <?php endif ?>
             </div>
         <?php endforeach ?>
-    </td>
-</table>
+    </div>
+</div>

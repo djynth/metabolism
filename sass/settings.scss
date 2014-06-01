@@ -1,12 +1,9 @@
 @import "base";
 
 #settings {
-    right: $accountWidth + 1;
     width: $settingsWidth;
 
     .dropdown {
-        width: $settingsWidth - 20;
-
         p {
             margin-bottom: 5px;
             display: block;

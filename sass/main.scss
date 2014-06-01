@@ -90,7 +90,6 @@ input[type=text], input[type=password], input[type=email] {
 .sidebar {
     position: absolute;
     width:  $sidebarWidth;
-    min-width: $minSidebarWidth;
     z-index: 2;
 
     &.left {
@@ -103,21 +102,15 @@ input[type=text], input[type=password], input[type=email] {
         border-left: 1px solid;
     }
 
-    .sidebar-title {
-        height: $headerHeight;
-
-        p {
-            padding-top: 6px;
-            padding-left: 10px;
-            font-size: $headerHeight - 10px;
-        }
-    }
-
     .accordian-header {
         cursor: pointer;
         position: relative;
         border-top: 1px solid;
         padding-left: 10px;
+
+        &:first-of-type {
+            border-top: none;
+        }
 
         &.active {
             border-bottom: 1px solid;
@@ -249,9 +242,9 @@ input[type=text], input[type=password], input[type=email] {
 }
 
 #diagram {
-    position: absolute;
-    left: $sidebarWidth;
+    margin: 0 $sidebarWidth;
     top: $headerHeight+1;
+    z-index: 1;
 
     background-image: url('/img/overview.png');
     background-size: contain;

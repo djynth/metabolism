@@ -1,4 +1,4 @@
-<div id="settings" class="header-element">
+<div id="settings" class="header-element right">
     <div class="title">
         <p>Settings</p>
         <i class="fa fa-wrench"></i>

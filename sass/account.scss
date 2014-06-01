@@ -1,13 +1,9 @@
 @import "base";
 
 #account {
-    right: 0;
     width:  $accountWidth;
-    min-height: 100%;
 
     .dropdown {
-        width: $accountWidth - 20;
-
         form {
             margin: 0;
         }
@@ -35,7 +31,7 @@
 
         .add-on {
             top: 4px;
-            right: 6px;
+            right: 4px;
         }
 
         #email-info {
