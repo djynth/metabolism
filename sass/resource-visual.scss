@@ -33,16 +33,28 @@
             display: table;
             table-layout: fixed;
             width: 100%;
+            height: $resourceVisualContentHeight;
 
             .image {
-                max-height: $footerHeight - $footerMinimizeHeight - 40;
                 float: right;
+                padding: 5px;
+                max-height: $resourceVisualContentHeight - 10;
             }
 
             > div {
                 display: table-cell;
                 width: 50%;
                 float: left;
+            }
+        }
+
+        .filter {
+            * {
+                display: inline-block;
+            }
+
+            .btn {
+                margin: 0;
             }
         }
     }

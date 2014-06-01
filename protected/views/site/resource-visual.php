@@ -18,5 +18,12 @@
                 <img class="image" alt="" src="">
             </div>
         </div>
+        <div class="filter">
+            <p>Filter Pathways as</p>
+            <div class="btn-group">
+                <button class="btn mini reactant">Reactant</button>
+                <button class="btn mini product">Product</button>
+            </div>
+        </div>
     </div>
 </div>

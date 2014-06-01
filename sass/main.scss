@@ -218,6 +218,7 @@ input[type=text], input[type=password], input[type=email] {
     height: 100%;
     position: absolute;
     z-index: 5;
+    display: none;
 
     .window {
         margin: auto;

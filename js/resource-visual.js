@@ -9,6 +9,16 @@ $(document).ready(function() {
         PATHWAYS.removeClass('source destination');
     });
 
+    RESOURCE_VISUAL.find('.filter').find('.btn').click(function() {
+        if ($(this).hasClass('reactant')) {
+            FILTER.find('.reactant').val(RESOURCE_VISUAL.find('.name').text());
+        }
+        if ($(this).hasClass('product')) {
+            FILTER.find('.product').val(RESOURCE_VISUAL.find('.name').text());
+        }
+        onFilterChange();
+    });
+
     $('.res-info-source').click(function() {
         var res = $(this).res();
         if (RESOURCE_VISUAL.res() !== res) {
