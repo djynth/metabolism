@@ -48,7 +48,7 @@ function onResize()
     });
 
     COPYRIGHT.css('bottom', FOOTER.outerHeight());
-    NOTIFICATIONS.css('bottom', FOOTER.outerHeight());
+    NOTIFICATIONS.css('bottom', FOOTER.outerHeight() - 1);
 
     FILTER.find('input[type=text]').each(function() {
         $(this).outerWidth($(this).parent().width());

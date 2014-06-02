@@ -7,7 +7,7 @@
 
     .header {
         border: 1px solid;
-        border-bottom: none;
+        //border-bottom: none;
         padding-left: 10px;
         cursor: pointer;
         position: relative;
@@ -21,13 +21,31 @@
     }
 
     .content {
-        display: none;
-        height: 350px;
+        height: 0;
+        max-height: 350px;
         border: 1px solid;
         border-bottom: none;
+        border-top: none;
+        overflow: hidden;
 
         .notification {
-            
+            padding: 3px;
+
+            .message {
+                padding-left: 30px;
+                padding-right: 100px;
+            }
+
+            .time {
+                float: right;
+            }
+
+            .fa {
+                float: left;
+                margin-right: 10px;
+                margin-left: 5px;
+                margin-top: 4px;
+            }
         }
     }
 }
