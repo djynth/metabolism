@@ -33,6 +33,8 @@
 <div id="diagram"></div>
 <p id="copyright">Copyright 2014 Neocles B. Leontis</p>
 
+<?php $this->renderPartial('notifications'); ?>
+
 <?php $this->renderPartial('footer', array(
     'primary_resources' => $primary_resources,
     'non_global'        => $non_global,

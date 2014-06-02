@@ -1,0 +1,33 @@
+@import "base";
+
+#notifications {
+    position: absolute;
+    left: $sidebarWidth;
+    width: 450px;
+
+    .header {
+        border: 1px solid;
+        border-bottom: none;
+        padding-left: 10px;
+        cursor: pointer;
+        position: relative;
+
+        .fa {
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin: 3px 4px;
+        }
+    }
+
+    .content {
+        display: none;
+        height: 350px;
+        border: 1px solid;
+        border-bottom: none;
+
+        .notification {
+            
+        }
+    }
+}

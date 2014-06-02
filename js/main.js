@@ -48,6 +48,7 @@ function onResize()
     });
 
     COPYRIGHT.css('bottom', FOOTER.outerHeight());
+    NOTIFICATIONS.css('bottom', FOOTER.outerHeight());
 
     FILTER.find('input[type=text]').each(function() {
         $(this).outerWidth($(this).parent().width());

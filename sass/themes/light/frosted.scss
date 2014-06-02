@@ -305,6 +305,22 @@ body[theme=frosted] {
             }
         }
     }
+
+    #notifications {
+        .header {
+            background-color: rgba(150, 150, 150, 0.15);
+            border-color: $border;
+
+            p {
+                text-shadow: none;
+            }
+        }
+
+        .content {
+            background-color: rgba(240, 240, 240, 0.45);
+            border-color: $border;
+        }
+    }
     
     #copyright {
         color: $copyright;
