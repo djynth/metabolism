@@ -18,10 +18,6 @@ $(document).ready(function() {
         $(this).toggleClass('fa-toggle-up').toggleClass('fa-toggle-down');
         e.stopPropagation();
     });
-
-    $('.pathways').find('.pathway').click(function() {
-        notify('really super long text more text and longer message notifications are so cool this is really annoying to type but should be long enough now');
-    });
 });
 
 function notify(message, type)

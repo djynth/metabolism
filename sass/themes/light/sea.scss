@@ -1,59 +1,60 @@
 @import "base";
 
 // GENERAL
-$text:                 rgb( 80,  80,  80);
-$textShadow:           rgba(200, 200, 200, 0.5);
-$border:               rgb( 70,  70,  70);
-$background:           rgb( 191, 235, 250);
-$sidebarBackground:    rgb( 49,  203, 255);
-$copyright:            rgba(80,  80,  80,  0.85);
-$overlay:              rgba(0,   0,   0,   0.3);
-$scrollbar:            rgb( 0,   96,  181);
+$text:                   rgb( 80,  80,  80);
+$textShadow:             rgba(200, 200, 200, 0.5);
+$border:                 rgb( 70,  70,  70);
+$background:             rgb( 191, 235, 250);
+$sidebarBackground:      rgb( 49,  203, 255);
+$copyright:              rgba(80,  80,  80,  0.85);
+$overlay:                rgba(0,   0,   0,   0.3);
+$scrollbar:              rgb( 0,   96,  181);
+$notificationBackground: rgba(240, 240, 240, 0.65);
 
 // INPUT
-$inputBackground:      rgb( 200, 220, 220);
-$inputAddOnBackground: rgb( 195, 225, 225);
-$inputBorder:          rgb( 135, 135, 135);
-$inputText:            rgb( 85,  85,  85);
-$inputPlaceholder:     rgb( 125, 125, 125);
-$inputError:           rgb( 255, 0,   0);
-$inputFocus:           rgba(82, 168, 236, 0.6);
+$inputBackground:        rgb( 200, 220, 220);
+$inputAddOnBackground:   rgb( 195, 225, 225);
+$inputBorder:            rgb( 135, 135, 135);
+$inputText:              rgb( 85,  85,  85);
+$inputPlaceholder:       rgb( 125, 125, 125);
+$inputError:             rgb( 255, 0,   0);
+$inputFocus:             rgba(82, 168, 236, 0.6);
 
 // BUTTON
-$btnBackground:        rgb( 230, 230, 230);
-$btnBackgroundFade:    rgb( 255, 255, 255);
-$btnShadow:            rgb( 179, 179, 179);
-$btnHover:             rgba(0,   0,   0,  0.1);
+$btnBackground:          rgb( 230, 230, 230);
+$btnBackgroundFade:      rgb( 255, 255, 255);
+$btnShadow:              rgb( 179, 179, 179);
+$btnHover:               rgba(0,   0,   0,  0.1);
 
 // PATHWAY
-$source:               rgb( 82,  117, 255);
-$destination:          rgb( 233, 25,  44);
-$reactionBorder:       rgb( 130, 130, 130);
-$lacking:              rgba(230, 0,   0,   0.3);
-$limitingReagent:      rgba(0,   0,   111, 0.25);
+$source:                 rgb( 82,  117, 255);
+$destination:            rgb( 233, 25,  44);
+$reactionBorder:         rgb( 130, 130, 130);
+$lacking:                rgba(230, 0,   0,   0.3);
+$limitingReagent:        rgba(0,   0,   111, 0.25);
 
 // RESOURCE
-$elementBackground:    rgb( 153, 216, 237);
-$elementBorder:        rgb( 60,  60,  60);
-$elementText:          rgb( 55,  55,  55);
-$increase:             rgb( 72,  144, 229);
-$decrease:             rgb( 232, 12,  15);
-$softLimit:            rgba(255, 0,   0,   0.4);
-$hardLimit:            rgba(65,  65,  65,  0.9);
+$elementBackground:      rgb( 153, 216, 237);
+$elementBorder:          rgb( 60,  60,  60);
+$elementText:            rgb( 55,  55,  55);
+$increase:               rgb( 72,  144, 229);
+$decrease:               rgb( 232, 12,  15);
+$softLimit:              rgba(255, 0,   0,   0.4);
+$hardLimit:              rgba(65,  65,  65,  0.9);
 
 // TRACKER
-$trackerHeaderBorder:  rgb( 140, 140, 140);
-$trackerOrganBorder:   rgb( 160, 160, 160);
-$trackerActive:        darken($background, 9%);
+$trackerHeaderBorder:    rgb( 140, 140, 140);
+$trackerOrganBorder:     rgb( 160, 160, 160);
+$trackerActive:          darken($background, 9%);
 
 // HEADER
-$resourceGood:         rgba(0,   190, 0,   0.3);
-$resourceBad:          rgba(230, 0,   0,   0.55);
+$resourceGood:           rgba(0,   190, 0,   0.3);
+$resourceBad:            rgba(230, 0,   0,   0.55);
 
 // WELCOME
-$optionBackground:     rgba(0,   0,   0,   0.03);
-$optionBorder:         rgb( 130, 130, 130);
-$labelBorder:          rgba(0,   0,   0,   0.2);
+$optionBackground:       rgba(0,   0,   0,   0.03);
+$optionBorder:           rgb( 130, 130, 130);
+$labelBorder:            rgba(0,   0,   0,   0.2);
 
 body[theme=sea] {
     background-color: $background;
@@ -69,7 +70,7 @@ body[theme=sea] {
         background-color: $inputBackground;
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
         @include input-placeholder {
-            color: $inputPlaceholder;
+            //color: $inputPlaceholder;
         }
 
         &:focus {
@@ -303,6 +304,21 @@ body[theme=sea] {
             .header {
                 border-color: $border;
             }
+        }
+    }
+
+    #notifications {
+        .header {
+            background-color: $background;
+            border-color: $border;
+
+            p {
+                text-shadow: none;
+            }
+        }
+
+        .content {
+            background-color: $notificationBackground;
         }
     }
     
