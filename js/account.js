@@ -2,6 +2,7 @@ var LOGIN;
 var CREATE_ACCOUNT;
 var CHANGE_PASSWORD;
 var EDIT_EMAIL_AUTHENTICATION;
+var INTERNAL_ERROR = 'An internal error occurred.';
 
 $(document).ready(function() {
     LOGIN = $('#login');
@@ -69,6 +70,12 @@ $(document).ready(function() {
             dataType: 'json',
             data: {
                 username: LOGIN.find('.username').val()
+            },
+            success: function(data) {
+                notify(data.message, data.success ? 'normal' : 'error');
+            },
+            error: function() {
+                notify(INTERNAL_ERROR, 'error');
             }
         });
     });
@@ -76,7 +83,13 @@ $(document).ready(function() {
     $('.resend-email').click(function() {
         $.ajax({
             url: 'index.php/user/resendEmailVerification',
-            type: 'POST'
+            type: 'POST',
+            success: function(data) {
+                notify(data.message, data.success ? 'normal' : 'error');
+            },
+            error: function() {
+                notify(INTERNAL_ERROR, 'error');
+            }
         });
     });
 
@@ -107,7 +120,12 @@ $(document).ready(function() {
             success: function(data) {
                 if (data.success) {
                     location.reload();
+                } else {
+                    notify(data.message, 'error');
                 }
+            },
+            error: function() {
+                notify(INTERNAL_ERROR, 'error');
             }
         });
     });
@@ -129,7 +147,12 @@ $(document).ready(function() {
                 success: function(data) {
                     if (data.success) {
                         location.reload();
+                    } else {
+                        notify(data.message, 'error');
                     }
+                },
+                error: function() {
+                    notify(INTERNAL_ERROR, 'error');
                 }
             });
         }
@@ -149,7 +172,13 @@ $(document).ready(function() {
                 success: function(data) {
                     if (data.success) {
                         CHANGE_PASSWORD.find('input[type=password]').val('');
+                        notify(data.message, 'normal');
+                    } else {
+                        notify(data.message, 'error');
                     }
+                },
+                error: function() {
+                    notify(INTERNAL_ERROR, 'error');
                 }
             });
         }
@@ -171,7 +200,13 @@ $(document).ready(function() {
                             EDIT_EMAIL_AUTHENTICATION.find('.email').val()
                         );
                         EDIT_EMAIL_AUTHENTICATION.slideUp();
+                        notify(data.message, 'normal');
+                    } else {
+                        notify(data.message, 'error');
                     }
+                },
+                error: function() {
+                    notify(INTERNAL_ERROR, 'error');
                 }
             });
         }

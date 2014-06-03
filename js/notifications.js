@@ -22,10 +22,6 @@ $(document).ready(function() {
 
 function notify(message, type)
 {
-    if (typeof type === 'undefined') {
-        type = 'normal';
-    }
-
     var now = new Date();
     var icon = 'fa-info-circle';
     if (type === 'warning') {
