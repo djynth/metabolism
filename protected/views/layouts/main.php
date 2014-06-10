@@ -22,20 +22,6 @@ foreach (glob("js/*.js") as $js): ?>
     <script src='<?= $js ?>'></script>
 <?php endforeach; ?>
 
-<?php
-$theme = User::getCurrentTheme();
-?>
-
-<script>
-$(document).ready(function() {
-    $('.accordian-header').first().addClass('active');
-    onResize();
-    selectOrgan($('.accordian-header.active').organ());
-    onTurn(<?= json_encode(Game::getInitialState()) ?>);
-    $('.theme[type=<?= $theme["type"] ?>][theme=<?= $theme["theme"] ?>]').click();
-});
-</script>
-
 <meta name="description" content="<?= Yii::app()->name ?>">
 <meta name="language" content="en">
 

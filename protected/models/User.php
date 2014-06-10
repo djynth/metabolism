@@ -98,6 +98,16 @@ class User extends CActiveRecord
         )) !== null;
     }
 
+    public static function authenticateEmailVerification($username, $verification)
+    {
+        return false;       // TODO
+    }
+
+    public static function authenticatePasswordReset($username, $verification)
+    {
+        return false;       // TODO
+    }
+
     public static function getCurrentTheme()
     {
         $user = self::getCurrentUser();

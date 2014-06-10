@@ -105,7 +105,11 @@ $(document).ready(function() {
     });
 
     $('#edit-email').click(function() {
+        var visible = EDIT_EMAIL_AUTHENTICATION.is(':visible');
         EDIT_EMAIL_AUTHENTICATION.slideToggle();
+        if (!visible) {
+            EDIT_EMAIL_AUTHENTICATION.find('input').first().focus();    
+        }
     });
 
     LOGIN.find('.submit').click(function() {
@@ -170,36 +174,33 @@ $(document).ready(function() {
                     new_password: CHANGE_PASSWORD.find('.new-password').val()
                 },
                 success: function(data) {
-                    if (data.success) {
-                        CHANGE_PASSWORD.find('input[type=password]').val('');
-                        notify(data.message, 'normal');
-                    } else {
-                        notify(data.message, 'warning');
-                    }
+                    notify(data.message, data.success ? 'normal' : 'warning');
                 },
                 error: function() {
                     notify(INTERNAL_ERROR, 'error');
                 }
             });
+            CHANGE_PASSWORD.find('input[type=password]').val('');
         }
     });
 
     EDIT_EMAIL_AUTHENTICATION.find('.submit').click(function() {
         if (!hasError(EDIT_EMAIL_AUTHENTICATION)) {
+            var newEmail = EDIT_EMAIL_AUTHENTICATION.find('.email').val();
             $.ajax({
                 url: 'index.php/user/changeEmail',
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    email: EDIT_EMAIL_AUTHENTICATION.find('.email').val(),
+                    email: newEmail,
                     password: EDIT_EMAIL_AUTHENTICATION.find('.password').val()
                 },
                 success: function(data) {
                     if (data.success) {
-                        $('#email-info').find('.email').val(
-                            EDIT_EMAIL_AUTHENTICATION.find('.email').val()
-                        );
-                        EDIT_EMAIL_AUTHENTICATION.slideUp();
+                        $('#email-info').find('.email').val(newEmail);
+                        EDIT_EMAIL_AUTHENTICATION
+                            .slideUp()
+                            .find('input[type=text]').val('');
                         notify(data.message, 'normal');
                     } else {
                         notify(data.message, 'warning');
@@ -209,6 +210,7 @@ $(document).ready(function() {
                     notify(INTERNAL_ERROR, 'error');
                 }
             });
+            EDIT_EMAIL_AUTHENTICATION.find('input[type=password]').val('');
         }
     });
 });
