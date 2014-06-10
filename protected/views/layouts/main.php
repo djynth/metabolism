@@ -23,9 +23,7 @@ foreach (glob("js/*.js") as $js): ?>
 <?php endforeach; ?>
 
 <?php
-$user = User::getCurrentUser();
-$theme      = json_encode($user !== null ? $user->theme      : User::DEFAULT_THEME);
-$theme_type = json_encode($user !== null ? $user->theme_type : User::DEFAULT_THEME_TYPE);
+$theme = User::getCurrentTheme();
 ?>
 
 <script>
@@ -34,7 +32,7 @@ $(document).ready(function() {
     onResize();
     selectOrgan($('.accordian-header.active').organ());
     onTurn(<?= json_encode(Game::getInitialState()) ?>);
-    $('.theme[type=<?= $theme_type ?>][theme=<?= $theme ?>]').click();
+    $('.theme[type=<?= $theme["type"] ?>][theme=<?= $theme["theme"] ?>]').click();
 });
 </script>
 

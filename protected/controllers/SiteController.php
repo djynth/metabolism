@@ -1,7 +1,12 @@
 <?php
 
-class SiteController extends Controller
+class SiteController extends CController
 {
+    public function getActionParams()
+    {
+        return array_merge($_GET, $_POST);
+    }
+
     public function actionIndex()
     {
         Yii::app()->session->clear();

@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends Controller
+class UserController extends CController
 {
     const VERIFICATION_LENGTH = 16;
     const VERIFICATION_VALUES = 
@@ -30,6 +30,11 @@ class UserController extends Controller
             'A password recovery email was sent to your email address at %domain.',
     );
 
+    public function getActionParams()
+    {
+        return array_merge($_GET, $_POST);
+    }
+
     public function actionValidate($type, $value)
     {
         $valid = false;
@@ -55,9 +60,12 @@ class UserController extends Controller
     {
         $success = false;
         $message = false;
-        $identity = new UserIdentity($username, $password);
-        if ($identity->authenticate()) {
-            Yii::app()->user->login($identity, self::LOGIN_DURATION);
+        $user = User::model()->findByAttributes(array('username' => $username));
+        if ($user !== null && $user->authenticate($password)) {
+            Yii::app()->user->login(
+                new CUserIdentity($username, $password),
+                self::LOGIN_DURATION
+            );
             $success = true;
         } else {
             $message = self::$MESSAGES['incorrect_login'];
@@ -115,7 +123,7 @@ class UserController extends Controller
             $user->email_verification = self::generateVerificationCode();
             if ($user->save()) {
                 Yii::app()->user->login(
-                    new UserIdentity($username, $password),
+                    new CUserIdentity($username, $password),
                     self::LOGIN_DURATION
                 );
                 $success = true;
@@ -323,6 +331,14 @@ class UserController extends Controller
             $user->theme_type = $type;
             $user->save();
         }
+
+        $cookies = Yii::app()->request->cookies;
+        $cookies['theme'] = new CHttpCookie('theme', $theme, array(
+            'expire' => time() + self::LOGIN_DURATION,
+        ));
+        $cookies['theme_type'] = new CHttpCookie('theme_type', $type, array(
+            'expire' => time() + self::LOGIN_DURATION,
+        ));
     }
 
     /**
