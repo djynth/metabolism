@@ -72,7 +72,7 @@ $(document).ready(function() {
                 username: LOGIN.find('.username').val()
             },
             success: function(data) {
-                notify(data.message, data.success ? 'normal' : 'error');
+                notify(data.message, data.success ? 'normal' : 'warning');
             },
             error: function() {
                 notify(INTERNAL_ERROR, 'error');
@@ -85,7 +85,7 @@ $(document).ready(function() {
             url: 'index.php/user/resendEmailVerification',
             type: 'POST',
             success: function(data) {
-                notify(data.message, data.success ? 'normal' : 'error');
+                notify(data.message, data.success ? 'normal' : 'warning');
             },
             error: function() {
                 notify(INTERNAL_ERROR, 'error');
@@ -121,7 +121,7 @@ $(document).ready(function() {
                 if (data.success) {
                     location.reload();
                 } else {
-                    notify(data.message, 'error');
+                    notify(data.message, 'warning');
                 }
             },
             error: function() {
@@ -148,7 +148,7 @@ $(document).ready(function() {
                     if (data.success) {
                         location.reload();
                     } else {
-                        notify(data.message, 'error');
+                        notify(data.message, 'warning');
                     }
                 },
                 error: function() {
@@ -174,7 +174,7 @@ $(document).ready(function() {
                         CHANGE_PASSWORD.find('input[type=password]').val('');
                         notify(data.message, 'normal');
                     } else {
-                        notify(data.message, 'error');
+                        notify(data.message, 'warning');
                     }
                 },
                 error: function() {
@@ -202,7 +202,7 @@ $(document).ready(function() {
                         EDIT_EMAIL_AUTHENTICATION.slideUp();
                         notify(data.message, 'normal');
                     } else {
-                        notify(data.message, 'error');
+                        notify(data.message, 'warning');
                     }
                 },
                 error: function() {
