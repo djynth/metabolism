@@ -64,9 +64,9 @@ class User extends CActiveRecord
             return null;
         }
 
-        return self::model()->findByAttributes(
-            array('username' => Yii::app()->user->name)
-        );
+        return self::model()->findByAttributes(array(
+            'username' => Yii::app()->user->name
+        ));
     }
 
     public static function isValidUsername($username)
@@ -82,6 +82,20 @@ class User extends CActiveRecord
     public static function isValidEmail($email)
     {
         return preg_match("/.+\@.+\..+/", $email);
+    }
+
+    public static function isUsernameTaken($username)
+    {
+        return self::model()->findByAttributes(array(
+            'username' => $username
+        )) !== null;
+    }
+
+    public static function isEmailTaken($email)
+    {
+        return self::model()->findByAttributes(array(
+            'email' => $email
+        )) !== null;
     }
 
     public static function getCurrentTheme()

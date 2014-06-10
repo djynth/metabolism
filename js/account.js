@@ -7,8 +7,8 @@ var INTERNAL_ERROR = 'An internal error occurred.';
 $(document).ready(function() {
     LOGIN = $('#login');
     CREATE_ACCOUNT = $('#create-account');
-    CHANGE_PASSWORD = $('change-password');
-    EDIT_EMAIL_AUTHENTICATION = $('edit-email-authentication');
+    CHANGE_PASSWORD = $('#change-password');
+    EDIT_EMAIL_AUTHENTICATION = $('#edit-email-authentication');
 
     $('input[type=text], input[type=password]').keypress(function(event) {
         if (event.which == 13) {    // enter

@@ -51,7 +51,7 @@
                 </div>
             </form>
 
-            <form id="email-info">
+            <div id="email-info">
                 <p>Email</p>
                 <div>
                     <input class="email" type="text" placeholder="Email" value="<?= $user->email ?>" disabled>
@@ -73,7 +73,7 @@
                         <button id="edit-email" class="btn mini">Edit</button>
                     </div>
                 </div>
-            </form>
+            </div>
 
             <form id="edit-email-authentication">
                 <input class="password" type="password" placeholder="Current Password">
