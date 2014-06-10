@@ -32,16 +32,8 @@ input[type=text], input[type=password], input[type=email] {
     line-height: 20px;
     border-radius: 4px;
     border: 1px solid;
+    outline: none;
     transition: border linear 0.2s, box-shadow linear 0.2s;
-}
-
-.add-on-holder {
-    position: relative;
-    display: inline-block;
-
-    > input {
-        padding-left: 36px;
-    }
 }
 
 .add-on {
@@ -53,6 +45,7 @@ input[type=text], input[type=password], input[type=email] {
     height: 28px;
     cursor: pointer;
     border: 1px solid;
+    transition: border linear 0.2s;
 
     &.left {
         float: left;

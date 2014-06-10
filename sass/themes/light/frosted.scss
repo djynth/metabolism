@@ -19,6 +19,7 @@ $inputText:              rgb( 85,  85,  85);
 $inputPlaceholder:       rgb( 125, 125, 125);
 $inputError:             rgb( 255, 0,   0);
 $inputFocus:             rgba(82, 168, 236, 0.6);
+$inputFocusBorder:       rgb( 0,  94,  168);
 
 // BUTTON
 $btnBackground:          rgb( 230, 230, 230);
@@ -70,11 +71,11 @@ body[theme=frosted] {
         background-color: $inputBackground;
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
         @include input-placeholder {
-            //color: $inputPlaceholder;
+            color: $inputPlaceholder;
         }
 
         &:focus {
-            border-color: $inputFocus;
+            border-color: $inputFocusBorder;
             box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px $inputFocus;
 
             &.error {
@@ -111,8 +112,12 @@ body[theme=frosted] {
     }
 
     .add-on {
-        border-color: $inputBorder !important;
-        background: $inputAddOnBackground !important;
+        border-color: $inputBorder;
+        background: $inputAddOnBackground;
+
+        &.focus {
+            border-color: $inputFocusBorder;
+        }
     }
 
     .overlay {

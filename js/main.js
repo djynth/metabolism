@@ -26,7 +26,15 @@ $(document).ready(function() {
 
     $('.btn.toggle').click(function() {
         $(this).toggleClass('active');
-    })
+    });
+
+    $('input[type=text], input[type=password], input[type=email]')
+        .focusin(function() {
+            $(this).siblings('.add-on').addClass('focus');
+        })
+        .focusout(function() {
+            $(this).siblings('.add-on').removeClass('focus');
+        })
 });
 
 function onResize()

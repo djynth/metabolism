@@ -15,8 +15,13 @@
             width: 100%;
         }
 
-        .input-prepend {
-            margin-bottom: 0;
+        .add-on-holder {
+            position: relative;
+            display: inline-block;
+
+            > input {
+                padding-left: 36px;
+            }
         }
 
         .buttons, .reactant-product {

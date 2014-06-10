@@ -18,7 +18,6 @@ $resourceVisualContentHeight: 86px;
 $overlayHeaderHeight:   42px;
 
 @mixin input-placeholder {
-    &.placeholder { @content; }
     &:-moz-placeholder { @content; }
     &::-moz-placeholder { @content; }
     &:-ms-input-placeholder { @content; }
