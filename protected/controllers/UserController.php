@@ -25,9 +25,11 @@ class UserController extends CController
             'Your email address has already been verified',
         'email_verified' => 'Your email address has been verified',
         'email_verification_impossible' => 
-            'Either that user does not exist or does not have a verified email address. Contact us to recover your account.',
+            'Either that user does not exist or does not have a verified email
+            address. Contact us to recover your account.',
         'password_reset_sent' =>
-            'A password recovery email was sent to your email address at %domain.',
+            'A password recovery email was sent to your email address at
+            %domain.',
     );
 
     public function getActionParams()
@@ -48,14 +50,6 @@ class UserController extends CController
         echo CJavaScript::jsonEncode(array('valid' => $valid));
     }
 
-    /**
-     * Attempts to log the player in with the given authentication information.
-     * The login attempt's success and optional error message are returned to
-     *  the client in a JSON packet.
-     *
-     * @param username string the player's username
-     * @param password string the player's password
-     */
     public function actionLogin($username, $password)
     {
         $success = false;
@@ -77,25 +71,11 @@ class UserController extends CController
         ));
     }
 
-    /**
-     * Logs the current player out.
-     */
     public function actionLogout()
     {
         Yii::app()->user->logout();
     }
 
-    /**
-     * Creates a new player account with the given information.
-     * The success or error message of the account creation are returned to the
-     *  client in a JSON packet.
-     *
-     * @param username   string the player's username, used as identity
-     * @param password   string the player's password, used for authentication
-     * @param theme      string the color theme chosen by the player
-     * @param theme_type string the type of the color theme chose by the player
-     * @param email      string the email address associated with the player
-     */
     public function actionCreateAccount($username, $password, $theme,
                                         $theme_type, $email)
     {
@@ -140,16 +120,6 @@ class UserController extends CController
         ));
     }
 
-    /**
-     * Changes the password of the player currently logged in.
-     * The success of the operation and an informational message are returned to
-     *  the client in a JSON packet.
-     *
-     * @param current_password string the player's current password, used to
-     *                                authenticate the player's identity
-     * @param new_password     string the new password to be associated with
-     *                                the player's account
-     */
     public function actionChangePassword($current_password, $new_password)
     {
         $success = false;
@@ -179,16 +149,6 @@ class UserController extends CController
         ));
     }
 
-    /**
-     * Changes the email address associated with the player currently logged in.
-     * The success of the operation and an informational message are returned to
-     *  the client in a JSON packet.
-     *
-     * @param password string the player's current password, used to
-     *                        authenticate the player's identity
-     * @param email    string the new email address to be associated with the
-     *                        player's account
-     */
     public function actionChangeEmail($password, $email)
     {
         $success = false;
@@ -224,22 +184,13 @@ class UserController extends CController
         ));
     }
 
-    /**
-     * Verifies the email address associated with a player's account.
-     * The success of the operation and an informational message are returned to
-     *  the client in a JSON packet.
-     *
-     * @param username     string the username of the account for which to
-     *                            verify the email address
-     * @param verification string the verification code sent to the player in an
-     *                            email, used to authenticate the player
-     */
     public function actionVerifyEmail($username, $verification)
     {
         $success = false;
         $message = false;
-
-        $user = User::findByUsername($username);
+        $user = User::model()->findByAttributes(array(
+            'username' => $username
+        ));
 
         if ($user === null) {
             $message = self::$MESSAGES['email_verify_incorret'];
@@ -264,23 +215,13 @@ class UserController extends CController
         ));
     }
 
-    /**
-     * Resets the password associated with a player's account to the one given.
-     * The success of the operation and an informational message are returned to
-     *  the client in a JSON packet.
-     *
-     * @param username     string the username of the account for which to reset
-     *                            the password
-     * @param verification string the verification code sent to the player in an
-     *                            email, used to authenticate the player
-     * @param new_password string the new password for the player's account
-     */
     public function actionResetPassword($username, $verification, $new_password)
     {
         $success = false;
         $message = false;
-
-        $user = User::findByUsername($username);
+        $user = User::model()->findByAttributes(array(
+            'username' => $username
+        ));
 
         if ($user === null) {
             $message = self::$MESSAGES['email_verify_incorret'];
@@ -314,15 +255,6 @@ class UserController extends CController
         ));
     }
 
-    /**
-     * Saves the given color theme and type as the preference for the current
-     *  user, if one is logged in.
-     * No data is returned to the client regarding the success of this
-     *  operation.
-     *
-     * @param theme string the name of the color theme
-     * @param type  string the type of the color theme
-     */
     public function actionSaveTheme($theme, $type)
     {
         $user = User::getCurrentUser();
@@ -341,21 +273,11 @@ class UserController extends CController
         ));
     }
 
-    /**
-     * Resends the email verification code to the currently logged in user.
-     */
     public function actionResendEmailVerification()
     {
         $this->sendEmailVerification();
     }
 
-    /**
-     * Sends an email to the user with the given username in order to allow the
-     *  user to reset his password.
-     *
-     * @param username string the username for which to send a password reset
-     *                        email
-     */
     public function actionForgotPassword($username)
     {
         $success = false;
@@ -381,19 +303,19 @@ class UserController extends CController
                 $recovery->save();
             }
 
-            $url = Yii::app()->params['url'];
             $params = array(
-                'url' => $url,
                 'username' => $user->username,
-                'verification' => $recovery->verification,
-                'resetPage' => $url . $this->createUrl(
-                    'site/resetpassword', array('username' => $username)
+                'resetPage' => Yii::app()->params['url'] . $this->createUrl(
+                    'site/resetpassword', array(
+                        'username' => $username,
+                        'verification' => $recovery->verification,
+                    )
                 ),
             );
 
             $message = new YiiMailMessage;
             $message->view = 'forgot-password';
-            $message->subject = 'Metabolism Fun Password Reset';
+            $message->subject = Yii::app()->name . ' Password Reset';
             $message->setBody($params, 'text/html');
             $message->addTo($user->email);
             $message->from = Yii::app()->params['email'];
@@ -416,11 +338,6 @@ class UserController extends CController
         ));
     }
 
-    /**
-     * Generates a verification code used to verify an email address.
-     *
-     * @return a random verification code
-     */
     private static function generateVerificationCode()
     {
         $values = str_split(self::VERIFICATION_VALUES);
@@ -434,15 +351,6 @@ class UserController extends CController
         return implode('', $keys);
     }
 
-    /**
-     * Generates a random salt in the crypt(3) standard Blowfish format.
-     * Source code attribution belongs to "fsb" 
-     *  <yiiframework.com/wiki/425/use-crypt-for-password-storage>.
-     *
-     * @param cost int cost parameter from 4 to 31, default 13
-     * @return a Blowfish hash salt for use in PHP's crypt()
-     * @throws Exception on invalid cost parameter
-     */
     private static function blowfishSalt($cost = 13)
     {
         if (!is_numeric($cost) || $cost < 4 || $cost > 31) {
@@ -459,33 +367,26 @@ class UserController extends CController
         return $salt;
     }
 
-    /**
-     * Sends an email verification message to the currently logged in player.
-     *
-     * @return true if the email was sent successfully, false otherwise
-     */
     private function sendEmailVerification()
     {
         $user = User::getCurrentUser();
 
-        $url = Yii::app()->params['url'];
         $params = array(
-            'url' => $url,
             'username' => $user->username,
-            'verification' => $user->email_verification,
             'email' => $user->email,
-            'verifyPage' => $url . $this->createUrl(
+            'verifyPage' => Yii::app()->params['url'] . $this->createUrl(
                 'site/verifyemail',
                 array(
                     'email' => $user->email,
                     'username' => $user->username,
+                    'verification' => $user->email_verification,
                 )
             ),
         );
 
         $message = new YiiMailMessage;
         $message->view = 'verify-email';
-        $message->subject = 'Welcome to Metabolism Fun!';
+        $message->subject = 'Welcome to ' . Yii::app()->name;
         $message->setBody($params, 'text/html');
         $message->addTo($user->email);
         $message->from = Yii::app()->params['email'];
