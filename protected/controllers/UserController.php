@@ -24,6 +24,9 @@ class UserController extends CController
         'email_verification_impossible' => 
             'Either that user does not exist or does not have a verified email
             address. Contact us to recover your account.',
+        'password_reset_too_soon' =>
+            'A password recovery email has been sent for this account too
+            recently.',
         'password_reset_sent' =>
             'A password recovery email was sent to your email address at
             %domain.',
@@ -276,6 +279,9 @@ class UserController extends CController
             $message = self::$MESSAGES['email_verification_impossible'];
         } elseif (!$user->email_verification->verified) {
             $message = self::$MESSAGES['email_verification_impossible'];
+        } elseif ($user->reset_password !== null && 
+                  time() - strtotime($user->reset_password->created) <= 60*60) {
+            $message = self::$MESSAGES['password_reset_too_soon'];
         } else {
             if ($user->createResetPassword()) {
                 $message = strtr(

@@ -64,11 +64,12 @@ class User extends CActiveRecord
 
     public function createEmailVerification()
     {
-        if ($this->email_verification === null) {
-            $this->email_verification = new EmailVerification;
-            $this->email_verification->user_id = $this->id;
+        if ($this->email_verification !== null) {
+            $this->email_verification->delete();
         }
 
+        $this->email_verification = new EmailVerification;
+        $this->email_verification->user_id = $this->id;
         $this->email_verification->verification = 
             self::generateVerificationCode();
         try {
@@ -111,11 +112,12 @@ class User extends CActiveRecord
 
     public function createResetPassword()
     {
-        if ($this->reset_password === null) {
-            $this->reset_password = new ResetPassword;
-            $this->reset_password->user_id = $this->id;
+        if ($this->reset_password !== null) {
+            $this->reset_password->delete();
         }
 
+        $this->reset_password = new ResetPassword;
+        $this->reset_password->user_id = $this->id;
         $this->reset_password->verification = self::generateVerificationCode();
         try {
             $this->reset_password->save();

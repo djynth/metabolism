@@ -6,8 +6,8 @@
  * @db verification char(16)  the verification code
  * @db attempts     int(11)   the number of attempts that have been made to
  *                            reset the password
- * @db created      timestamp the time at which this reset password attempt was
- *                            created
+ * @db created      timestamp the time at which the most recent request to
+ *                            recover a forgotten password was created
  * @fk user         User
  */
 class ResetPassword extends CActiveRecord
