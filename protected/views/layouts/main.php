@@ -27,6 +27,16 @@ foreach (glob("js/*.js") as $js): ?>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
+<script>
+$(document).ready(function() {
+    $('.accordian-header').first().addClass('active');
+    onResize();
+    selectOrgan($('.accordian-header.active').organ());
+    onTurn(<?= json_encode(Game::getInitialState()) ?>);
+    $('.theme[theme=<?= User::getCurrentTheme()["theme"] ?>]').click();
+});
+</script>
+
 <title><?= CHtml::encode($this->pageTitle); ?></title>
 </head>
 

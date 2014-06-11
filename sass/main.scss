@@ -209,7 +209,6 @@ input[type=text], input[type=password], input[type=email] {
     height: 100%;
     position: absolute;
     z-index: 5;
-    display: none;
 
     .window {
         margin: auto;
@@ -228,11 +227,11 @@ input[type=text], input[type=password], input[type=email] {
             height: $overlayHeaderHeight - 20px;
             margin: 7px;
             padding: 5px;
+            font-size: 18px;
+            line-height: 22px;
 
             .title {
                 padding-left: 10px;
-                font-size: 18px;
-                line-height: 22px;
             }
         }
     }

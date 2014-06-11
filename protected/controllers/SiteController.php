@@ -12,13 +12,6 @@ class SiteController extends CController
         Yii::app()->session->clear();
         Yii::app()->session['game'] = new Game;
 
-        $action_verified = false;
-        if ($action === 'verify-email') {
-            $action_verified = User::authenticateEmailVerification($username, $verification);
-        } else if ($action === 'reset-password') {
-            $action_verified = User::authenticatePasswordReset($username, $verification);
-        }
-
         $this->render('index', array(
             'organs' => Organ::model()->findAll(),
             'non_global' => Organ::getNotGlobal(),
@@ -28,8 +21,8 @@ class SiteController extends CController
             'user' => User::getCurrentUser(),
             'passive_pathways' => Pathway::getPassivePathways(),
             'action' => $action,
-            'action_verified' => $verification,
             'username' => $username,
+            'verification' => $verification,
         ));
     }
 

@@ -38,7 +38,6 @@ $(document).ready(function() {
                     nutrients[$(this).res().toString()] = 
                         parseInt($(this).attr('amount'));
                 });
-                console.log(nutrients);
                 $.ajax({
                     url: 'index.php/site/eat',
                     type: 'POST',

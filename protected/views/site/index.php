@@ -6,20 +6,10 @@
  * @param user
  * @param passive_pathways
  * @param action
- * @param action_verified
  * @param username
+ * @param verification
  */
 ?>
-
-<script>
-$(document).ready(function() {
-    $('.accordian-header').first().addClass('active');
-    onResize();
-    selectOrgan($('.accordian-header.active').organ());
-    onTurn(<?= json_encode(Game::getInitialState()) ?>);
-    $('.theme[theme=<?= User::getCurrentTheme()["theme"] ?>]').click();
-});
-</script>
 
 <?php
 switch($action)
@@ -29,15 +19,15 @@ switch($action)
         break;
     case "verify-email":
         $this->renderPartial('verify-email', array(
-            'action_verified' => $action_verified,
+            'verification' => $verification,
             'username' => $username,
         ));
         break;
     case "reset-password":
-        $this->renderPartial('reset-password', array(
-            'action_verified' => $action_verified,
-            'username' => $username,
-        ));
+        // $this->renderPartial('reset-password', array(
+        //     'verification' => $verification,
+        //     'username' => $username,
+        // ));
         break;
 }
 ?>

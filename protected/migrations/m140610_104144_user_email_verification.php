@@ -12,6 +12,7 @@ class m140610_104144_user_email_verification extends CDbMigration
             'verified' => 'int(1) not null default 0',
             'verification' => 'char(16)',
             'attempts' => 'int(11) default 0',
+            'created' => 'timestamp default current_timestamp',
         ), 'engine InnoDB');
     }
 

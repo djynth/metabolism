@@ -56,7 +56,7 @@
                 <div>
                     <input class="email" type="text" placeholder="Email" value="<?= $user->email ?>" disabled>
 
-                    <?php if ($user->email_verified): ?>
+                    <?php if ($user->email_verification->verified): ?>
                         <div class="verified add-on right" verified>
                             <i class="fa fa-check"></i>
                             <p>Email Verified</p>

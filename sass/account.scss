@@ -48,12 +48,13 @@
                     max-width: 165px;
                 }
 
-                .fa {
+                .fa-exclamation {
                     left: 12px;
                 }
 
                 p {
-                    margin: 2px 4px;
+                    top: -1px;
+                    right: 7px;
                 }
             }
 
@@ -63,7 +64,7 @@
             }
         }
 
-        p {
+        > p {
             display: block;
         }
 

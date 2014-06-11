@@ -9,17 +9,16 @@
  * @db theme_type         varchat(20)     the type of this user's chosen theme
  * @db email              varchar(80)     the email address associated with this
  *                                        user
- * @db email_verified     tinyint(1)      whether the user has verified the
- *                                        email address
- * @db email_verification varchar(16)     the email verification code
- * @db help               tinyint(1)      whether the user has chosen to display
- *                                        help tooltips
- * @fk password_recovery  RecoverPassword
+ * @fk email_verification EmailVerification
+ * @fk reset_password     ResetPassword
  */
 class User extends CActiveRecord
 {
     const DEFAULT_THEME = 'frosted';
     const DEFAULT_THEME_TYPE = 'light';
+    const VERIFICATION_LENGTH = 16;
+    const VERIFICATION_VALUES = 
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
     public static function model($className = __CLASS__)
     {
@@ -39,10 +38,15 @@ class User extends CActiveRecord
     public function relations()
     {
         return array(
-            'password_recovery' => array(
+            'email_verification' => array(
                 self::HAS_ONE,
-                'RecoverPassword',
-                array('user_id' => 'id')
+                'EmailVerification',
+                array('user_id' => 'id'),
+            ),
+            'reset_password' => array(
+                self::HAS_ONE,
+                'ResetPassword',
+                array('user_id' => 'id'),
             ),
         );
     }
@@ -56,6 +60,100 @@ class User extends CActiveRecord
     {
         $split = split('@', $this->email);
         return $split[1];
+    }
+
+    public function createEmailVerification()
+    {
+        if ($this->email_verification !== null) {
+            $this->email_verification->delete();
+        }
+
+        $emailVerification = new EmailVerification;
+        $emailVerification->user_id = $this->id;
+        $emailVerification->verification = self::generateVerificationCode();
+        try {
+            $emailVerification->save();
+            $this->email_verification = $emailVerification;
+            return $this->sendEmailVerification();
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function sendEmailVerification()
+    {
+        $params = array(
+            'username' => $this->username,
+            'email' => $this->email,
+            'verifyPage' => Yii::app()->params['url'] . Yii::app()->createUrl(
+                'site/index',
+                array(
+                    'action' => 'verify-email',
+                    'username' => $this->username,
+                    'verification' => $this->email_verification->verification,
+                )
+            ),
+        );
+
+        $message = new YiiMailMessage;
+        $message->view = 'verify-email';
+        $message->subject = 'Verify Your ' . Yii::app()->name . ' Email';
+        $message->setBody($params, 'text/html');
+        $message->addTo($this->email);
+        $message->from = Yii::app()->params['email'];
+
+        try {
+            Yii::app()->mail->send($message);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function createResetPassword()
+    {
+        if ($this->reset_password !== null) {
+            $this->reset_password->delete();
+        }
+
+        $resetPassword = new ResetPassword;
+        $resetPassword->user_id = $this->id;
+        $resetPassword->verification = self::generateVerificationCode();
+        try {
+            $resetPassword->save();
+            return $this->sendResetPassword();
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function sendResetPassword()
+    {
+        $params = array(
+            'username' => $this->username,
+            'resetPage' => Yii::app()->params['url'] . Yii::app()->createUrl(
+                'site/resetpassword',
+                array(
+                    'action' => 'reset-password',
+                    'username' => $this->username,
+                    'verification' => $this->email_verification->verification,
+                )
+            ),
+        );
+
+        $message = new YiiMailMessage;
+        $message->view = 'reset-password';
+        $message->subject = 'Reset Your ' . Yii::app()->name . ' Password';
+        $message->setBody($params, 'text/html');
+        $message->addTo($user->email);
+        $message->from = Yii::app()->params['email'];
+
+        try {
+            Yii::app()->mail->send($message);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     public static function getCurrentUser()
@@ -98,14 +196,17 @@ class User extends CActiveRecord
         )) !== null;
     }
 
-    public static function authenticateEmailVerification($username, $verification)
+    private static function generateVerificationCode()
     {
-        return false;       // TODO
-    }
+        $values = str_split(self::VERIFICATION_VALUES);
+        $keys = array_rand($values, self::VERIFICATION_LENGTH);
 
-    public static function authenticatePasswordReset($username, $verification)
-    {
-        return false;       // TODO
+        for ($i = 0; $i < self::VERIFICATION_LENGTH; $i++) {
+            $keys[$i] = $values[$keys[$i]];
+        }
+
+        shuffle($keys);
+        return implode('', $keys);
     }
 
     public static function getCurrentTheme()
