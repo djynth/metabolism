@@ -24,10 +24,10 @@ switch($action)
         ));
         break;
     case "reset-password":
-        // $this->renderPartial('reset-password', array(
-        //     'verification' => $verification,
-        //     'username' => $username,
-        // ));
+        $this->renderPartial('reset-password', array(
+            'verification' => $verification,
+            'username' => $username,
+        ));
         break;
 }
 ?>

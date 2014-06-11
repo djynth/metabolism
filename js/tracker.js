@@ -88,7 +88,7 @@ function createIcon(res, level)
 function updateIcon(icon)
 {
     $.ajax({
-        url: 'index.php/site/trackerIcon',
+        url: '/index.php/site/trackerIcon',
         type: 'POST',
         dataType: 'json',
         data: {

@@ -13,18 +13,19 @@
         </div>
 
         <div class="content">
-            <p class="message">
-            </p>
-            <button class="btn continue">Continue to <?= Yii::app()->name ?></button>
+            <p class="message"></p>
+            <button class="btn continue">
+                Continue to <?= Yii::app()->name ?>
+            </button>
         </div>
     </div>
 </div>
 
 <script>
-$('#verify-email').ready(function() {
-    var verifyEmail = $('#verify-email');
+var verifyEmail = $('#verify-email');
+verifyEmail.ready(function() {
     $.ajax({
-        url: 'index.php/user/verifyEmail',
+        url: '/index.php/user/verifyEmail',
         type: 'POST',
         dataType: 'json',
         data: {

@@ -39,7 +39,7 @@ $(document).ready(function() {
                         parseInt($(this).attr('amount'));
                 });
                 $.ajax({
-                    url: 'index.php/site/eat',
+                    url: '/index.php/site/eat',
                     type: 'POST',
                     dataType: 'json',
                     data: {
@@ -52,7 +52,7 @@ $(document).ready(function() {
             var reverse = pathway.find('.reverse');
             run.click(function() {
                 $.ajax({
-                    url: 'index.php/site/pathway',
+                    url: '/index.php/site/pathway',
                     type: 'POST',
                     dataType: 'json',
                     data: {

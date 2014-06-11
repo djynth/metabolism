@@ -105,7 +105,7 @@ function setColorTheme(theme, type, save)
 
     if (save) {
         $.ajax({
-            url: 'index.php/user/saveTheme',
+            url: '/index.php/user/saveTheme',
             type: 'POST',
             dataType: 'json',
             data: {

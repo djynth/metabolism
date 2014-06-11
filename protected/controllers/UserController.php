@@ -163,6 +163,10 @@ class UserController extends CController
             $user->email = $email;
             if ($user->save()) {
                 $user->createEmailVerification();
+                if ($user->email_verification !== null) {
+                    $user->email_verification->delete();
+                    $user->email_verification = null;
+                }
 
                 $success = true;
                 $message = self::$MESSAGES['email_update'];
@@ -219,8 +223,13 @@ class UserController extends CController
             $message = self::$MESSAGES['email_verification_impossible'];
         } else {
             if ($user->reset_password->attempt($verification)) {
-                $message = self::$MESSAGES['password_update'];
-                $success = true;
+                $user->password = crypt($new_password, self::blowfishSalt());
+                if ($user->save() && $user->reset_password->delete()) {
+                    $success = true;
+                    $message = self::$MESSAGES['password_update'];
+                } else {
+                    $message = self::$MESSAGES['internal_error'];
+                }
             } else {
                 $message = self::$MESSAGES['email_verify_incorret'];
             }

@@ -37,4 +37,15 @@ class ResetPassword extends CActiveRecord
             ),
         );
     }
+
+    public function attempt($verification)
+    {
+        if ($verification === $this->verification) {
+            return true;
+        } else {
+            $this->attempts++;
+            $this->save();
+            return false;
+        }
+    }
 }

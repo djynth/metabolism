@@ -54,7 +54,7 @@ function updateResourceVisual(res, onComplete)
         RESOURCE_VISUAL.removeAttr('res');
     } else {
         $.ajax({
-            url: 'index.php/site/resourceInfo',
+            url: '/index.php/site/resourceInfo',
             type: 'POST',
             dataType: 'json',
             data: {

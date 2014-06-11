@@ -65,7 +65,7 @@ $(document).ready(function() {
 
     $('.forgot-password').find('input[type=button]').click(function() {
         $.ajax({
-            url: 'index.php/user/forgotPassword',
+            url: '/index.php/user/forgotPassword',
             type: 'POST',
             dataType: 'json',
             data: {
@@ -82,7 +82,7 @@ $(document).ready(function() {
 
     $('.resend-email').click(function() {
         $.ajax({
-            url: 'index.php/user/resendEmailVerification',
+            url: '/index.php/user/resendEmailVerification',
             type: 'POST',
             success: function(data) {
                 notify(data.message, data.success ? 'normal' : 'warning');
@@ -95,7 +95,7 @@ $(document).ready(function() {
 
     $('#logout').click(function() {
         $.ajax({
-            url: 'index.php/user/logout',
+            url: '/index.php/user/logout',
             type: 'POST',
             dataType: 'json',
             complete: function() {
@@ -114,7 +114,7 @@ $(document).ready(function() {
 
     LOGIN.find('.submit').click(function() {
         $.ajax({
-            url: 'index.php/user/login',
+            url: '/index.php/user/login',
             type: 'POST',
             dataType: 'json',
             data: {
@@ -138,7 +138,7 @@ $(document).ready(function() {
         if (!hasError(CREATE_ACCOUNT)) {
             var theme = getColorTheme();
             $.ajax({
-                url: 'index.php/user/createAccount',
+                url: '/index.php/user/createAccount',
                 type: 'POST',
                 dataType: 'json',
                 data: {
@@ -165,7 +165,7 @@ $(document).ready(function() {
     CHANGE_PASSWORD.find('.submit').click(function() {
         if (!hasError(CHANGE_PASSWORD)) {
             $.ajax({
-                url: 'index.php/user/changePassword',
+                url: '/index.php/user/changePassword',
                 type: 'POST',
                 dataType: 'json',
                 data: {
@@ -188,7 +188,7 @@ $(document).ready(function() {
         if (!hasError(EDIT_EMAIL_AUTHENTICATION)) {
             var newEmail = EDIT_EMAIL_AUTHENTICATION.find('.email').val();
             $.ajax({
-                url: 'index.php/user/changeEmail',
+                url: '/index.php/user/changeEmail',
                 type: 'POST',
                 dataType: 'json',
                 data: {
@@ -226,7 +226,7 @@ function validate(input, type)
     input.removeClass('error');
     if (input.val()) {
         $.ajax({
-            url: 'index.php/user/validate',
+            url: '/index.php/user/validate',
             type: 'POST',
             dataType: 'json',
             context: $(this),

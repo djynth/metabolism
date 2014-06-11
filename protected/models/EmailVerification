@@ -1,3 +1,0 @@
-<?php
-
-class EmailVerification extends CActive

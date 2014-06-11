@@ -64,16 +64,15 @@ class User extends CActiveRecord
 
     public function createEmailVerification()
     {
-        if ($this->email_verification !== null) {
-            $this->email_verification->delete();
+        if ($this->email_verification === null) {
+            $this->email_verification = new EmailVerification;
+            $this->email_verification->user_id = $this->id;
         }
 
-        $emailVerification = new EmailVerification;
-        $emailVerification->user_id = $this->id;
-        $emailVerification->verification = self::generateVerificationCode();
+        $this->email_verification->verification = 
+            self::generateVerificationCode();
         try {
-            $emailVerification->save();
-            $this->email_verification = $emailVerification;
+            $this->email_verification->save();
             return $this->sendEmailVerification();
         } catch (Exception $e) {
             return false;
@@ -112,15 +111,14 @@ class User extends CActiveRecord
 
     public function createResetPassword()
     {
-        if ($this->reset_password !== null) {
-            $this->reset_password->delete();
+        if ($this->reset_password === null) {
+            $this->reset_password = new ResetPassword;
+            $this->reset_password->user_id = $this->id;
         }
 
-        $resetPassword = new ResetPassword;
-        $resetPassword->user_id = $this->id;
-        $resetPassword->verification = self::generateVerificationCode();
+        $this->reset_password->verification = self::generateVerificationCode();
         try {
-            $resetPassword->save();
+            $this->reset_password->save();
             return $this->sendResetPassword();
         } catch (Exception $e) {
             return false;
@@ -131,12 +129,12 @@ class User extends CActiveRecord
     {
         $params = array(
             'username' => $this->username,
-            'resetPage' => Yii::app()->params['url'] . Yii::app()->createUrl(
-                'site/resetpassword',
+            'resetPage' => Yii::app()->createAbsoluteUrl(
+                'site/index',
                 array(
                     'action' => 'reset-password',
                     'username' => $this->username,
-                    'verification' => $this->email_verification->verification,
+                    'verification' => $this->reset_password->verification,
                 )
             ),
         );
@@ -145,7 +143,7 @@ class User extends CActiveRecord
         $message->view = 'reset-password';
         $message->subject = 'Reset Your ' . Yii::app()->name . ' Password';
         $message->setBody($params, 'text/html');
-        $message->addTo($user->email);
+        $message->addTo($this->email);
         $message->from = Yii::app()->params['email'];
 
         try {

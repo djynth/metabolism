@@ -11,7 +11,7 @@ $(document).ready(function() {
 
     $('#undo').click(function() {
         $.ajax({
-            url: 'index.php/site/undo',
+            url: '/index.php/site/undo',
             type: 'POST',
             dataType: 'json',
             data: { },
