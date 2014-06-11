@@ -32,7 +32,7 @@ switch($action)
 }
 ?>
 
-<?php  ?>
+<?php $this->renderPartial('results'); ?>
 
 <?php $this->renderPartial('header', array(
     'user'             => $user,

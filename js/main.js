@@ -78,6 +78,12 @@ function onTurn(data)
     TRACKER.find('.actions').find('.organ').each(function() {
         $(this).find('.amount').text(data.action_counts[$(this).organ()]);
     });
+
+    if (data.completed) {
+        setTimeout(function() {
+            onGameOver(data);
+        }, 1500);
+    }
 }
 
 function setTurn(turn)

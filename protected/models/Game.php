@@ -20,7 +20,7 @@ class Game extends CActiveRecord
     public $turn = 0;
     public $user_id = -1;
     
-    const MAX_TURNS = 300;
+    const MAX_TURNS = 0;
 
     public static function model($className = __CLASS__)
     {
@@ -123,6 +123,7 @@ class Game extends CActiveRecord
             'turn' => $this->turn,
             'resources' => Resource::getAmounts(),
             'action_counts' => Organ::getActionCounts(),
+            'completed' => $this->completed,
         );
     }
 
