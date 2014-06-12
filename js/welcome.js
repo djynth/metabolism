@@ -5,5 +5,6 @@ $(document).ready(function() {
 
     WELCOME.find('#option-new-game').click(function() {
         $('.overlay').fadeOut();
+        newGame();
     });
 });

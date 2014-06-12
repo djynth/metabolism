@@ -224,7 +224,7 @@ input[type=text], input[type=password], input[type=email] {
         .header {
             position: relative;
             border-bottom: 1px solid;
-            height: $overlayHeaderHeight - 20px;
+            height: $overlayHeaderHeight - 24px;
             margin: 7px;
             padding: 5px;
             font-size: 18px;
@@ -292,6 +292,7 @@ input[type=text], input[type=password], input[type=email] {
 
     > .btn {
         border-radius: 0;
+        margin: 0;
 
         &:first-child {
             @include border-left-radius(4px);        

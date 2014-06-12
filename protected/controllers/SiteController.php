@@ -9,9 +9,6 @@ class SiteController extends CController
 
     public function actionIndex($action='main', $username=null, $verification=null)
     {
-        Yii::app()->session->clear();
-        Yii::app()->session['game'] = new Game;
-
         $this->render('index', array(
             'organs' => Organ::model()->findAll(),
             'non_global' => Organ::getNotGlobal(),
@@ -32,6 +29,14 @@ class SiteController extends CController
             var_dump($error);
             die;
         }
+    }
+
+    public function actionNewGame()
+    {
+        Yii::app()->session->clear();
+        Yii::app()->session['game'] = new Game;
+
+        echo CJavaScript::jsonEncode(Yii::app()->session['game']->getState());
     }
 
     public function actionPathway($pathway_id, $times, $organ_id, $reverse)

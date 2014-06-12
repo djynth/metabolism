@@ -7,46 +7,46 @@ $welcomeHeight: 300px;
     width: $welcomeWidth;
     height: $welcomeHeight;
 
-    .options {
-        display: table;
-        table-layout: fixed;
-        border-spacing: 20px;
-        width: 100%;
-        height: 100%;
-        min-height: 100%;
+    .content {
+        height: $welcomeHeight - $overlayHeaderHeight;
 
-        .option {
-            display: table-cell;
-            position: relative;
-            border: 1px solid;
-            border-radius: 10px;
-            cursor: pointer;
+        .options {
+            display: table;
+            table-layout: fixed;
+            border-spacing: 20px;
+            width: 100%;
+            height: 100%;
+            min-height: 100%;
 
-            label {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                border-top: 1px solid;
-                padding-left: 15%;
-                width: 85%;
-                padding-top: 5px;
-                margin-bottom: 5px;
+            .option {
+                display: table-cell;
+                position: relative;
+                border: 1px solid;
+                border-radius: 10px;
                 cursor: pointer;
-            }
 
-            .icon-holder {
-                line-height: 160px;
-                font-size: 140px;
-                text-align: center;
+                label {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    border-top: 1px solid;
+                    padding-left: 15%;
+                    width: 85%;
+                    padding-top: 5px;
+                    margin-bottom: 5px;
+                    cursor: pointer;
+                }
 
-                .fa {
-                    vertical-align: middle;
+                .icon-holder {
+                    line-height: 160px;
+                    font-size: 140px;
+                    text-align: center;
+
+                    .fa {
+                        vertical-align: middle;
+                    }
                 }
             }
         }
-    }
-
-    .content {
-        height: $welcomeHeight - $overlayHeaderHeight;
     }
 }

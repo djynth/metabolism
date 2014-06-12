@@ -20,7 +20,7 @@ class Game extends CActiveRecord
     public $turn = 0;
     public $user_id = -1;
     
-    const MAX_TURNS = 0;
+    const MAX_TURNS = 3;
 
     public static function model($className = __CLASS__)
     {

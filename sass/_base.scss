@@ -15,7 +15,7 @@ $footerHeight:          158px;
 $footerMinimizeHeight:  10px;
 $trackerOrganHeight:    29px;           // height of an individual organ in a primary resource tracker
 $resourceVisualContentHeight: 86px;
-$overlayHeaderHeight:   42px;
+$overlayHeaderHeight:   46px;
 
 @mixin input-placeholder {
     &:-moz-placeholder { @content; }

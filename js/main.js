@@ -63,6 +63,16 @@ function onResize()
     });
 }
 
+function newGame()
+{
+    $.ajax({
+        url: '/index.php/site/newGame',
+        type: 'POST',
+        dataType: 'json',
+        success: onTurn
+    });
+}
+
 function onTurn(data)
 {
     setTurn(data.turn);
