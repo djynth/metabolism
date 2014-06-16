@@ -3,12 +3,12 @@
 #header {
     position: relative;
     height: $headerHeight;
-    line-height: $headerHeight;
     z-index: 1;
     border-bottom: 1px solid;
 
     .title {
         p {
+            line-height: $headerHeight;
             display: inline-block;
             margin-left: 6px;
         }    

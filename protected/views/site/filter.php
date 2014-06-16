@@ -1,7 +1,7 @@
 <div id="filter">
     <div class="row">
         <div class="add-on-holder">
-            <input class="name" type="text" placeholder="Filter By Name">
+            <input class="name" type="text" placeholder="Filter Pathways By Name">
             <div class="add-on left">
                 <i class="fa fa-search"></i>
             </div>
