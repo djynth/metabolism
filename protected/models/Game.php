@@ -20,7 +20,7 @@ class Game extends CActiveRecord
     public $turn = 0;
     public $user_id = -1;
     
-    const MAX_TURNS = 3;
+    const MAX_TURNS = 300;
 
     public static function model($className = __CLASS__)
     {
@@ -118,12 +118,23 @@ class Game extends CActiveRecord
 
     public function getState()
     {
+        $passivePathways = array();
+        foreach (Pathway::getPassivePathways() as $pathway) {
+            foreach ($pathway->organs as $organ) {
+                $passivePathways[$pathway->id][$organ->id] = $pathway->canRun(
+                    $pathway->passive,
+                    $organ
+                );
+            }
+        }
+
         return array(
             'score' => $this->score,
             'turn' => $this->turn,
             'resources' => Resource::getAmounts(),
             'action_counts' => Organ::getActionCounts(),
             'completed' => $this->completed,
+            'passive_pathways' => $passivePathways,
         );
     }
 
@@ -134,6 +145,7 @@ class Game extends CActiveRecord
             'turn' => 0,
             'resources' => Resource::getStartingAmounts(),
             'action_counts' => Organ::getStartingActionCounts(),
+            'completed' => false,
         );
     }
 

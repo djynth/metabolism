@@ -8,7 +8,7 @@ $(document).ready(function() {
     });
 });
 
-function refreshLimitedResources(passivePathways)
+function refreshState(passivePathways)
 {
     var total = 0;
     LIMITED_RESOURCES.find('.limited-resource').each(function() {
@@ -47,12 +47,13 @@ function refreshLimitedResources(passivePathways)
     LIMITED_RESOURCES.find('.process').each(function() {
         var pathway = getPathway($(this).pathway(), $(this).organ());
         var points = 0;
-        // if (passivePathways[pathway.pathway()][$(this).organ()]) {
-        //     $(this).addClass('good').removeClass('bad');
-        //     var points = $(this).attr('times') * pathway.find('.points').text();
-        // } else {
-        //     $(this).addClass('bad').removeClass('good');
-        // }
+        if (typeof passivePathways === "undefined" ||
+            passivePathways[pathway.pathway()][$(this).organ()]) {
+            $(this).addClass('good').removeClass('bad');
+            var points = $(this).attr('times') * pathway.find('.points').text();
+        } else {
+            $(this).addClass('bad').removeClass('good');
+        }
         total += points;
         $(this).siblings('.change').html(formatPoints(points));
     });

@@ -78,7 +78,7 @@ function onTurn(data)
     setTurn(data.turn);
     setPoints(data.score);
     refreshPathways(refreshResources(data.resources));
-    refreshLimitedResources();
+    refreshState(data.passive_pathways);
     refreshResourceLimits();
     refreshTrackers();
     if (isFilterActive()) {

@@ -51,17 +51,6 @@ class PathwayResource extends CActiveRecord
         );
     }
 
-    public function wouldIncurPenalization($times, $organ, $reverse=false,
-                                           $amount=null)
-    {
-        $value = $amount === null ? $this->value : $amount;
-
-        return $this->resource->isPenalizableChange(
-            $this->resource->getProperOrgan($organ),
-            ($reverse ? -1 : 1) * $value * $times
-        );
-    }
-
     public function modify($times, $organ, $reverse=false, $amount=null)
     {
         $value = $amount === null ? $this->value : $amount;

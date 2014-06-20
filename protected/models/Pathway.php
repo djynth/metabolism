@@ -138,16 +138,23 @@ class Pathway extends CActiveRecord
             return true;
         } else {
             foreach ($this->resource_amounts as $resource) {
+                if (!$resource->canModify($times, $organ, $reverse)) {
+                    return false;
+                }
+
                 if ($this->passive) {
-                    if ($resource->wouldIncurPenalization(
-                        $times,
-                        $organ,
-                        $reverse
-                    )) {
-                        return false;
-                    }
-                } else {
-                    if (!$resource->canModify($times, $organ, $reverse)) {
+                    $properOrgan = $resource->resource->getProperOrgan($organ);
+                    $amount = $resource->resource->getAmount($properOrgan);
+                    $currentPen = $resource->resource->getPenalization(
+                        $properOrgan,
+                        $amount
+                    );
+                    $potentionalPen = $resource->resource->getPenalization(
+                        $properOrgan, 
+                        $amount + $resource->value
+                    );
+
+                    if ($potentionalPen > $currentPen) {
                         return false;
                     }
                 }
