@@ -117,20 +117,43 @@ class Pathway extends CActiveRecord
         return $products;
     }
 
-    public function canRun($times, $organ, $reverse=false)
+    public function canRun($times, $organ, $reverse=false, $nutrients=null)
     {
-        foreach ($this->resource_amounts as $resource) {
-            if ($this->passive) {
-                if ($resource->wouldIncurPenalization($times, $organ, $reverse)) {
-                    return false;
-                }
-            } else {
-                if (!$resource->canModify($times, $organ, $reverse)) {
+        if ($this->isEat()) {
+            if ($nutrients === null) {
+                return false;
+            }
+
+            foreach ($this->resource_amounts as $resource) {
+                if (!$resource->canModify(
+                    $times,
+                    $organ,
+                    $reverse,
+                    $nutrients[$resource->resource_id]
+                )) {
                     return false;
                 }
             }
+
+            return true;
+        } else {
+            foreach ($this->resource_amounts as $resource) {
+                if ($this->passive) {
+                    if ($resource->wouldIncurPenalization(
+                        $times,
+                        $organ,
+                        $reverse
+                    )) {
+                        return false;
+                    }
+                } else {
+                    if (!$resource->canModify($times, $organ, $reverse)) {
+                        return false;
+                    }
+                }
+            }
+            return true;    
         }
-        return true;
     }
 
     public static function eat($game, $nutrients)
@@ -160,7 +183,7 @@ class Pathway extends CActiveRecord
         if ($this->passive != $passive) {
             return false;
         }
-        if (!$this->canRun($times, $organ, $reverse)) {
+        if (!$this->canRun($times, $organ, $reverse, $nutrients)) {
             return false;
         }
 
