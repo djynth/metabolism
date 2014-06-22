@@ -12,7 +12,6 @@ protected/yiic.php
 hours.txt
 game_modes.txt
 export-src.py
-push.sh
 *.sublime-project
 *.sublime-workspace
 *.aux
