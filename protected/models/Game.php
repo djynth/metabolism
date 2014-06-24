@@ -1,16 +1,22 @@
 <?php
 
 /**
- * @db id        int(11)     a unique game ID
- * @db completed tinyint(1)  whether the game has been finished
- * @db score     smallint(6) the current number of points earned by the player
- * @db name      varchar(20) a non-unique user-chosen name for the game
- * @db turn      smallint(6) the current turn, i.e. the number of times the
- *                           player has made a move (indexed from 0)
- * @db user_id   int(11)     the user ID of the owner of this game, -1 if the
- *                           owner has not signed in
+ * @db id           int(11)     a unique game ID
+ * @db completed    tinyint(1)  whether the game has been finished
+ * @db score        smallint(6) the number of points earned by the player
+ * @db name         varchar(20) a non-unique user-chosen name for the game
+ * @db turn         smallint(6) the current turn, i.e. the number of times the
+ *                              player has made a move (indexed from 0)
+ * @db user_id      int(11)     the user ID of the owner of this game, -1 if the
+ *                              owner has not signed in
+ * @db max_turns    int(11)     the turn count at which this game ends, or -1 if
+ *                              the game is not turn-limited
+ * @db mode         int(11)     the mode of this game
+ * @db challenge_id int(11)     the ID of the challenge dictating the parameters
+ *                              of this game
  * @fk user      User
  * @fk state     array(GameState)
+ * @fk challenge Challenge
  */
 class Game extends CActiveRecord
 {
@@ -19,8 +25,12 @@ class Game extends CActiveRecord
     public $name = "New Game";
     public $turn = 0;
     public $user_id = -1;
+    public $max_turns = -1;
+    public $mode = 1;
     
-    const MAX_TURNS = 300;
+    const MODE_FREE_PLAY = 1;
+    const MODE_CHALLENGE = 2;
+    const MODE_CAMPAIGN = 3;
 
     public static function model($className = __CLASS__)
     {
@@ -49,6 +59,11 @@ class Game extends CActiveRecord
                 self::HAS_MANY,
                 'GameState',
                 array('id' => 'game_id'),
+            ),
+            'challenge' => array(
+                self::BELONGS_TO,
+                'Challenge',
+                array('challenge_id' => 'id'),
             ),
         );
     }
