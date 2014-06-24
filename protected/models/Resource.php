@@ -4,8 +4,6 @@
  * @db id              smallint(6)   a unique resource ID
  * @db name            varchar(20)   the most common user-readable name for this
  *                                   resource
- * @db starting_value  int(11)       the amount to which this resource is
- *                                   initialized
  * @db max_shown_value int(11)       the point at which the indicator for this
  *                                   resource is maxed out
  * @db color           char(6)       the color of this resource
@@ -17,27 +15,8 @@
  * @db group           smallint(6)   the non-unique group of this resource - 
  *                                   resources in the same group are placed
  *                                   together in the pathway reaction table
- * @db soft_max        int(11)       the point above which points are deducted
- * @db hard_max        int(11)       the point which the resource may not exceed
- * @db soft_min        int(11)       the point below which points are deducted
- * @db hard_min        int(11)       the point which the resource may not drop
- *                                   below
- * @db rel_soft_max    smallint(6)   the resource for which points are deducted
- *                                   if exceeded by this resource
- * @db rel_hard_max    smallint(6)   the resource for which this resource may
- *                                   not exceed
- * @db rel_soft_min    smallint(6)   the resource for which points are deducted
- *                                   if this resource drops below
- * @db rel_hard_min    smallint(6)   the resource for which this resource may
- *                                   not drop below
- * @db penalization    decimal(10,4) the points deducted per turn and per amount
- *                                   by which the soft limit was broken
  * @fk organs          array(Organ)
  * @fk aliases         array(ResourceAlias)
- * @fk res_soft_max    Resource
- * @fk res_hard_max    Resource
- * @fk res_soft_min    Resource
- * @fk res_hard_min    Resource
  */
 class Resource extends CActiveRecord
 {

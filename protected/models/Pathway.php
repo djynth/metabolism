@@ -5,8 +5,6 @@
  * @db name       varchar(255)    the user-readable name of this Pathway
  * @db points     smallint(6)     the number of points awared to the player each
  *                                time the pathway is run
- * @db limit      tinyint(1)      whether the pathway is limited; if true, it
- *                                can only be run once per turn
  * @db color      char(6)         the color associated with this Pathway
  * @db catabolic  tinyint(1)      whether the Pathway is catabolic
  * @db anabolic   tinyint(1)      whether the Pathway is anabolic
@@ -178,10 +176,15 @@ class Pathway extends CActiveRecord
     public function run($game, $times, $organ, $reverse, $passive=false,
                         $nutrients=null)
     {
+        $restriction = ChallengeRestriction::model()->findByAttributes(array(
+            'challenge_id' => $game->challenge_id,
+            'pathway_id' => $this->id,
+        ));
+
         if (!$this->passive && $game->completed) {
             return false;
         }
-        if ($times < 1 || ($this->limit && $times !== 1)) {
+        if ($times < 1 || ($restriction && $times > $restriction->limit)) {
             return false;
         }
         if (!$this->reversible && $reverse) {
