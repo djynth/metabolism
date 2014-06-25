@@ -9,8 +9,6 @@
  *                              player has made a move (indexed from 0)
  * @db user_id      int(11)     the user ID of the owner of this game, -1 if the
  *                              owner has not signed in
- * @db max_turns    int(11)     the turn count at which this game ends, or -1 if
- *                              the game is not turn-limited
  * @db mode         int(11)     the mode of this game
  * @db challenge_id int(11)     the ID of the challenge dictating the parameters
  *                              of this game
@@ -146,6 +144,7 @@ class Game extends CActiveRecord
         return array(
             'score' => $this->score,
             'turn' => $this->turn,
+            'max_turns' => $this->challenge->max_turns,
             'resources' => Resource::getAmounts(),
             'action_counts' => Organ::getActionCounts(),
             'completed' => $this->completed,
@@ -155,10 +154,20 @@ class Game extends CActiveRecord
 
     public static function getInitialState()
     {
+        $amounts = array();
+
+        foreach (Resource::model()->findAll() as $resource) {
+            $amounts[$resource->id] = array();
+            foreach ($resource->organs as $organ) {
+                $amounts[$resource->id][$organ->id] = 0;
+            }
+        }
+
         return array(
             'score' => 0,
             'turn' => 0,
-            'resources' => Resource::getStartingAmounts(),
+            'max_turns' => 0,
+            'resources' => $amounts,
             'action_counts' => Organ::getStartingActionCounts(),
             'completed' => false,
         );

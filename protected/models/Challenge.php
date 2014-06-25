@@ -1,8 +1,10 @@
 <?php
 
 /**
- * @db id   int(11)     a unique challenge ID
- * @db name varchar(80) the user-readable name of this challenge
+ * @db id        int(11)     a unique challenge ID
+ * @db name      varchar(80) the user-readable name of this challenge
+ * @db max_turns int(11)     the turn count at which this challenge ends, or -1
+ *                           if the cnallenge is not turn-limited
  * @fk limits       array(ChallengeLimit)
  * @fk restrictions array(ChallengeRestriction)
  * @fk starts       array(ChallengeStart)

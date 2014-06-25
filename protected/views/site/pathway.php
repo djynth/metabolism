@@ -25,7 +25,7 @@ if (!$eat) {
 
 ?>
 
-<div class="pathway <?= $eat ? 'eat' : '' ?>" pathway="<?= $pathway->id ?>" organ="<?= $organ->id ?>" <?= $pathway->limit ? 'limit' : '' ?>>
+<div class="pathway <?= $eat ? 'eat' : '' ?>" pathway="<?= $pathway->id ?>" organ="<?= $organ->id ?>">
     <div class="inner"></div>
     <p class="name"><?= $pathway->name ?></p>
 
@@ -100,23 +100,19 @@ if (!$eat) {
     <?php if (!$pathway->passive): ?>
         <p class="lacking"></p>
         <div class="btn-group run-holder">
-            <?php if (!$pathway->limit): ?>
-                <button class="btn mini bottom">
-                    <i class="fa fa-chevron-down"></i>
-                </button>
-                <button class="btn mini minus">
-                    <i class="fa fa-minus"></i>
-                </button>
-            <?php endif ?>
+            <button class="btn mini bottom disabled">
+                <i class="fa fa-chevron-down"></i>
+            </button>
+            <button class="btn mini minus disabled">
+                <i class="fa fa-minus"></i>
+            </button>
             <button class="btn mini run" times="1">Run</button>
-            <?php if (!$pathway->limit): ?>
-                <button class="btn mini plus">
-                    <i class="fa fa-plus"></i>
-                </button>
-                <button class="btn mini top">
-                    <i class="fa fa-chevron-up"></i>
-                </button>
-            <?php endif ?>
+            <button class="btn mini plus disabled">
+                <i class="fa fa-plus"></i>
+            </button>
+            <button class="btn mini top disabled">
+                <i class="fa fa-chevron-up"></i>
+            </button>
         </div>
 
         <?php if ($pathway->reversible): ?>

@@ -151,20 +151,6 @@ class Resource extends CActiveRecord
         );
     }
 
-    public static function getStartingAmounts()
-    {
-        $amounts = array();
-
-        foreach (self::model()->findAll() as $resource) {
-            $amounts[$resource->id] = array();
-            foreach ($resource->organs as $organ) {
-                $amounts[$resource->id][$organ->id] = $resource->starting_value;
-            }
-        }
-
-        return $amounts;
-    }
-
     public function isValidAmount($organ, $amount)
     {
         foreach ($this->organs as $myOrgan) {
