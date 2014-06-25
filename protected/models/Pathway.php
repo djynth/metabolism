@@ -115,7 +115,8 @@ class Pathway extends CActiveRecord
         return $products;
     }
 
-    public function canRun($times, $organ, $reverse=false, $nutrients=null)
+    public function canRun($challenge, $times, $organ, $reverse=false,
+                           $nutrients=null)
     {
         if ($this->isEat()) {
             if ($nutrients === null) {
@@ -124,6 +125,7 @@ class Pathway extends CActiveRecord
 
             foreach ($this->resource_amounts as $resource) {
                 if (!$resource->canModify(
+                    $challenge,
                     $times,
                     $organ,
                     $reverse,
@@ -136,7 +138,8 @@ class Pathway extends CActiveRecord
             return true;
         } else {
             foreach ($this->resource_amounts as $resource) {
-                if (!$resource->canModify($times, $organ, $reverse)) {
+                if (!$resource->canModify($challenge, $times, $organ, $reverse))
+                {
                     return false;
                 }
 
@@ -144,11 +147,11 @@ class Pathway extends CActiveRecord
                     $properOrgan = $resource->resource->getProperOrgan($organ);
                     $amount = $resource->resource->getAmount($properOrgan);
                     $currentPen = $resource->resource->getPenalization(
-                        $properOrgan,
+                        $challenge,
                         $amount
                     );
                     $potentionalPen = $resource->resource->getPenalization(
-                        $properOrgan, 
+                        $challenge, 
                         $amount + $resource->value
                     );
 

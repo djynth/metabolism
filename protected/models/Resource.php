@@ -151,54 +151,46 @@ class Resource extends CActiveRecord
         );
     }
 
-    public function isValidAmount($organ, $amount)
+    public function isValidAmount($challenge, $amount)
     {
-        foreach ($this->organs as $myOrgan) {
-            if ($organ->id === $myOrgan->id) {
-                if ($this->hard_max !== null && $amount > $this->hard_max) {
-                    return false;
-                }
-                if ($this->hard_min !== null && $amount < $this->hard_min) {
-                    return false;
-                }
-                if ($this->res_hard_max !== null && 
-                    $amount > $this->res_hard_max->getAmount($organ->id)) {
-                    return false;
-                }
-                if ($this->res_hard_min !== null && 
-                    $amount < $this->res_hard_min->getAmount($organ->id)) {
-                    return false;
-                }
-                return true;
-            }
+        $limit = ChallengeLimit::model()->findByAttributes(array(
+            'challenge_id' => $challenge->id,
+            'resource_id' => $this->id,
+        ));
+
+        if ($limit === null) {
+            return true;
         }
-        return false;
+        if ($amount > $limit->hard_min || $amount < $limit->hard_min) {
+            return false;
+        }
+        return true;
     }
 
-    public function isValidChange($organ, $change)
+    public function isValidChange($challenge, $organ, $change)
     {
         return $this->isValidAmount(
-            $organ,
+            $challenge,
             $this->getAmount($organ) + $change
         );
     }
 
-    public function isPenalizableChange($organ, $change)
+    public function isPenalizableChange($challenge, $organ, $change)
     {
         return $this->getPenalization(
-            $organ,
+            $challenge,
             $this->getAmount($organ) + $change
         ) > 0;
     }
 
-    public static function getPenalizations()
+    public static function getPenalizations($challenge)
     {
         $pen = 0;
 
         foreach (self::model()->findAll() as $resource) {
             foreach ($resource->organs as $organ) {
                 $pen += $resource->getPenalization(
-                    $organ,
+                    $challenge,
                     $resource->getAmount($organ)
                 );
             }
@@ -207,52 +199,19 @@ class Resource extends CActiveRecord
         return $pen;
     }
     
-    public function getPenalization($organ, $amount)
+    public function getPenalization($challenge, $amount)
     {
-        $pen = 0;
-        $min = $this->getSoftMin($organ);
-        $max = $this->getSoftMax($organ);
-        if ($min !== null) {
-            $pen += max(0, $this->penalization * ($min - $amount));
-        }
-        if ($max !== null) {
-            $pen += max(0, $this->penalization * ($amount - $max));
-        }
-        return $pen;
-    }
+        $limit = ChallengeLimit::model()->findByAttributes(array(
+            'challenge_id' => $challenge->id,
+            'resource_id' => $this->id,
+        ));
 
-    public function getSoftMin($organ)
-    {
-        if ($this->soft_min === null && $this->rel_soft_min === null) {
-            return null;
+        if ($limit === null) {
+            return 0;
         }
 
-        if ($this->soft_min === null) {
-            return $this->res_soft_min->getAmount($organ);
-        }
-
-        if ($this->rel_soft_min === null) {
-            return $this->soft_min;
-        }
-
-        return max($this->res_soft_min->getAmount($organ), $this->soft_min);
-    }
-
-    public function getSoftMax($organ)
-    {
-        if ($this->soft_max === null && $this->rel_soft_max === null) {
-            return null;
-        }
-
-        if ($this->soft_max === null) {
-            return $this->res_soft_max->getAmount($organ);
-        }
-
-        if ($this->rel_soft_max === null) {
-            return $this->soft_max;
-        }
-
-        return min($this->res_soft_max->getAmount($organ), $this->soft_max);
+        return $limit->penalization * max(0, $limit->soft_min - $amount) +
+               $limit->penalization * max(0, $amount - $limit->soft_max);
     }
 
     public function getProperOrgan($organ)

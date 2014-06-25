@@ -75,7 +75,7 @@ function newGame()
 
 function onTurn(data)
 {
-    setTurn(data.turn);
+    setTurn(data.turn, data.max_turns);
     setPoints(data.score);
     refreshPathways(refreshResources(data.resources));
     refreshState(data.passive_pathways);
@@ -96,10 +96,13 @@ function onTurn(data)
     }
 }
 
-function setTurn(turn)
+function setTurn(turn, maxTurns)
 {
-    var maxTurns = TURNS.attr('max-turns');
-    TURNS.text((maxTurns - turn) + '/' + maxTurns + ' Turns');
+    if (maxTurns == -1) {
+        TURNS.text(turn + ' Turns');
+    } else {
+        TURNS.text((maxTurns - turn) + '/' + maxTurns + ' Turns');
+    }
 }
 
 function setPoints(points)

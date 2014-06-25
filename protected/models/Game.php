@@ -135,6 +135,7 @@ class Game extends CActiveRecord
         foreach (Pathway::getPassivePathways() as $pathway) {
             foreach ($pathway->organs as $organ) {
                 $passivePathways[$pathway->id][$organ->id] = $pathway->canRun(
+                    $this->challenge,
                     $pathway->passive,
                     $organ
                 );
@@ -166,7 +167,7 @@ class Game extends CActiveRecord
         return array(
             'score' => 0,
             'turn' => 0,
-            'max_turns' => 0,
+            'max_turns' => -1,
             'resources' => $amounts,
             'action_counts' => Organ::getStartingActionCounts(),
             'completed' => false,
@@ -184,7 +185,8 @@ class Game extends CActiveRecord
     public function setTurn($turn)
     {
         $this->turn = $turn;
-        if ($this->turn == self::MAX_TURNS) {
+        if ($this->challenge->max_turns != -1 && 
+            $this->turn >= $this->challenge->max_turns) {
             $this->completed = true;
         }
     }
@@ -200,7 +202,13 @@ class Game extends CActiveRecord
             $this->score -= Resource::getPenalizations();
             foreach (Pathway::getPassivePathways() as $pathway) {
                 foreach ($pathway->organs as $organ) {
-                    $pathway->run($this, $pathway->passive, $organ, false, true);    
+                    $pathway->run(
+                        $this,
+                        $pathway->passive,
+                        $organ,
+                        false,
+                        true
+                    );    
                 }
             }
 

@@ -18,7 +18,7 @@
  * @fk challenge Challenge
  * @fk resource  Resource
  */
-class ChallengeStart extends CActiveRecord
+class ChallengeLimit extends CActiveRecord
 {
     public static function model($className = __CLASS__)
     {

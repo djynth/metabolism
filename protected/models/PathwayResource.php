@@ -41,11 +41,13 @@ class PathwayResource extends CActiveRecord
         );
     }
 
-    public function canModify($times, $organ, $reverse=false, $amount=null)
+    public function canModify($challenge, $times, $organ, $reverse=false,
+                              $amount=null)
     {
         $value = $amount === null ? $this->value : $amount;
 
         return $this->resource->isValidChange(
+            $challenge,
             $this->resource->getProperOrgan($organ),
             ($reverse ? -1 : 1) * $value * $times
         );

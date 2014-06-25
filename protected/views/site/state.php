@@ -8,7 +8,7 @@
 <div id="state" class="header-element left">
     <div class="title">
         <p id="points"></p>
-        <p id="turns" max-turns="0"></p>
+        <p id="turns"></p>
         <i class="fa fa-dashboard"></i>
     </div>
 
