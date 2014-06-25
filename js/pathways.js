@@ -117,23 +117,29 @@ function getPathway(pathway, organ)
     return resources.find('.pathway[pathway="' + pathway + '"]').first();
 }
 
-function refreshPathways(changedResources)
+function refreshPathways(changedResources, restrictions)
 {
     PATHWAYS.each(function() {
         var pathway = $(this);
-        pathway.find('.reaction').find('.name').each(function() {
-            if ($.inArray($(this).res(), changedResources) !== -1) {
-                refreshPathway(pathway);
-                return false;
-            }
-        });
+        var limit = restrictions[pathway.pathway()];
+        if (limit === 0) {
+            pathway.addClass('hidden').hide();
+        } else {
+            pathway.removeClass('hidden');
+            pathway.find('.reaction').find('.name').each(function() {
+                if ($.inArray($(this).res(), changedResources) !== -1) {
+                    refreshPathway(pathway, limit);
+                    return false;
+                }
+            });
+        }
     });
 }
 
-function refreshPathway(pathway)
+function refreshPathway(pathway, limit)
 {
     var limiting = $();
-    var maxRuns = Number.POSITIVE_INFINITY;
+    var maxRuns = limit === null ? Number.POSITIVE_INFINITY : limit;
 
     pathway.find('.reactant.name').each(function() {
         $(this).removeClass('lacking limiting');

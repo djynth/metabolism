@@ -2,7 +2,6 @@
 /**
  * @param user
  * @param organs
- * @param passive_pathways
  */
 ?>
 
@@ -14,8 +13,7 @@
     </div>
 
     <?php $this->renderPartial('state', array(
-        'organs'           => $organs,
-        'passive_pathways' => $passive_pathways
+        'organs'=> $organs
     )); ?>
 
     <div id="undo" class="header-element left">

@@ -7,7 +7,8 @@ class SiteController extends CController
         return array_merge($_GET, $_POST);
     }
 
-    public function actionIndex($action='main', $username=null, $verification=null)
+    public function actionIndex($action='main', $username=null,
+                                $verification=null)
     {
         $this->render('index', array(
             'organs' => Organ::model()->findAll(),
@@ -16,7 +17,6 @@ class SiteController extends CController
                 array('primary' => true)
             ),
             'user' => User::getCurrentUser(),
-            'passive_pathways' => Pathway::getPassivePathways(),
             'action' => $action,
             'username' => $username,
             'verification' => $verification,
@@ -33,10 +33,14 @@ class SiteController extends CController
 
     public function actionNewGame()
     {
+        $game = new Game;
         Yii::app()->session->clear();
-        Yii::app()->session['game'] = new Game;
+        Yii::app()->session['game'] = $game;
 
-        echo CJavaScript::jsonEncode(Yii::app()->session['game']->getState());
+        Organ::setActionCounts(Organ::getStartingActionCounts());
+        Resource::setAmounts($game->challenge->getStartingAmounts());
+
+        echo json_encode(self::getState($game));
     }
 
     public function actionPathway($pathway_id, $times, $organ_id, $reverse)
@@ -49,7 +53,7 @@ class SiteController extends CController
             $reverse = ($reverse === "true");
             $pathway->run($game, (int)$times, $organ, $reverse, false);
 
-            echo CJavaScript::jsonEncode($game->getState());
+            echo CJavaScript::jsonEncode(self::getState($game));
         }
     }
 
@@ -60,7 +64,7 @@ class SiteController extends CController
         if ($game !== null) {
             Pathway::eat($game, $nutrients);
         
-            echo CJavaScript::jsonEncode($game->getState());
+            echo CJavaScript::jsonEncode(self::getState($game));
         }
     }
 
@@ -71,27 +75,30 @@ class SiteController extends CController
         if ($game !== null) {
             $game->undo();
 
-            echo CJavaScript::jsonEncode($game->getState());
+            echo CJavaScript::jsonEncode(self::getState($game));
         }
     }
 
     public function actionResourceInfo($resource_id)
     {
         $resource = Resource::model()->findByPk((int)$resource_id);
-        if ($resource !== null) {
+        $game = Yii::app()->session['game'];
+        if ($resource !== null && $game !== null) {
+
+            $limit = ChallengeLimit::model()->findByAttributes(array(
+                'challenge_id' => $game->challenge_id,
+                'resource_id' => $resource->id,
+            ));
+
             echo CJavaScript::jsonEncode(array(
                 'name' => $resource->name,
                 'aliases' => $resource->getAliases(),
                 'formula' => $resource->formula,
                 'description' => $resource->description,
-                'soft_min' => $resource->soft_min,
-                'soft_max' => $resource->soft_max,
-                'hard_min' => $resource->hard_min,
-                'hard_max' => $resource->hard_max,
-                'rel_soft_min' => $resource->rel_soft_min,
-                'rel_soft_max' => $resource->rel_soft_max,
-                'rel_hard_min' => $resource->rel_hard_min,
-                'rel_hard_max' => $resource->rel_hard_max,
+                'soft_min' => $limit->soft_min,
+                'soft_max' => $limit->soft_max,
+                'hard_min' => $limit->hard_min,
+                'hard_max' => $limit->hard_max,
             ));
         }
     }
@@ -106,5 +113,31 @@ class SiteController extends CController
         echo CJavaScript::jsonEncode(array(
             'src' => $files[rand(0, count($files)-1)]
         ));
+    }
+
+    private static function getState($game)
+    {
+        $state = $game->getState();
+        $state['passive_pathways'] = Pathway::getPassivePathwayAvailability(
+            $game->challenge
+        );
+        $state['limits'] = array();
+        foreach ($game->challenge->limits as $limit) {
+            $state['limits'][$limit->resource_id] = array(
+                'hard_min' => $limit->hard_min,
+                'soft_min' => $limit->soft_min,
+                'soft_max' => $limit->soft_max,
+                'hard_max' => $limit->hard_max,
+                'penalization' => $limit->penalization,
+            );
+        }
+
+        $state['restrictions'] = array();
+        foreach ($game->challenge->restrictions as $restriction) {
+            $state['restrictions'][$restriction->pathway_id] = 
+                $restriction->limit;
+        }
+
+        return $state;
     }
 }

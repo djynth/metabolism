@@ -70,18 +70,28 @@ function updateResourceVisual(res, onComplete)
                     'Formula: ' + 
                         data.formula.replace(/(\d+)/g, "<sub>$1</sub>")
                 );
-                RESOURCE_VISUAL.find('.hard_min').html(
-                    getLimitText('Hard Min: ', data.hard_min, data.rel_hard_min)
-                );
-                RESOURCE_VISUAL.find('.hard_max').html(
-                    getLimitText('Hard Max: ', data.hard_max, data.rel_hard_max)
-                );
-                RESOURCE_VISUAL.find('.soft_min').html(
-                    getLimitText('Soft Min: ', data.soft_min, data.rel_soft_min)
-                );
-                RESOURCE_VISUAL.find('.soft_max').html(
-                    getLimitText('Soft Max: ', data.soft_max, data.rel_soft_max)
-                );
+
+                if (data.hard_min !== null) {
+                    RESOURCE_VISUAL.find('.hard_min').html(
+                        'Hard Min: ' + data.hard_min
+                    );
+                }
+                if (data.hard_max !== null) {
+                    RESOURCE_VISUAL.find('.hard_max').html(
+                        'Hard Max: ' + data.hard_max
+                    );
+                }
+                if (data.soft_min !== null) {
+                    RESOURCE_VISUAL.find('.soft_min').html(
+                        'Soft Min: ' + data.soft_min
+                    );
+                }
+                if (data.soft_max !== null) {
+                    RESOURCE_VISUAL.find('.soft_max').html(
+                        'Soft Max: ' + data.soft_max
+                    );
+                }
+
                 RESOURCE_VISUAL.find('.description').html(data.description);
                 updateResourceVisualImage();
                 if (typeof onComplete === 'function') {
@@ -101,18 +111,4 @@ function updateResourceVisualImage()
                 RESOURCE_VISUAL.find('.name').text().toLowerCase() + '.png'
         );
     }
-}
-
-function getLimitText(prefix, limit, rel_limit)
-{
-    if (limit && rel_limit) {
-        return prefix + limit + ', ' + getRes(rel_limit).attr('name');
-    }
-    if (limit) {
-        return prefix + limit;
-    }
-    if (rel_limit) {
-        return prefix + getRes(rel_limit).attr('name');
-    }
-    return '';
 }

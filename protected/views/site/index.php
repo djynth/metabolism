@@ -4,7 +4,6 @@
  * @param non_global
  * @param primary_resources
  * @param user
- * @param passive_pathways
  * @param action
  * @param username
  * @param verification
@@ -35,9 +34,8 @@ switch($action)
 <?php $this->renderPartial('results'); ?>
 
 <?php $this->renderPartial('header', array(
-    'user'             => $user,
-    'organs'           => $organs,
-    'passive_pathways' => $passive_pathways,
+    'user'   => $user,
+    'organs' => $organs,
 )); ?>
 
 <div class="sidebar left">

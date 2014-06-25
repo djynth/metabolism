@@ -57,7 +57,7 @@ function onFilterChange()
         var shown = $();
         var hidden = $();
         
-        PATHWAYS.each(function() {
+        PATHWAYS.filter(':not(.hidden)').each(function() {
             if (name && !name.test($(this).find('.name').text())) {
                 hidden = hidden.add($(this));
                 return;

@@ -14,10 +14,11 @@ function getRes(resource, organ)
     return resources.find('.res[res="' + resource + '"]').first();
 }
 
-function refreshResources(resources)
+function refreshResources(resources, limits)
 {
     var changed = new Array();
     for (var resource in resources) {
+        var limit = limits[resource];
         for (var organ in resources[resource]) {
             var amount = resources[resource][organ];
             var res = getRes(resource, organ);
@@ -37,46 +38,41 @@ function refreshResources(resources)
                 changed.push(res.res());
             }
 
-            updateRes(res, amount);
+            updateRes(res, amount, limit);
         }
     }
     return changed;
 }
 
-function updateRes(res, amount)
+function updateRes(res, amount, limit)
 {
     res.attr('amount', amount);
     res.find('.amount').html(amount);
-    res.find('.bar').css(
-        'width', 
-        Math.min(100, 100*(amount/parseInt(res.attr('max-shown')))) + '%'
-    );
-}
 
-function refreshResourceLimits()
-{
-    $('.resources').find('.res').each(function() {
-        var maxShown = $(this).attr('max-shown');
-        var organ = $(this).organ();
-        $(this).find('.limit').each(function() {
-            var val1 = null, val2 = null;
-            if (typeof $(this).attr('rel-limit') !== "undefined") {
-                val1 = getRes($(this).attr('rel-limit'), organ).attr('amount');
-            }
-            if (typeof $(this).attr('limit') !== "undefined") {
-                val2 = $(this).attr('limit');
-            }
-            if (val1 === null && val2 === null) {
-                return;
-            }
+    var maxShown = parseInt(res.attr('max-shown'));
+    res.find('.bar').width(100*min(1, amount/maxShown) + '%');
 
-            if ($(this).hasClass('max')) {
-                $(this).width(
-                    min(100, 100*(maxShown - min(val1, val2))/maxShown) + "%"
-                );
-            } else {
-                $(this).width(max(0, 100*max(val1, val2)/maxShown) + "%");
-            }
-        });
-    });
+    if (limit.hard_min === null) {
+        res.find('.hard.min').width(0);
+    } else {
+        res.find('.hard.min').width(100*min(1, limit.hard_min/maxShown)+"%");
+    }
+
+    if (limit.soft_min === null) {
+        res.find('.soft.min').width(0);
+    } else {
+        res.find('.soft.min').width(100*min(1, limit.soft_min/maxShown)+"%");
+    }
+
+    if (limit.soft_max === null) {
+        res.find('.soft.max').width(0);
+    } else {
+        res.find('.soft.max').width(100*min(1, 1-limit.soft_max/maxShown)+"%");
+    }
+
+    if (limit.hard_max === null) {
+        res.find('.hard.max').width(0);
+    } else {
+        res.find('.hard.max').width(100*min(1, 1-limit.hard_max/maxShown)+"%");
+    }
 }

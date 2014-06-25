@@ -73,8 +73,6 @@ class Game extends CActiveRecord
         if (($user = User::getCurrentUser()) !== null) {
             $this->user_id = $user->id;
         }
-        $this->setState(Game::getInitialState());
-        $this->save();
 
         $this->appendState();
     }
@@ -131,17 +129,6 @@ class Game extends CActiveRecord
 
     public function getState()
     {
-        $passivePathways = array();
-        foreach (Pathway::getPassivePathways() as $pathway) {
-            foreach ($pathway->organs as $organ) {
-                $passivePathways[$pathway->id][$organ->id] = $pathway->canRun(
-                    $this->challenge,
-                    $pathway->passive,
-                    $organ
-                );
-            }
-        }
-
         return array(
             'score' => $this->score,
             'turn' => $this->turn,
@@ -149,28 +136,6 @@ class Game extends CActiveRecord
             'resources' => Resource::getAmounts(),
             'action_counts' => Organ::getActionCounts(),
             'completed' => $this->completed,
-            'passive_pathways' => $passivePathways,
-        );
-    }
-
-    public static function getInitialState()
-    {
-        $amounts = array();
-
-        foreach (Resource::model()->findAll() as $resource) {
-            $amounts[$resource->id] = array();
-            foreach ($resource->organs as $organ) {
-                $amounts[$resource->id][$organ->id] = 0;
-            }
-        }
-
-        return array(
-            'score' => 0,
-            'turn' => 0,
-            'max_turns' => -1,
-            'resources' => $amounts,
-            'action_counts' => Organ::getStartingActionCounts(),
-            'completed' => false,
         );
     }
 
@@ -178,8 +143,10 @@ class Game extends CActiveRecord
     {
         $this->score = $state['score'];
         $this->setTurn($state['turn']);
+        $this->max_turns = $state['max_turns'];
         Resource::setAmounts($state['resources']);
         Organ::setActionCounts($state['action_counts']);
+        $this->completed = $state['completed'];
     }
 
     public function setTurn($turn)
@@ -199,7 +166,7 @@ class Game extends CActiveRecord
 
         $this->score += ($reverse ? -1 : 1) * $times * $pathway->points;
         if (!$pathway->passive) {
-            $this->score -= Resource::getPenalizations();
+            $this->score -= Resource::getPenalizations($this->challenge);
             foreach (Pathway::getPassivePathways() as $pathway) {
                 foreach ($pathway->organs as $organ) {
                     $pathway->run(

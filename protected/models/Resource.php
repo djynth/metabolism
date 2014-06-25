@@ -161,7 +161,8 @@ class Resource extends CActiveRecord
         if ($limit === null) {
             return true;
         }
-        if ($amount > $limit->hard_min || $amount < $limit->hard_min) {
+        if (($limit->hard_max !== null && $amount > $limit->hard_max) || 
+            ($limit->hard_min !== null && $amount < $limit->hard_min)) {
             return false;
         }
         return true;

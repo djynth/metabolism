@@ -65,6 +65,21 @@ class Pathway extends CActiveRecord
         return self::model()->findAllByAttributes(array(), 'passive <> 0');
     }
 
+    public static function getPassivePathwayAvailability($challenge)
+    {
+        $passivePathways = array();
+        foreach (Pathway::getPassivePathways() as $pathway) {
+            foreach ($pathway->organs as $organ) {
+                $passivePathways[$pathway->id][$organ->id] = $pathway->canRun(
+                    $challenge,
+                    $pathway->passive,
+                    $organ
+                );
+            }
+        }
+        return $passivePathways;
+    }
+
     public static function areValidNutrients($nutrients)
     {
         $eat = self::getEat();
@@ -196,7 +211,7 @@ class Pathway extends CActiveRecord
         if ($this->passive != $passive) {
             return false;
         }
-        if (!$this->canRun($times, $organ, $reverse, $nutrients)) {
+        if (!$this->canRun($game->challenge, $times, $organ, $reverse, $nutrients)) {
             return false;
         }
 

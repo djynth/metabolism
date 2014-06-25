@@ -32,18 +32,36 @@ class Challenge extends CActiveRecord
             'limits' => array(
                 self::HAS_MANY,
                 'ChallengeLimit',
-                array('id' => 'challenge_id'),
+                array('challenge_id' => 'id'),
             ),
             'restrictions' => array(
                 self::HAS_MANY,
                 'ChallengeRestriction',
-                array('id' => 'challenge_id'),
+                array('challenge_id' => 'id'),
             ),
             'starts' => array(
                 self::HAS_MANY,
                 'ChallengeStart',
-                array('id' => 'challenge_id'),
+                array('challenge_id' => 'id'),
             ),
         );
+    }
+
+    public static function getFreePlay()
+    {
+        return self::model()->findByPk(0);
+    }
+
+    public function getStartingAmounts()
+    {
+        $amounts = array();
+        foreach ($this->starts as $start) {
+            $amounts[$start->resource_id] = array();
+            foreach ($start->resource->organs as $organ) {
+                $amounts[$start->resource_id][$organ->id] = 
+                    $start->starting_value;
+            }
+        }
+        return $amounts;
     }
 }
