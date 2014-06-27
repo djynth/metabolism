@@ -1,8 +1,48 @@
 @import "base";
 
 #menu {
-    display: none;
-    margin: 0 $sidebarWidth;
-    top: $headerHeight+1;
-    z-index: 10;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    .tabs {
+        width: 280px;
+        height: 100%;
+
+        .tab {
+            border-right: 1px solid;
+            border-bottom: 1px solid;
+            height: 57px;
+            padding: 14px;
+            cursor: pointer;
+
+            &.active {
+                border-right: none;
+            }
+
+            .fa {
+                float: left;
+                line-height: 55px;
+                font-size: 55px;
+                width: 72px;
+                margin-right: 15px;
+                text-align: center;
+            }
+
+            .title {
+                padding-top: 12px;
+                font-size: 22px;
+            }
+
+            .subheading {
+                font-size: 12px;
+            }
+        }
+
+        .space {
+            border-right: 1px solid;
+            height: 100%;
+        }
+    }
 }

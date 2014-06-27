@@ -13,9 +13,6 @@
 <?php
 switch($action)
 {
-    case "main":
-        $this->renderPartial('welcome', array('user' => $user));
-        break;
     case "verify-email":
         $this->renderPartial('verify-email', array(
             'verification' => $verification,
@@ -50,12 +47,17 @@ switch($action)
     )); ?>
 </div>
 
-<?php $this->renderPartial('menu'); ?>
+<div id="content-area">
+    <div id="diagram"></div>
+    <p id="copyright">Copyright 2014 Neocles B. Leontis</p>
 
-<div id="diagram"></div>
-<p id="copyright">Copyright 2014 Neocles B. Leontis</p>
+    <?php $this->renderPartial('notifications'); ?>
 
-<?php $this->renderPartial('notifications'); ?>
+    <?php $this->renderPartial('menu', array(
+        'user' => $user
+    )); ?>
+</div>
+
 
 <?php $this->renderPartial('footer', array(
     'primary_resources' => $primary_resources,

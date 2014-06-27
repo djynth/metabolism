@@ -2,12 +2,12 @@
 
 #notifications {
     position: absolute;
-    left: $sidebarWidth;
+    left: 0;
+    bottom: 0;
     width: 450px;
 
     .header {
         border: 1px solid;
-        //border-bottom: none;
         padding-left: 10px;
         cursor: pointer;
         position: relative;

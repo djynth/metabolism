@@ -1,6 +1,7 @@
 var BODY;
 var TURNS;
 var POINTS;
+var CONTENT_AREA;
 var DIAGRAM;
 var COPYRIGHT;
 
@@ -8,6 +9,7 @@ $(document).ready(function() {
     BODY = $('body');
     TURNS = $('#turns');
     POINTS = $('#points');
+    CONTENT_AREA = $('#content-area');
     DIAGRAM = $('#diagram');
     COPYRIGHT = $('#copyright');
 
@@ -41,8 +43,7 @@ function onResize()
 {
     var contentHeight = 
         $(window).height() - HEADER.outerHeight() - FOOTER.outerHeight();
-    DIAGRAM.height(contentHeight);
-    MENU.height(contentHeight);
+    CONTENT_AREA.height(contentHeight);
     $('.sidebar').first().children('.accordian-header').each(
         function() {
             contentHeight -= $(this).outerHeight();
@@ -55,9 +56,6 @@ function onResize()
             $(this).height(contentHeight).data('jsp').reinitialise();
         }
     });
-
-    COPYRIGHT.css('bottom', FOOTER.outerHeight());
-    NOTIFICATIONS.css('bottom', FOOTER.outerHeight() - 1);
 
     FILTER.find('input[type=text]').each(function() {
         $(this).outerWidth($(this).parent().width());
