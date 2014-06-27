@@ -7,6 +7,7 @@
     overflow: hidden;
 
     .tabs {
+        float: left;
         width: 280px;
         height: 100%;
 
@@ -43,6 +44,20 @@
         .space {
             border-right: 1px solid;
             height: 100%;
+        }
+    }
+
+    .contents {
+        margin-left: 280px;
+        width: 100%;
+        height: 100%;
+
+        .content {
+            padding: 30px;
+
+            &:not(.active) {
+                display: none;
+            }
         }
     }
 }
