@@ -42,6 +42,7 @@ function onResize()
     var contentHeight = 
         $(window).height() - HEADER.outerHeight() - FOOTER.outerHeight();
     DIAGRAM.height(contentHeight);
+    MENU.height(contentHeight);
     $('.sidebar').first().children('.accordian-header').each(
         function() {
             contentHeight -= $(this).outerHeight();

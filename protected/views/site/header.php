@@ -28,6 +28,12 @@
         </div>
     </div>
 
+    <div id="open-menu" class="header-element right">
+        <div class="title">
+            <p>Menu</p>
+        </div>
+    </div>
+
     <?php $this->renderPartial('account', array(
         'user' => $user,
     )); ?>

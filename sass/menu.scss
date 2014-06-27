@@ -1,0 +1,8 @@
+@import "base";
+
+#menu {
+    display: none;
+    margin: 0 $sidebarWidth;
+    top: $headerHeight+1;
+    z-index: 10;
+}

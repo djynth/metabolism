@@ -50,6 +50,8 @@ switch($action)
     )); ?>
 </div>
 
+<?php $this->renderPartial('menu'); ?>
+
 <div id="diagram"></div>
 <p id="copyright">Copyright 2014 Neocles B. Leontis</p>
 

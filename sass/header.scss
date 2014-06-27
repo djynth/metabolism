@@ -70,7 +70,10 @@
     }
 
     #undo {
-        left: $gameStateWidth + 1;
         width: $undoWidth;
+    }
+
+    #open-menu {
+        width: 50px;
     }
 }

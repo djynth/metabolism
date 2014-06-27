@@ -18,4 +18,8 @@ $(document).ready(function() {
             success: onTurn
         });
     });
+
+    $('#open-menu').click(function() {
+        MENU.fadeToggle();
+    });
 });
