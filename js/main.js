@@ -69,8 +69,17 @@ function newGame()
         url: '/index.php/site/newGame',
         type: 'POST',
         dataType: 'json',
-        success: onTurn
+        success: onGameStart
     });
+}
+
+function onGameStart(data)
+{
+    DIAGRAM.css(
+        'background-image',
+        'url(\'img/diagrams/diagram' + data.challenge_id + '.png\')'
+    );
+    onTurn(data);
 }
 
 function onTurn(data)

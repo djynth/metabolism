@@ -136,6 +136,7 @@ class Game extends CActiveRecord
             'resources' => Resource::getAmounts(),
             'action_counts' => Organ::getActionCounts(),
             'completed' => $this->completed,
+            'challenge_id' => $this->challenge_id,
         );
     }
 
@@ -147,6 +148,7 @@ class Game extends CActiveRecord
         Resource::setAmounts($state['resources']);
         Organ::setActionCounts($state['action_counts']);
         $this->completed = $state['completed'];
+        $this->challenge_id = $state['challenge_id'];
     }
 
     public function setTurn($turn)
