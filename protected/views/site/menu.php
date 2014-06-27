@@ -50,28 +50,25 @@
     </div>
 
     <div class="contents">
-        <div class="content new-game active">
-            
-        </div>
+        <div class="content new-game active"></div>
 
-        <div class="content tutorial">
-            
-        </div>
+        <div class="content tutorial"></div>
 
-        <div class="content data">
-            
-        </div>
+        <div class="content data"></div>
 
-        <div class="content account">
-            
-        </div>
+        <div class="content account"></div>
 
-        <div class="content settings">
-            
-        </div>
+        <div class="content settings"></div>
 
         <div class="content about">
-            
+            <h2>About <?= Yii::app()->name ?></h3>
+            <p><?= Yii::app()->name ?> is an educational game created to teach students about cellular metabolism. Most appropriate for college-level purposes, the game is designed to be integrated into a classroom and provide players with an enjoyable and wholistic view of the metabolic process.</p>
+
+            <h2>The Team</h3>
+            <p><?= Yii::app()->name ?> was envisioned by Professor Neocles Leontis of Bowling Green State University for use in his biochemistry class. Having created a simple card game that allowed students to view metabolism as a whole, he partnered with Dominic Zirbel to develop an online version to allow for interactability and useability.</p>
+
+            <h2>Contact Us</h3>
+            <p>We would appreciate any feedback, comments, or questions. Email us at <a href="mailto:<?= Yii::app()->params['email'] ?>"><?= Yii::app()->params['email'] ?></a>.</p>
         </div>
     </div>
 </div>

@@ -38,7 +38,7 @@ $(document).ready(function() {
 });
 </script>
 
-<title><?= CHtml::encode($this->pageTitle); ?></title>
+<title><?= Yii::app()->name ?></title>
 </head>
 
 <body> <?= $content; ?> </body>
