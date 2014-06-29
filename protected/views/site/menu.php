@@ -73,7 +73,6 @@
                             <input type="text" placeholder="Text Field">
                             <div class="verified add-on right" verified>
                                 <i class="fa fa-check"></i>
-                                <p>Email Verified</p>
                             </div>
                         </div>
 
