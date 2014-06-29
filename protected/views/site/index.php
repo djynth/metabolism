@@ -49,8 +49,7 @@ switch($action)
 
 <div id="content-area">
     <div id="diagram"></div>
-    <p id="copyright">Copyright 2014 Neocles B. Leontis</p>
-
+    
     <?php $this->renderPartial('notifications'); ?>
 
     <?php $this->renderPartial('menu', array(

@@ -92,6 +92,8 @@
 
             <h2>Contact Us</h3>
             <p>We would appreciate any feedback, comments, or questions. Email us at <a href="mailto:<?= Yii::app()->params['email'] ?>"><?= Yii::app()->params['email'] ?></a>.</p>
+
+            <p class="copyright">Copyright 2014 Neocles B. Leontis</p>
         </div>
     </div>
 </div>

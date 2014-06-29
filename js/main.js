@@ -3,7 +3,6 @@ var TURNS;
 var POINTS;
 var CONTENT_AREA;
 var DIAGRAM;
-var COPYRIGHT;
 
 $(document).ready(function() {
     BODY = $('body');
@@ -11,7 +10,6 @@ $(document).ready(function() {
     POINTS = $('#points');
     CONTENT_AREA = $('#content-area');
     DIAGRAM = $('#diagram');
-    COPYRIGHT = $('#copyright');
 
     $(window).resize(onResize);
 
