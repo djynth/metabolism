@@ -53,8 +53,6 @@ input[type=text], input[type=password], input[type=email] {
     transition: border linear 0.2s;
 
     &.left {
-        left: 0;
-
         &:first-of-type {
             border-top-left-radius: 4px;
             border-bottom-left-radius: 4px;

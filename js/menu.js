@@ -12,4 +12,9 @@ $(document).ready(function() {
             MENU.find('.content.' + $(this).attr('for')).addClass('active');
         }
     });
+
+    MENU.find('.theme').find('.select').click(function() {
+        var theme = $(this).parents('.theme');
+        setColorTheme(theme.attr('theme'), theme.attr('type'), true);
+    });
 });

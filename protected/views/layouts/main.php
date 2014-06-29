@@ -34,7 +34,7 @@ $(document).ready(function() {
     selectOrgan($('.accordian-header.active').organ());
     setTurn(0, -1);
     setPoints(0);
-    $('.theme[theme=<?= User::getCurrentTheme()["theme"] ?>]').click();
+    $('.theme[theme=<?= User::getCurrentTheme()["theme"] ?>]').find('.select').click();
 });
 </script>
 

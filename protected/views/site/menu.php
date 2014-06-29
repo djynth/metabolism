@@ -76,7 +76,6 @@
                                 <p>Email Verified</p>
                             </div>
                         </div>
-                        
 
                         <button class="btn select">Select</button>
                     </div>

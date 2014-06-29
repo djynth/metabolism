@@ -170,6 +170,20 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
         }
     }
 
+    #menu {
+        background-color: $background;
+
+        .tabs {
+            .tab {
+                border-color: $border;
+            }
+
+            .tab:not(.active), .space {
+                background-color: $sidebarBackground;
+            }
+        }
+    }
+
     #header {
         background-color: $background;
         border-color: $border;

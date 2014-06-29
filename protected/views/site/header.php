@@ -37,6 +37,4 @@
     <?php $this->renderPartial('account', array(
         'user' => $user,
     )); ?>
-
-    <?php $this->renderPartial('settings'); ?>
 </div>
