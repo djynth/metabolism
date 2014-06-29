@@ -1,5 +1,7 @@
 @import "base";
 
+$name: 'sea';
+
 // GENERAL
 $text:                   rgb( 80,  80,  80);
 $textShadow:             rgba(200, 200, 200, 0.5);
@@ -57,7 +59,7 @@ $optionBackground:       rgba(0,   0,   0,   0.03);
 $optionBorder:           rgb( 130, 130, 130);
 $labelBorder:            rgba(0,   0,   0,   0.2);
 
-body[theme=sea] {
+body[theme=#{$name}], .theme[theme=#{$name}] {
     background-color: $background;
 
     p, h1, h2, h3, h4, h5, h6, label {

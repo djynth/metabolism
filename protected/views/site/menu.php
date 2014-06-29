@@ -58,7 +58,31 @@
 
         <div class="content account"></div>
 
-        <div class="content settings"></div>
+        <div class="content settings">
+            <h2>Color Themes</h2>
+
+            <div class="themes">
+                <?php foreach (glob("{css/themes/light/*.css,css/themes/dark/*.css}", GLOB_BRACE) as $css):
+                    $theme = basename($css, '.css');
+                    $type = basename(dirname($css)); ?>
+
+                    <div class="theme" theme="<?= $theme ?>" type="<?= $type ?>">
+                        <p class="name"><?= ucfirst($theme) ?> [<?= ucfirst($type) ?>]</p>
+
+                        <div class="add-on-holder">
+                            <input type="text" placeholder="Text Field">
+                            <div class="verified add-on right" verified>
+                                <i class="fa fa-check"></i>
+                                <p>Email Verified</p>
+                            </div>
+                        </div>
+                        
+
+                        <button class="btn select">Select</button>
+                    </div>
+                <?php endforeach ?>
+            </div>
+        </div>
 
         <div class="content about">
             <h2>About <?= Yii::app()->name ?></h3>

@@ -58,6 +58,29 @@
                 display: none;
             }
 
+            &.settings {
+                .themes {
+                    .theme {
+                        margin: 20px;
+                        padding: 10px;
+                        border: 1px solid;
+                        border-radius: 7px;
+                        position: relative;
+
+                        .name {
+                            margin-bottom: 8px;
+                            font-size: 16px;
+                        }
+
+                        .select {
+                            position: absolute;
+                            right: 10px;
+                            bottom: 10px;
+                        }
+                    }
+                }
+            }
+
             &.about {
                 p {
                     margin-top: 8px;

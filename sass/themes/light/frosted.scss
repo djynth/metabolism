@@ -1,5 +1,7 @@
 @import "base";
 
+$name: 'frosted';
+
 // GENERAL
 $text:                   rgb( 80,  80,  80);
 $textShadow:             rgb( 230, 230, 230);
@@ -57,8 +59,9 @@ $optionBackground:       rgba(0,   0,   0,   0.02);
 $optionBorder:           rgb( 140, 140, 140);
 $labelBorder:            rgba(0,   0,   0,   0.18);
 
-body[theme=frosted] {
+body[theme=#{$name}], .theme[theme=#{$name}] {
     background-color: $background;
+    border-color: $border;
 
     p, h1, h2, h3, h4, h5, h6, label {
         color: $text;
