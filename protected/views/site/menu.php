@@ -62,7 +62,7 @@
                 <h2>Log In</h2>
 
                 <div class="form">
-                    <form id="log-in">
+                    <form id="login">
                         <input type="text" class="username" placeholder="Username" info="">
 
                         <div class="add-on-holder">
@@ -73,7 +73,7 @@
                             </div>
                         </div>
 
-                        <input class="submit btn small" type="button" value="Submit">
+                        <input class="submit btn small" type="submit" value="Submit">
                     </form>
 
                     <div class="form-info"></div>
@@ -87,7 +87,7 @@
                         <input class="email" type="text" placeholder="Email Address" info="">
                         <input class="new-password" type="password" placeholder="Password" info="">
                         <input class="confirm" type="password" placeholder="Confirm Password" info="">
-                        <input class="submit btn small" type="button" value="Submit">
+                        <input class="submit btn small" type="submit" value="Submit">
                     </form>
 
                     <div class="form-info"></div>

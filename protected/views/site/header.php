@@ -33,8 +33,4 @@
             <p>Menu</p>
         </div>
     </div>
-
-    <?php $this->renderPartial('account', array(
-        'user' => $user,
-    )); ?>
 </div>
