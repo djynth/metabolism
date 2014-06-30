@@ -43,7 +43,7 @@
         <div class="tab" for="about">
             <i class="fa fa-building"></i>
             <p class="title">About Us</p>
-            <p class="subheading">info and contact for the team</p>
+            <p class="subheading">team info and contact</p>
         </div>
 
         <div class="space"></div>
@@ -56,7 +56,48 @@
 
         <div class="content data"></div>
 
-        <div class="content account"></div>
+        <div class="content account">
+            
+            <?php if ($user === null): ?>
+                <h2>Log In</h2>
+
+                <div class="form">
+                    <form id="log-in">
+                        <input type="text" class="username" placeholder="Username" info="">
+
+                        <div class="add-on-holder">
+                            <input class="password" type="password" placeholder="Password" info="">
+                            <div class="forgot-password add-on right">
+                                <i class="fa fa-question-circle"></i>
+                                <input class="btn mini" type="button" value="Forgot Password">
+                            </div>
+                        </div>
+
+                        <input class="submit btn small" type="button" value="Submit">
+                    </form>
+
+                    <div class="form-info"></div>
+                </div>
+
+                <h2>Create Account</h2>
+
+                <div class="form">
+                    <form id="create-account">
+                        <input class="username" type="text" placeholder="Username" info="">
+                        <input class="email" type="text" placeholder="Email Address" info="">
+                        <input class="new-password" type="password" placeholder="Password" info="">
+                        <input class="confirm" type="password" placeholder="Confirm Password" info="">
+                        <input class="submit btn small" type="button" value="Submit">
+                    </form>
+
+                    <div class="form-info"></div>
+                </div>
+                
+            <?php else: ?>
+
+            <?php endif ?>
+
+        </div>
 
         <div class="content settings">
             <h2>Color Themes</h2>

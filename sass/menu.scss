@@ -8,7 +8,7 @@
 
     .tabs {
         float: left;
-        width: 280px;
+        width: 260px;
         height: 100%;
 
         .tab {
@@ -56,6 +56,49 @@
 
             &:not(.active) {
                 display: none;
+            }
+
+            &.account {
+                .form {
+                    display: table;
+                    border-spacing: 30px 10px;
+
+                    > * {
+                        display: table-cell;
+                    }
+
+                    form {
+                        input[type=text], input[type=password] {
+                            width: 300px;
+                        }
+
+                        > * {
+                            margin-bottom: 8px;
+                        }
+
+                        .forgot-password.add-on {
+                            max-width: 122px;
+                        }
+
+                        .submit {
+                            float: right;
+                        }
+                    }
+
+                    .form-info {
+                        width: 100%;
+                        border: 1px solid;
+                        border-radius: 5px;
+                        padding: 4px;
+                        opacity: 0.4;
+
+                        @include transition(opacity 0.4s);
+
+                        &.active {
+                            opacity: 0.9;
+                        }
+                    }
+                }
             }
 
             &.settings {

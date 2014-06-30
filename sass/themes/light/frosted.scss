@@ -182,6 +182,18 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
                 background-color: $sidebarBackground;
             }
         }
+
+        .contents {
+            .content {
+                &.account {
+                    .form-info {
+                        background-color: $elementBackground;
+                        border-color: $elementBorder;
+                        color: $elementText;
+                    }
+                }
+            }
+        }
     }
 
     #header {

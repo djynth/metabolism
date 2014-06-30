@@ -17,4 +17,16 @@ $(document).ready(function() {
         var theme = $(this).parents('.theme');
         setColorTheme(theme.attr('theme'), theme.attr('type'), true);
     });
+
+    MENU.find('.form').find('input[type=text], input[type=password]')
+        .focusin(function() {
+            $(this).parents('.form').find('.form-info')
+                .addClass('active')
+                .html($(this).attr('info'));
+        })
+        .focusout(function() {
+            $(this).parents('.form').find('.form-info')
+                .removeClass('active')
+                .html('');
+        });
 });
