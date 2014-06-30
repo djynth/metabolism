@@ -92,6 +92,8 @@
 
                     <div class="form-info"></div>
                 </div>
+
+                <p class="footer">Logging in or creating an account will restart your game.</p>
                 
             <?php else: ?>
 
