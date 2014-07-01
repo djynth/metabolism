@@ -105,6 +105,11 @@ function onResize()
     FILTER.find('input[type=text]').each(function() {
         $(this).outerWidth($(this).parent().width());
     });
+
+    MENU.find('.mode').each(function() {
+        $(this).css('font-size', 0.8*$(this).width());
+        $(this).find('i').css('margin-top', 0.1*$(this).width());
+    });
 }
 
 function newGame()

@@ -58,6 +58,49 @@
                 display: none;
             }
 
+            &.new-game {
+                .modes {
+                    width: 100%;
+                    display: table;
+                    border-spacing: 20px;
+
+                    .mode {
+                        display: table-cell;
+                        border: 1px solid;
+                        border-radius: 10px;
+                        position: relative;
+                        text-align: center;
+
+                        &:before {
+                            content: "";
+                            display: block;
+                            margin-top: 100%;
+                        }
+
+                        .fa {
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            width: 100%;
+                            text-align: center;
+                        }
+
+                        label {
+                            position: absolute;
+                            left: 0;
+                            bottom: 0;
+                            font-size: 22px;
+                            width: 94%;
+                            padding-right: 6%;
+                            padding-bottom: 4%;
+                            padding-top: 4%;
+                            border-top: 1px solid;
+                            text-align: right;
+                        }
+                    }
+                }
+            }
+
             &.account {
                 #account-info {
                     p {

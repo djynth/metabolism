@@ -50,7 +50,24 @@
     </div>
 
     <div class="contents">
-        <div class="content new-game active"></div>
+        <div class="content new-game active">
+            <div class="modes">
+                <div class="mode freeplay">
+                    <i class="fa fa-gamepad"></i>
+                    <label>Free Play</label>
+                </div>
+
+                <div class="mode campaign">
+                    <i class="fa fa-road"></i>
+                    <label>Campaign</label>
+                </div>
+
+                <div class="mode challenge">
+                    <i class="fa fa-trophy"></i>
+                    <label>Challenge</label>
+                </div>
+            </div>
+        </div>
 
         <div class="content tutorial">
             <p>The full tutorial is under construction. Here are some tips to get you started:</p>
