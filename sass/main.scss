@@ -83,6 +83,10 @@ input[type=text], input[type=password], input[type=email] {
         top:  7px;
     }
 
+    .fa-exclamation {
+        left: 11px;
+    }
+
     *:not(.fa) {
         display: none;
         white-space: nowrap;

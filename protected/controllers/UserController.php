@@ -24,6 +24,8 @@ class UserController extends CController
         'email_verification_impossible' => 
             'Either that user does not exist or does not have a verified email
             address. Contact us to recover your account.',
+        'email_verify_sent' =>
+            'A verification email was sent to your address at %domain.',
         'password_reset_too_soon' =>
             'A password recovery email has been sent for this account too
             recently.',
@@ -184,12 +186,12 @@ class UserController extends CController
         } else {
             $user->email = $email;
             if ($user->save()) {
-                $user->createEmailVerification();
                 if ($user->email_verification !== null) {
                     $user->email_verification->delete();
                     $user->email_verification = null;
                 }
 
+                $user->createEmailVerification();
                 $success = true;
                 $message = self::$MESSAGES['email_update'];
             } else {
@@ -283,7 +285,16 @@ class UserController extends CController
 
     public function actionResendEmailVerification()
     {
-        User::getCurrentUser()->sendEmailVerification();
+        $user = User::getCurrentUser();
+        $user->sendEmailVerification();
+
+        echo CJavaScript::jsonEncode(array(
+            'success' => true,
+            'message' => strtr(
+                self::$MESSAGES['email_verify_sent'],
+                array('%domain' => $user->getEmailDomain())
+            ),
+        ));
     }
 
     public function actionForgotPassword($username)

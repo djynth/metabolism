@@ -48,7 +48,7 @@
     }
 
     .contents {
-        margin-left: 280px;
+        margin-left: 260px;
         height: 100%;
 
         .content {
@@ -59,6 +59,19 @@
             }
 
             &.account {
+                #account-info {
+                    p {
+                        margin-top: 8px;
+                        margin-bottom: 20px;
+                        display: inline-block;
+                    }
+
+                    button {
+                        display: inline-block;
+                        float: right;
+                    }
+                }
+
                 .form {
                     display: table;
                     border-spacing: 30px 10px;
@@ -72,7 +85,7 @@
                         padding-top: 2px;
 
                         input[type=text], input[type=password] {
-                            width: 300px;
+                            width: 270px;
                         }
 
                         > * {

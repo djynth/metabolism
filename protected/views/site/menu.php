@@ -96,6 +96,13 @@
                 <p class="footer">Logging in or creating an account will restart your game.</p>
                 
             <?php else: ?>
+                <h2>Account</h2>
+
+                <div id="account-info">
+                    <p>Welcome, <?= $user->username ?></p>
+                    <button class="btn small" id="logout">Log Out</button>
+                </div>
+
                 <h2>Change Password</h2>
 
                 <div class="form">
@@ -124,7 +131,7 @@
                             <?php else: ?>
                                 <div class="verified add-on right">
                                     <i class="fa fa-exclamation"></i>
-                                    <button class="resend-email btn mini">Resend Verification Email</button>
+                                    <input type="button" class="resend-email btn mini" value="Resend Verification Email">
                                 </div>
                             <?php endif ?>
 
@@ -137,14 +144,12 @@
                         <div id="edit-email">
                             <input class="password" type="password" placeholder="Current Password" verify="no" info="Enter your current password for authentication.">
                             <input class="email" type="text" placeholder="New Email" info="Enter your new email address.<br>Requirements:<ul><li>valid email address, i.e. me@example.com</li><li>not used by another player</li></ul>">
-                            <input class="submit btn small" type="button" value="Submit">
+                            <input class="submit btn small" type="submit" value="Submit">
                         </div>
                     </form>
 
                     <div class="form-info"></div>
                 </div>
-
-                <input type="button" class="btn" id="logout" value="Log Out">
             <?php endif ?>
 
         </div>

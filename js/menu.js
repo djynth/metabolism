@@ -10,7 +10,7 @@ $(document).ready(function() {
             MENU.find('.content.active').removeClass('active');
 
             $(this).addClass('active');
-            MENU.find('.content.' + $(this).attr('for')).addClass('active').find('input[type=text], input[type=passwprd]').first().focus();
+            MENU.find('.content.' + $(this).attr('for')).addClass('active');
         }
     });
 
@@ -44,8 +44,8 @@ $(document).ready(function() {
             }
 
             if ($(this).hasClass('confirm') || $(this).hasClass('new-password')) {
-                var password = $(this).parent().siblings('.new-password');
-                var confirm = $(this).parent().children('.confirm')
+                var password = $(this).parent().children('.new-password');
+                var confirm = $(this).parent().children('.confirm');
                 confirm.toggleClass('error', !match(confirm, password));
             }
         });
@@ -139,7 +139,7 @@ $(document).ready(function() {
     $('#email-info').submit(function() {
         var form = $(this);
         if (form.find('input.error').length === 0) {
-            var newEmail = form.find('.email').val();
+            var newEmail = form.find('#edit-email').find('.email').val();
             $.ajax({
                 url: '/index.php/user/changeEmail',
                 type: 'POST',
@@ -176,6 +176,25 @@ $(document).ready(function() {
 
     $('.edit-email').find('input[type=button]').click(function() {
         $(this).parents('form').find('#edit-email').slideToggle();
+    });
+
+    $('.resend-email').click(function() {
+        var form = $(this).parents('form');
+        $.ajax({
+            url: '/index.php/user/resendEmailVerification',
+            type: 'POST',
+            dataType: 'json',
+            success: function(data) {
+                form.siblings('.form-info')
+                    .addClass('active' + (data.success ? '' : ' error'))
+                    .html(data.message);
+            },
+            error: function() {
+                form.siblings('.form-info')
+                    .addClass('active error')
+                    .html(INTERNAL_ERROR);
+            }
+        });
     });
 
     $('#logout').click(function() {
