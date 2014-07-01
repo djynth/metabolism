@@ -39,15 +39,34 @@ class UserController extends CController
 
     public function actionValidate($type, $value)
     {
-        $valid = false;
+        $valid = true;
+        $message = '';
         if ($type === 'username') {
-            $valid = User::isValidUsername($value);
+            if (!User::isValidUsername($value)) {
+                $valid = false;
+                $message = 'Invalid username';
+            } elseif (User::isUsernameTaken($value)) {
+                $valid = false;
+                $message = 'Username taken';
+            }
         } else if ($type === 'password') {
-            $valid = User::isValidPassword($value);
+            if (!User::isValidPassword($value)) {
+                $valid = false;
+                $message = 'Invalid password';
+            }
         } else if ($type === 'email') {
-            $valid = User::isValidEmail($value);
+            if (!User::isValidEmail($value)) {
+                $valid = false;
+                $message = 'Invalid email address';
+            } elseif (User::isEmailTaken($value)) {
+                $valid = false;
+                $message = 'Email address in use';
+            }
         }
-        echo CJavaScript::jsonEncode(array('valid' => $valid));
+        echo CJavaScript::jsonEncode(array(
+            'valid' => $valid,
+            'message' => $message
+        ));
     }
 
     public function actionLogin($username, $password)

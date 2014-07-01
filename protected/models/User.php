@@ -174,7 +174,7 @@ class User extends CActiveRecord
 
     public static function isValidPassword($password)
     {
-        return preg_match("/^[a-zA-Z0-9:punct:]{3,32}$/", $password);
+        return preg_match("/^[a-zA-Z0-9\W_]{3,32}$/", $password);
     }
 
     public static function isValidEmail($email)

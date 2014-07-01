@@ -10,7 +10,7 @@ $(document).ready(function() {
             MENU.find('.content.active').removeClass('active');
 
             $(this).addClass('active');
-            MENU.find('.content.' + $(this).attr('for')).addClass('active');
+            MENU.find('.content.' + $(this).attr('for')).addClass('active').find('input[type=text], input[type=passwprd]').first().focus();
         }
     });
 
@@ -22,35 +22,37 @@ $(document).ready(function() {
     MENU.find('.form').find('input[type=text], input[type=password]')
         .focusin(function() {
             $(this).parents('.form').find('.form-info')
+                .removeClass('error')
                 .addClass('active')
                 .html($(this).attr('info'));
         })
         .focusout(function() {
             $(this).parents('.form').find('.form-info')
+                .removeClass('error')
                 .removeClass('active')
                 .html('');
+        })
+        .change(function() {
+            if ($(this).hasClass('username') && $(this).attr('verify') !== 'no') {
+                validate($(this), 'username');
+            }
+            if ($(this).hasClass('email') && $(this).attr('verify') !== 'no') {
+                validate($(this), 'email');
+            }
+            if ($(this).hasClass('new-password') && $(this).attr('verify') !== 'no') {
+                validate($(this), 'password');
+            }
+
+            if ($(this).hasClass('confirm') || $(this).hasClass('new-password')) {
+                var password = $(this).parent().siblings('.new-password');
+                var confirm = $(this).parent().children('.confirm')
+                confirm.toggleClass('error', !match(confirm, password));
+            }
         });
-
-    $('.username').change(function() {
-        validate($(this), 'username');
-    });
-
-    $('.email').change(function() {
-        validate($(this), 'email');
-    });
-
-    $('.new-password').change(function() {
-        validate($(this), 'password');
-    }).each(function() {
-        var password = $(this);
-        var confirm = $(this).siblings('.confirm');
-        confirm.add(password).change(function() {
-            confirm.toggleClass('error', !match(password, confirm));
-        });
-    });
 
     $('#login').submit(function() {
-        if ($(this).find('input.error').length === 0) {
+        var form = $(this);
+        if (form.find('input.error').length === 0) {
             $.ajax({
                 url: '/index.php/user/login',
                 type: 'POST',
@@ -63,19 +65,46 @@ $(document).ready(function() {
                     if (data.success) {
                         location.reload();
                     } else {
-                        notify(data.message, 'warning');
+                        form.siblings('.form-info')
+                            .addClass('active error')
+                            .html(data.message);
                     }
                 },
                 error: function() {
-                    notify(INTERNAL_ERROR, 'error');
+                    form.siblings('.form-info')
+                        .addClass('active error')
+                        .html(INTERNAL_ERROR);
                 }
             });
         }
         return false;
     });
 
+    $('.forgot-password').find('input[type=button]').click(function() {
+        var form = $(this).parents('form');
+        $.ajax({
+            url: '/index.php/user/forgotPassword',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                username: form.find('.username').val()
+            },
+            success: function(data) {
+                form.siblings('.form-info')
+                    .addClass('active' + (data.success ? '' : ' error'))
+                    .html(data.message);
+            },
+            error: function() {
+                form.siblings('.form-info')
+                    .addClass('active error')
+                    .html(INTERNAL_ERROR);
+            }
+        });
+    });
+
     $('#create-account').submit(function() {
-        if ($(this).find('input.error').length === 0) {
+        var form = $(this);
+        if (form.find('input.error').length === 0) {
             var theme = getColorTheme();
             $.ajax({
                 url: '/index.php/user/createAccount',
@@ -92,11 +121,15 @@ $(document).ready(function() {
                     if (data.success) {
                         location.reload();
                     } else {
-                        notify(data.message, 'warning');
+                        form.siblings('.form-info')
+                            .addClass('active error')
+                            .html(data.message);
                     }
                 },
                 error: function() {
-                    notify(INTERNAL_ERROR, 'error');
+                    form.siblings('.form-info')
+                        .addClass('active error')
+                        .html(INTERNAL_ERROR);
                 }
             });
         }

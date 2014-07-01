@@ -63,10 +63,10 @@
 
                 <div class="form">
                     <form id="login">
-                        <input type="text" class="username" placeholder="Username" info="">
+                        <input type="text" class="username" placeholder="Username" info="" verify="no">
 
                         <div class="add-on-holder">
-                            <input class="password" type="password" placeholder="Password" info="">
+                            <input class="password" type="password" placeholder="Password" info="" verify="no">
                             <div class="forgot-password add-on right">
                                 <i class="fa fa-question-circle"></i>
                                 <input class="btn mini" type="button" value="Forgot Password">
@@ -83,10 +83,10 @@
 
                 <div class="form">
                     <form id="create-account">
-                        <input class="username" type="text" placeholder="Username" info="">
-                        <input class="email" type="text" placeholder="Email Address" info="">
-                        <input class="new-password" type="password" placeholder="Password" info="">
-                        <input class="confirm" type="password" placeholder="Confirm Password" info="">
+                        <input class="username" type="text" placeholder="Username" info="Your username identifies you and is used to log in.<br>Requirements:<ul><li>3-16 alphanumeric characters, including - and _</li><li>not taken by another player</li></ul>">
+                        <input class="email" type="text" placeholder="Email Address" info="Your email address can be used to recover your account if you forget your password.<br>Requirements:<ul><li>valid email address, i.e. me@example.com</li><li>not used by another player</li></ul>">
+                        <input class="new-password" type="password" placeholder="Password" info="A password is used to verify yourself when logging in. Use a strong, unique password and keep it secret.<br>Requirements:<ul><li>3-32 alphanumeric or punctuation characters</li></ul>">
+                        <input class="confirm" type="password" placeholder="Confirm Password" info="Repeat the password given above to make sure it's correct.">
                         <input class="submit btn small" type="submit" value="Submit">
                     </form>
 

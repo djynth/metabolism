@@ -34,7 +34,36 @@ $(document).ready(function() {
         })
         .focusout(function() {
             $(this).siblings('.add-on').removeClass('focus');
-        })
+        });
+
+    $('.add-on.right').hover(
+        function() {
+            var elem = $(this);
+            $(this).data('timeout', setTimeout(function() {
+                elem.animate({ width: elem.css('max-width') }, {
+                    progress: function() {
+                        $(this).nextAll('.add-on.right').css(
+                            'right',
+                            parseInt($(this).css('right')) + $(this).width()
+                        );
+                    }
+                });
+                elem.find('*').fadeIn();
+            }, 250));
+        },
+        function() {
+            clearTimeout($(this).data('timeout'));
+            $(this).animate({ width: $(this).css('min-width') }, {
+                    progress: function() {
+                        $(this).nextAll('.add-on.right').css(
+                            'right',
+                            parseInt($(this).css('right')) + $(this).width()
+                        );
+                    }
+                });
+            $(this).find('*:not(i)').fadeOut();
+        }
+    );
 });
 
 function onResize()

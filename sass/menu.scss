@@ -69,6 +69,8 @@
                     }
 
                     form {
+                        padding-top: 2px;
+
                         input[type=text], input[type=password] {
                             width: 300px;
                         }
@@ -90,8 +92,8 @@
                         width: 100%;
                         border: 1px solid;
                         border-radius: 5px;
-                        padding: 4px;
-                        opacity: 0.4;
+                        padding: 6px;
+                        opacity: 0.25;
 
                         @include transition(opacity 0.4s);
 
