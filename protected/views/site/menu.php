@@ -52,7 +52,17 @@
     <div class="contents">
         <div class="content new-game active"></div>
 
-        <div class="content tutorial"></div>
+        <div class="content tutorial">
+            <p>The full tutorial is under construction. Here are some tips to get you started:</p>
+            <ul>
+                <li>The object of the game is to score as many points as possible in as few turns as possible.</li>
+                <li>Score points by running certain metabolic pathways that accomplish work (i.e. brain activity).</li>
+                <li>All pathways take some inputs (reactants) and convert them to some outputs (products).</li>
+                <li>Resources are confined to their specific organ, with the exception of those circulating in the bloodstream, which can be accessed from any organ.</li>
+                <li>Make sure to keep your resources within reasonable limits - click on the points in the header to see an overview of all the resources which have limits</li>
+                <li>Learn about the reactions in cellular metabolism and have fun!</li>
+            </ul>
+        </div>
 
         <div class="content data"></div>
 
@@ -93,7 +103,7 @@
                     <div class="form-info"></div>
                 </div>
 
-                <p class="footer">Logging in or creating an account will restart your game.</p>
+                <p class="footer">Logging in or creating an account will restart your game.<br><br>You don't need an account to play the game, but it will allow you to access your saved games and settings from anywhere. Read about our policies on your data in the <a class="interior" href="about">About Us</a> section.</p>
                 
             <?php else: ?>
                 <h2>Account</h2>
@@ -181,6 +191,9 @@
         <div class="content about">
             <h2>About <?= Yii::app()->name ?></h3>
             <p><?= Yii::app()->name ?> is an educational game created to teach students about cellular metabolism. Most appropriate for college-level purposes, the game is designed to be integrated into a classroom and provide players with an enjoyable and wholistic view of the metabolic process.</p>
+
+            <h2>Your Data</h2>
+            <p>We are dedicated to keeping your data secure and private, and are a part of the movement toward a more open and user-friendly internet. We will never sell your personal data and you can retrieve or permanently delete it from our servers at any time. We ask for an email address so that we can (1) use it to verify your identity if you forget your password or your account is stolen and (2) notify you of any vulnerabilities or issues with the site, especially if a vulnerability would put players at risk. We will never email you for other reasons without your explicit consent. The website is currently hosted on <a href="https://www.nearlyfreespeech.net/">NearlyFreeSpeech.NET</a>, a web host with similar motivation. This <a href="http://idlewords.com/bt14.htm">presentation</a> gives a good insight into our motivations and ideals in giving you the best experience possible.
 
             <h2>The Team</h3>
             <p><?= Yii::app()->name ?> was envisioned by Professor Neocles Leontis of Bowling Green State University for use in his biochemistry class. Having created a simple card game that allowed students to view metabolism as a whole, he partnered with Dominic Zirbel to develop an online version to allow for interactability and useability.</p>

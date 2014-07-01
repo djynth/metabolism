@@ -71,6 +71,17 @@ $(document).ready(function() {
                 $(this).find('*:not(i)').fadeOut();
             }
         );
+
+    $('a.interior').click(function(e) {
+        e.preventDefault();
+
+        switch($(this).attr('href'))
+        {
+            case 'about':
+                MENU.show().find('.tab[for=about]').click();
+                break;
+        }
+    })
 });
 
 function onResize()

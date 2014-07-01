@@ -64,7 +64,7 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
     background-color: $background;
     border-color: $border;
 
-    p, h1, h2, h3, h4, h5, h6, label {
+    p, h1, h2, h3, h4, h5, h6, label, li {
         color: $text;
         text-shadow: 1px 1px $textShadow;
     }
@@ -169,6 +169,11 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
                         background-color: $elementBackground;
                         border-color: $elementBorder;
                         color: $elementText;
+
+                        li {
+                            color: $elementText;
+                            text-shadow: none;
+                        }
 
                         &.error {
                             color: $errorText;
