@@ -88,6 +88,12 @@ input[type=text], input[type=password], input[type=email] {
         white-space: nowrap;
         float: right;
     }
+
+    p {
+        font-size: 13px;
+        padding-top: 2px;
+        padding-right: 2px;
+    }
 }
 
 .sidebar {

@@ -83,6 +83,29 @@
                             max-width: 122px;
                         }
 
+                        .verified.add-on {
+                            &[verified] {
+                                max-width: 108px;
+                            }
+
+                            &:not([verified]) {
+                                max-width: 159px;
+                            }
+                        }
+
+                        .edit-email {
+                            max-width: 58px;
+                        }
+
+                        #edit-email {
+                            display: none;
+                            margin-bottom: 0;
+
+                            > * {
+                                margin-bottom: 8px;
+                            }
+                        }
+
                         .submit {
                             float: right;
                         }
@@ -103,8 +126,20 @@
                     }
                 }
 
+                .email-info {
+                    margin: 20px 10px;
+
+                    input {
+                        width: 100%;
+                    }
+                }
+
                 .footer {
                     text-align: center;
+                }
+
+                #logout {
+                    float: right;
                 }
             }
 

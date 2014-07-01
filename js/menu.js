@@ -135,6 +135,59 @@ $(document).ready(function() {
         }
         return false;
     });
+
+    $('#email-info').submit(function() {
+        var form = $(this);
+        if (form.find('input.error').length === 0) {
+            var newEmail = form.find('.email').val();
+            $.ajax({
+                url: '/index.php/user/changeEmail',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    email: newEmail,
+                    password: form.find('.password').val()
+                },
+                success: function(data) {
+                    if (data.success) {
+                        form.find('.email').val(newEmail);
+                        form.find('#edit-email')
+                            .slideUp()
+                            .find('input[type=text]').val('');
+                        form.siblings('.form-info')
+                            .addClass('active')
+                            .html(data.message);
+                    } else {
+                        form.siblings('.form-info')
+                            .addClass('active error')
+                            .html(data.message);
+                    }
+                },
+                error: function() {
+                    form.siblings('.form-info')
+                        .addClass('active error')
+                        .html(INTERNAL_ERROR);
+                }
+            });
+            form.find('input[type=password]').val('');
+        }
+        return false;
+    });
+
+    $('.edit-email').find('input[type=button]').click(function() {
+        $(this).parents('form').find('#edit-email').slideToggle();
+    });
+
+    $('#logout').click(function() {
+        $.ajax({
+            url: '/index.php/user/logout',
+            type: 'POST',
+            dataType: 'json',
+            complete: function() {
+                location.reload();
+            }
+        });
+    });
 });
 
 function match(password, confirm)
