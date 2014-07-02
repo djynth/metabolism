@@ -50,6 +50,25 @@ $(document).ready(function() {
             }
         });
 
+    MENU.find('.mode')
+        .hover(
+            function() {
+                $(this).find('.details').slideDown();
+            },
+            function() {
+                $(this).find('.details').slideUp();
+            }
+        )
+        .click(function() {
+            $(this).siblings('.mode').each(function() {
+                $(this).removeClass('active');
+                $(this).find('.label').slideDown();
+            })
+
+            $(this).toggleClass('active');
+            $(this).find('.label').slideToggle();
+        });
+
     $('#login').submit(function() {
         var form = $(this);
         if (form.find('input.error').length === 0) {

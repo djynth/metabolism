@@ -108,7 +108,6 @@ function onResize()
 
     MENU.find('.mode').each(function() {
         $(this).css('font-size', 0.8*$(this).width());
-        $(this).find('i').css('margin-top', 0.1*$(this).width());
     });
 }
 

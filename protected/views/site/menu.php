@@ -54,17 +54,33 @@
             <div class="modes">
                 <div class="mode freeplay">
                     <i class="fa fa-gamepad"></i>
-                    <label>Free Play</label>
+                    <div class="label">Free Play
+                        <ul class="details">
+                            <li>Standard game with no restrictions</li>
+                            <li>Score as many points as possible in a fixed number of turns</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="mode campaign">
                     <i class="fa fa-road"></i>
-                    <label>Campaign</label>
+                    <div class="label">Campaign
+                        <ul class="details">
+                            <li>Score points and survive through a randomly generated adventure</li>
+                            <li>Build and store resources for periodic challenges</li>
+                            <li>Challenge difficulty increases with time</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="mode challenge">
                     <i class="fa fa-trophy"></i>
-                    <label>Challenge</label>
+                    <div class="label">Challenge
+                        <ul class="details">
+                            <li>Meet challenge requirements in as few turns as possible</li>
+                            <li>Starting resources are changed and some pathways are restricted</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

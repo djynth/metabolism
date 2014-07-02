@@ -55,11 +55,6 @@ $trackerActive:          darken($background, 9%);
 $resourceGood:           rgba(0,   130, 0,   0.3);
 $resourceBad:            rgba(220, 0,   0,   0.6);
 
-// WELCOME
-$optionBackground:       rgba(0,   0,   0,   0.02);
-$optionBorder:           rgb( 140, 140, 140);
-$labelBorder:            rgba(0,   0,   0,   0.18);
-
 body[theme=#{$name}], .theme[theme=#{$name}] {
     background-color: $background;
     border-color: $border;
@@ -164,6 +159,35 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
 
         .contents {
             .content {
+                &.new-game {
+                    .mode {
+                        border-color: $border;
+                        background-color: $sidebarBackground;
+                        @include transition(box-shadow 0.3s);
+
+                        &.active {
+                            box-shadow: 0 0 14px $border inset;
+                        }
+
+                        .fa {
+                            opacity: 0.45;
+                        }
+
+                        .label {
+                            border-color: $border;
+                            background-color: $background;
+                            opacity: 0.75;
+                            text-shadow: none;
+
+                            .details {
+                                li {
+                                    text-shadow: none;    
+                                }
+                            }
+                        }
+                    }
+                }
+
                 &.account {
                     .form-info {
                         background-color: $elementBackground;

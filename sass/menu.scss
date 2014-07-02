@@ -70,11 +70,12 @@
                         border-radius: 10px;
                         position: relative;
                         text-align: center;
+                        cursor: pointer;
 
                         &:before {
                             content: "";
                             display: block;
-                            margin-top: 100%;
+                            margin-top: 80%;
                         }
 
                         .fa {
@@ -85,7 +86,7 @@
                             text-align: center;
                         }
 
-                        label {
+                        .label {
                             position: absolute;
                             left: 0;
                             bottom: 0;
@@ -96,6 +97,16 @@
                             padding-top: 4%;
                             border-top: 1px solid;
                             text-align: right;
+
+                            .details {
+                                display: none;
+                                font-size: 14px;
+                                line-height: 16px;
+                                text-align: left;
+                                margin-top: 3px;
+                                margin-bottom: 0px;
+                                padding-left: 25px;
+                            }
                         }
                     }
                 }
