@@ -167,9 +167,14 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
 
                         &.active {
                             box-shadow: 0 0 14px $border inset;
+
+                            .fa {
+                                opacity: 0.55;
+                            }
                         }
 
                         .fa {
+                            @include transition(opacity, 0.3s);
                             opacity: 0.45;
                         }
 

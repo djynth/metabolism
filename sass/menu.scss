@@ -110,6 +110,22 @@
                         }
                     }
                 }
+
+                .mode-info {
+                    display: none;
+
+                    .play {
+                        float: right;
+                    }
+
+                    .title {
+                        display: inline-block;
+                    }
+
+                    .challenges {
+                        display: inline-block;
+                    }
+                }
             }
 
             &.account {

@@ -52,7 +52,7 @@
     <div class="contents">
         <div class="content new-game active">
             <div class="modes">
-                <div class="mode freeplay">
+                <div class="mode freeplay" mode="freeplay">
                     <i class="fa fa-gamepad"></i>
                     <div class="label">Free Play
                         <ul class="details">
@@ -62,7 +62,7 @@
                     </div>
                 </div>
 
-                <div class="mode campaign">
+                <div class="mode campaign" mode="campaign">
                     <i class="fa fa-road"></i>
                     <div class="label">Campaign
                         <ul class="details">
@@ -73,7 +73,7 @@
                     </div>
                 </div>
 
-                <div class="mode challenge">
+                <div class="mode challenge" mode="challenge">
                     <i class="fa fa-trophy"></i>
                     <div class="label">Challenge
                         <ul class="details">
@@ -82,6 +82,26 @@
                         </ul>
                     </div>
                 </div>
+            </div>
+
+            <div class="mode-info" mode="freeplay">
+                <button class="play btn">Play</button>
+                <h2 class="title large">Free Play</h2>
+            </div>
+
+            <div class="mode-info" mode="campaign">
+                <button class="play btn">Play</button>
+                <h2 class="title large">Campaign</h2>
+            </div>
+
+            <div class="mode-info" mode="challenge">
+                <button class="play btn">Play</button>
+                <h2 class="title large">Select Challenge:</h2>
+                <select class="btn large challenges">
+                    <?php foreach(Challenge::getChallenges() as $challenge): ?>
+                        <option value="<?= $challenge->id ?>"><?= $challenge->name ?></option>
+                    <?php endforeach ?>
+                </select>
             </div>
         </div>
 

@@ -11,6 +11,8 @@
  */
 class Challenge extends CActiveRecord
 {
+    const FREE_PLAY_ID = 0;
+
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
@@ -49,7 +51,15 @@ class Challenge extends CActiveRecord
 
     public static function getFreePlay()
     {
-        return self::model()->findByPk(0);
+        return self::model()->findByPk(self::FREE_PLAY_ID);
+    }
+
+    public static function getChallenges()
+    {
+        return self::model()->findAll(
+            'id <> :id',
+            array(':id' => self::FREE_PLAY_ID)
+        );
     }
 
     public function getStartingAmounts()

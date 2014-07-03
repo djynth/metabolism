@@ -67,6 +67,13 @@ $(document).ready(function() {
 
             $(this).toggleClass('active');
             $(this).find('.label').slideToggle();
+
+            if ($(this).hasClass('active')) {
+                var mode = $(this).attr('mode');
+                $(this).parents('.content').find('.mode-info').each(function() {
+                    $(this).toggle($(this).attr('mode') === mode);
+                })
+            }
         });
 
     $('#login').submit(function() {
