@@ -83,22 +83,24 @@ class SiteController extends CController
     {
         $resource = Resource::model()->findByPk((int)$resource_id);
         $game = Yii::app()->session['game'];
-        if ($resource !== null && $game !== null) {
-
-            $limit = ChallengeLimit::model()->findByAttributes(array(
-                'challenge_id' => $game->challenge_id,
-                'resource_id' => $resource->id,
-            ));
+        if ($resource !== null) {
+            $limit = null;
+            if ($game !== null) {
+                $limit = ChallengeLimit::model()->findByAttributes(array(
+                    'challenge_id' => $game->challenge_id,
+                    'resource_id' => $resource->id,
+                ));
+            }
 
             echo CJavaScript::jsonEncode(array(
                 'name' => $resource->name,
                 'aliases' => $resource->getAliases(),
                 'formula' => $resource->formula,
                 'description' => $resource->description,
-                'soft_min' => $limit->soft_min,
-                'soft_max' => $limit->soft_max,
-                'hard_min' => $limit->hard_min,
-                'hard_max' => $limit->hard_max,
+                'soft_min' => $limit === null ? null : $limit->soft_min,
+                'soft_max' => $limit === null ? null : $limit->soft_max,
+                'hard_min' => $limit === null ? null : $limit->hard_min,
+                'hard_max' => $limit === null ? null : $limit->hard_max,
             ));
         }
     }

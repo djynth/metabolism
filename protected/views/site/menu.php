@@ -51,6 +51,8 @@
 
     <div class="contents">
         <div class="content new-game active">
+            <h2>Select a Game Mode</h2>
+
             <div class="modes">
                 <div class="mode freeplay" mode="freeplay">
                     <i class="fa fa-gamepad"></i>
@@ -106,7 +108,7 @@
         </div>
 
         <div class="content tutorial">
-            <p>The full tutorial is under construction. Here are some tips to get you started:</p>
+            <p>The full tutorial is under construction. Here are some tips to get started:</p>
             <ul>
                 <li>The object of the game is to score as many points as possible in as few turns as possible.</li>
                 <li>Score points by running certain metabolic pathways that accomplish work (i.e. brain activity).</li>

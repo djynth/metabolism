@@ -53,9 +53,14 @@ $(document).ready(function() {
     MENU.find('.mode')
         .hover(
             function() {
-                $(this).find('.details').slideDown();
+                var details = $(this).find('.details');
+                var t = setTimeout(function() {
+                    details.slideDown();
+                }, 500);
+                $(this).data('timeout', t);
             },
             function() {
+                clearTimeout($(this).data('timeout'));
                 $(this).find('.details').slideUp();
             }
         )
@@ -72,7 +77,9 @@ $(document).ready(function() {
                 var mode = $(this).attr('mode');
                 $(this).parents('.content').find('.mode-info').each(function() {
                     $(this).toggle($(this).attr('mode') === mode);
-                })
+                });
+            } else {
+                $(this).parents('.content').find('.mode-info').hide();
             }
         });
 
