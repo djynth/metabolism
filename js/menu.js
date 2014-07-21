@@ -85,8 +85,18 @@ $(document).ready(function() {
             }
         });
 
-    MENU.find('.mode-info[mode=challenge]').find('.challenges').change(function() {
-        $(this).siblings('.details').hide().filter('[challenge=' + $(this).val() + ']').show();
+    MENU.find('.mode-info').find('.play').click(function() {
+        newGame(
+            $(this).parents('.mode-info').attr('mode'),
+            $(this).siblings('.challenges').val()
+        );
+    });
+
+    MENU.find('.mode-info').find('.challenges').change(function() {
+        $(this).siblings('.details').hide();
+        var details = $(this).siblings('.details[challenge=' + $(this).val() + ']');
+        details.show();
+        $(this).siblings('.play').toggleClass('disabled', details.length === 0);
     });
 
     $('#login').submit(function() {

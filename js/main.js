@@ -109,12 +109,16 @@ function onResize()
     resizeModes();
 }
 
-function newGame()
+function newGame(mode, challenge)
 {
     $.ajax({
         url: '/index.php/site/newGame',
         type: 'POST',
         dataType: 'json',
+        data: {
+            mode: mode,
+            challenge_id: challenge,
+        },
         success: onGameStart
     });
 }

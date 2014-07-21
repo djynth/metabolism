@@ -54,7 +54,7 @@
             <h2>Select a Game Mode</h2>
 
             <div class="modes">
-                <div class="mode freeplay" mode="freeplay">
+                <div class="mode freeplay" mode="<?= Game::MODE_FREE_PLAY ?>">
                     <i class="fa fa-gamepad"></i>
                     <div class="label">Free Play
                         <ul class="details">
@@ -64,7 +64,7 @@
                     </div>
                 </div>
 
-                <div class="mode campaign" mode="campaign">
+                <div class="mode campaign" mode="<?= Game::MODE_CAMPAIGN ?>">
                     <i class="fa fa-road"></i>
                     <div class="label">Campaign
                         <ul class="details">
@@ -74,7 +74,7 @@
                     </div>
                 </div>
 
-                <div class="mode challenge" mode="challenge">
+                <div class="mode challenge" mode="<?= Game::MODE_CHALLENGE ?>">
                     <i class="fa fa-trophy"></i>
                     <div class="label">Challenge
                         <ul class="details">
@@ -85,7 +85,7 @@
                 </div>
             </div>
 
-            <div class="mode-info" mode="freeplay">
+            <div class="mode-info" mode="<?= Game::MODE_FREE_PLAY ?>">
                 <button class="play btn large">Play</button>
                 <h2 class="title">Free Play</h2>
 
@@ -111,7 +111,7 @@
                 </ul>
             </div>
 
-            <div class="mode-info" mode="campaign">
+            <div class="mode-info" mode="<?= Game::MODE_CAMPAIGN ?>">
                 <button class="play btn large">Play</button>
                 <h2 class="title">Campaign</h2>
 
@@ -137,8 +137,8 @@
                 </ul>
             </div>
 
-            <div class="mode-info" mode="challenge">
-                <button class="play btn large">Play</button>
+            <div class="mode-info" mode="<?= Game::MODE_CHALLENGE ?>">
+                <button class="play btn large disabled">Play</button>
                 <select class="btn large challenges title">
                     <option value="-1">Select Challenge</option>
                     <?php foreach(Challenge::getChallenges() as $challenge): ?>

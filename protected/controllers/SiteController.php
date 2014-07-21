@@ -31,9 +31,9 @@ class SiteController extends CController
         }
     }
 
-    public function actionNewGame()
+    public function actionNewGame($mode, $challenge_id=null)
     {
-        $game = new Game;
+        $game = new Game($mode, $challenge_id);
         Yii::app()->session->clear();
         Yii::app()->session['game'] = $game;
 

@@ -66,12 +66,24 @@ class Game extends CActiveRecord
         );
     }
 
-    function __construct()
+    function Game($mode, $challenge_id=null)
     {
         parent::__construct();
 
         if (($user = User::getCurrentUser()) !== null) {
             $this->user_id = $user->id;
+        }
+
+        $this->mode = $mode;
+        if ($mode === self::MODE_CHALLENGE) {
+            if ($challenge_id === null || 
+                $challenge_id === Challenge::FREE_PLAY_ID) {
+                $challenge_id = Challenge::getChallenges()[0]->id;
+            } else {
+                $this->challenge_id = $challenge_id;
+            }
+        } else {
+            $this->challenge_id = Challenge::FREE_PLAY_ID;
         }
 
         $this->appendState();

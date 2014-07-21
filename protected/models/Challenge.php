@@ -8,6 +8,7 @@
  * @fk limits       array(ChallengeLimit)
  * @fk restrictions array(ChallengeRestriction)
  * @fk starts       array(ChallengeStart)
+ * @fk goals        array(ChallengeGoal)
  */
 class Challenge extends CActiveRecord
 {
@@ -46,6 +47,11 @@ class Challenge extends CActiveRecord
                 'ChallengeStart',
                 array('challenge_id' => 'id'),
             ),
+            'goals' => array(
+                self::HAS_MANY,
+                'ChallengeGoal',
+                array('challenge_id' => 'id'),
+            ),
         );
     }
 
@@ -73,5 +79,15 @@ class Challenge extends CActiveRecord
             }
         }
         return $amounts;
+    }
+
+    public function areGoalsMet()
+    {
+        foreach ($this->goals as $goal) {
+            if (!$goal->isMet()) {
+                return false;
+            }
+        }
+        return true;
     }
 }
