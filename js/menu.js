@@ -83,6 +83,10 @@ $(document).ready(function() {
             }
         });
 
+    MENU.find('.mode-info[mode=challenge]').find('.challenges').change(function() {
+        $(this).siblings('.details').hide().filter('[challenge=' + $(this).val() + ']').show();
+    });
+
     $('#login').submit(function() {
         var form = $(this);
         if (form.find('input.error').length === 0) {

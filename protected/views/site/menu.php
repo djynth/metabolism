@@ -70,7 +70,6 @@
                         <ul class="details">
                             <li>Score points and survive through a randomly generated adventure</li>
                             <li>Build and store resources for periodic challenges</li>
-                            <li>Challenge difficulty increases with time</li>
                         </ul>
                     </div>
                 </div>
@@ -87,23 +86,84 @@
             </div>
 
             <div class="mode-info" mode="freeplay">
-                <button class="play btn">Play</button>
-                <h2 class="title large">Free Play</h2>
+                <button class="play btn large">Play</button>
+                <h2 class="title">Free Play</h2>
+
+                <h2 class="overview">Overview</h2>
+                <ul>
+                    <li>Play a standard game in a fixed number of turns, scoring as many points as you can</li>
+                    <li>Maximum Turns: <?= Challenge::getFreePlay()->max_turns ?></li>
+                </ul>
+
+                <h2 class="pathway-restrictions">Pathway Restrictions</h2>
+                <ul>
+                    <li>None; play with all the pathways</li>
+                </ul>
+
+                <h2 class="resource-restrictions">Resource Restrictions</h2>
+                <ul>
+                    <li>Standard: keep resources within reasonable limits at the risk of losing points</li>
+                </ul>
+
+                <h2 class="goals">Goals</h2>
+                <ul>
+                    <li>Score as many points as possible in whatever way is most convenient</li>
+                </ul>
             </div>
 
             <div class="mode-info" mode="campaign">
-                <button class="play btn">Play</button>
-                <h2 class="title large">Campaign</h2>
+                <button class="play btn large">Play</button>
+                <h2 class="title">Campaign</h2>
+
+                <h2 class="overview">Overview</h2>
+                <ul>
+                    <li>Survive for as long as possible and score as many points as you can</li>
+                    <li>As you progress in your journey, random challenges of varying difficulty will be presented, forcing you to meet certain requirements in a given number of turns with the resources you have built up</li>
+                </ul>
+
+                <h2 class="pathway-restrictions">Pathway Restrictions</h2>
+                <ul>
+                    <li>Varying; between challenges all pathways will be available, during challenges some pathways may be limited or disabled</li>
+                </ul>
+
+                <h2 class="resource-restrictions">Resource Restrictions</h2>
+                <ul>
+                    <li>Varying: between challenges, keep resources within reasonable limits at the risk of losing points, during challenges, some resources may be more severely limited</li>
+                </ul>
+
+                <h2 class="goals">Goals</h2>
+                <ul>
+                    <li>End the game with as many points as possible; to this end, survive as long as is viable</li>
+                </ul>
             </div>
 
             <div class="mode-info" mode="challenge">
-                <button class="play btn">Play</button>
-                <h2 class="title large">Select Challenge:</h2>
-                <select class="btn large challenges">
+                <button class="play btn large">Play</button>
+                <select class="btn large challenges title">
+                    <option value="-1">Select Challenge</option>
                     <?php foreach(Challenge::getChallenges() as $challenge): ?>
                         <option value="<?= $challenge->id ?>"><?= $challenge->name ?></option>
                     <?php endforeach ?>
                 </select>
+
+                <h2 class="overview">Overview</h2>
+                <ul>
+                    <li>Playing with certain starting resources and restrictions, meet the challenge goals in as few turns as possible</li>
+                    <li>Play as long as necessary with no limit on turns and no score total</li>
+                </ul>
+
+                <?php foreach(Challenge::getChallenges() as $challenge): ?>
+                    <div class="details" challenge="<?= $challenge->id ?>">
+                        <h2 class="pathway-restrictions">Pathway Restrictions</h2>
+                        <ul></ul>
+
+                        <h2 class="resource-restrictions">Resource Restrictions</h2>
+                        <ul></ul>
+
+                        <h2 class="goals">Goals</h2>
+                        <ul></ul>
+                    </div>
+                <?php endforeach ?>
             </div>
         </div>
 

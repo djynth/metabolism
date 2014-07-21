@@ -120,10 +120,15 @@
 
                     .title {
                         display: inline-block;
+                        margin-bottom: 25px;
                     }
 
                     .challenges {
                         display: inline-block;
+                    }
+
+                    .details {
+                        display: none;
                     }
                 }
             }
