@@ -155,7 +155,7 @@ class Game extends CActiveRecord
     public function setState($state)
     {
         $this->score = $state['score'];
-        $this->setTurn($state['turn']);
+        $this->turn = $state['turn'];
         $this->max_turns = $state['max_turns'];
         Resource::setAmounts($state['resources']);
         Organ::setActionCounts($state['action_counts']);
@@ -163,12 +163,19 @@ class Game extends CActiveRecord
         $this->challenge_id = $state['challenge_id'];
     }
 
-    public function setTurn($turn)
+    public function isOver()
     {
-        $this->turn = $turn;
-        if ($this->challenge->max_turns != -1 && 
-            $this->turn >= $this->challenge->max_turns) {
-            $this->completed = true;
+        switch($this->mode)
+        {
+            case self::MODE_CAMPAIGN:
+                return false;
+            case self::MODE_FREE_PLAY:
+            case self::MODE_CHALLENGE:
+                return ($this->challenge->max_turns !== -1 &&
+                        $this->turn >= $this->challenge->max_turns) || 
+                       $this->challenge->areGoalsMet();
+            default:
+                return false;
         }
     }
 
@@ -193,7 +200,8 @@ class Game extends CActiveRecord
                 }
             }
 
-            $this->setTurn($this->turn + 1);
+            $this->turn++;
+            $this->completed = $this->isOver();
             $this->appendState();
         }
     }

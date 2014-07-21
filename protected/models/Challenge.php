@@ -83,6 +83,10 @@ class Challenge extends CActiveRecord
 
     public function areGoalsMet()
     {
+        if (count($this->goals) === 0) {
+            return false;
+        }
+        
         foreach ($this->goals as $goal) {
             if (!$goal->isMet()) {
                 return false;
