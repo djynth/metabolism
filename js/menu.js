@@ -11,6 +11,8 @@ $(document).ready(function() {
 
             $(this).addClass('active');
             MENU.find('.content.' + $(this).attr('for')).addClass('active');
+
+            resizeModes();
         }
     });
 
@@ -270,4 +272,11 @@ function validate(input, type)
             }
         });
     }
+}
+
+function resizeModes()
+{
+    MENU.find('.mode').each(function() {
+        $(this).css('font-size', 0.8*$(this).width());
+    });
 }

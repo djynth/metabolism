@@ -106,9 +106,7 @@ function onResize()
         $(this).outerWidth($(this).parent().width());
     });
 
-    MENU.find('.mode').each(function() {
-        $(this).css('font-size', 0.8*$(this).width());
-    });
+    resizeModes();
 }
 
 function newGame()
