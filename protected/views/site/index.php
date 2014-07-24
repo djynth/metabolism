@@ -50,8 +50,6 @@ switch($action)
 <div id="content-area">
     <div id="diagram"></div>
     
-    <?php $this->renderPartial('notifications'); ?>
-
     <?php $this->renderPartial('menu', array(
         'user' => $user
     )); ?>
