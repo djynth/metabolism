@@ -90,6 +90,7 @@ $(document).ready(function() {
             $(this).parents('.mode-info').attr('mode'),
             $(this).siblings('.challenges').val()
         );
+        MENU.fadeOut();
     });
 
     MENU.find('.mode-info').find('.challenges').change(function() {
