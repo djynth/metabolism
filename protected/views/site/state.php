@@ -20,7 +20,7 @@
             <?php
             foreach (Pathway::getPassivePathways() as $pathway) {
                 foreach ($pathway->organs as $organ) { ?>
-                    <tr organ="-1">
+                    <tr organ="-1" class="hidden">
                         <td class="process" colspan="4" pathway="<?= $pathway->id ?>" times="<?= $pathway->passive ?>" organ="<?= $organ->id ?>">
                             <?= $pathway->name ?> (x<?= $pathway->passive ?>) [<?= $organ->name ?>]
                         </td>
@@ -37,7 +37,7 @@
                 </tr>
 
                 <?php foreach ($organ->resources as $resource): ?>
-                    <tr class="limited-resource res-info-source" res="<?= $resource->id ?>" organ="<?= $organ->id ?>">
+                    <tr class="limited-resource res-info-source hidden" res="<?= $resource->id ?>" organ="<?= $organ->id ?>">
                         <td><?= $resource->name ?></td>
                         <td class="min"></td>
                         <td class="amount"></td>
