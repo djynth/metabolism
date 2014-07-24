@@ -33,6 +33,7 @@ $(document).ready(function() {
                 });
             });
             run.click(function() {
+                setWorking('Working...');
                 var nutrients = { };
                 pathway.find('.eat').each(function() {
                     nutrients[$(this).res().toString()] = 
@@ -45,12 +46,16 @@ $(document).ready(function() {
                     data: {
                         nutrients: nutrients
                     },
-                    success: onTurn
+                    success: function(data) {
+                        onTurn(data);
+                        setWorking(false);
+                    }
                 });
             });
         } else {
             var reverse = pathway.find('.reverse');
             run.click(function() {
+                setWorking('Working...');
                 $.ajax({
                     url: '/index.php/site/pathway',
                     type: 'POST',
@@ -61,7 +66,10 @@ $(document).ready(function() {
                         organ_id: pathway.organ(),
                         reverse: reverse.hasClass('active')
                     },
-                    success: onTurn
+                    success: function(data) {
+                        onTurn(data);
+                        setWorking(false);
+                    }
                 });
             });
 

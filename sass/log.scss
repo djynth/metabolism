@@ -1,0 +1,18 @@
+@import "_base";
+
+#log {
+    width: $logWidth;
+
+    .notifications {
+        border: 1px solid;
+        background-color: rgba(255, 255, 255, 0.25);
+        min-height: 300px;
+
+        .notification {
+            border-bottom: 1px solid;
+            font-size: 12px;
+            line-height: 14px;
+            padding: 3px;
+        }
+    }
+}

@@ -29,12 +29,14 @@ foreach (glob("js/*.js") as $js): ?>
 
 <script>
 $(document).ready(function() {
+    setWorking(false);
     $('.accordian-header').first().addClass('active');
     onResize();
     selectOrgan($('.accordian-header.active').organ());
     setTurn(0, -1);
     setPoints(0);
     $('.theme[theme=<?= User::getCurrentTheme()["theme"] ?>]').find('.select').click();
+    log('Welcome to <?= Yii::app()->name ?>!');
 });
 </script>
 

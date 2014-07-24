@@ -12,7 +12,7 @@ $copyright:              rgba(80,  80,  80,  0.85);
 $overlay:                rgba(0,   0,   0,   0.3);
 $scrollbar:              rgb( 175, 175, 175);
 $errorText:              rgb( 255, 0,   0);
-$notificationBackground: rgba(240, 240, 240, 0.65);
+$notificationBackground: rgba(255, 255, 255, 0.25);
 
 // INPUT
 $inputBackground:        rgb( 220, 220, 220);
@@ -239,6 +239,13 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
                 background-color: $resourceBad;
             }
         }
+
+        #log {
+            .notifications {
+                border-color: $border;
+                background-color: $notificationBackground;
+            }
+        }
     }
 
     .sidebar {
@@ -356,25 +363,5 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
                 border-color: $border;
             }
         }
-    }
-
-    #notifications {
-        .header {
-            background-color: $background;
-            border-color: $border;
-
-            p {
-                text-shadow: none;
-            }
-        }
-
-        .content {
-            background-color: $notificationBackground;
-        }
-    }
-    
-    #copyright {
-        color: $copyright;
-        text-shadow: none;
     }
 }

@@ -33,4 +33,6 @@
             <p>Menu</p>
         </div>
     </div>
+
+    <?php $this->renderPartial('log'); ?>
 </div>
