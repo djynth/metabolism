@@ -9,6 +9,15 @@ $(document).ready(function() {
         });
     });
 
+    HEADER.find('.sidebar-title').find('.fa').click(function() {
+        var side = $(this).parents('.sidebar-title').hasClass('left') ? 'left' : 'right';
+        var show = ($(this).hasClass('fa-toggle-left')  && side === 'right') ||
+                   ($(this).hasClass('fa-toggle-right') && side === 'left');
+        $(this).toggleClass('fa-toggle-left fa-toggle-right');
+        
+        toggleSidebar(side, show);
+    });
+
     $('#undo').click(function() {
         $.ajax({
             url: '/index.php/site/undo',

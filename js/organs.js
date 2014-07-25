@@ -73,7 +73,7 @@ function selectOrgan(organ)
             {
                 duration: ORGAN_TRANSITION,
                 complete: function() {
-                    $(this).data('jsp').reinitialise();
+                    //$(this).data('jsp').reinitialise();
                 }
             });
     });

@@ -13,8 +13,6 @@ $(document).ready(function() {
 
     $(window).resize(onResize);
 
-    $('.accordian-content').jScrollPane();
-
     $('.btn-group.checkbox').find('.btn').click(function() {
         $(this).toggleClass('active');
     });
@@ -97,9 +95,6 @@ function onResize()
     );
     $('.accordian-content').each(function() {
         $(this).css('max-height', contentHeight);
-        if ($(this).hasClass('active')) {
-            $(this).height(contentHeight).data('jsp').reinitialise();
-        }
     });
 
     FILTER.find('input[type=text]').each(function() {
@@ -107,6 +102,21 @@ function onResize()
     });
 
     resizeModes();
+}
+
+function toggleSidebar(sidebar, show)
+{
+    var prop = sidebar === 'left' ? 'marginLeft' : 'marginRight';
+    if (sidebar === 'left') {
+        CONTENT_AREA.animate({
+            marginLeft: show ? $('.sidebar.left').width() + 1 : 0
+        });
+    }
+    if (sidebar === 'right') {
+        CONTENT_AREA.animate({
+            marginRight: show ? $('.sidebar.right').width() + 1 : 0
+        });
+    }
 }
 
 function newGame(mode, challenge)

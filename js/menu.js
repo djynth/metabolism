@@ -91,6 +91,7 @@ $(document).ready(function() {
             $(this).siblings('.challenges').val()
         );
         MENU.fadeOut();
+        toggleFooter(true);
     });
 
     MENU.find('.mode-info').find('.challenges').change(function() {

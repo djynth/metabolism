@@ -3,7 +3,6 @@
 #header {
     position: relative;
     height: $headerHeight;
-    z-index: 1;
     border-bottom: 1px solid;
 
     .title {
@@ -41,10 +40,20 @@
             .title {
                 cursor: default;
                 font-size: 18px;
+                text-align: center;
+            }
 
-                p {
-                    margin-left: 10px;
-                }
+            .fa {
+                cursor: pointer;
+                padding: 8px;
+            }
+
+            &.right .fa {
+                float: left;
+            }
+
+            &.left .fa {
+                float: right;
             }
         }
 
@@ -52,18 +61,19 @@
             position: relative;
             height: $headerHeight;
             cursor: pointer;
+        }
 
-            .fa {
-                position: absolute;
-                top: 8px;
-                right: 9px;
-            }
+        &:not(.sidebar-title) .title .fa {
+            position: absolute;
+            top: 8px;
+            right: 9px;
         }
 
         .dropdown {
+            position: relative;
+            z-index: 2;
             display: none;
             padding-top: 10px;
-            z-index: 3;
             border: 1px solid;
             border-top: none;
         }
