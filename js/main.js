@@ -100,8 +100,6 @@ function onResize()
     FILTER.find('input[type=text]').each(function() {
         $(this).outerWidth($(this).parent().width());
     });
-
-    resizeModes();
 }
 
 function toggleSidebar(sidebar, show)

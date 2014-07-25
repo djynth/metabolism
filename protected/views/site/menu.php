@@ -55,7 +55,9 @@
 
             <div class="modes">
                 <div class="mode freeplay" mode="<?= Game::MODE_FREE_PLAY ?>">
-                    <i class="fa fa-gamepad"></i>
+                    <svg width="100%" height="100%" viewBox="0 0 13 13">
+                        <text x="-1" y="11">&#xf11b;</text>
+                    </svg>
                     <div class="label">Free Play
                         <ul class="details">
                             <li>Standard game with no restrictions</li>
@@ -65,7 +67,9 @@
                 </div>
 
                 <div class="mode campaign" mode="<?= Game::MODE_CAMPAIGN ?>">
-                    <i class="fa fa-road"></i>
+                    <svg width="100%" height="100%" viewBox="0 0 13 13">
+                        <text x="-1" y="11.5">&#xf018;</text>
+                    </svg>
                     <div class="label">Campaign
                         <ul class="details">
                             <li>Score points and survive through a randomly generated adventure</li>
@@ -75,7 +79,9 @@
                 </div>
 
                 <div class="mode challenge" mode="<?= Game::MODE_CHALLENGE ?>">
-                    <i class="fa fa-trophy"></i>
+                    <svg width="100%" height="100%" viewBox="0 0 15 15">
+                        <text x="1" y="12.5">&#xf091;</text>
+                    </svg>
                     <div class="label">Challenge
                         <ul class="details">
                             <li>Meet challenge requirements in as few turns as possible</li>

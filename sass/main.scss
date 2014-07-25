@@ -36,6 +36,10 @@ input[type=text], input[type=password], input[type=email] {
     transition: border linear 0.2s, box-shadow linear 0.2s;
 }
 
+svg text {
+    font-family: FontAwesome;
+}
+
 .add-on-holder {
     position: relative;
     display: inline-block;
@@ -246,7 +250,6 @@ input[type=text], input[type=password], input[type=email] {
 }
 
 #content-area {
-    margin: 0 $sidebarWidth + 1px;
     position: relative;
 }
 

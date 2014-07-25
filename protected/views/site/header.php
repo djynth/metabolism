@@ -9,7 +9,7 @@
     <div class="header-element left sidebar-title">
         <div class="title">
             <p>Metabolic Pathways</p>
-            <i class="fa fa-toggle-left"></i>
+            <i class="fa fa-toggle-right"></i>
         </div>
     </div>
 
@@ -26,7 +26,7 @@
     <div class="header-element right sidebar-title">
         <div class="title">
             <p>Molecular Resources</p>
-            <i class="fa fa-toggle-right"></i>
+            <i class="fa fa-toggle-left"></i>
         </div>
     </div>
 

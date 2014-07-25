@@ -63,13 +63,13 @@
                     width: 100%;
                     display: table;
                     border-spacing: 20px;
+                    table-layout: fixed;
 
                     .mode {
                         display: table-cell;
                         border: 1px solid;
                         border-radius: 10px;
                         position: relative;
-                        text-align: center;
                         cursor: pointer;
 
                         &:before {
@@ -78,12 +78,10 @@
                             margin-top: 80%;
                         }
 
-                        .fa {
+                        svg {
                             position: absolute;
                             left: 0;
                             top: 0;
-                            width: 100%;
-                            text-align: center;
                         }
 
                         .label {

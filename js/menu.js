@@ -11,8 +11,6 @@ $(document).ready(function() {
 
             $(this).addClass('active');
             MENU.find('.content.' + $(this).attr('for')).addClass('active');
-
-            resizeModes();
         }
     });
 
@@ -91,7 +89,10 @@ $(document).ready(function() {
             $(this).siblings('.challenges').val()
         );
         MENU.fadeOut();
+        $('#open-menu').find('.cover').fadeToggle();
         toggleFooter(true);
+        toggleSidebar('left', true);
+        toggleSidebar('right', true);
     });
 
     MENU.find('.mode-info').find('.challenges').change(function() {
@@ -284,11 +285,4 @@ function validate(input, type)
             }
         });
     }
-}
-
-function resizeModes()
-{
-    MENU.find('.mode').each(function() {
-        $(this).css('font-size', 0.8*$(this).width());
-    });
 }
