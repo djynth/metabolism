@@ -65,6 +65,8 @@ $(document).ready(function() {
             }
         )
         .click(function() {
+            clearTimeout($(this).data('timeout'));
+            $(this).find('.details').slideUp();
             $(this).siblings('.mode').each(function() {
                 $(this).removeClass('active');
                 $(this).find('.label').slideDown();
