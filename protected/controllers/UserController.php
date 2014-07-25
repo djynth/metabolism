@@ -139,6 +139,32 @@ class UserController extends CController
         ));
     }
 
+    public function actionDeleteAccount($password)
+    {
+        $success = false;
+        $message = false;
+
+        $user = User::getCurrentUser();
+
+        if ($user === null) {
+            $message = self::$MESSAGES['not_logged_in'];
+        } elseif (!$user->authenticate($password)) {
+            $message = self::$MESSAGES['incorrect_login'];
+        } else {
+            if ($user->delete()) {
+                Yii::app()->user->logout();
+                $success = true;
+            } else {
+                $message = self::$MESSAGES['internal_error'];
+            }
+        }
+
+        echo CJavaScript::jsonEncode(array(
+            'success' => $success,
+            'message' => $message,
+        ));
+    }
+
     public function actionChangePassword($current_password, $new_password)
     {
         $success = false;

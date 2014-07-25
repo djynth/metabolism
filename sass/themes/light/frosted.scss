@@ -137,18 +137,6 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
         }
     }
 
-    .jspVerticalBar {
-        background-color: $sidebarBackground;
-
-        .jspTrack {
-            background-color: $sidebarBackground;
-
-            .jspDrag {
-                background-color: $scrollbar;
-            }
-        }
-    }
-
     #menu {
         background-color: $background;
 
@@ -270,7 +258,6 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
 
     .sidebar {
         background-color: $sidebarBackground;
-        border-color: $border;
 
         .popup {
             background-color: inherit;

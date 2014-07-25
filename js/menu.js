@@ -48,6 +48,10 @@ $(document).ready(function() {
                 var confirm = $(this).parent().children('.confirm');
                 confirm.toggleClass('error', !match(confirm, password));
             }
+
+            if ($(this).hasClass('current-username') && $(this).attr('verify') !== 'no') {
+                $(this).toggleClass('error', $(this).val() !== getUsername());
+            }
         });
 
     MENU.find('.mode')
@@ -112,8 +116,8 @@ $(document).ready(function() {
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    username: $(this).find('.username').val(),
-                    password: $(this).find('.password').val()
+                    username: form.find('.username').val(),
+                    password: form.find('.password').val()
                 },
                 success: function(data) {
                     if (data.success) {
@@ -165,11 +169,41 @@ $(document).ready(function() {
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    username:   $(this).find('.username').val(),
-                    password:   $(this).find('.new-password').val(),
-                    email:      $(this).find('.email').val(),
+                    username:   form.find('.username').val(),
+                    password:   form.find('.new-password').val(),
+                    email:      form.find('.email').val(),
                     theme:      theme.theme,
                     theme_type: theme.type
+                },
+                success: function(data) {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        form.siblings('.form-info')
+                            .addClass('active error')
+                            .html(data.message);
+                    }
+                },
+                error: function() {
+                    form.siblings('.form-info')
+                        .addClass('active error')
+                        .html(INTERNAL_ERROR);
+                }
+            });
+        }
+        return false;
+    });
+
+    $('#delete-account').submit(function() {
+        var form = $(this);
+        if (form.find('input.error').length === 0) {
+            var theme = getColorTheme();
+            $.ajax({
+                url: '/index.php/user/deleteAccount',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    password: form.find('.password').val(),
                 },
                 success: function(data) {
                     if (data.success) {

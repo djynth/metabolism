@@ -107,12 +107,12 @@ function toggleSidebar(sidebar, show)
     var prop = sidebar === 'left' ? 'marginLeft' : 'marginRight';
     if (sidebar === 'left') {
         CONTENT_AREA.animate({
-            marginLeft: show ? $('.sidebar.left').width() + 1 : 0
+            marginLeft: show ? $('.sidebar.left').width() : -1
         });
     }
     if (sidebar === 'right') {
         CONTENT_AREA.animate({
-            marginRight: show ? $('.sidebar.right').width() + 1 : 0
+            marginRight: show ? $('.sidebar.right').width() : -1
         });
     }
 }
@@ -177,6 +177,11 @@ function setTurn(turn, maxTurns)
 function setPoints(points)
 {
     POINTS.text(points + ' Points');
+}
+
+function getUsername()
+{
+    return $('#account-info').attr('username');
 }
 
 function getColorTheme()
