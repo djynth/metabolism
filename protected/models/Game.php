@@ -189,14 +189,17 @@ class Game extends CActiveRecord
         if (!$pathway->passive) {
             $this->score -= Resource::getPenalizations($this->challenge);
             foreach (Pathway::getPassivePathways() as $pathway) {
-                foreach ($pathway->organs as $organ) {
-                    $pathway->run(
-                        $this,
-                        $pathway->passive,
-                        $organ,
-                        false,
-                        true
-                    );    
+                $restriction = $pathway->getRestriction($this->challenge);
+                if ($restriction !== null) {
+                    foreach ($pathway->organs as $organ) {
+                        $pathway->run(
+                            $this,
+                            $restriction->limit,
+                            $organ,
+                            false,
+                            true
+                        );    
+                    }
                 }
             }
 

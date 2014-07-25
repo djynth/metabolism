@@ -69,12 +69,15 @@ class Pathway extends CActiveRecord
     {
         $passivePathways = array();
         foreach (Pathway::getPassivePathways() as $pathway) {
-            foreach ($pathway->organs as $organ) {
-                $passivePathways[$pathway->id][$organ->id] = $pathway->canRun(
-                    $challenge,
-                    $pathway->passive,
-                    $organ
-                );
+            $restriction = $pathway->getRestriction($challenge);
+            if ($restriction !== null) {
+                foreach ($pathway->organs as $organ) {
+                    $passivePathways[$pathway->id][$organ->id] = $pathway->canRun(
+                        $challenge,
+                        $restriction->limit,
+                        $organ
+                    );
+                }
             }
         }
         return $passivePathways;
@@ -128,6 +131,14 @@ class Pathway extends CActiveRecord
             }
         }
         return $products;
+    }
+
+    public function getRestriction($challenge)
+    {
+        return ChallengeRestriction::model()->findByAttributes(array(
+            'challenge_id' => $challenge->id,
+            'pathway_id' => $this->id,
+        ));
     }
 
     public function canRun($challenge, $times, $organ, $reverse=false,
@@ -194,10 +205,7 @@ class Pathway extends CActiveRecord
     public function run($game, $times, $organ, $reverse, $passive=false,
                         $nutrients=null)
     {
-        $restriction = ChallengeRestriction::model()->findByAttributes(array(
-            'challenge_id' => $game->challenge_id,
-            'pathway_id' => $this->id,
-        ));
+        $restriction = $this->getRestriction($game->challenge);
 
         if (!$this->passive && $game->completed) {
             return false;
