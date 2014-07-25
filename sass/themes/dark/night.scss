@@ -11,7 +11,9 @@ $sidebarBackground:      rgb( 92,  92,  92);
 $copyright:              rgba(35,  35,  35,  0.9);
 $overlay:                rgba(0,   0,   0,   0.3);
 $scrollbar:              rgb( 60,  60,  60);
+$errorText:              rgb( 255, 0,   0);
 $notificationBackground: rgba(58,  58,  58,  0.75);
+$icon:                   rgb( 5,   5,   5);
 
 // INPUT
 $inputBackground:        rgb( 41,  41,  41);
@@ -54,18 +56,17 @@ $trackerActive:          lighten($background, 1.75%);
 $resourceGood:           rgba(0,   121, 0,   0.3);
 $resourceBad:            rgba(161, 0,   0,   0.3);
 
-// WELCOME
-$optionBackground:       rgba(255, 255, 255, 0.03);
-$optionBorder:           rgb( 35,  35,  35);
-$labelBorder:            rgba(0,   0,   0,   0.25);
-
 body[theme=#{$name}], .theme[theme=#{$name}] {
     background-color: $background;
     border-color: $border;
 
-    p, h1, h2, h3, h4, h5, h6, label {
+    p, h1, h2, h3, h4, h5, h6, label, li {
         color: $text;
         text-shadow: 1px 1px $textShadow;
+    }
+
+    .fa {
+        color: $icon;
     }
 
     input[type=text], input[type=password], input[type=email] {
@@ -148,28 +149,6 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
         }
     }
 
-    #welcome {
-        .option {
-            border-color: $optionBorder;
-            box-shadow: 0 0 10px $optionBorder inset;
-            background-color: $optionBackground;
-
-            &:hover {
-                .fa {
-                    opacity: 0.5;
-                }
-            }
-
-            label {
-                border-color: $labelBorder;
-            }
-
-            .fa {
-                opacity: 0.35;
-            }
-        }
-    }
-
     #menu {
         background-color: $background;
 
@@ -180,6 +159,61 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
 
             .tab:not(.active), .space {
                 background-color: $sidebarBackground;
+            }
+        }
+
+        .contents {
+            .content {
+                &.new-game {
+                    .mode {
+                        border-color: $border;
+                        background-color: $sidebarBackground;
+                        @include transition(box-shadow 0.3s);
+
+                        &.active {
+                            box-shadow: 0 0 14px $border inset;
+
+                            svg text {
+                                opacity: 0.55;
+                            }
+                        }
+
+                        svg text {
+                            @include transition(opacity, 0.3s);
+                            opacity: 0.45;
+                        }
+
+                        .label {
+                            border-color: $border;
+                            background-color: $background;
+                            opacity: 0.75;
+                            text-shadow: none;
+
+                            .details {
+                                li {
+                                    text-shadow: none;    
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &.account {
+                    .form-info {
+                        background-color: $elementBackground;
+                        border-color: $elementBorder;
+                        color: $elementText;
+
+                        li {
+                            color: $elementText;
+                            text-shadow: none;
+                        }
+
+                        &.error {
+                            color: $errorText;
+                        }
+                    }
+                }
             }
         }
     }
@@ -194,20 +228,42 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
             .dropdown {
                 background-color: $background;
             }
+
+            .cover {
+                background-color: $background;
+            }
         }
 
-        #limited-resources {
-            td {
-                border-color: $reactionBorder;
+        #state {
+            .tab {
+                border-color: $border;
                 color: $text;
+
+                &:not(.active) {
+                    background-color: $sidebarBackground;
+                }
             }
 
-            .good {
-                background-color: $resourceGood;
-            }
+            #limited-resources {
+                td {
+                    border-color: $reactionBorder;
+                    color: $text;
+                }
 
-            .bad {
-                background-color: $resourceBad;
+                .good {
+                    background-color: $resourceGood;
+                }
+
+                .bad {
+                    background-color: $resourceBad;
+                }
+            }
+        }
+
+        #log {
+            .notifications {
+                border-color: $border;
+                background-color: $notificationBackground;
             }
         }
     }
@@ -327,25 +383,5 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
                 border-color: $border;
             }
         }
-    }
-
-    #notifications {
-        .header {
-            background-color: $background;
-            border-color: $border;
-
-            p {
-                text-shadow: none;
-            }
-        }
-
-        .content {
-            background-color: $notificationBackground;
-        }
-    }
-    
-    #copyright {
-        color: $copyright;
-        text-shadow: none;
     }
 }

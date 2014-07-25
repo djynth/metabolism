@@ -13,6 +13,7 @@ $overlay:                rgba(0,   0,   0,   0.3);
 $scrollbar:              rgb( 175, 175, 175);
 $errorText:              rgb( 255, 0,   0);
 $notificationBackground: rgba(255, 255, 255, 0.25);
+$icon:                   rgb( 5,   5,   5);
 
 // INPUT
 $inputBackground:        rgb( 220, 220, 220);
@@ -62,6 +63,10 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
     p, h1, h2, h3, h4, h5, h6, label, li {
         color: $text;
         text-shadow: 1px 1px $textShadow;
+    }
+
+    .fa {
+        color: $icon;
     }
 
     input[type=text], input[type=password], input[type=email] {
