@@ -62,7 +62,7 @@
 
         .dropdown {
             display: none;
-            padding: 10px 10px;
+            padding-top: 10px;
             z-index: 3;
             border: 1px solid;
             border-top: none;
@@ -74,6 +74,15 @@
     }
 
     #open-menu {
-        width: 50px;
+        width: $openMenuWidth;
+        position: relative;
+
+        .cover {
+            position: absolute;
+            bottom: -1px;
+            width: $openMenuWidth - 2px;
+            height: 1px;
+            left: 1px;
+        }
     }
 }

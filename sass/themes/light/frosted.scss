@@ -223,20 +223,35 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
             .dropdown {
                 background-color: $background;
             }
+
+            .cover {
+                background-color: $background;
+            }
         }
 
-        #limited-resources {
-            td {
-                border-color: $reactionBorder;
+        #state {
+            .tab {
+                border-color: $border;
                 color: $text;
+
+                &:not(.active) {
+                    background-color: $sidebarBackground;
+                }
             }
 
-            .good {
-                background-color: $resourceGood;
-            }
+            #limited-resources {
+                td {
+                    border-color: $reactionBorder;
+                    color: $text;
+                }
 
-            .bad {
-                background-color: $resourceBad;
+                .good {
+                    background-color: $resourceGood;
+                }
+
+                .bad {
+                    background-color: $resourceBad;
+                }
             }
         }
 

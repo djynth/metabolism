@@ -21,5 +21,6 @@ $(document).ready(function() {
 
     $('#open-menu').click(function() {
         MENU.fadeToggle();
+        $(this).find('.cover').fadeToggle();
     });
 });

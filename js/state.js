@@ -1,7 +1,18 @@
+var STATE;
 var LIMITED_RESOURCES;
 
 $(document).ready(function() {
+    STATE = $('#state');
     LIMITED_RESOURCES = $('#limited-resources');
+
+    STATE.find('.tab').click(function() {
+        STATE.find('.content').removeClass('active');
+        STATE.find('.tab').removeClass('active');
+        $(this).addClass('active');
+        STATE.find('#' + $(this).attr('for')).addClass('active');
+    });
+
+    STATE.find('.tab').first().click();
 
     LIMITED_RESOURCES.find('.organ-header').click(function() {
         $(this).siblings(

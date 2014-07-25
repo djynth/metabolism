@@ -32,6 +32,7 @@
         <div class="title">
             <p>Menu</p>
         </div>
+        <div class="cover"></div>
     </div>
 
     <?php $this->renderPartial('log'); ?>

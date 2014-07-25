@@ -12,7 +12,7 @@
     </div>
 
     <div class="dropdown">
-        <table id="limited-resources">
+        <table id="limited-resources" class="content">
             <tr class="organ-header" organ="-1">
                 <td colspan="5"><b>Automatic Processes</b></td>
             </tr>
@@ -55,5 +55,18 @@
                 <td class="total"></td>
             </tr>
         </table>
+
+        <div id="challenge-info" class="content">
+            <p class="name"></p>
+            <p class="max-turns"></p>
+            <p class="restrictions"></p>
+            <p class="limits"></p>
+            <p class="goals"></p>
+        </div>
+
+        <div class="tabs">
+            <div class="tab" for="limited-resources">Resources</div>
+            <div class="tab" for="challenge-info">Challenge</div>
+        </div>
     </div>
 </div>

@@ -155,13 +155,19 @@
                 <?php foreach(Challenge::getChallenges() as $challenge): ?>
                     <div class="details" challenge="<?= $challenge->id ?>">
                         <h2 class="pathway-restrictions">Pathway Restrictions</h2>
-                        <ul></ul>
+                        <ul>
+                            <!-- TODO -->
+                        </ul>
 
                         <h2 class="resource-restrictions">Resource Restrictions</h2>
-                        <ul></ul>
+                        <ul>
+                            <!-- TODO -->
+                        </ul>
 
                         <h2 class="goals">Goals</h2>
-                        <ul></ul>
+                        <ul>
+                            <!-- TODO -->
+                        </ul>
                     </div>
                 <?php endforeach ?>
             </div>

@@ -4,8 +4,36 @@
     width: $gameStateWidth;
 
     .dropdown {
-        #limited-resources {
+        .content {
+            margin: 0 10px 10px;
+            width: $gameStateWidth - 24px;
+
+            &:not(.active) {
+                display: none;
+            }
+        }
+
+        .tabs {
+            display: table;
             width: 100%;
+
+            .tab {
+                display: table-cell;
+                padding: 2px;
+                text-align: center;
+                cursor: pointer;
+
+                &:not(:last-of-type) {
+                    border-right: 1px solid;
+                }
+
+                &:not(.active) {
+                    border-top: 1px solid;
+                }
+            }
+        }
+
+        #limited-resources {
             line-height: 14px;
             font-size: 12px;
 
