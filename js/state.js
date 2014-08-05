@@ -66,6 +66,7 @@ function refreshState(passivePathways, limits)
     if (typeof passivePathways === "undefined") {
         LIMITED_RESOURCES.find('.process').addClass('hidden');
     }
+    console.log(passivePathways);
 
     LIMITED_RESOURCES.find('.process').each(function() {
         var pathway = getPathway($(this).pathway(), $(this).organ());
@@ -76,12 +77,14 @@ function refreshState(passivePathways, limits)
 
         $(this).parents('tr').removeClass('hidden');
         var points = 0;
-        var available = passivePathways[pathway.pathway()][$(this).organ()];
+        var times = passivePathways[pathway.pathway()][$(this).organ()];
+        var available = times !== 0;
         $(this).toggleClass('good', available).toggleClass('bad', !available);
         if (available) {
-            var points = $(this).attr('times') * pathway.find('.points').text();
+            var points = times * parseInt(pathway.find('.points').text());
         }
         total += points;
+        $(this).html(pathway.children('.name').text() + ' (x' + times + ')');
         $(this).siblings('.change').html(formatPoints(points));
     });
     LIMITED_RESOURCES.find('.total').html(formatPoints(total));

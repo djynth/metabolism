@@ -71,12 +71,13 @@ class Pathway extends CActiveRecord
         foreach (Pathway::getPassivePathways() as $pathway) {
             $restriction = $pathway->getRestriction($challenge);
             if ($restriction !== null) {
+                $times = $restriction->limit;
                 foreach ($pathway->organs as $organ) {
-                    $passivePathways[$pathway->id][$organ->id] = $pathway->canRun(
-                        $challenge,
-                        $restriction->limit,
-                        $organ
-                    );
+                    if ($pathway->canRun($challenge, $times, $organ)) {
+                        $passivePathways[$pathway->id][$organ->id] = $times;
+                    } else {
+                        $passivePathways[$pathway->id][$organ->id] = 0;
+                    }
                 }
             }
         }

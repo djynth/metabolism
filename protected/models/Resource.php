@@ -211,8 +211,14 @@ class Resource extends CActiveRecord
             return 0;
         }
 
-        return $limit->penalization * max(0, $limit->soft_min - $amount) +
-               $limit->penalization * max(0, $amount - $limit->soft_max);
+        $pen = 0;
+        if ($limit->soft_min !== null) {
+            $pen += $limit->penalization * max(0, $limit->soft_min - $amount);
+        }
+        if ($limit->soft_max !== null) {
+            $pen += $limit->penalization * max(0, $amount - $limit->soft_max);
+        }
+        return $pen;
     }
 
     public function getProperOrgan($organ)
