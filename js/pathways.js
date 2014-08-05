@@ -147,7 +147,7 @@ function refreshPathways(changedResources, restrictions)
 function refreshPathway(pathway, limit)
 {
     var limiting = $();
-    var maxRuns = limit === null ? Number.POSITIVE_INFINITY : limit;
+    var maxRuns = limit === null || typeof limit === 'undefined' ? Number.POSITIVE_INFINITY : limit;
 
     pathway.find('.reactant.name').each(function() {
         $(this).removeClass('lacking limiting');
