@@ -41,4 +41,16 @@ class ChallengeRestriction extends CActiveRecord
             ),
         );
     }
+
+    public function __toString()
+    {
+        if ($this->limit == 0) {
+            return $this->pathway->name . ' disabled';
+        } elseif ($this->limit == 1) {
+            return $this->pathway->name . ' limited to 1 run per turn';
+        } else {
+            return $this->pathway->name . ' limited to ' . $this->limit . 
+                   ' runs per turn';
+        }
+    }
 }

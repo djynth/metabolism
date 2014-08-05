@@ -162,17 +162,18 @@
                     <div class="details" challenge="<?= $challenge->id ?>">
                         <h2 class="pathway-restrictions">Pathway Restrictions</h2>
                         <ul>
-                            <!-- TODO -->
-                        </ul>
-
-                        <h2 class="resource-restrictions">Resource Restrictions</h2>
-                        <ul>
-                            <!-- TODO -->
+                            <?php foreach ($challenge->restrictions as $restriction): ?>
+                                <?php if (!$restriction->pathway->passive): ?>
+                                    <li><?= $restriction ?></li>
+                                <?php endif ?>
+                            <?php endforeach ?>
                         </ul>
 
                         <h2 class="goals">Goals</h2>
                         <ul>
-                            <!-- TODO -->
+                            <?php foreach ($challenge->goals as $goal): ?>
+                                <li><?= $goal ?></li>
+                            <?php endforeach ?>
                         </ul>
                     </div>
                 <?php endforeach ?>

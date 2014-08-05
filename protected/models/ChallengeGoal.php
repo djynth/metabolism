@@ -30,7 +30,7 @@ class ChallengeGoal extends CActiveRecord
 
     public function primaryKey()
     {
-        return array('challenge_id', 'resource_id');
+        return array('challenge_id', 'resource_id', 'organ_id');
     }
 
     public function relations()
@@ -59,5 +59,13 @@ class ChallengeGoal extends CActiveRecord
         $amount = $this->resource->getAmount($this->organ);
         return ($this->min === null || $amount >= $this->min) &&
                ($this->max === null || $amount <= $this->max);
+    }
+
+    public function __toString()
+    {
+        return ($this->min !== null ? $this->min . ' < ' : '') . 
+               $this->resource->name . 
+               ($this->max !== null ? ' > ' . $this->max : '') . 
+               ' in ' . $this->organ->name;
     }
 }
