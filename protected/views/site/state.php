@@ -56,9 +56,6 @@
 
         <div id="challenge-info" class="content">
             <p class="name"></p>
-            <p class="max-turns"></p>
-            <p class="restrictions"></p>
-            <p class="limits"></p>
             <p class="goals"></p>
         </div>
 

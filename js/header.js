@@ -11,10 +11,9 @@ $(document).ready(function() {
 
     HEADER.find('.sidebar-title').click(function() {
         var side = $(this).hasClass('left') ? 'left' : 'right';
-        var icon = $(this).find('.fa')
+        var icon = $(this).find('.fa');
         var show = (icon.hasClass('fa-toggle-left')  && side === 'right') ||
                    (icon.hasClass('fa-toggle-right') && side === 'left');
-        icon.toggleClass('fa-toggle-left fa-toggle-right');
         
         toggleSidebar(side, show);
     });
