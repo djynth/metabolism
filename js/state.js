@@ -66,7 +66,6 @@ function refreshState(passivePathways, limits)
     if (typeof passivePathways === "undefined") {
         LIMITED_RESOURCES.find('.process').addClass('hidden');
     }
-    console.log(passivePathways);
 
     LIMITED_RESOURCES.find('.process').each(function() {
         var pathway = getPathway($(this).pathway(), $(this).organ());
