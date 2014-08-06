@@ -61,10 +61,16 @@ $(document).ready(function() {
     $('a.interior').click(function(e) {
         e.preventDefault();
 
-        switch($(this).attr('href'))
+        var href = $(this).attr('href');
+        switch(href)
         {
             case 'about':
-                MENU.show().find('.tab[for=about]').click();
+            case 'account':
+            case 'data':
+            case 'new-game':
+            case 'settings':
+            case 'tutorial':
+                MENU.show().find('.tab[for=' + href + ']').click();
                 break;
         }
     })
