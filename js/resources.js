@@ -11,62 +11,55 @@ function getRes(resource, organ)
 function refreshResources(resources, limits)
 {
     var changed = new Array();
-    for (var resource in resources) {
-        var limit = limits[resource];
-        for (var organ in resources[resource]) {
-            var amount = resources[resource][organ];
-            var res = getRes(resource, organ);
 
-            if (typeof res.attr('amount') !== 'undefined') {
-                var change = amount - parseInt(res.attr('amount'));
-                if (change === 0) {
-                    continue;
-                }
+    RESOURCES.each(function() {
+        var res = $(this).res();
+        var organ = $(this).organ();
+        var amountElem = $(this).children('.amount');
+        var amount = resources[res][organ];
+        var change = amount - parseInt(amountElem.text());
 
-                changed.push(res.res());
-                var increase = change > 0 ? 'increase' : 'decrease';
-                res.addClass(increase).delay(1000).queue(function() {
-                    $(this).removeClass('increase decrease').dequeue();
-                });
+        if (change !== 0) {
+            var maxShown = parseInt($(this).attr('max-shown'));
+            amountElem.html(amount);
+            $(this).children('.bar').width(100*min(1, amount/maxShown) + '%');
+
+            changed.push(res);
+            var increase = change > 0 ? 'increase' : 'decrease';
+            $(this).addClass(increase).delay(1000).queue(function() {
+                $(this).removeClass('increase decrease').dequeue();
+            });
+        }
+    });
+
+    if (typeof limits !== 'undefined') {
+        RESOURCES.each(function() {
+            var limit = limits[$(this).res()];
+            if (limit.hard_min === null) {
+                $(this).children('.hard.min').width(0);
             } else {
-                changed.push(res.res());
+                $(this).children('.hard.min').width(100*min(1, limit.hard_min/maxShown)+"%");
             }
 
-            updateRes(res, amount, limit);
-        }
+            if (limit.soft_min === null) {
+                $(this).children('.soft.min').width(0);
+            } else {
+                $(this).children('.soft.min').width(100*min(1, limit.soft_min/maxShown)+"%");
+            }
+
+            if (limit.soft_max === null) {
+                $(this).children('.soft.max').width(0);
+            } else {
+                $(this).children('.soft.max').width(100*min(1, 1-limit.soft_max/maxShown)+"%");
+            }
+
+            if (limit.hard_max === null) {
+                $(this).children('.hard.max').width(0);
+            } else {
+                $(this).children('.hard.max').width(100*min(1, 1-limit.hard_max/maxShown)+"%");
+            }
+        });
     }
+
     return changed;
-}
-
-function updateRes(res, amount, limit)
-{
-    res.attr('amount', amount);
-    res.find('.amount').html(amount);
-
-    var maxShown = parseInt(res.attr('max-shown'));
-    res.find('.bar').width(100*min(1, amount/maxShown) + '%');
-
-    if (limit.hard_min === null) {
-        res.find('.hard.min').width(0);
-    } else {
-        res.find('.hard.min').width(100*min(1, limit.hard_min/maxShown)+"%");
-    }
-
-    if (limit.soft_min === null) {
-        res.find('.soft.min').width(0);
-    } else {
-        res.find('.soft.min').width(100*min(1, limit.soft_min/maxShown)+"%");
-    }
-
-    if (limit.soft_max === null) {
-        res.find('.soft.max').width(0);
-    } else {
-        res.find('.soft.max').width(100*min(1, 1-limit.soft_max/maxShown)+"%");
-    }
-
-    if (limit.hard_max === null) {
-        res.find('.hard.max').width(0);
-    } else {
-        res.find('.hard.max').width(100*min(1, 1-limit.hard_max/maxShown)+"%");
-    }
 }
