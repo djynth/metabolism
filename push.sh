@@ -4,8 +4,9 @@ dumpfile=data.sql.gz
 db_user=leontis
 db_pass=1vuwif1fe
 
+rm -r css
 compass compile
-mysqldump -u root -ppassword metabolism organs pathways resources pathway_organs pathway_resources resource_organs resource_aliases | gzip > $dumpfile
+mysqldump -u root -ppassword metabolism organs pathways resources pathway_organs pathway_resources resource_organs resource_aliases challenges challenge_limits challenge_restrictions challenge_starts | gzip > $dumpfile
 scp -r css $dumpfile leontis_metabolism@ssh.phx.nearlyfreespeech.net:
 
 ssh leontis_metabolism@ssh.phx.nearlyfreespeech.net \
