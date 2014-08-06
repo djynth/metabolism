@@ -1,9 +1,3 @@
-var RESOURCES;
-
-$(document).ready(function() {
-    RESOURCES = $('.resources').find('.res');
-});
-
 function getRes(resource, organ)
 {
     if (typeof organ === 'undefined') {

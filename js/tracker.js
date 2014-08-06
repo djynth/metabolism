@@ -1,12 +1,6 @@
-var TRACKER;
-
 var TRACKER_ICONS = 5;
 var ICON_MAX_LEVEL = 3;
 var TRACKER_ANIMATION = 500;
-
-$(document).ready(function() {
-    TRACKER = $('#tracker');
-});
 
 function refreshTrackers()
 {

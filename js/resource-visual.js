@@ -1,8 +1,4 @@
-var RESOURCE_VISUAL;
-
 $(document).ready(function() {
-    RESOURCE_VISUAL = $('#resource-visual');
-
     RESOURCE_VISUAL.find('.fa-times').click(function() {
         updateResourceVisual();
         RESOURCE_VISUAL.fadeOut();

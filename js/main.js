@@ -1,16 +1,4 @@
-var BODY;
-var TURNS;
-var POINTS;
-var CONTENT_AREA;
-var DIAGRAM;
-
 $(document).ready(function() {
-    BODY = $('body');
-    TURNS = $('#turns');
-    POINTS = $('#points');
-    CONTENT_AREA = $('#content-area');
-    DIAGRAM = $('#diagram');
-
     $(window).resize(onResize);
 
     $('.btn-group.checkbox').find('.btn').click(function() {

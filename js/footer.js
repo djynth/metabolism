@@ -1,8 +1,4 @@
-var FOOTER;
-
 $(document).ready(function() {
-    FOOTER = $('#footer');
-
     $('#minimize-footer').click(function() {
         toggleFooter();
     });

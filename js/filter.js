@@ -1,8 +1,4 @@
-var FILTER;
-
 $(document).ready(function() {
-    FILTER = $('#filter');
-
     FILTER.find('input[type=text]').change(function() {
         setTimeout(onFilterChange, 0);
     });

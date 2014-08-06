@@ -1,10 +1,4 @@
-var STATE;
-var LIMITED_RESOURCES;
-
 $(document).ready(function() {
-    STATE = $('#state');
-    LIMITED_RESOURCES = $('#limited-resources');
-
     STATE.find('.tab').click(function() {
         STATE.find('.content').removeClass('active');
         STATE.find('.tab').removeClass('active');

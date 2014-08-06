@@ -10,13 +10,24 @@
 <script src="/lib/jquery.animate-shadow.js"></script>
 <script src="/lib/jquery.mousewheel.js"></script>
 
-<?php foreach (glob("css/*.css") as $css): ?>
+<?php
+function rglob($pattern, $flags = 0)
+{
+    $files = glob($pattern, $flags);
+    
+    foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
+    {
+        $files = array_merge($files, rglob($dir . '/' . basename($pattern), $flags));
+    }
+    
+    return $files;
+}
+?>
+
+<?php foreach (rglob('css/*.css') as $css): ?>
     <link type='text/css' rel='stylesheet' href='/<?= $css ?>'>
-<?php endforeach;
-foreach (glob("css/themes/*/*.css") as $css): ?>
-    <link type='text/css' rel='stylesheet' href='/<?= $css ?>'>
-<?php endforeach;
-foreach (glob("js/*.js") as $js): ?>
+<?php endforeach; ?>
+<?php foreach (rglob('js/*.js') as $js): ?>
     <script src='/<?= $js ?>'></script>
 <?php endforeach; ?>
 

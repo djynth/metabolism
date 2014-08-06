@@ -1,9 +1,3 @@
-var LOG;
-
-$(document).ready(function() {
-    LOG = $('#log');
-});
-
 function setWorking(working)
 {
     var idle = working === false;

@@ -1,8 +1,4 @@
-var PATHWAYS;
-
 $(document).ready(function() {
-    PATHWAYS = $('.pathways').find('.pathway');
-
     $('.food').each(function() {
         var food = $(this);
         food.find('.eat').each(function() {

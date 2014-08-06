@@ -1,8 +1,4 @@
-var RESULTS;
-
 $(document).ready(function() {
-    RESULTS = $('#results');
-
     RESULTS.find('.play-again').click(function() {
         RESULTS.parent().fadeOut();
         newGame();
