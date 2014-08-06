@@ -179,7 +179,7 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
                         }
 
                         svg text {
-                            @include transition(opacity, 0.3s);
+                            @include transition(opacity 0.3s);
                             opacity: 0.45;
                         }
 

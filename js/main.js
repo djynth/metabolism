@@ -101,9 +101,7 @@ function toggleSidebar(sidebar, show)
     var prop = sidebar === 'left' ? 'marginLeft' : 'marginRight';
     var icon = $('.sidebar-title.' + sidebar).find('.fa');
     if (sidebar === 'left') {
-        CONTENT_AREA.animate({
-            marginLeft: show ? $('.sidebar.left').width() : -1
-        });
+        CONTENT_AREA.toggleClass('left-shown', show);
         if (show) {
             icon.addClass('fa-toggle-left').removeClass('fa-toggle-right');
         } else {
@@ -111,9 +109,7 @@ function toggleSidebar(sidebar, show)
         }
     }
     if (sidebar === 'right') {
-        CONTENT_AREA.animate({
-            marginRight: show ? $('.sidebar.right').width() : -1
-        });
+        CONTENT_AREA.toggleClass('right-shown', show);
         if (show) {
             icon.addClass('fa-toggle-right').removeClass('fa-toggle-left');
         } else {

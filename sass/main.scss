@@ -33,7 +33,7 @@ input[type=text], input[type=password], input[type=email] {
     border-radius: 4px;
     border: 1px solid;
     outline: none;
-    transition: border linear 0.2s, box-shadow linear 0.2s;
+    @include transition(border linear 0.2s, box-shadow linear 0.2s);
 }
 
 svg text {
@@ -54,7 +54,7 @@ svg text {
     height: 22px;
     cursor: pointer;
     border: 1px solid;
-    transition: border linear 0.2s;
+    @include transition(border linear 0.2s);
     padding: 3px;
 
     &.left {
@@ -252,6 +252,15 @@ svg text {
     border-right: 1px solid;
     border-left: 1px solid;
     margin: 0 -1px;
+    @include transition(margin-left 0.3s, margin-right 0.3s);
+
+    &.left-shown {
+        margin-left: $sidebarWidth;
+    }
+
+    &.right-shown {
+        margin-right: $sidebarWidth;
+    }
 }
 
 #diagram {

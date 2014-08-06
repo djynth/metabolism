@@ -9,7 +9,7 @@ index.php
 index_full.php
 index_unavailable.php
 protected/yiic.php
-hours.txt
+timesheet.txt
 game_modes.txt
 export-src.py
 *.sublime-project
