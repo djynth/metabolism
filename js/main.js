@@ -129,25 +129,22 @@ function newGame(mode, challenge)
             mode: mode,
             challenge_id: challenge,
         },
-        success: onGameStart
-    });
-}
+        success: function(data) {
+            DIAGRAM.css(
+                'background-image',
+                'url(\'img/diagrams/diagram' + data.challenge_id + '.png\')'
+            );
 
-function onGameStart(data)
-{
-    DIAGRAM.css(
-        'background-image',
-        'url(\'img/diagrams/diagram' + data.challenge_id + '.png\')'
-    );
-
-    $.when(
-        MENU.fadeOut(),
-        $('#open-menu').find('.cover').fadeOut(),
-        toggleFooter(true),
-        toggleSidebar('left', true),
-        toggleSidebar('right', true)
-    ).done(function() {
-        onTurn(data);
+            $.when(
+                MENU.fadeOut(),
+                $('#open-menu').find('.cover').fadeOut(),
+                toggleFooter(true),
+                toggleSidebar('left', true),
+                toggleSidebar('right', true)
+            ).done(function() {
+                onTurn(data);
+            });
+        }
     });
 }
 
