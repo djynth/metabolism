@@ -309,7 +309,8 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
     }
 
     .res {
-        @include transition(box-shadow 1s);
+        @include transition(box-shadow 0.7s);
+        box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0);
         background-color: $elementBackground;
         border-color: $elementBorder;
 

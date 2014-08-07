@@ -126,18 +126,18 @@ class SiteController extends CController
         $state['limits'] = array();
         foreach ($game->challenge->limits as $limit) {
             $state['limits'][$limit->resource_id] = array(
-                'hard_min' => $limit->hard_min,
-                'soft_min' => $limit->soft_min,
-                'soft_max' => $limit->soft_max,
-                'hard_max' => $limit->hard_max,
-                'penalization' => $limit->penalization,
+                'hard_min' => $limit->hard_min === null ? null : (int)$limit->hard_min,
+                'soft_min' => $limit->soft_min === null ? null : (int)$limit->soft_min,
+                'soft_max' => $limit->soft_max === null ? null : (int)$limit->soft_max,
+                'hard_max' => $limit->hard_max === null ? null : (int)$limit->hard_max,
+                'penalization' => floatval($limit->penalization),
             );
         }
 
         $state['restrictions'] = array();
         foreach ($game->challenge->restrictions as $restriction) {
             $state['restrictions'][$restriction->pathway_id] = 
-                $restriction->limit;
+                intval($restriction->limit);
         }
 
         return $state;

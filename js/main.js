@@ -1,3 +1,5 @@
+var resources;
+
 $(document).ready(function() {
     $(window).resize(onResize);
 
@@ -98,7 +100,6 @@ function onResize()
 
 function toggleSidebar(sidebar, show)
 {
-    var prop = sidebar === 'left' ? 'marginLeft' : 'marginRight';
     var icon = $('.sidebar-title.' + sidebar).find('.fa');
     if (sidebar === 'left') {
         CONTENT_AREA.toggleClass('left-shown', show);
@@ -138,19 +139,48 @@ function onGameStart(data)
         'background-image',
         'url(\'img/diagrams/diagram' + data.challenge_id + '.png\')'
     );
-    onTurn(data);
+
+    $.when(
+        MENU.fadeOut(),
+        $('#open-menu').find('.cover').fadeOut(),
+        toggleFooter(true),
+        toggleSidebar('left', true),
+        toggleSidebar('right', true)
+    ).done(function() {
+        onTurn(data);
+    });
 }
 
 function onTurn(data)
 {
     setTurn(data.turn, data.max_turns);
     setPoints(data.score);
+
+    resources = new Array();
+    for (resource in data.resources) {
+        resources[resource] = new Object();
+        resources[resource].amounts = new Array();
+        for (organ in data.resources[resource]) {
+            var amount = data.resources[resource][organ];
+            resources[resource].amounts[organ] = amount;
+        }
+    }
+
+    if (typeof data.limits !== 'undefined') {
+        for (resource in data.resources) {
+            resources[resource].limit = data.limits[resource];
+        }
+        refreshLimits();
+    }
+
     refreshPathways(
-        refreshResources(data.resources, data.limits),
+        refreshResources(),
         data.restrictions
     );
-    refreshState(data.passive_pathways, data.limits);
+
+    refreshState(data.passive_pathways);
     refreshTrackers();
+
     if (isFilterActive()) {
         onFilterChange();    
     }

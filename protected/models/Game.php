@@ -144,7 +144,7 @@ class Game extends CActiveRecord
         return array(
             'score' => $this->score,
             'turn' => $this->turn,
-            'max_turns' => $this->challenge->max_turns,
+            'max_turns' => (int)$this->challenge->max_turns,
             'resources' => Resource::getAmounts(),
             'action_counts' => Organ::getActionCounts(),
             'completed' => $this->completed,

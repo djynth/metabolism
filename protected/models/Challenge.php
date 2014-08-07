@@ -75,7 +75,7 @@ class Challenge extends CActiveRecord
             $amounts[$start->resource_id] = array();
             foreach ($start->resource->organs as $organ) {
                 $amounts[$start->resource_id][$organ->id] = 
-                    $start->starting_value;
+                    (int)$start->starting_value;
             }
         }
         return $amounts;

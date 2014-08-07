@@ -15,39 +15,33 @@ $(document).ready(function() {
     });
 });
 
-function refreshState(passivePathways, limits)
+function refreshState(passivePathways)
 {
     var total = 0;
     LIMITED_RESOURCES.find('.limited-resource').each(function() {
-        var limit = limits[$(this).res()];
-        var organ = $(this).organ();
-        var res = getRes($(this).res(), organ);
-        var amount = res.attr('amount');
+        var resource = resources[$(this).res()];
+        var limit = resource.limit;
+        var amount = resource.amounts[$(this).organ()];
         var points = 0;
 
-        if (limit === null || 
-            (limit.soft_min === null && limit.soft_max === null)) {
+        if (limit.soft_min === null && limit.soft_max === null) {
             $(this).addClass('hidden');
             return;
         }
-
         $(this).removeClass('hidden');
-        $(this).find('.max').each(function() {
-            if (limit.soft_max === null) {
-                $(this).addClass('center').html('-');
-            } else {
-                $(this).removeClass('center').html(limit.soft_max);
-                points -= limit.penalization * max(0, amount - limit.soft_max);
-            }
-        });
-        $(this).find('.min').each(function() {
-            if (limit.soft_min === null) {
-                $(this).addClass('center').html('-');
-            } else {
-                $(this).removeClass('center').html(limit.soft_min);
-                points -= limit.penalization * max(0, limit.soft_min - amount);
-            }
-        });
+
+        if (limit.soft_max === null) {
+            $(this).find('.max').addClass('center').html('-');
+        } else {
+            $(this).find('.max').removeClass('center').html(limit.soft_max);
+            points -= limit.penalization * max(0, amount - limit.soft_max);
+        }
+        if (limit.soft_min === null) {
+            $(this).find('.min').addClass('center').html('-');
+        } else {
+            $(this).find('.min').removeClass('center').html(limit.soft_min);
+            points -= limit.penalization * max(0, limit.soft_min - amount);
+        }
 
         total += points;
         $(this).find('.amount')

@@ -4,13 +4,16 @@ var TRACKER_ANIMATION = 500;
 
 function refreshTrackers()
 {
+    // TODO: update this to use the resource array and not getRes()
+
     TRACKER.find('.tracker:not(.actions)').each(function() {
-        var resource = $(this).res();
+        var resource = resources[$(this).res()];
         $(this).find('.organ').each(function() {
             var res = getRes(resource, $(this).organ());
+
             var amount = $(this).find('.amount');
-            var change = parseInt(res.attr('amount')) - parseInt(amount.text());
-            amount.text(res.attr('amount'));
+            var prevAmount = parseInt(amount.text());
+            var change = resource.amounts[$(this).organ()];
 
             updateTrackerIcons($(this).find('.icons'), res, change);
         });

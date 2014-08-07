@@ -127,7 +127,7 @@ function refreshPathways(changedResources, restrictions)
         var pathway = $(this);
         var limit = restrictions[pathway.pathway()];
         if (limit === 0) {
-            pathway.addClass('hidden').hide();
+            pathway.addClass('hidden');
         } else {
             pathway.removeClass('hidden');
             pathway.find('.reaction').find('.name').each(function() {
@@ -142,30 +142,29 @@ function refreshPathways(changedResources, restrictions)
 
 function refreshPathway(pathway, limit)
 {
-    var limiting = $();
-    var maxRuns = limit === null || typeof limit === 'undefined' ? Number.POSITIVE_INFINITY : limit;
+    var maxRuns = Number.POSITIVE_INFINITY;
+    var lackingList = '';
 
-    pathway.find('.reactant.name').each(function() {
-        $(this).removeClass('lacking limiting');
+    pathway.find('.reactant.name').removeClass('lacking limiting').each(function() {
         var required = Math.abs(parseInt(
             $(this).siblings('.reactant.amount').text()
         ));
-        var amount = parseInt(
-            getRes($(this).res(), $(this).organ()).attr('amount')
-        );
+        var amount = resources[$(this).res()].amounts[$(this).organ()];
 
         var runs = Math.floor(amount/required);
         if (runs < maxRuns) {
+            pathway.find('.limiting').removeClass('limiting');
             maxRuns = runs;
-            limiting = $();
+            lackingList = 'Not enough ';
         }
-        if (runs <= maxRuns) {
-            limiting = limiting.add($(this));
+        if (runs === maxRuns) {
+            $(this).addClass('limiting');
+            lackingList += $(this).text() + ', ';
         }
     });
 
+    maxRuns = min(maxRuns, limit);
     var canRun = maxRuns > 0;
-    limiting.addClass(canRun ? 'limiting' : 'lacking');
 
     pathway.find('.run-holder').toggle(canRun);
     pathway.children('.lacking').toggle(!canRun);
@@ -173,20 +172,12 @@ function refreshPathway(pathway, limit)
     if (canRun) {
         pathway.attr('available', 'true');
     } else {
+        pathway.find('.limiting').addClass('lacking').removeClass('limiting');
         pathway.removeAttr('available');
-        pathway.find('p.lacking').show();
-
-        var lackingList = 'Not enough ';
-        limiting.each(function() {
-            lackingList += $(this).text() + ', ';
-        })
-        lackingList = lackingList.substring(0, lackingList.length - 2);
-        pathway.find('p.lacking').text(lackingList);
+        pathway.children('.lacking').text(lackingList.substring(0, lackingList.length - 2));
     }
 
-    if (typeof pathway.attr('limit') === 'undefined') {
-        updateRun(pathway.find('.run'), maxRuns, maxRuns);
-    }
+    updateRun(pathway.find('.run'), maxRuns, maxRuns);
 }
 
 function updateRun(run, times, maxRuns)
@@ -194,26 +185,12 @@ function updateRun(run, times, maxRuns)
     run.text('Run x' + times).attr('times', times);
     if (typeof maxRuns !== 'undefined') {
         run.attr('max-runs', maxRuns);
-    }
-    if (times >= run.attr('max-runs')) {
-        run.siblings('.plus, .top')
-            .addClass('disabled')
-            .attr('disabled', 'disabled');
     } else {
-        run.siblings('.plus, .top')
-            .removeClass('disabled')
-            .removeAttr('disabled');
+        maxRuns = run.attr('max-runs');
     }
 
-    if (times <= 1) {
-        run.siblings('.minus, .bottom')
-            .addClass('disabled')
-            .attr('disabled', 'disabled');
-    } else {
-        run.siblings('.minus, .bottom')
-            .removeClass('disabled')
-            .removeAttr('disabled');
-    }
+    run.siblings('.plus, .top').toggleClass('disabled', times >= maxRuns);
+    run.siblings('.minus, .bottom').toggleClass('disabled', times <= 1);
 }
 
 function updateEat(food, eat, amount)

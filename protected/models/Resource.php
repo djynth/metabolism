@@ -138,9 +138,9 @@ class Resource extends CActiveRecord
     public function setAmount($organ, $amount)
     {
         $amounts = self::getAmounts();
-        $amounts[$this->id][$organ->id] = $amount;
+        $amounts[$this->id][$organ->id] = (int)$amount;
         self::setAmounts($amounts);
-        return intval($amount);
+        return (int)$amount;
     }
 
     public function changeAmount($organ, $change)

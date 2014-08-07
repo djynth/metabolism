@@ -39,11 +39,6 @@ $(document).ready(function() {
             $(this).parents('.mode-info').attr('mode'),
             $(this).siblings('.challenges').val()
         );
-        MENU.fadeOut();
-        $('#open-menu').find('.cover').fadeToggle();
-        toggleFooter(true);
-        toggleSidebar('left', true);
-        toggleSidebar('right', true);
     });
 
     NEW_GAME.find('.mode-info').find('.challenges').change(function() {

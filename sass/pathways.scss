@@ -9,6 +9,10 @@
     line-height: 12px;
     border: 1px solid;
 
+    &.hidden {
+        display: none;
+    }
+
     .pathway-inner {
         position: absolute;
         left: 0;
