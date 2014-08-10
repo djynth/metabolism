@@ -10,7 +10,7 @@ index_full.php
 index_unavailable.php
 protected/yiic.php
 timesheet.txt
-game_modes.txt
+TODO.txt
 export-src.py
 *.sublime-project
 *.sublime-workspace
