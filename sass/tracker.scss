@@ -3,8 +3,9 @@
 #tracker {
     position: absolute;
     display: table;
-    margin: 0 $sidebarWidth;
+    margin: 0 -1px;
     table-layout: fixed;
+    z-index: 1;
 
     .tracker {
         display: table-cell;

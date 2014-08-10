@@ -247,10 +247,7 @@ svg text {
     }
 }
 
-#content-area {
-    position: relative;
-    border-right: 1px solid;
-    border-left: 1px solid;
+#content-area, #tracker {
     margin: 0 -1px;
     @include transition(margin-left 0.3s, margin-right 0.3s);
 
@@ -261,6 +258,12 @@ svg text {
     &.right-shown {
         margin-right: $sidebarWidth;
     }
+}
+
+#content-area {
+    position: relative;
+    border-right: 1px solid;
+    border-left: 1px solid;
 }
 
 #diagram {

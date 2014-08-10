@@ -349,6 +349,8 @@ body[theme=#{$name}], .theme[theme=#{$name}] {
         }
 
         #tracker {
+            background-color: $background;
+
             .tracker {
                 border-color: $border;
             }

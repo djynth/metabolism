@@ -91,6 +91,9 @@ function onResize()
     );
     $('.accordian-content').each(function() {
         $(this).css('max-height', contentHeight);
+        if ($(this).hasClass('active')) {
+            $(this).height(contentHeight);
+        }
     });
 
     FILTER.find('input[type=text]').each(function() {
@@ -103,6 +106,7 @@ function toggleSidebar(sidebar, show)
     var icon = $('.sidebar-title.' + sidebar).find('.fa');
     if (sidebar === 'left') {
         CONTENT_AREA.toggleClass('left-shown', show);
+        TRACKER.toggleClass('left-shown', show);
         if (show) {
             icon.addClass('fa-toggle-left').removeClass('fa-toggle-right');
         } else {
@@ -111,6 +115,7 @@ function toggleSidebar(sidebar, show)
     }
     if (sidebar === 'right') {
         CONTENT_AREA.toggleClass('right-shown', show);
+        TRACKER.toggleClass('right-shown', show);
         if (show) {
             icon.addClass('fa-toggle-right').removeClass('fa-toggle-left');
         } else {
