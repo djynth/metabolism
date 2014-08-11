@@ -3,19 +3,14 @@
     <colors>
         <main>
             <text>
-                <r>80</r>
-                <g>80</g>
-                <b>80</b>
+                <r>50</r>
+                <g>50</g>
+                <b>50</b>
             </text>
-            <text_shadow>
-                <r>230</r>
-                <g>230</g>
-                <b>230</b>
-            </text_shadow>
             <border>
-                <r>70</r>
-                <g>70</g>
-                <b>70</b>
+                <r>40</r>
+                <g>40</g>
+                <b>40</b>
             </border>
             <background>
                 <r>240</r>
@@ -28,9 +23,9 @@
                 <b>225</b>
             </background_dark>
             <icon>
-                <r>5</r>
-                <g>5</g>
-                <b>5</b>
+                <r>45</r>
+                <g>45</g>
+                <b>45</b>
             </icon>
             <error>
                 <r>255</r>
@@ -41,24 +36,24 @@
 
         <textfield>
             <text>
-                <r>85</r>
-                <g>85</g>
-                <b>85</b>
+                <r>75</r>
+                <g>75</g>
+                <b>75</b>
             </text>
             <placeholder>
-                <r>125</r>
-                <g>125</g>
-                <b>125</b>
+                <r>130</r>
+                <g>130</g>
+                <b>130</b>
             </placeholder>
             <border>
-                <r>135</r>
-                <g>135</g>
-                <b>135</b>
+                <r>130</r>
+                <g>130</g>
+                <b>130</b>
             </border>
             <background>
-                <r>220</r>
-                <g>220</g>
-                <b>220</b>
+                <r>215</r>
+                <g>215</g>
+                <b>215</b>
             </background>
             <add_on_background>
                 <r>225</r>
@@ -69,7 +64,7 @@
                 <r>0</r>
                 <g>0</g>
                 <b>0</b>
-                <a>0.075</a>
+                <a>0.75</a>
             </box_shadow>
             <focus>
                 <r>82</r>
@@ -90,15 +85,10 @@
                 <g>80</g>
                 <b>80</b>
             </text>
-            <text_shadow>
-                <r>230</r>
-                <g>230</g>
-                <b>230</b>
-            </text_shadow>
             <border>
-                <r>225</r>
-                <g>225</g>
-                <b>225</b>
+                <r>160</r>
+                <g>160</g>
+                <b>160</b>
             </border>
             <background_light>
                 <r>255</r>
@@ -119,7 +109,7 @@
                 <r>0</r>
                 <g>0</g>
                 <b>0</b>
-                <a>0.1</a>
+                <a>0.225</a>
             </hover>
         </button>
 

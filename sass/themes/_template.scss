@@ -3,7 +3,6 @@
 body[theme='{name}'], .theme[theme='{name}'] {
     color: '{main/text}';
     background-color: '{main/background}';
-    text-shadow: 1px 1px '{main/text_shadow}';
 
     &, * {
         border-color: '{main/border}';
@@ -13,7 +12,6 @@ body[theme='{name}'], .theme[theme='{name}'] {
         color: '{textfield/text}';
         background-color: '{textfield/background}';
         border-color: '{textfield/border}';
-        box-shadow: inset 0 1px 1px '{textfield/box_shadow}';
         @include input-placeholder {
             color: '{textfield/placeholder}';
         }
@@ -21,12 +19,12 @@ body[theme='{name}'], .theme[theme='{name}'] {
         &:focus {
             &:not(.error) {
                 border-color: '{textfield/focus_border}';
-                box-shadow: inset 0 1px 1px '{textfield/box_shadow}', 0 0 8px '{textfield/focus}';    
+                box-shadow: 0 0 8px '{textfield/focus}';    
             }
 
             &.error {
                 border-color: '{main/error}';
-                box-shadow: inset 0 1px 1px '{textfield/box_shadow}', 0 0 8px '{main/error}';
+                box-shadow: 0 0 8px '{main/error}';
             }
         }
 
@@ -46,20 +44,14 @@ body[theme='{name}'], .theme[theme='{name}'] {
 
     .btn {
         color: '{button/text}';
-        text-shadow: '{button/text_shadow}';
         background-image: linear-gradient(to bottom, '{button/background_light}', '{button/background_dark}');
         border-color: '{button/border}';
 
-        &:hover,
-        &:active,
-        &.active {
-            box-shadow: inset 0 0 7px '{button/hover}', 0 0 3px '{button/hover}';
+        &:hover:not(.disabled) {
+            box-shadow: inset 0 0 5px '{button/hover}';
         }
 
-        &:active,
-        &.active,
-        &.disabled,
-        &[disabled] {
+        &.disabled {
             background-color: '{button/background_dark}';
             background-image: none;
         }
