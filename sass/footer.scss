@@ -9,8 +9,8 @@
         width: 100%;
         height: $footerMinimizeHeight - 2;
         cursor: pointer;
-        border-top: 1px solid;
-        border-bottom: 1px solid;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
     }
 
     > .content {

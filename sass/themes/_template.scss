@@ -1,0 +1,266 @@
+@import "base";
+
+body[theme='{name}'], .theme[theme='{name}'] {
+    color: '{main/text}';
+    background-color: '{main/background}';
+    text-shadow: 1px 1px '{main/text_shadow}';
+
+    &, * {
+        border-color: '{main/border}';
+    }
+
+    input[type=text], input[type=password], input[type=email] {
+        color: '{textfield/text}';
+        background-color: '{textfield/background}';
+        border-color: '{textfield/border}';
+        box-shadow: inset 0 1px 1px '{textfield/box_shadow}';
+        @include input-placeholder {
+            color: '{textfield/placeholder}';
+        }
+
+        &:focus {
+            &:not(.error) {
+                border-color: '{textfield/focus_border}';
+                box-shadow: inset 0 1px 1px '{textfield/box_shadow}', 0 0 8px '{textfield/focus}';    
+            }
+
+            &.error {
+                border-color: '{main/error}';
+                box-shadow: inset 0 1px 1px '{textfield/box_shadow}', 0 0 8px '{main/error}';
+            }
+        }
+
+        &.error {
+            color: '{main/error}';
+        }
+    }
+
+    .add-on {
+        background: '{textfield/add_on_background}';
+        border-color: '{textfield/border}';
+
+        &.focus {
+            border-color: '{textfield/focus_border}';
+        }
+    }
+
+    .btn {
+        color: '{button/text}';
+        text-shadow: '{button/text_shadow}';
+        background-image: linear-gradient(to bottom, '{button/background_light}', '{button/background_dark}');
+        border-color: '{button/border}';
+
+        &:hover,
+        &:active,
+        &.active {
+            box-shadow: inset 0 0 7px '{button/hover}', 0 0 3px '{button/hover}';
+        }
+
+        &:active,
+        &.active,
+        &.disabled,
+        &[disabled] {
+            background-color: '{button/background_dark}';
+            background-image: none;
+        }
+    }
+
+    .fa {
+        color: '{main/icon}'
+    }
+
+    #header {
+        background-color: '{main/background}';
+
+        .header-element {
+            .dropdown, .cover {
+                background-color: '{main/background}';    
+            }
+        }
+
+        #state {
+            .tab:not(.active) {
+                background-color: '{main/background_dark}';
+            }
+
+            #limited-resources {
+                td {
+                    border-color: '{state/limited_resources_border}';
+                }
+
+                .good {
+                    background-color: '{state/resource_good}';
+                }
+
+                .bad {
+                    background-color: '{state/resource_bad}';
+                }
+            }
+        }
+
+        #log {
+            .notifications {
+                background-color: '{log/notification_background}';
+            }
+        }
+    }
+
+    #footer {
+        #minimize-footer {
+            background-color: '{main/background_dark}';
+        }
+
+        #tracker {
+            background-color: '{main/background}';
+
+            .header {
+                border-color: '{tracker/header_border}';
+            }
+
+            .organ {
+                border-color: '{tracker/organ_border}';
+            }
+
+            .active {
+                background-color: '{tracker/active}';
+            }
+        }
+    }
+
+    #menu {
+        background-color: '{main/background}';
+
+        .tabs {
+            .tab:not(.active), .space {
+                background-color: '{main/background_dark}';
+            }
+        }
+
+        .contents {
+            .content {
+                &.new-game {
+                    .mode {
+                        background-color: '{main/background_dark}';
+                        @include transition(box-shadow 0.3s);
+
+                        &.active {
+                            box-shadow: 0 0 14px '{main/border}' inset;
+
+                            svg text {
+                                opacity: 0.55;      // TODO set this in the theme XML?
+                            }
+                        }
+
+                        svg text {
+                            @include transition(opacity, 0.3s);
+                            opacity: 0.45;          // TODO set this in the theme XML?
+                        }
+
+                        .label {
+                            background-color: '{main/background}';
+                            opacity: 0.75;
+                            text-shadow: none;
+
+                            .details {
+                                li {
+                                    text-shadow: none;    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .sidebar {
+        background-color: '{main/background_dark}';
+
+        .accordian-header, .popup {
+            background-color: '{main/background}';
+        }
+    }
+
+    .pathway {
+        background-color: '{element/background}';
+        border-color: '{element/border}';
+        @include transition(box-shadow 1s, border-color 1s);
+
+        &.source {
+            box-shadow: 0 0 9px '{pathway/source}' inset;
+            border-color: '{pathway/source}';
+        }
+
+        &.destination {
+            box-shadow: 0 0 9px '{pathway/destination}' inset;
+            border-color: '{pathway/destination}';
+        }
+
+        p, td {
+            color: '{element/text}';
+            text-shadow: none;
+        }
+
+        .reaction {
+            td {
+                border-color: '{pathway/reaction_border}';
+            }
+
+            .lacking {
+                background-color: '{pathway/lacking}';
+            }
+
+            .limiting {
+                background-color: '{pathway/limiting}';
+            }
+        }
+    }
+
+    .res {
+        background-color: '{element/background}';
+        border-color: '{element/border}';
+        box-shadow: 0 5px 5px rgba(0,0,0,0);
+        @include transition(box-shadow 0.7s);
+
+        &.increase {
+            box-shadow: 0 5px 5px '{res/increase}';
+        }
+
+        &.decrease {
+            box-shadow: 0 5px 5px '{res/decrease}';
+        }
+
+        * {
+            color: '{element/text}';
+            text-shadow: none;
+        }
+
+        .soft {
+            background-color: '{res/soft}';
+            box-shadow: 0 1px 1px '{res/soft_box_shadow}' inset;
+        }
+
+        .hard {
+            background-color: '{res/hard}';
+            box-shadow: 0 2px 2px '{res/hard_box_shadow}' inset;
+        }
+
+        .bar {
+            background-image: linear-gradient(to bottom, '{res/bar_light}', '{res/bar_dark}');
+        }
+    }
+
+    .form-info {
+        background-color: '{element/background}';
+        border-color: '{element/border}';
+
+        &, * {
+            color: '{element/text}';
+            text-shadow: none;
+        }
+
+        &.error {
+            color: '{main/error}';
+        }
+    }
+}

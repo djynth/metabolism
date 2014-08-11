@@ -24,11 +24,11 @@
                 cursor: pointer;
 
                 &:not(:last-of-type) {
-                    border-right: 1px solid;
+                    border-right-width: 1px;
                 }
 
                 &:not(.active) {
-                    border-top: 1px solid;
+                    border-top-width: 1px;
                 }
             }
         }
@@ -48,7 +48,6 @@
             td {
                 padding: 3px;
                 border-width: 1px;
-                border-style: solid;
             }
 
             .change, .amount, .min, .max, .total {

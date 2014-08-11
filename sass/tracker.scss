@@ -10,16 +10,16 @@
     .tracker {
         display: table-cell;
         width: 2%;
-        border-left: 1px solid;
+        border-left-width: 1px;
 
         &:last-of-type {
-            border-right: 1px solid;
+            border-right-width: 1px;
         }
 
         .header {
             position: relative;
             width: 100%;
-            border-bottom: 1px solid;
+            border-bottom-width: 1px;
 
             p {
                 font-weight: bold;
@@ -42,10 +42,10 @@
             position: relative;
             width: 100%;
             height: $trackerOrganHeight;
-            border-bottom: 1px solid;
+            border-bottom-width: 1px;
 
             &:last-child {
-                border-bottom: none;
+                border-bottom-width: 0;
             }
 
             p {

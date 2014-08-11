@@ -1,7 +1,7 @@
 <h2>Color Themes</h2>
 
 <div class="themes">
-    <?php foreach (glob("{css/themes/light/*.css,css/themes/dark/*.css}", GLOB_BRACE) as $css):
+    <?php foreach (glob("css/themes/*/*.css") as $css):
         $theme = basename($css, '.css');
         $type = basename(dirname($css)); ?>
 

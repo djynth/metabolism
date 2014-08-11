@@ -5,6 +5,8 @@ config.rb
 /css/
 /protected/config/
 /yii/
+/sass/themes/*
+!/sass/themes/_template.scss
 index.php
 index_full.php
 index_unavailable.php
