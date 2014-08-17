@@ -7,7 +7,6 @@ $(document).ready(function() {
         }
 
         var activeBindings = SETTINGS.find('.current.binding.active:visible');
-        console.log(activeBindings);
         if (activeBindings.length) {
             setShortcut(
                 activeBindings.parents('.keybind').attr('action'),
@@ -19,6 +18,18 @@ $(document).ready(function() {
             {
                 case 'toggle_menu':
                     toggleMenu();
+                    break;
+                case 'prev_organ':
+                    var prev = $('.accordian-header.active').prevAll('.accordian-header').first();
+                    if (prev.length) {
+                        selectOrgan(prev.organ(), false);
+                    }
+                    break;
+                case 'next_organ':
+                    var next = $('.accordian-header.active').nextAll('.accordian-header').first();
+                    if (next.length) {
+                        selectOrgan(next.organ(), false);
+                    }
                     break;
             }
         }

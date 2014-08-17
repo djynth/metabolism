@@ -30,7 +30,7 @@
 </div>
 
 <div class="keybinds">
-    <?php foreach (KeyboardShortcut::model()->findAll() as $shortcut): ?>
+    <?php foreach (KeyboardShortcut::model()->findAll(array('order' => '`order`')) as $shortcut): ?>
         <div class="keybind" action="<?= $shortcut->action ?>">
             <div class="title">
                 <p class="name"><?= $shortcut->name ?></p>

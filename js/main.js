@@ -269,12 +269,6 @@ jQuery.fn.extend({
     },
 
     applyColorTheme: function(theme, type) {
-        if (type === 'light') {
-            this.find('.fa:not(.always-white)').removeClass('fa-inverse');
-        } else /* type === 'dark' */ {
-            this.find('.fa:not(.always-black)').addClass('fa-inverse');
-        }
-
         this.find('.accordian-header').each(function() {
             $(this).find('.image').attr(
                 'src',

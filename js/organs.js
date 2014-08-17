@@ -1,4 +1,4 @@
-var ORGAN_TRANSITION = 600;  // length of an organ transition in ms
+var ORGAN_TRANSITION = 550;  // length of an organ transition in ms
 
 // the minimum amount of space in px below the top of a popup in order that it
 // slides down rather than up
@@ -52,12 +52,18 @@ $(document).ready(function() {
     });
 });
 
-function selectOrgan(organ)
+function selectOrgan(organ, animate)
 {
-    DIAGRAM.animate({
-        backgroundColor:
-            $('.accordian-header[organ=' + organ + ']').attr('organ-color')
-    }, ORGAN_TRANSITION);
+    if (typeof animate === 'undefined') {
+        animate = true;
+    }
+
+    var bg = $('.accordian-header[organ=' + organ + ']').attr('organ-color');
+    if (animate) {
+        DIAGRAM.animate({ backgroundColor: bg }, ORGAN_TRANSITION);
+    } else {
+        DIAGRAM.css('background-color', bg);
+    }
 
     TRACKER.find('.tracker').find('.organ').add(
         '.accordian-header, .accordian-content'
@@ -66,15 +72,11 @@ function selectOrgan(organ)
     });
 
     $('.accordian-content').each(function() {
-        $(this).animate(
-            { 
-                height: $(this).organ() === organ ? $(this).css('max-height') : 0
-            },
-            {
-                duration: ORGAN_TRANSITION,
-                complete: function() {
-                    //$(this).data('jsp').reinitialise();
-                }
-            });
+        var h = $(this).organ() === organ ? $(this).css('max-height') : 0;
+        if (animate) {
+            $(this).animate({ height: h }, ORGAN_TRANSITION);    
+        } else {
+            $(this).height(h);
+        }
     });
 }
