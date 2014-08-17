@@ -1,4 +1,7 @@
-<h2>Color Themes</h2>
+<div class="header btn-group">
+    <div class="btn title inactive">Color Themes</div>
+    <div class="btn collapse">Collapse</div>
+</div>
 
 <div class="themes">
     <?php foreach (glob("css/themes/*/*.css") as $css):
@@ -16,6 +19,39 @@
             </div>
 
             <button class="btn select">Select</button>
+        </div>
+    <?php endforeach ?>
+</div>
+
+<div class="header btn-group">
+    <div class="btn title inactive">Key Bindings</div>
+    <div class="btn collapse">Collapse</div>
+    <div class="btn revert-all">Revert All to Defaults</div>
+</div>
+
+<div class="keybinds">
+    <?php foreach (KeyboardShortcut::model()->findAll() as $shortcut): ?>
+        <div class="keybind" action="<?= $shortcut->action ?>">
+            <div class="title">
+                <p class="name"><?= $shortcut->name ?></p>
+                <p class="description"><?= $shortcut->description ?></p>
+            </div>
+            <div class="current binding btn" key="">
+                <div class="focus">
+                    <i class="fa fa-chevron-right left"></i>
+                    <i class="fa fa-chevron-left right"></i>
+                </div>
+                <div class="no-focus">
+                    <p class="key">&nbsp;</p>
+                    <p class="description">assign binding</p>
+                </div>
+            </div>
+            <div class="default binding btn" key="">
+                <div class="no-focus">
+                    <p class="key">&nbsp;</p>
+                    <p class="description">revert to default</p>
+                </div>
+            </div>
         </div>
     <?php endforeach ?>
 </div>

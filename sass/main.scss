@@ -261,12 +261,16 @@ svg text {
     border-radius: 3px;
     outline: none;
 
+    &.inactive {
+        cursor: default;
+        background-image: none;
+    }
+
     &.disabled {
         cursor: default;
         background-image: none;
         opacity: 0.65;
         filter: alpha(opacity=65);
-        box-shadow: none;
     }
 }
 
@@ -286,12 +290,13 @@ svg text {
 }
 
 .btn-group {
-    display: inline-block;
     font-size: 0;
 
     > .btn {
+        display: inline-block;
         border-radius: 0;
         margin: 0;
+        vertical-align: top;
 
         &:not(:first-of-type) {
             border-left-width: 0;

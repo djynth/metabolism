@@ -11,6 +11,8 @@
 <script src="/lib/jquery.mousewheel.js"></script>
 
 <?php
+$user = User::getCurrentUser();
+
 function rglob($pattern, $flags = 0)
 {
     $files = glob($pattern, $flags);
@@ -44,7 +46,8 @@ $(document).ready(function() {
     selectOrgan($('.accordian-header.active').organ());
     setTurn(0, -1);
     setPoints(0);
-    $('.theme[theme=<?= User::getCurrentTheme()["theme"] ?>]').find('.select').click();
+    $('.theme[theme=<?= User::getCurrentTheme($user)["theme"] ?>]').find('.select').click();
+    setKeyboardShortcuts(<?= json_encode(KeyboardShortcut::getShortcuts($user)) ?>);
     log('Welcome to <?= Yii::app()->name ?>!');
 });
 </script>

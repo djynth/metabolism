@@ -24,8 +24,5 @@ $(document).ready(function() {
         });
     });
 
-    $('#open-menu').click(function() {
-        MENU.fadeToggle();
-        $(this).find('.cover').fadeToggle();
-    });
+    $('#open-menu').click(toggleMenu);
 });

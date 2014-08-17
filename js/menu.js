@@ -9,3 +9,9 @@ $(document).ready(function() {
         }
     });
 });
+
+function toggleMenu()
+{
+    MENU.fadeToggle();
+    HEADER.find('.cover').fadeToggle();
+}

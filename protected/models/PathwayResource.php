@@ -22,7 +22,7 @@ class PathwayResource extends CActiveRecord
 
     public function primaryKey()
     {
-        return 'pathway_id';
+        return array('pathway_id', 'resource_id');
     }
 
     public function relations()

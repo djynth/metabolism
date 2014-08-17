@@ -47,13 +47,19 @@ body[theme='{name}'], .theme[theme='{name}'] {
         background-image: linear-gradient(to bottom, '{button/background_light}', '{button/background_dark}');
         border-color: '{button/border}';
 
-        &:hover:not(.disabled) {
-            box-shadow: inset 0 0 5px '{button/hover}';
-        }
-
-        &.disabled {
+        &.disabled:not(.inactive) {
             background-color: '{button/background_dark}';
             background-image: none;
+        }
+
+        &.active:not(.disabled):not(.inactive) {
+            background-color: '{button/background_dark}';
+            background-image: none;
+            box-shadow: inset 0 0 10px '{button/hover}';
+        }
+
+        &:hover:not(.disabled):not(.active):not(.inactive) {
+            box-shadow: inset 0 0 5px '{button/hover}';
         }
     }
 

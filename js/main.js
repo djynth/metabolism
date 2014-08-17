@@ -227,7 +227,6 @@ function getColorTheme()
 
 function setColorTheme(theme, type, save)
 {
-    console.log(theme);
     BODY.attr({ theme : theme, type : type }).applyColorTheme(theme, type);
 
     if (save) {

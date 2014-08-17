@@ -11,6 +11,7 @@
  *                                        user
  * @fk email_verification EmailVerification
  * @fk reset_password     ResetPassword
+ * @fk shortcuts          UserKeyboardShortcut
  */
 class User extends CActiveRecord
 {
@@ -46,6 +47,11 @@ class User extends CActiveRecord
             'reset_password' => array(
                 self::HAS_ONE,
                 'ResetPassword',
+                array('user_id' => 'id'),
+            ),
+            'shortcuts' => array(
+                self::HAS_MANY,
+                'UserKeyboardShortcut',
                 array('user_id' => 'id'),
             ),
         );
@@ -209,9 +215,12 @@ class User extends CActiveRecord
         return implode('', $keys);
     }
 
-    public static function getCurrentTheme()
+    public static function getCurrentTheme($user=null)
     {
-        $user = self::getCurrentUser();
+        if ($user === null) {
+            $user = self::getCurrentUser();    
+        }
+        
         if ($user !== null) {
             return array(
                 'theme' => $user->theme,
