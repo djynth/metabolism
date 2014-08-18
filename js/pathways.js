@@ -1,4 +1,13 @@
+var selectedPathway = null;
+
 $(document).ready(function() {
+
+    PATHWAYS.click(function() {
+        selectedPathway = $(this);
+        PATHWAYS.removeClass('active');
+        $(this).addClass('active');
+    });
+
     $('.food').each(function() {
         var food = $(this);
         food.find('.eat').each(function() {

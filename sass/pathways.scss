@@ -1,57 +1,178 @@
 @import "base";
 
-.pathway {
-    position: relative;
-    margin:  8px;
-    padding: 5px;
-    border-radius: 4px;
-    font-size:   12px;
-    line-height: 12px;
-    border-width: 1px;
+// .pathway {
+//     position: relative;
+//     margin:  8px;
+//     padding: 5px;
+//     border-radius: 4px;
+//     font-size:   12px;
+//     line-height: 12px;
+//     border-width: 1px;
 
-    &.hidden {
-        display: none;
-    }
+//     &.hidden {
+//         display: none;
+//     }
 
-    // TODO is this still necessary?
-    .pathway-inner {
-        position: absolute;
-        left: 0;
-        top:  0;
-        width: 100%;
-        height: 100%;
-        margin-left: -1px;
-        margin-top: -1px;
-        background-color: rgba(0, 0, 0, 0);
-        border-radius: inherit;
-        box-shadow: rgba(0, 0, 0, 0) 0 0 0 0 inset;
-        border: 1px solid rgba(0, 0, 0, 0);
-    }
+//     // TODO is this still necessary?
+//     .pathway-inner {
+//         position: absolute;
+//         left: 0;
+//         top:  0;
+//         width: 100%;
+//         height: 100%;
+//         margin-left: -1px;
+//         margin-top: -1px;
+//         background-color: rgba(0, 0, 0, 0);
+//         border-radius: inherit;
+//         box-shadow: rgba(0, 0, 0, 0) 0 0 0 0 inset;
+//         border: 1px solid rgba(0, 0, 0, 0);
+//     }
 
-    > .name {
-        display: inline;
-        margin-right: 8px;
-        font-weight: bold;
-    }
+//     > .name {
+//         display: inline;
+//         margin-right: 8px;
+//         font-weight: bold;
+//     }
 
-    .catabolic, .anabolic, .passive, .points {
-        display: inline;
-    }
+//     .catabolic, .anabolic, .passive, .points {
+//         display: inline;
+//     }
     
-    .points {
-        float: right;
+//     .points {
+//         float: right;
+//     }
+
+//     .reaction {
+//         position: relative;
+//         width: 90%;
+//         margin: 3px auto;
+
+//         td {
+//             border-width: 1px;
+//         }
+
+//         .value {
+//             width: 13%;
+//             padding-right: 4px;
+//             padding-left: 4px;
+//         }
+
+//         .name {
+//             width: 37%;
+//             padding-right: 5px;
+//             padding-left: 5px;
+//         }
+
+//         .reactant {
+//             text-align: left;
+//         }
+
+//         .product {
+//             text-align: right;
+//         }
+
+//         .empty {
+//             width: 50%;
+//         }
+
+//         .header {
+//             .header-reactants {
+//                 display: inline-block;
+//                 width: 46.5%;
+//                 text-align: center;
+//             }
+
+//             .header-products {
+//                 display: inline-block;
+//                 width: 40%;
+//                 text-align: center;
+//             }
+
+//             .fa {
+//                 width: 5%;
+//             }
+//         }
+//     }
+
+//     .food {
+//         width: 258px;
+//         margin: 2px auto 4px;
+
+//         .btn-group {
+//             margin: 2px 0;
+//         }
+
+//         .eat {
+//             min-width: 160px;
+//         }
+//     }
+
+//     p.lacking {
+//         display: inline-block;
+//         position: relative;
+//         left:   2px;
+//         bottom: -7px;
+//         margin: 7px 0 6px;
+//     }
+
+//     .run-holder {
+//         display: inline-block;
+//         position: relative;
+//         margin-top: 3px;
+
+//         .btn {
+//             margin: 0;
+//         }
+
+//         .run {
+//             min-width: 64px;
+//         }
+//     }
+
+//     .reverse {
+//         display: inline-block;
+//         position: absolute;
+//         right: 5px;
+//         bottom: 4px;
+//     }
+// }
+
+.pathway {
+    padding: 5px;
+    margin: 5px;
+    border-width: 1px;
+    border-radius: 3px;
+    line-height: 12px;
+    font-size: 12px;
+
+    &:not(.active) {
+        .focus {
+            display: none;
+        }
+    }
+
+    .title {
+        margin-bottom: 6px;
+
+        .name {
+            float: left;
+            font-weight: bold;
+            line-height: 22px;
+        }
+
+        .info {
+            text-align: right;
+        }
     }
 
     .reaction {
-        position: relative;
-        width: 90%;
-        margin: 3px auto;
+        width: 100%;
 
         td {
             border-width: 1px;
         }
 
-        .value {
+        .amount {
             width: 13%;
             padding-right: 4px;
             padding-left: 4px;
@@ -74,28 +195,10 @@
         .empty {
             width: 50%;
         }
-
-        .header {
-            .header-reactants {
-                display: inline-block;
-                width: 46.5%;
-                text-align: center;
-            }
-
-            .header-products {
-                display: inline-block;
-                width: 40%;
-                text-align: center;
-            }
-
-            .fa {
-                width: 5%;
-            }
-        }
     }
 
     .food {
-        width: 258px;
+        width: 100%;
         margin: 2px auto 4px;
 
         .btn-group {
@@ -103,36 +206,27 @@
         }
 
         .eat {
-            min-width: 160px;
+            width: 222px;
         }
     }
 
-    p.lacking {
-        display: inline-block;
-        position: relative;
-        left:   2px;
-        bottom: -7px;
-        margin: 7px 0 6px;
-    }
+    .focus {
+        .run-holder {
+            margin-top: 6px;
 
-    .run-holder {
-        display: inline-block;
-        position: relative;
-        margin-top: 3px;
+            .times {
+                padding: 0;
+                margin: 0;
 
-        .btn {
-            margin: 0;
+                input[type=text] {
+                    width: 165px;
+                    height: 11px;
+                    line-height: 100%;
+                    margin: 0;
+                    border-width: 0;
+                    border-radius: 0;
+                }
+            }
         }
-
-        .run {
-            min-width: 64px;
-        }
-    }
-
-    .reverse {
-        display: inline-block;
-        position: absolute;
-        right: 5px;
-        bottom: 4px;
     }
 }

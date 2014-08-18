@@ -47,6 +47,10 @@ body[theme='{name}'], .theme[theme='{name}'] {
         background-image: linear-gradient(to bottom, '{button/background_light}', '{button/background_dark}');
         border-color: '{button/border}';
 
+        &.inactive {
+            background: none;
+        }
+
         &.disabled:not(.inactive) {
             background-color: '{button/background_dark}';
             background-image: none;

@@ -11,12 +11,12 @@
     <div class="row">
         <div class="buttons">
             <div class="btn-group checkbox">
-                <input class="available btn mini" type="button" value="Available">
-                <input class="unavailable btn mini" type="button" value="Unavailable">
+                <button class="available btn mini">Available</button>
+                <button class="unavailable btn mini">Unavailable</button>
             </div>
             <div class="btn-group checkbox">
-                <input class="catabolic btn mini" type="button" value="Catabolic">
-                <input class="anabolic btn mini" type="button" value="Anabolic">
+                <button class="catabolic btn mini">Catabolic <i class="fa fa-bolt"></i></button>
+                <button class="anabolic btn mini">Anabolic <i class="fa fa-leaf"></i></button>
             </div>
         </div>
     </div>
@@ -41,7 +41,7 @@
 
     <div class="row">
         <div>
-            <label><input class="passive" type="checkbox" checked>Show Automatic Processes</label>
+            <label><input class="passive" type="checkbox" checked>Show <i class="fa fa-cogs"></i> Automatic Processes</label>
             <input class="clear btn small" type="button" value="Display All">
         </div>
     </div>

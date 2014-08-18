@@ -261,16 +261,8 @@ svg text {
     border-radius: 3px;
     outline: none;
 
-    &.inactive {
+    &.inactive, &.disabled {
         cursor: default;
-        background-image: none;
-    }
-
-    &.disabled {
-        cursor: default;
-        background-image: none;
-        opacity: 0.65;
-        filter: alpha(opacity=65);
     }
 }
 

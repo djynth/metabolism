@@ -14,7 +14,7 @@
     <div class="dropdown">
         <table id="limited-resources" class="content">
             <tr class="organ-header" organ="-1">
-                <td colspan="5"><b>Automatic Processes</b></td>
+                <td colspan="5"><i class="fa fa-cogs"></i><b> Automatic Processes</b></td>
             </tr>
 
             <?php

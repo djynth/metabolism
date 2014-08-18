@@ -38,10 +38,13 @@
                     padding-right: 0;
                 }
 
-                input[type=button] {
+                button {
                     width: 50%;
-                    font-size: 12px;
-                    height: 25px;
+
+                    .fa {
+                        text-align: right;
+                        width: 10px;
+                    }
                 }
             }
         }
