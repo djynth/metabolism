@@ -14,15 +14,18 @@ $(document).ready(function() {
         toggleSidebar(side, show);
     });
 
-    $('#undo').click(function() {
-        $.ajax({
-            url: '/index.php/site/undo',
-            type: 'POST',
-            dataType: 'json',
-            data: { },
-            success: onTurn
-        });
-    });
+    $('#undo').click(undo);
 
     $('#open-menu').click(toggleMenu);
 });
+
+function undo()
+{
+    $.ajax({
+        url: '/index.php/site/undo',
+        type: 'POST',
+        dataType: 'json',
+        data: { },
+        success: onTurn
+    });
+}

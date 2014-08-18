@@ -31,6 +31,30 @@ $(document).ready(function() {
                         selectOrgan(next.organ(), false);
                     }
                     break;
+                case 'undo':
+                    undo();
+                    break;
+                case 'next_pathway':
+                    // TODO
+                    break;
+                case 'prev_pathway':
+                    // TODO
+                    break;
+                case 'run_pathway':
+                    // TODO
+                    break;
+                case 'max_pathway':
+                    // TODO
+                    break;
+                case 'min_pathway':
+                    // TODO
+                    break;
+                case 'up_pathway':
+                    // TODO
+                    break;
+                case 'down_pathway':
+                    // TODO
+                    break;
             }
         }
     });
@@ -89,18 +113,42 @@ function setKeyboardShortcuts(keyboardShortcuts)
         $(this).find('.default.binding')
             .attr('key', defaultKey)
             .find('.key').text(codeToName(defaultKey));
-        setShortcut(action, currentKey);
+        setShortcut(action, currentKey, false);
     });
 }
 
-function setShortcut(action, key)
+function setShortcut(action, key, save)
 {
     SETTINGS.find('.keybind[action=' + action + ']').each(function() {
         $(this).find('.current.binding')
             .attr('key', key)
             .find('.key').text(codeToName(key));
         $(this).find('.default.binding').each(function() {
-            $(this).toggleClass('disabled', key == $(this).attr('key'));
+            var reset = key == $(this).attr('key');
+            $(this).toggleClass('disabled', reset);
+
+            if (typeof save === 'undefined' || save) {
+                if (reset) {
+                    $.ajax({
+                        url: '/index.php/user/removeBinding',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            action: action
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        url: '/index.php/user/saveBinding',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            action: action,
+                            key: key
+                        }
+                    });
+                }
+            }
         })
     });
 

@@ -32,10 +32,16 @@ class KeyboardShortcut extends CActiveRecord
         }
 
         $shortcuts = array();
+        $cookies = Yii::app()->request->cookies;
         foreach (self::model()->findAll() as $shortcut) {
             $default = $shortcut->default_key;
             if ($user === null) {
-                $current = $default;
+                $cookie_name = UserController::getBindingCookieName($shortcut->action);
+                if ($cookies->contains($cookie_name)) {
+                    $current = $cookies[$cookie_name]->value;
+                } else {
+                    $current = $default;    
+                }
             } else {
                 // TODO
                 var_dump($user->shortcuts);
@@ -45,15 +51,6 @@ class KeyboardShortcut extends CActiveRecord
                 'current' => $current,
                 'default' => $default,
             );
-        }
-        return $shortcuts;
-    }
-
-    public static function getDefaultShortcuts()
-    {
-        $shortcuts = array();
-        foreach (self::model()->findAll() as $shortcut) {
-            $shortcuts[$shortcut->default_key] = $shortcut->action;
         }
         return $shortcuts;
     }

@@ -39,6 +39,71 @@ class UserController extends CController
         return array_merge($_GET, $_POST);
     }
 
+    public function actionSaveTheme($theme, $type)
+    {
+        $user = User::getCurrentUser();
+        if ($user !== null) {
+            $user->theme = $theme;
+            $user->theme_type = $type;
+            $user->save();
+        }
+
+        $cookies = Yii::app()->request->cookies;
+        $cookies['theme'] = new CHttpCookie('theme', $theme, array(
+            'expire' => time() + self::LOGIN_DURATION,
+        ));
+        $cookies['theme_type'] = new CHttpCookie('theme_type', $type, array(
+            'expire' => time() + self::LOGIN_DURATION,
+        ));
+    }
+
+    public function actionSaveBinding($action, $key)
+    {
+        $user = User::getCurrentUser();
+        if ($user !== null) {
+            $keybind = UserKeyboardShortcut::model()->findByAttributes(array(
+                'user_id' => $user->id,
+                'action'  => $action,
+            ));
+
+            if ($keybind === null) {
+                $keybind = new UserKeyboardShortcut();
+                $keybind->user_id = $user->id;
+                $keybind->action = $action;
+            }
+
+            $keybind->key = $key;
+            $keybind->save();
+        }
+
+        $cookies = Yii::app()->request->cookies;
+        $cookie_name = self::getBindingCookieName($action);
+        $cookies[$cookie_name] = new CHttpCookie($cookie_name, $key, array(
+            'expire' => time() + self::LOGIN_DURATION,
+        ));
+
+        var_dump($action);
+        var_dump($cookie_name);
+    }
+
+    public function actionRemoveBinding($action)
+    {
+        $user = User::getCurrentUser();
+        if ($user !== null) {
+            $keybind = UserKeyboardShortcut::model()->findByAttributes(array(
+                'user_id' => $user->id,
+                'action'  => $action,
+            ));
+
+            if ($keybind !== null) {
+                $keybind->delete();
+            }
+        }
+
+        $cookies = Yii::app()->request->cookies;
+        unset($cookies[self::getBindingCookieName($action)]);
+    }
+
     public function actionValidate($type, $value)
     {
         $valid = true;
@@ -291,24 +356,6 @@ class UserController extends CController
         ));
     }
 
-    public function actionSaveTheme($theme, $type)
-    {
-        $user = User::getCurrentUser();
-        if ($user !== null) {
-            $user->theme = $theme;
-            $user->theme_type = $type;
-            $user->save();
-        }
-
-        $cookies = Yii::app()->request->cookies;
-        $cookies['theme'] = new CHttpCookie('theme', $theme, array(
-            'expire' => time() + self::LOGIN_DURATION,
-        ));
-        $cookies['theme_type'] = new CHttpCookie('theme_type', $type, array(
-            'expire' => time() + self::LOGIN_DURATION,
-        ));
-    }
-
     public function actionResendEmailVerification()
     {
         $user = User::getCurrentUser();
@@ -354,6 +401,11 @@ class UserController extends CController
             'success' => $success,
             'message' => $message,
         ));
+    }
+
+    public static function getBindingCookieName($action)
+    {
+        return 'binding_' . $action;
     }
 
     private static function blowfishSalt($cost = 13)
