@@ -99,6 +99,15 @@ function onResize()
     FILTER.find('input[type=text]').each(function() {
         $(this).outerWidth($(this).parent().width());
     });
+
+    PATHWAYS.find('.food').each(function() {
+        var eatWidth = $(this).outerWidth();
+        $(this).children().first().children(':not(.eat)').each(function() {
+            eatWidth -= $(this).outerWidth();
+        });
+
+        $(this).find('.eat').outerWidth(eatWidth);
+    });
 }
 
 function toggleSidebar(sidebar, show)

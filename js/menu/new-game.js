@@ -45,6 +45,6 @@ $(document).ready(function() {
         $(this).siblings('.details').hide();
         var details = $(this).siblings('.details[challenge=' + $(this).val() + ']');
         details.show();
-        $(this).siblings('.play').toggleClass('disabled', details.length === 0);
+        $(this).siblings('.play').prop('disabled', details.length === 0);
     });
 });

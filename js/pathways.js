@@ -1,42 +1,64 @@
 var selectedPathway = null;
 
 $(document).ready(function() {
-
-    PATHWAYS.click(function() {
-        selectedPathway = $(this);
+    PATHWAYS.find('.title').click(function() {
+        selectedPathway = $(this).parents('.pathway');
         PATHWAYS.removeClass('active');
-        $(this).addClass('active');
+        selectedPathway.addClass('active');
+        updateRun(selectedPathway);
+
+        var runHolder = selectedPathway.find('.run-holder');
+        timesWidth = runHolder.outerWidth();
+        runHolder.children(':not(.times)').each(function() {
+            timesWidth -= $(this).outerWidth();
+        });
+
+        runHolder.find('.times').outerWidth(timesWidth);
     });
 
-    $('.food').each(function() {
-        var food = $(this);
-        food.find('.eat').each(function() {
-            updateEat(food, $(this), parseInt($(this).attr('amount')));
+    PATHWAYS.find('.food').each(function() {
+        var pathway = $(this).parents('.pathway');
+        pathway.find('.eat').each(function() {
+            updateEat(pathway, $(this).res());
         });
     });
 
     PATHWAYS.each(function() {
         var pathway = $(this);
         var run = pathway.find('.run');
+        var reverse = pathway.find('.rev');
+
         if (pathway.hasClass('eat')) {
             pathway.find('.food').each(function() {
-                var food = $(this);
-                food.find('.eat').each(function() {
+                $(this).find('.eat').each(function() {
                     var eat = $(this);
                     eat.siblings('.top').click(function() {
-                        updateEat(food, eat, food.attr('eat-max'));
+                        updateEat(pathway, eat.res(), parseInt(food.attr('eat-max')));
                     });
                     eat.siblings('.plus').click(function() {
-                        updateEat(food, eat, parseInt(eat.attr('amount')) + 1);
+                        updateEat(pathway, eat.res(), parseInt(eat.attr('amount')) + 1);
                     });
                     eat.siblings('.minus').click(function() {
-                        updateEat(food, eat, parseInt(eat.attr('amount')) - 1);
+                        updateEat(pathway, eat.res(), parseInt(eat.attr('amount')) - 1);
                     });
                     eat.siblings('.bottom').click(function() {
-                        updateEat(food, eat, 0);
+                        updateEat(pathway, eat.res(), 0);
                     });
                 });
+
+                console.log($(this).find('.eat'));
+
+                $(this).find('.eat').focus(function() {
+                    $(this).val($(this).attr('amount'));
+                }).blur(function() {
+                    updateEat(pathway, $(this).res(), parseInt($(this).val()));
+                }).keypress(function(event) {
+                    if (event.which === 13) {
+                        $(this).blur();    
+                    }
+                });
             });
+
             run.click(function() {
                 setWorking('Working...');
                 var nutrients = { };
@@ -58,7 +80,6 @@ $(document).ready(function() {
                 });
             });
         } else {
-            var reverse = pathway.find('.reverse');
             run.click(function() {
                 setWorking('Working...');
                 $.ajax({
@@ -67,7 +88,7 @@ $(document).ready(function() {
                     dataType: 'json',
                     data: {
                         pathway_id: pathway.pathway(),
-                        times: parseInt(run.attr('times')),
+                        times: parseInt(pathway.attr('times')),
                         organ_id: pathway.organ(),
                         reverse: reverse.hasClass('active')
                     },
@@ -77,46 +98,56 @@ $(document).ready(function() {
                     }
                 });
             });
+        }
 
-            run.siblings('.top').click(function() {
-                updateRun(run, run.attr('max-runs'));
-            });
-            run.siblings('.plus').click(function() {
-                updateRun(run, parseInt(run.attr('times')) + 1);
-            });
-            run.siblings('.minus').click(function() {
-                updateRun(run, parseInt(run.attr('times')) - 1);
-            });
-            run.siblings('.bottom').click(function() {
-                updateRun(run, 1);
-            });
+        run.siblings('.times').focus(function() {
+            $(this).val(pathway.attr('times'));
+        }).blur(function() {
+            updateRun(pathway, parseInt($(this).val()));
+        }).keypress(function(event) {
+            if (event.which === 13) {
+                $(this).blur();    
+            }
+        });
 
-            reverse.click(function() {
-                pathway.find('.points').each(function() {
+        run.siblings('.max').click(function() {
+            updateRun(pathway, parseInt(pathway.attr('max-runs')));
+        });
+        run.siblings('.inc').click(function() {
+            updateRun(pathway, parseInt(pathway.attr('times')) + 1);
+        });
+        run.siblings('.dec').click(function() {
+            updateRun(pathway, parseInt(pathway.attr('times')) - 1);
+        });
+        run.siblings('.min').click(function() {
+            updateRun(pathway, 1);
+        });
+
+        reverse.click(function() {
+            pathway.find('.points').each(function() {
+                $(this).text(-parseInt($(this).text()));
+            });
+            pathway.find('.reaction').find('tr').each(function() {
+                $(this).children().removeClass('limiting-reagent lacking');
+                $(this).find('.reactant')
+                    .removeClass('reactant')
+                    .addClass('temp');
+                $(this).find('.product')
+                    .removeClass('product')
+                    .addClass('reactant');
+                $(this).find('.temp')
+                    .removeClass('temp')
+                    .addClass('product');
+                $(this).find('.amount').each(function() {
                     $(this).text(-parseInt($(this).text()));
                 });
-                pathway.find('.reaction').find('tr').each(function() {
-                    $(this).children().removeClass('limiting-reagent lacking');
-                    $(this).find('.reactant')
-                        .removeClass('reactant')
-                        .addClass('temp');
-                    $(this).find('.product')
-                        .removeClass('product')
-                        .addClass('reactant');
-                    $(this).find('.temp')
-                        .removeClass('temp')
-                        .addClass('product');
-                    $(this).find('.amount').each(function() {
-                        $(this).text(-parseInt($(this).text()));
-                    });
-                    var children = $(this).children();
+                var children = $(this).children();
 
-                    $(this).empty().append(children.get().reverse());
-                });
-
-                refreshPathway(pathway);
+                $(this).empty().append(children.get().reverse());
             });
-        }
+
+            refreshPathway(pathway);
+        });
     });
 });
 
@@ -152,7 +183,6 @@ function refreshPathways(changedResources, restrictions)
 function refreshPathway(pathway, limit)
 {
     var maxRuns = Number.POSITIVE_INFINITY;
-    var lackingList = '';
 
     pathway.find('.reactant.name').removeClass('lacking limiting').each(function() {
         var required = Math.abs(parseInt(
@@ -164,75 +194,53 @@ function refreshPathway(pathway, limit)
         if (runs < maxRuns) {
             pathway.find('.limiting').removeClass('limiting');
             maxRuns = runs;
-            lackingList = 'Not enough ';
         }
         if (runs === maxRuns) {
             $(this).addClass('limiting');
-            lackingList += $(this).text() + ', ';
         }
     });
 
     maxRuns = min(maxRuns, limit);
     var canRun = maxRuns > 0;
 
-    pathway.find('.run-holder').toggle(canRun);
-    pathway.children('.lacking').toggle(!canRun);
-
     if (canRun) {
         pathway.attr('available', 'true');
     } else {
         pathway.find('.limiting').addClass('lacking').removeClass('limiting');
         pathway.removeAttr('available');
-        pathway.children('.lacking').text(lackingList.substring(0, lackingList.length - 2));
     }
 
-    updateRun(pathway.find('.run'), maxRuns, maxRuns);
+    pathway.attr('max-runs', maxRuns);
+    pathway.attr('times', maxRuns);
 }
 
-function updateRun(run, times, maxRuns)
+function updateRun(pathway, times)
 {
-    run.text('Run x' + times).attr('times', times);
-    if (typeof maxRuns !== 'undefined') {
-        run.attr('max-runs', maxRuns);
-    } else {
-        maxRuns = run.attr('max-runs');
-    }
+    times = typeof times === 'undefined' ? parseInt(pathway.attr('times')) : times;
+    var maxRuns = parseInt(pathway.attr('max-runs'));
+    times = max(1, min(maxRuns, times));
+    pathway.attr('times', times);
 
-    run.siblings('.plus, .top').toggleClass('disabled', times >= maxRuns);
-    run.siblings('.minus, .bottom').toggleClass('disabled', times <= 1);
+    var runHolder = pathway.find('.run-holder');
+    runHolder.find('.inc, .max').prop('disabled', times >= maxRuns);
+    runHolder.find('.dec, .min').prop('disabled', times <= 1);
+    runHolder.find('.times').val('x' + times + ' [' + maxRuns + ']');
 }
 
-function updateEat(food, eat, amount)
+function updateEat(pathway, res, amount)
 {
+    var eat = pathway.find('.eat[res=' + res + ']');
+    amount = typeof amount === 'undefined' ? parseInt(eat.attr('amount')) : amount;
     var total = 0;
-    food.find('.eat:not([res="' + eat.res() + '"])').each(function() {
+    pathway.find('.eat:not([res=' + res + '])').each(function() {
         total += parseInt($(this).attr('amount'));
     });
 
-    var eatMax = food.attr('eat-max');
-    amount = min(amount, eatMax - total);
-    eat
-        .text(getRes(eat.res()).attr('name') + ' x' + amount)
-        .attr('amount', amount);
-    total += amount;
+    var eatMax = pathway.find('.food').attr('eat-max');
+    amount = max(0, min(amount, eatMax - total));
 
-    if (total >= eatMax) {
-        food.find('.plus, .top')
-            .addClass('disabled')
-            .attr('disabled', 'disabled');
-    } else {
-        food.find('.plus, .top')
-            .removeClass('disabled')
-            .removeAttr('disabled');
-    }
+    eat.val(getRes(res).attr('name') + ' x' + amount).attr('amount', amount);
 
-    if (amount <= 0) {
-        eat.siblings('.minus, .bottom')
-            .addClass('disabled')
-            .attr('disabled', 'disabled');
-    } else {
-        eat.siblings('.minus, .bottom')
-            .removeClass('disabled')
-            .removeAttr('disabled');
-    }
+    pathway.find('.food').find('.inc, .max').prop('disabled', total + amount >= eatMax);
+    pathway.find('.food').find('.dec, .min').prop('disabled', amount <= 0);
 }

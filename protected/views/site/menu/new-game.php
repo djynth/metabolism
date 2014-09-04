@@ -91,7 +91,7 @@
 </div>
 
 <div class="mode-info" mode="<?= Game::MODE_CHALLENGE ?>">
-    <button class="play btn large disabled">Play</button>
+    <button class="play btn large" disabled>Play</button>
     <select class="btn large challenges title">
         <option value="-1">Select Challenge</option>
         <?php foreach(Challenge::getChallenges() as $challenge): ?>

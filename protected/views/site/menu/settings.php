@@ -36,7 +36,7 @@
                 <p class="name"><?= $shortcut->name ?></p>
                 <p class="description"><?= $shortcut->description ?></p>
             </div>
-            <div class="current binding btn" key="">
+            <button class="current binding btn" key="">
                 <div class="focus">
                     <i class="fa fa-chevron-right left"></i>
                     <i class="fa fa-chevron-left right"></i>
@@ -45,13 +45,13 @@
                     <p class="key">&nbsp;</p>
                     <p class="description">assign binding</p>
                 </div>
-            </div>
-            <div class="default binding btn" key="">
+            </button>
+            <button class="default binding btn" key="">
                 <div class="no-focus">
                     <p class="key">&nbsp;</p>
                     <p class="description">revert to default</p>
                 </div>
-            </div>
+            </button>
         </div>
     <?php endforeach ?>
 </div>

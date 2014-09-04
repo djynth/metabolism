@@ -125,7 +125,7 @@ function setShortcut(action, key, save)
             .find('.key').text(codeToName(key));
         $(this).find('.default.binding').each(function() {
             var reset = key == $(this).attr('key');
-            $(this).toggleClass('disabled', reset);
+            $(this).prop('disabled', reset);
 
             if (typeof save === 'undefined' || save) {
                 if (reset) {
