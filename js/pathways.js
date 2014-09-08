@@ -1,19 +1,6 @@
-var selectedPathway = null;
-
 $(document).ready(function() {
     PATHWAYS.find('.title').click(function() {
-        selectedPathway = $(this).parents('.pathway');
-        PATHWAYS.removeClass('active');
-        selectedPathway.addClass('active');
-        updateRun(selectedPathway);
-
-        var runHolder = selectedPathway.find('.run-holder');
-        timesWidth = runHolder.outerWidth();
-        runHolder.children(':not(.times)').each(function() {
-            timesWidth -= $(this).outerWidth();
-        });
-
-        runHolder.find('.times').outerWidth(timesWidth);
+        selectPathway($(this).parents('.pathway'));
     });
 
     PATHWAYS.find('.food').each(function() {
@@ -46,8 +33,6 @@ $(document).ready(function() {
                     });
                 });
 
-                console.log($(this).find('.eat'));
-
                 $(this).find('.eat').focus(function() {
                     $(this).val($(this).attr('amount'));
                 }).blur(function() {
@@ -58,47 +43,11 @@ $(document).ready(function() {
                     }
                 });
             });
-
-            run.click(function() {
-                setWorking('Working...');
-                var nutrients = { };
-                pathway.find('.eat').each(function() {
-                    nutrients[$(this).res().toString()] = 
-                        parseInt($(this).attr('amount'));
-                });
-                $.ajax({
-                    url: '/index.php/site/eat',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        nutrients: nutrients
-                    },
-                    success: function(data) {
-                        onTurn(data);
-                        setWorking(false);
-                    }
-                });
-            });
-        } else {
-            run.click(function() {
-                setWorking('Working...');
-                $.ajax({
-                    url: '/index.php/site/pathway',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        pathway_id: pathway.pathway(),
-                        times: parseInt(pathway.attr('times')),
-                        organ_id: pathway.organ(),
-                        reverse: reverse.hasClass('active')
-                    },
-                    success: function(data) {
-                        onTurn(data);
-                        setWorking(false);
-                    }
-                });
-            });
         }
+
+        run.click(function() {
+            runPathway(pathway);
+        });
 
         run.siblings('.times').focus(function() {
             $(this).val(pathway.attr('times'));
@@ -170,12 +119,16 @@ function refreshPathways(changedResources, restrictions)
             pathway.addClass('hidden');
         } else {
             pathway.removeClass('hidden');
-            pathway.find('.reaction').find('.name').each(function() {
-                if ($.inArray($(this).res(), changedResources) !== -1) {
-                    refreshPathway(pathway, limit);
-                    return false;
-                }
-            });
+            if (pathway.hasClass('eat')) {
+                refreshPathway(pathway, limit);
+            } else {
+                pathway.find('.reaction').find('.name').each(function() {
+                    if ($.inArray($(this).res(), changedResources) !== -1) {
+                        refreshPathway(pathway, limit);
+                        return false;
+                    }
+                });
+            }
         }
     });
 }
@@ -224,7 +177,7 @@ function updateRun(pathway, times)
     var runHolder = pathway.find('.run-holder');
     runHolder.find('.inc, .max').prop('disabled', times >= maxRuns);
     runHolder.find('.dec, .min').prop('disabled', times <= 1);
-    runHolder.find('.times').val('x' + times + ' [' + maxRuns + ']');
+    runHolder.find('.times').val('x' + times + ' [' + (isNaN(maxRuns) ? 0 : maxRuns) + ']');
 }
 
 function updateEat(pathway, res, amount)
@@ -243,4 +196,78 @@ function updateEat(pathway, res, amount)
 
     pathway.find('.food').find('.inc, .max').prop('disabled', total + amount >= eatMax);
     pathway.find('.food').find('.dec, .min').prop('disabled', amount <= 0);
+}
+
+function selectPathway(pathway)
+{
+    if (!pathway.length) {
+        return;
+    }
+
+    PATHWAYS.removeClass('active');
+    pathway.addClass('active');
+    updateRun(pathway);
+
+    var runHolder = pathway.find('.run-holder');
+    timesWidth = runHolder.outerWidth();
+    runHolder.children(':not(.times)').each(function() {
+        timesWidth -= $(this).outerWidth();
+    });
+
+    runHolder.find('.times').outerWidth(timesWidth);
+
+    var container = pathway.parents('.pathways');
+
+    if (pathway.offset().top < container.offset().top) {
+        container.animate({
+            scrollTop: pathway.offset().top - container.offset().top + container.scrollTop() - parseInt(pathway.css('marginTop'))
+        }, 125);
+    }
+    
+    if (pathway.offset().top + pathway.outerHeight(true) > container.offset().top + container.height()) {
+        console.log(pathway.outerHeight());
+        container.animate({
+            scrollTop: pathway.offset().top + pathway.outerHeight(true) - container.offset().top - container.height() + container.scrollTop() - parseInt(pathway.css('marginTop'))
+        }, 125);
+    }
+}
+
+function runPathway(pathway)
+{
+    setWorking('Working...');
+    if (pathway.hasClass('eat')) {
+        var nutrients = { };
+        pathway.find('.eat').each(function() {
+            nutrients[$(this).res().toString()] = 
+                parseInt($(this).attr('amount'));
+        });
+        $.ajax({
+            url: '/index.php/site/eat',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                nutrients: nutrients
+            },
+            success: function(data) {
+                onTurn(data);
+                setWorking(false);
+            }
+        });
+    } else {
+        $.ajax({
+            url: '/index.php/site/pathway',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                pathway_id: pathway.pathway(),
+                times:      parseInt(pathway.attr('times')),
+                organ_id:   pathway.organ(),
+                reverse:    pathway.find('.rev').hasClass('active')
+            },
+            success: function(data) {
+                onTurn(data);
+                setWorking(false);
+            }
+        });
+    }
 }

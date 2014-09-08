@@ -224,15 +224,15 @@ body[theme='{name}'], .theme[theme='{name}'] {
     .res {
         background-color: '{element/background}';
         border-color: '{element/border}';
-        box-shadow: 0 5px 5px rgba(0,0,0,0);
+        box-shadow: 0 0 4px 4px rgba(0,0,0,0);
         @include transition(box-shadow 0.7s);
 
         &.increase {
-            box-shadow: 0 5px 5px '{res/increase}';
+            box-shadow: 0 0 4px 4px '{res/increase}';
         }
 
         &.decrease {
-            box-shadow: 0 5px 5px '{res/decrease}';
+            box-shadow: 0 0 4px 4px '{res/decrease}';
         }
 
         * {

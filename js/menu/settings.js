@@ -35,28 +35,37 @@ $(document).ready(function() {
                     undo();
                     break;
                 case 'next_pathway':
-                    // TODO
+                    selectPathway(PATHWAYS.filter('.active').nextAll('.pathway').first());
                     break;
                 case 'prev_pathway':
-                    // TODO
+                    selectPathway(PATHWAYS.filter('.active').prevAll('.pathway').first());
                     break;
                 case 'run_pathway':
-                    // TODO
+                    runPathway(PATHWAYS.filter('.active'));
                     break;
                 case 'max_pathway':
-                    // TODO
+                    var pathway = PATHWAYS.filter('.active');
+                    updateRun(pathway, parseInt(pathway.attr('max-runs')));
                     break;
                 case 'min_pathway':
-                    // TODO
+                    var pathway = PATHWAYS.filter('.active');
+                    updateRun(pathway, 1);
                     break;
                 case 'up_pathway':
-                    // TODO
+                    var pathway = PATHWAYS.filter('.active');
+                    updateRun(pathway, parseInt(pathway.attr('times')) + 1);
                     break;
                 case 'down_pathway':
-                    // TODO
+                    var pathway = PATHWAYS.filter('.active');
+                    updateRun(pathway, parseInt(pathway.attr('times')) - 1);
                     break;
             }
         }
+        e.preventDefault();
+    });
+
+    $('input[type=text],input[type=password],input[type=email]').keydown(function(e) {
+        e.stopPropagation();
     });
 
     SETTINGS.find('.header').find('.collapse').click(function() {
@@ -196,9 +205,9 @@ function codeToName(code)
         case 38:
             return 'UP';
         case 39:
-            return 'DOWN';
-        case 40:
             return 'RIGHT';
+        case 40:
+            return 'DOWN';
         case 8:
             return 'BACKSPACE';
         case 189:
