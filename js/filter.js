@@ -2,7 +2,7 @@ $(document).ready(function() {
     FILTER.find('input[type=text]').change(function() {
         setTimeout(onFilterChange, 0);
     });
-    FILTER.find('input[type=button]:not(.clear)').click(function() {
+    FILTER.find('button:not(.clear)').click(function() {
         setTimeout(onFilterChange, 0);
     });
     FILTER.find('input[type=checkbox]').click(function() {
@@ -44,6 +44,11 @@ function onFilterChange()
         showAnabolic = true;
     }
 
+    console.log(showAvailable);
+    console.log(showUnavailable);
+    console.log(showCatabolic);
+    console.log(showAnabolic);
+
     if (!name && showAvailable && showUnavailable && showCatabolic && 
         showAnabolic && showPassive && !reactant && !product) {
         FILTER.removeAttr('active');
@@ -64,15 +69,15 @@ function onFilterChange()
                 return;
             }
 
-            var pathwayAvailable = $(this).attr('available');
+            var pathwayAvailable = parseInt($(this).attr('max-runs')) > 0;
             if ((showAvailable && !showUnavailable && !pathwayAvailable) || 
                 (!showAvailable && showUnavailable && pathwayAvailable)) {
                 hidden = hidden.add($(this));
                 return;
             }
 
-            var pathwayCatabolic = $(this).children('.catabolic').length;
-            var pathwayAnabolic = $(this).children('.anabolic').length;
+            var pathwayCatabolic = $(this).find('.info').find('.catabolic').length;
+            var pathwayAnabolic  = $(this).find('.info').find('.anabolic').length;
             if ((showCatabolic && !showAnabolic && !pathwayCatabolic) || 
                 (showAnabolic && !showCatabolic && !pathwayAnabolic)) {
                 hidden = hidden.add($(this));

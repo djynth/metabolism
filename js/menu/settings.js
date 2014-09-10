@@ -2,7 +2,6 @@ var shortcuts;
 
 $(document).ready(function() {
     $(window).keydown(function(e) {
-        console.log('keydown: ' + e.which);
         if (codeToName(e.which) === false) {
             return;
         }
@@ -66,6 +65,10 @@ $(document).ready(function() {
 
     $('input[type=text],input[type=password],input[type=email]').keydown(function(e) {
         e.stopPropagation();
+
+        if (e.which === 13 || e.which === 27) {     // enter or esc
+            $(this).blur();
+        }
     });
 
     SETTINGS.find('.header').find('.collapse').click(function() {
