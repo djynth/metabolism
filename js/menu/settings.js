@@ -58,6 +58,23 @@ $(document).ready(function() {
                     var pathway = getSelectedPathway();
                     updateRun(pathway, parseInt(pathway.attr('times')) - 1);
                     break;
+                case 'focus_pathway_multiplier':
+                    getSelectedPathway().find('.times').focus();
+                    break;
+                case 'reverse_pathway':
+                    var rev = getSelectedPathway().find('.rev');
+                    if (!rev.is(':disabled')) {
+                        rev.click();    
+                    }
+                    break;
+                case 'focus_filter':
+                    toggleFooter(true);
+                    toggleSidebar('left', true);
+                    $('#filter').find('.name').focus();
+                    break;
+                case 'clear_filter':
+                    $('#filter').find('.clear').click();
+                    break;
             }
         }
         e.preventDefault();

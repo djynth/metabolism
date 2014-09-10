@@ -46,6 +46,12 @@ if (!$eat) {
                 </div>
             <?php endif ?>
 
+            <?php if ($pathway->reversible): ?>
+                <div class="reversible btn mini inactive">
+                    <i class="fa fa-random"></i>
+                </div>
+            <?php endif ?>
+
             <div class="points btn mini inactive"><?= $pathway->points ?></p></div>
         </div>
     </div>

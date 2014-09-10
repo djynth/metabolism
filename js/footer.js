@@ -7,18 +7,13 @@ $(document).ready(function() {
 function toggleFooter(open)
 {
     if (typeof open === 'undefined') {
-        FOOTER.find('.content').slideToggle({
-            progress: onResize
-        });
-    } else {
-        if (open) {
-            FOOTER.find('.content').slideDown({
-                progress: onResize
-            });
-        } else {
-            FOOTER.find('.content').slideUp({
-                progress: onResize
-            });
-        }
+        open = !(FOOTER.find('.content').height() > 0);
     }
+
+    var h = open ? parseInt(FOOTER.find('.content').css('max-height')) : 0;
+    FOOTER.find('.content').animate({
+        height: h
+    }, {
+        progress: onResize
+    });
 }

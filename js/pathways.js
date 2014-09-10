@@ -77,17 +77,17 @@ $(document).ready(function() {
                 $(this).text(-parseInt($(this).text()));
             });
             pathway.find('.reaction').find('tr').each(function() {
-                $(this).children().removeClass('limiting-reagent lacking');
-                $(this).find('.reactant')
+                $(this).children().removeClass('limiting lacking');
+                $(this).children('.reactant')
                     .removeClass('reactant')
                     .addClass('temp');
-                $(this).find('.product')
+                $(this).children('.product')
                     .removeClass('product')
                     .addClass('reactant');
-                $(this).find('.temp')
+                $(this).children('.temp')
                     .removeClass('temp')
                     .addClass('product');
-                $(this).find('.amount').each(function() {
+                $(this).children('.amount').each(function() {
                     $(this).text(-parseInt($(this).text()));
                 });
                 var children = $(this).children();
