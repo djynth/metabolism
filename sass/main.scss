@@ -216,8 +216,8 @@ svg text {
     }
 
     .accordian-content {
-        overflow-x: auto;
-        overflow-y: scroll;
+        overflow-x: hidden !important;
+        overflow-y: scroll !important;
     }
 }
 

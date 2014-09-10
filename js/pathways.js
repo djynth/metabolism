@@ -198,13 +198,16 @@ function updateEat(pathway, res, amount)
     pathway.find('.food').find('.dec, .min').prop('disabled', amount <= 0);
 }
 
-function selectPathway(pathway)
+function selectPathway(pathway, scrollTo)
 {
     if (!pathway.length) {
         return;
     }
+    if (typeof scrollTo === 'undefined') {
+        scrollTo = true;
+    }
 
-    PATHWAYS.removeClass('active');
+    pathway.siblings('.pathway.active').removeClass('active');
     pathway.addClass('active');
     updateRun(pathway);
 
@@ -216,20 +219,30 @@ function selectPathway(pathway)
 
     runHolder.find('.times').outerWidth(timesWidth);
 
-    var container = pathway.parents('.pathways');
+    if (scrollTo) {
+        var container = pathway.parents('.pathways');
 
-    if (pathway.offset().top < container.offset().top) {
-        container.animate({
-            scrollTop: pathway.offset().top - container.offset().top + container.scrollTop() - parseInt(pathway.css('marginTop'))
-        }, 125);
+        if (pathway.offset().top < container.offset().top) {
+            container.animate({
+                scrollTop: pathway.offset().top - container.offset().top + container.scrollTop() - parseInt(pathway.css('marginTop'))
+            }, 125);
+        }
+        
+        if (pathway.offset().top + pathway.outerHeight(true) > container.offset().top + container.height()) {
+            container.animate({
+                scrollTop: pathway.offset().top + pathway.outerHeight(true) - container.offset().top - container.height() + container.scrollTop() - parseInt(pathway.css('marginTop'))
+            }, 125);
+        }
     }
-    
-    if (pathway.offset().top + pathway.outerHeight(true) > container.offset().top + container.height()) {
-        console.log(pathway.outerHeight());
-        container.animate({
-            scrollTop: pathway.offset().top + pathway.outerHeight(true) - container.offset().top - container.height() + container.scrollTop() - parseInt(pathway.css('marginTop'))
-        }, 125);
+}
+
+function getSelectedPathway()
+{
+    var selected = $('.accordian-content.active').find('.pathway.active').first();
+    if (selected.length && !selected.hasClass('filter-hidden')) {
+        return selected;
     }
+    return $('.accordian-content.active').find('.pathway:not(.filter-hidden)').first();
 }
 
 function runPathway(pathway)

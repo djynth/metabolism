@@ -2,6 +2,7 @@ var shortcuts;
 
 $(document).ready(function() {
     $(window).keydown(function(e) {
+        console.log('keydown: ' + e.which);
         if (codeToName(e.which) === false) {
             return;
         }
@@ -35,28 +36,27 @@ $(document).ready(function() {
                     undo();
                     break;
                 case 'next_pathway':
-                    selectPathway(PATHWAYS.filter('.active').nextAll('.pathway').first());
+                    selectPathway(getSelectedPathway().nextAll('.pathway:not(.filter-hidden):not(.hidden)').first());
                     break;
                 case 'prev_pathway':
-                    selectPathway(PATHWAYS.filter('.active').prevAll('.pathway').first());
+                    selectPathway(getSelectedPathway().prevAll('.pathway:not(.filter-hidden):not(.hidden)').first());
                     break;
                 case 'run_pathway':
-                    runPathway(PATHWAYS.filter('.active'));
+                    runPathway(getSelectedPathway());
                     break;
                 case 'max_pathway':
-                    var pathway = PATHWAYS.filter('.active');
+                    var pathway = getSelectedPathway();
                     updateRun(pathway, parseInt(pathway.attr('max-runs')));
                     break;
                 case 'min_pathway':
-                    var pathway = PATHWAYS.filter('.active');
-                    updateRun(pathway, 1);
+                    updateRun(getSelectedPathway(), 1);
                     break;
                 case 'up_pathway':
-                    var pathway = PATHWAYS.filter('.active');
+                    var pathway = getSelectedPathway();
                     updateRun(pathway, parseInt(pathway.attr('times')) + 1);
                     break;
                 case 'down_pathway':
-                    var pathway = PATHWAYS.filter('.active');
+                    var pathway = getSelectedPathway();
                     updateRun(pathway, parseInt(pathway.attr('times')) - 1);
                     break;
             }

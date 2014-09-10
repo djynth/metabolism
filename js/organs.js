@@ -72,11 +72,19 @@ function selectOrgan(organ, animate)
     });
 
     $('.accordian-content').each(function() {
-        var h = $(this).organ() === organ ? $(this).css('max-height') : 0;
+        if ($(this).organ() === organ) {
+            var h = $(this).css('max-height');
+            $(this).addClass('active');
+        } else {
+            var h = 0;
+            $(this).removeClass('active');
+        }
         if (animate) {
-            $(this).animate({ height: h }, ORGAN_TRANSITION);    
+            $(this).animate({ height: h }, ORGAN_TRANSITION);
         } else {
             $(this).height(h);
         }
+    }).promise().done(function() {
+        selectPathway(getSelectedPathway(), false);
     });
 }

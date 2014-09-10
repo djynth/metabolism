@@ -47,7 +47,7 @@ function onFilterChange()
     if (!name && showAvailable && showUnavailable && showCatabolic && 
         showAnabolic && showPassive && !reactant && !product) {
         FILTER.removeAttr('active');
-        PATHWAYS.slideDown();
+        PATHWAYS.removeClass('filter-hidden').slideDown();
     } else {
         FILTER.attr('active', true);
         var shown = $();
@@ -122,7 +122,8 @@ function onFilterChange()
             shown = shown.add($(this));
         });
 
-        shown.slideDown();
-        hidden.slideUp();
+        shown.removeClass('filter-hidden').slideDown();
+        hidden.addClass('filter-hidden').slideUp();
     }
+    selectPathway(getSelectedPathway());
 }
