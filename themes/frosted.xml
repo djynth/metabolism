@@ -27,6 +27,17 @@
                 <g>45</g>
                 <b>45</b>
             </icon>
+            <focus>
+                <r>82</r>
+                <g>168</g>
+                <b>236</b>
+                <a>0.6</a>
+            </focus>
+            <focus_border>
+                <r>0</r>
+                <g>94</g>
+                <b>168</b>
+            </focus_border>
             <error>
                 <r>255</r>
                 <g>0</g>
@@ -46,9 +57,9 @@
                 <b>130</b>
             </placeholder>
             <border>
-                <r>130</r>
-                <g>130</g>
-                <b>130</b>
+                <r>160</r>
+                <g>160</g>
+                <b>160</b>
             </border>
             <background>
                 <r>215</r>
@@ -66,17 +77,6 @@
                 <b>0</b>
                 <a>0.75</a>
             </box_shadow>
-            <focus>
-                <r>82</r>
-                <g>168</g>
-                <b>236</b>
-                <a>0.6</a>
-            </focus>
-            <focus_border>
-                <r>0</r>
-                <g>94</g>
-                <b>168</b>
-            </focus_border>
         </textfield>
 
         <button>

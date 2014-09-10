@@ -15,11 +15,12 @@ body[theme='{name}'], .theme[theme='{name}'] {
         @include input-placeholder {
             color: '{textfield/placeholder}';
         }
+        @include transition(border linear 0.2s, box-shadow linear 0.2s);
 
         &:focus {
             &:not(.error) {
-                border-color: '{textfield/focus_border}';
-                box-shadow: 0 0 8px '{textfield/focus}';    
+                border-color: '{main/focus_border}';
+                box-shadow: 0 0 8px '{main/focus}';
             }
 
             &.error {
@@ -38,13 +39,19 @@ body[theme='{name}'], .theme[theme='{name}'] {
         border-color: '{textfield/border}';
 
         &.focus {
-            border-color: '{textfield/focus_border}';
+            border-color: '{main/focus_border}';
         }
     }
 
     .btn {
         color: '{button/text}';
         border-color: '{button/border}';
+        @include transition(border linear 0.2s, box-shadow linear 0.2s);
+
+        &:focus {
+            border-color: '{main/focus_border}';
+            box-shadow: 0 0 8px '{main/focus}';
+        }
 
         &:not(.inactive) {
             background-image: linear-gradient(to bottom, '{button/background_light}', '{button/background_dark}');
@@ -64,10 +71,6 @@ body[theme='{name}'], .theme[theme='{name}'] {
         &:hover:not(:disabled):not(.active):not(.inactive) {
             box-shadow: inset 0 0 5px '{button/hover}';
         }
-    }
-
-    .btn-group > .btn {
-        border-color: '{button/border}' !important;
     }
 
     .fa {

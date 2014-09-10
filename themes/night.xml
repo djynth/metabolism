@@ -27,6 +27,17 @@
                 <g>234</g>
                 <b>234</b>
             </icon>
+            <focus>
+                <r>82</r>
+                <g>168</g>
+                <b>236</b>
+                <a>0.6</a>
+            </focus>
+            <focus_border>
+                <r>0</r>
+                <g>94</g>
+                <b>168</b>
+            </focus_border>
             <error>
                 <r>255</r>
                 <g>0</g>
@@ -66,17 +77,6 @@
                 <b>0</b>
                 <a>0.075</a>
             </box_shadow>
-            <focus>
-                <r>82</r>
-                <g>168</g>
-                <b>236</b>
-                <a>0.6</a>
-            </focus>
-            <focus_border>
-                <r>0</r>
-                <g>94</g>
-                <b>168</b>
-            </focus_border>
         </textfield>
 
         <button>
