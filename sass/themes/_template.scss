@@ -193,6 +193,24 @@ body[theme='{name}'], .theme[theme='{name}'] {
         .accordian-header, .popup {
             background-color: '{main/background}';
         }
+
+        .res-level {
+            border-top-color: fade-out('{main/border}', 0.75);
+
+            .bar {
+                .good {
+                    color: '{res-level/good}';
+                }
+
+                .med {
+                    color: '{res-level/med}';
+                }
+
+                .bad {
+                    color: '{res-level/bad}';
+                }
+            }
+        }
     }
 
     .pathway {

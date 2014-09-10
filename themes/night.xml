@@ -254,5 +254,23 @@
                 <a>0.75</a>
             </notification_background>
         </log>
+
+        <res-level>
+            <good>
+                <r>45</r>
+                <g>229</g>
+                <b>52</b>
+            </good>
+            <med>
+                <r>255</r>
+                <g>245</g>
+                <b>70</b>
+            </med>
+            <bad>
+                <r>228</r>
+                <g>0</g>
+                <b>8</b>
+            </bad>
+        </res-level>
     </colors>
 </theme>

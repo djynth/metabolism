@@ -8,6 +8,7 @@
     $this->renderPartial('organ-header', array(
         'organ' => $organ,
         'right' => false,
+        'resLevels' => true,
     )); ?>
 
     <div class="accordian-content resources" organ="<?= $organ->id ?>">

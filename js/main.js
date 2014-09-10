@@ -84,16 +84,18 @@ function onResize()
         $(window).height() - HEADER.outerHeight() - FOOTER.outerHeight();
     CONTENT_AREA.height(contentHeight);
 
-    $('.sidebar').first().children('.accordian-header').each(
-        function() {
-            contentHeight -= $(this).outerHeight();
-        }
-    );
-    $('.accordian-content').each(function() {
-        $(this).css('max-height', contentHeight);
-        if ($(this).hasClass('active')) {
-            $(this).height(contentHeight);
-        }
+    $('.sidebar').each(function() {
+        var sidebarContentHeight = contentHeight;
+        $(this).find('.accordian-header').each(function() {
+            sidebarContentHeight -= $(this).outerHeight();
+        });
+
+        $(this).find('.accordian-content').each(function() {
+            $(this).css('max-height', sidebarContentHeight);
+            if ($(this).hasClass('active')) {
+                $(this).height(sidebarContentHeight);
+            }
+        });
     });
 
     FILTER.find('input[type=text]').each(function() {
@@ -188,6 +190,7 @@ function onTurn(data)
         refreshResources(),
         data.restrictions
     );
+    refreshResourceLevels();
 
     refreshState(data.passive_pathways);
     refreshTrackers();
