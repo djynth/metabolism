@@ -95,6 +95,27 @@ $(document).ready(function() {
         });
     });
 
+    SETTINGS.find('.grouping').find('.collapse').click(function() {
+        var icon = $(this).find('.fa');
+        if (icon.hasClass('fa-minus')) {
+            icon.removeClass('fa-minus').addClass('fa-plus');
+            $(this).parents('.grouping').nextAll().each(function() {
+                if ($(this).hasClass('grouping')) {
+                    return false;
+                }
+                $(this).slideUp();
+            });
+        } else {
+            icon.removeClass('fa-plus').addClass('fa-minus');
+            $(this).parents('.grouping').nextAll().each(function() {
+                if ($(this).hasClass('grouping')) {
+                    return false;
+                }
+                $(this).slideDown();
+            });
+        }
+    });
+
     SETTINGS.find('.binding').click(function() {
         var action = $(this).parents('.keybind').attr('action');
         if ($(this).hasClass('default')) {

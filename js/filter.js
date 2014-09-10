@@ -44,11 +44,6 @@ function onFilterChange()
         showAnabolic = true;
     }
 
-    console.log(showAvailable);
-    console.log(showUnavailable);
-    console.log(showCatabolic);
-    console.log(showAnabolic);
-
     if (!name && showAvailable && showUnavailable && showCatabolic && 
         showAnabolic && showPassive && !reactant && !product) {
         FILTER.removeAttr('active');

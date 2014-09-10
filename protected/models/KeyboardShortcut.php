@@ -7,6 +7,11 @@
  * @db description text        the expanded one-line description of the function
  *                             of this shortcut
  * @db default_key char(1)     the default binding of this shortcut
+ * @db order       int(11)     the ordering in which the pathways should be
+ *                             displayed
+ * @db grouping    varchar(20) the user-readable name of the grouping which
+ *                             begins with this shortcut, or null if it is in
+ *                             the same grouping as the above
  */
 class KeyboardShortcut extends CActiveRecord
 {

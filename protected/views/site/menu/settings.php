@@ -31,6 +31,14 @@
 
 <div class="keybinds">
     <?php foreach (KeyboardShortcut::model()->findAll(array('order' => '`order`')) as $shortcut): ?>
+
+        <?php if ($shortcut->grouping !== null): ?>
+            <div class="grouping">
+                <p class="name"><?= $shortcut->grouping ?></p>
+                <button class="btn collapse"><i class="fa fa-minus"></i></button>
+            </div>
+        <?php endif ?>
+
         <div class="keybind" action="<?= $shortcut->action ?>">
             <div class="title">
                 <p class="name"><?= $shortcut->name ?></p>
