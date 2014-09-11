@@ -7,7 +7,7 @@
 ?>
 
 <div class="accordian-header" organ="<?= $organ->id ?>" organ-color="#<?= $organ->color ?>">
-    <p class="name"><?= $organ->name ?></p>
+    <p class="name" name="<?= $organ->name ?>"><?= $organ->name ?></p>
     
     <i class="fa fa-info-circle toggle-popup"></i>
 

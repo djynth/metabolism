@@ -1,3 +1,19 @@
+$(document).ready(function() {
+    $('.res-level').click(function(e) {
+        var name = $(this).parents('.accordian-header').children('.name');
+        var resName = getRes($(this).res()).find('.name').text();
+        if (name.text() === resName) {
+            name.text(name.attr('name'));
+        } else {
+            name.text(resName);
+        }
+        e.stopPropagation();
+    }).mouseleave(function() {
+        var name = $(this).parents('.accordian-header').children('.name');
+        name.text(name.attr('name'));
+    });
+});
+
 function getRes(resource, organ)
 {
     if (typeof organ === 'undefined') {
