@@ -196,6 +196,7 @@ body[theme='{name}'], .theme[theme='{name}'] {
 
         .res-level {
             border-top-color: fade-out('{main/border}', 0.75);
+            background-color: fade-out('{main/border}', 0.95);
 
             .bar {
                 .good {

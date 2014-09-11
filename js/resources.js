@@ -70,6 +70,7 @@ function refreshLimits()
 
 function refreshResourceLevels()
 {
+    var containerHeight = Math.round($('.res-levels').first().height());
     $('.res-level').each(function() {
         var res = $(this).res();
         var organ = $(this).organ();
@@ -99,7 +100,7 @@ function refreshResourceLevels()
             }
         }
 
-        var variance = min(1, max(0, max(min_variance, max_variance)));
+        var variance = min(1, max(0.25, max(min_variance, max_variance)));
 
         $(this).find('.bar').each(function() {
             var bad_color  = $(this).find('.bad').css('color').match(/\d+/g);
@@ -112,9 +113,12 @@ function refreshResourceLevels()
                 var color = mixColors(med_color, good_color, 2*variance)
             }
 
+            var top = Math.round(containerHeight*(1 - variance)/2);
+            var h = containerHeight - 2*top;
+
+            $(this).outerHeight(h);
             $(this).css({
-                height          : 100*max(0.2, variance) + '%',
-                top             : 100*(1-max(0.2, variance))/2 + '%',
+                top             : top,
                 backgroundColor : color
             });
         });

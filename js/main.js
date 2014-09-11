@@ -3,6 +3,10 @@ var resources;
 $(document).ready(function() {
     $(window).resize(onResize);
 
+    $('.btn').click(function() {
+        $(this).blur();
+    });
+
     $('.btn-group.checkbox').find('.btn').click(function() {
         $(this).toggleClass('active');
     });

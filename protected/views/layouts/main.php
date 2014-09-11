@@ -46,8 +46,8 @@ $(document).ready(function() {
     selectOrgan($('.accordian-header.active').organ());
     setTurn(0, -1);
     setPoints(0);
-    refreshResourceLevels();
     $('.theme[theme=<?= User::getCurrentTheme($user)["theme"] ?>]').find('.select').click();
+    refreshResourceLevels();
     setKeyboardShortcuts(<?= json_encode(KeyboardShortcut::getShortcuts($user)) ?>);
     log('Welcome to <?= Yii::app()->name ?>!');
 });
