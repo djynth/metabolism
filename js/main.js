@@ -3,7 +3,7 @@ var resources;
 $(document).ready(function() {
     $(window).resize(onResize);
 
-    $('.btn').click(function() {
+    $('button.btn, input[type=button].btn').click(function() {
         $(this).blur();
     });
 
@@ -26,6 +26,13 @@ $(document).ready(function() {
         })
         .focusout(function() {
             $(this).siblings('.add-on').removeClass('focus');
+        })
+        .keydown(function(e) {
+            e.stopPropagation();
+
+            if (e.which === 13 || e.which === 27) {     // enter or esc
+                $(this).blur();
+            }
         });
 
     $('.add-on.right')

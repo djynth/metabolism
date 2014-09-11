@@ -80,14 +80,6 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $('input[type=text],input[type=password],input[type=email]').keydown(function(e) {
-        e.stopPropagation();
-
-        if (e.which === 13 || e.which === 27) {     // enter or esc
-            $(this).blur();
-        }
-    });
-
     SETTINGS.find('.header').find('.collapse').click(function() {
         var content = $(this).parents('.header').next();
 
