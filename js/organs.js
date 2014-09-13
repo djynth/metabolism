@@ -11,7 +11,7 @@ var ORGAN_SLIDE_DOWN_DURATION = 300;    // the time for an organ info popup to
                                         // slide down/up in ms
 
 $(document).ready(function() {
-    $('.accordian-header').click(function() {
+    $('.pathways-header, .resources-header').click(function() {
         if (!$(this).hasClass('active')) {
             selectOrgan($(this).organ());
         }
@@ -19,7 +19,7 @@ $(document).ready(function() {
 
     $('.toggle-popup').click(function(e) {
         e.stopPropagation();
-        var popup = $(this).parents('.accordian-header').find('.popup');
+        var popup = $(this).siblings('.organ-popup');
         var content = popup.find('.content');
         popup.finish();
         content.finish();
@@ -58,27 +58,22 @@ function selectOrgan(organ, animate)
         animate = true;
     }
 
-    var bg = $('.accordian-header[organ=' + organ + ']').attr('organ-color');
+    var bg = '#' + ORGAN_COLORS[organ];
+    console.log(bg);
     if (animate) {
         DIAGRAM.animate({ backgroundColor: bg }, ORGAN_TRANSITION);
     } else {
         DIAGRAM.css('background-color', bg);
     }
 
-    TRACKER.find('.tracker').find('.organ').add(
-        '.accordian-header, .accordian-content'
-    ).each(function() {
-        $(this).toggleClass('active', $(this).organ() === organ);
-    });
+    $('.pathways, .resources, .pathways-header, .resources-header')
+        .add(TRACKER.find('.tracker').find('.organ'))
+        .each(function() {
+            $(this).toggleClass('active', $(this).organ() === organ);
+        });
 
-    $('.accordian-content').each(function() {
-        if ($(this).organ() === organ) {
-            var h = $(this).css('max-height');
-            $(this).addClass('active');
-        } else {
-            var h = 0;
-            $(this).removeClass('active');
-        }
+    $('.pathways').each(function() {
+        var h = $(this).organ() === organ ? $(this).css('max-height') : 0;
         if (animate) {
             $(this).animate({ height: h }, ORGAN_TRANSITION);
         } else {

@@ -13,6 +13,10 @@
 <?php
 $user = User::getCurrentUser();
 
+foreach (Organ::model()->findAll() as $organ) {
+    $organColors[$organ->id] = $organ->color;
+}
+
 function rglob($pattern, $flags = 0)
 {
     $files = glob($pattern, $flags);
@@ -39,11 +43,12 @@ function rglob($pattern, $flags = 0)
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <script>
+var ORGAN_COLORS = <?= json_encode($organColors) ?>;
+
 $(document).ready(function() {
     setWorking(false);
-    $('.accordian-header').first().addClass('active');
     onResize();
-    selectOrgan($('.accordian-header.active').organ());
+    selectOrgan($('.pathways-header').first().organ());
     setTurn(0, -1);
     setPoints(0);
     $('.theme[theme=<?= User::getCurrentTheme($user)["theme"] ?>]').find('.select').click();

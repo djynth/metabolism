@@ -190,7 +190,11 @@ body[theme='{name}'], .theme[theme='{name}'] {
     .sidebar {
         background-color: '{main/background_dark}';
 
-        .accordian-header, .popup {
+        .pathways-header, .resources-header {
+            background-color: '{main/background}';
+        }
+
+        .organ-popup {
             background-color: '{main/background}';
         }
 

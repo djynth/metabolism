@@ -95,18 +95,15 @@ function onResize()
         $(window).height() - HEADER.outerHeight() - FOOTER.outerHeight();
     CONTENT_AREA.height(contentHeight);
 
-    $('.sidebar').each(function() {
-        var sidebarContentHeight = contentHeight;
-        $(this).find('.accordian-header').each(function() {
-            sidebarContentHeight -= $(this).outerHeight();
-        });
-
-        $(this).find('.accordian-content').each(function() {
-            $(this).css('max-height', sidebarContentHeight);
-            if ($(this).hasClass('active')) {
-                $(this).height(sidebarContentHeight);
-            }
-        });
+    var pathwaysContentHeight = contentHeight;
+    $('.pathways-header').each(function() {
+        pathwaysContentHeight -= $(this).outerHeight();
+    });
+    $('.pathways').each(function() {
+        $(this).css('max-height', pathwaysContentHeight);
+        if ($(this).hasClass('active')) {
+            $(this).height(pathwaysContentHeight);
+        }
     });
 
     FILTER.find('input[type=text]').each(function() {
@@ -292,7 +289,7 @@ jQuery.fn.extend({
     },
 
     applyColorTheme: function(theme, type) {
-        this.find('.accordian-header').each(function() {
+        this.find('.organ-popup').each(function() {
             $(this).find('.image').attr(
                 'src',
                 '/img/organs/' + type + '/' + $(this).organ() + '.png'

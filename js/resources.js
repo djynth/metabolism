@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $('.res-level').click(function(e) {
-        var name = $(this).parents('.accordian-header').children('.name');
+        var name = $(this).parents('.resources-header').children('.name');
         var resName = getRes($(this).res()).find('.name').text();
         if (name.text() === resName) {
             name.text(name.attr('name'));
@@ -9,7 +9,7 @@ $(document).ready(function() {
         }
         e.stopPropagation();
     }).mouseleave(function() {
-        var name = $(this).parents('.accordian-header').children('.name');
+        var name = $(this).parents('.resources-header').children('.name');
         name.text(name.attr('name'));
     });
 });

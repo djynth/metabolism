@@ -20,13 +20,13 @@ $(document).ready(function() {
                     toggleMenu();
                     break;
                 case 'prev_organ':
-                    var prev = $('.accordian-header.active').prevAll('.accordian-header').first();
+                    var prev = $('.pathways-header.active').prevAll('.pathways-header').first();
                     if (prev.length) {
                         selectOrgan(prev.organ(), false);
                     }
                     break;
                 case 'next_organ':
-                    var next = $('.accordian-header.active').nextAll('.accordian-header').first();
+                    var next = $('.pathways-header.active').nextAll('.pathways-header').first();
                     if (next.length) {
                         selectOrgan(next.organ(), false);
                     }

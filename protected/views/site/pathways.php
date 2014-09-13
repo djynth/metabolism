@@ -4,14 +4,19 @@
  */
 ?>
 
-<?php foreach($organs as $organ):
-    $this->renderPartial('organ-header', array(
-        'organ' => $organ,
-        'right' => true,
-        'resLevels' => false,
-    )); ?>
+<?php foreach($organs as $organ): ?>
+    <div class="pathways-header" organ="<?= $organ->id ?>">
+        <p class="name" name="<?= $organ->name ?>"><?= $organ->name ?></p>
+        
+        <?php
+        $this->renderPartial('organ-popup', array(
+            'organ' => $organ,
+            'right' => true,
+        ));
+        ?>
+    </div>
 
-    <div class="accordian-content pathways" organ="<?= $organ->id ?>">
+    <div class="pathways" organ="<?= $organ->id ?>">
         <?php foreach ($organ->pathways as $pathway) {
             $this->renderPartial('pathway', array(
                 'pathway' => $pathway,

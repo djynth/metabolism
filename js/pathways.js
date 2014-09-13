@@ -238,11 +238,11 @@ function selectPathway(pathway, scrollTo)
 
 function getSelectedPathway()
 {
-    var selected = $('.accordian-content.active').find('.pathway.active').first();
+    var selected = $('.pathways.active').find('.pathway.active').first();
     if (selected.length && !selected.hasClass('filter-hidden')) {
         return selected;
     }
-    return $('.accordian-content.active').find('.pathway:not(.filter-hidden)').first();
+    return $('.pathways.active').find('.pathway:not(.filter-hidden)').first();
 }
 
 function runPathway(pathway)
