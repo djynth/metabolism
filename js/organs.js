@@ -56,6 +56,8 @@ $(document).ready(function() {
 
 function selectOrgan(organ, animate)
 {
+    var start = Date.now();
+
     if (typeof animate === 'undefined') {
         animate = true;
     }
@@ -67,7 +69,7 @@ function selectOrgan(organ, animate)
         DIAGRAM.css('background-color', bg);
     }
 
-    $('.pathways, .resources, .pathways-header, .resources-header')
+    $('.pathways, .pathways-header, .resources-header')
         .add(TRACKER.find('.tracker').find('.organ'))
         .each(function() {
             $(this).toggleClass('active', $(this).organ() === organ);
@@ -84,13 +86,22 @@ function selectOrgan(organ, animate)
         selectPathway(getSelectedPathway(), false);
     });
 
+    console.log('other', Date.now() - start);
+    start = Date.now();
+
     $('.resources').each(function() {
-        var active = $(this).hasClass('active');
-        $(this).find('.res').each(function() {
-            if (active === $(this).hasClass('compact')) {
-                $(this).toggleClass('compact', !active);
-                resizeResource($(this), true, true, animate ? ORGAN_TRANSITION : false);
-            }
-        });
+        var active = $(this).organ() === organ;
+        // ($(this).hasClass('active') !== active) {
+            $(this).toggleClass('active', active);
+            
+            resizeResources($(this), animate ? ORGAN_TRANSITION : false);
+            $(this).find('.res')
+                .toggleClass('compact', !active)
+                .each(function() {
+                    resizeResource($(this), animate ? ORGAN_TRANSITION : false);
+                });
+        //}
     });
+
+    console.log('resources', Date.now() - start);
 }

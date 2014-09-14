@@ -111,14 +111,12 @@ function onResize()
         resourcesContentHeight -= $(this).outerHeight(true);
     });
     resourcesContentHeight -= ($('.resources').length-1) * parseInt($('.resources').css('min-height'));
-    $('.resources').each(function() {
-        $(this).css('max-height', resourcesContentHeight);
-        if ($(this).hasClass('active')) {
-            $(this).find('.res').each(function() {
-                resizeResource($(this), true, false, false);
-            });
-        }
-    });
+
+    $('.resources')
+        .css('max-height', resourcesContentHeight)
+        .each(function() {
+            resizeResources($(this), false);
+        });
 
     FILTER.find('input[type=text]').each(function() {
         $(this).outerWidth($(this).parent().width());
@@ -208,7 +206,7 @@ function onTurn(data)
     }
 
     refreshPathways(
-        refreshResources(),
+        refreshResources(typeof data.limits !== 'undefined'),
         data.restrictions
     );
 
@@ -224,7 +222,7 @@ function onTurn(data)
     });
 
     RESOURCES.each(function() {
-        resizeResource($(this), false, true, 350);
+        resizeResource($(this), 350);
     })
 
     if (data.completed) {
