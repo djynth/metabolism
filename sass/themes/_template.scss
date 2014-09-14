@@ -197,25 +197,6 @@ body[theme='{name}'], .theme[theme='{name}'] {
         .organ-popup {
             background-color: '{main/background}';
         }
-
-        .res-level {
-            border-top-color: fade-out('{main/border}', 0.75);
-            background-color: fade-out('{main/border}', 0.95);
-
-            .bar {
-                .good {
-                    color: '{res-level/good}';
-                }
-
-                .med {
-                    color: '{res-level/med}';
-                }
-
-                .bad {
-                    color: '{res-level/bad}';
-                }
-            }
-        }
     }
 
     .pathway {
@@ -256,19 +237,10 @@ body[theme='{name}'], .theme[theme='{name}'] {
     .res {
         background-color: '{element/background}';
         border-color: '{element/border}';
-        box-shadow: 0 0 4px 4px rgba(0,0,0,0);
-        @include transition(box-shadow 0.7s);
-
-        &.increase {
-            box-shadow: 0 0 4px 4px '{res/increase}';
-        }
-
-        &.decrease {
-            box-shadow: 0 0 4px 4px '{res/decrease}';
-        }
 
         * {
             color: '{element/text}';
+            border-color: '{element/border}';
             text-shadow: none;
         }
 
@@ -282,8 +254,16 @@ body[theme='{name}'], .theme[theme='{name}'] {
             box-shadow: 0 2px 2px '{res/hard_box_shadow}' inset;
         }
 
-        .bar {
-            background-image: linear-gradient(to bottom, '{res/bar_light}', '{res/bar_dark}');
+        .good {
+            background-color: '{res-level/good}';
+        }
+
+        .bad {
+            background-color: '{res-level/bad}';
+        }
+
+        .med {
+            background-color: '{res-level/med}';
         }
     }
 

@@ -97,12 +97,26 @@ function onResize()
 
     var pathwaysContentHeight = contentHeight;
     $('.pathways-header').each(function() {
-        pathwaysContentHeight -= $(this).outerHeight();
+        pathwaysContentHeight -= $(this).outerHeight(true);
     });
     $('.pathways').each(function() {
         $(this).css('max-height', pathwaysContentHeight);
         if ($(this).hasClass('active')) {
             $(this).height(pathwaysContentHeight);
+        }
+    });
+
+    var resourcesContentHeight = contentHeight;
+    $('.resources-header').each(function() {
+        resourcesContentHeight -= $(this).outerHeight(true);
+    });
+    resourcesContentHeight -= ($('.resources').length-1) * parseInt($('.resources').css('min-height'));
+    $('.resources').each(function() {
+        $(this).css('max-height', resourcesContentHeight);
+        if ($(this).hasClass('active')) {
+            $(this).find('.res').each(function() {
+                resizeResource($(this), true, false, false);
+            });
         }
     });
 
@@ -191,14 +205,12 @@ function onTurn(data)
         for (resource in data.resources) {
             resources[resource].limit = data.limits[resource];
         }
-        refreshLimits();
     }
 
     refreshPathways(
         refreshResources(),
         data.restrictions
     );
-    refreshResourceLevels();
 
     refreshState(data.passive_pathways);
     refreshTrackers();
@@ -210,6 +222,10 @@ function onTurn(data)
     TRACKER.find('.actions').find('.organ').each(function() {
         $(this).find('.amount').text(data.action_counts[$(this).organ()]);
     });
+
+    RESOURCES.each(function() {
+        resizeResource($(this), false, true, 350);
+    })
 
     if (data.completed) {
         setTimeout(function() {

@@ -43,7 +43,7 @@ function rglob($pattern, $flags = 0)
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <script>
-var ORGAN_COLORS = <?= json_encode($organColors) ?>;
+organColors = <?= json_encode($organColors) ?>;
 
 $(document).ready(function() {
     setWorking(false);
@@ -52,7 +52,6 @@ $(document).ready(function() {
     setTurn(0, -1);
     setPoints(0);
     $('.theme[theme=<?= User::getCurrentTheme($user)["theme"] ?>]').find('.select').click();
-    refreshResourceLevels();
     setKeyboardShortcuts(<?= json_encode(KeyboardShortcut::getShortcuts($user)) ?>);
     log('Welcome to <?= Yii::app()->name ?>!');
 });

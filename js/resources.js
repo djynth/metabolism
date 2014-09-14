@@ -1,18 +1,4 @@
-$(document).ready(function() {
-    $('.res-level').click(function(e) {
-        var name = $(this).parents('.resources-header').children('.name');
-        var resName = getRes($(this).res()).find('.name').text();
-        if (name.text() === resName) {
-            name.text(name.attr('name'));
-        } else {
-            name.text(resName);
-        }
-        e.stopPropagation();
-    }).mouseleave(function() {
-        var name = $(this).parents('.resources-header').children('.name');
-        name.text(name.attr('name'));
-    });
-});
+var resources;
 
 function getRes(resource, organ)
 {
@@ -27,101 +13,53 @@ function getRes(resource, organ)
 function refreshResources()
 {
     var changed = new Array();
+
     RESOURCES.each(function() {
-        var res = $(this).res();
-        var organ = $(this).organ();
-        var amountElem = $(this).children('.amount');
-        var amount = resources[res].amounts[organ];
-        var prevAmount = parseInt(amountElem.text());
+        var resource = resources[$(this).res()];
+        var limit = resource.limit;
+        
+        var amount = resource.amounts[$(this).organ()];
+        var prevAmount = parseInt($(this).find('.amount').text());
         var change = amount - prevAmount;
+        var recommended = parseInt($(this).find('.level').attr('recommended'));
+
+        function heightFromTop(amount) {
+            if (amount === null || typeof amount === 'undefined') {
+                return 0;
+            }
+            return 100*(1-max(0, min(1, amount/(2*recommended))));
+        }
+
+        function heightFromBot(amount) {
+            if (amount === null || typeof amount === 'undefined') {
+                return 0;
+            }
+            return 100*max(0, min(1, amount/(2*recommended)));
+        }
 
         if (change !== 0) {
-            var maxShown = parseInt($(this).attr('max-shown'));
-            amountElem.html(amount);
-            $(this).children('.bar').width(100*min(1, amount/maxShown) + '%');
+            changed.push($(this).res());
 
-            changed.push(res);
-            if (!isNaN(prevAmount)) {
-                var increase = change > 0 ? 'increase' : 'decrease';
-                $(this).addClass(increase).delay(1000).queue(function() {
-                    $(this).removeClass('increase decrease').dequeue();
-                });    
+            $(this).find('.amount').html(amount);
+
+            if ($(this).res() == 15) {
+                console.log(amount, limit.soft_min, recommended/2);
             }
-        }
-    });
 
-    return changed;
-}
-
-function refreshLimits()
-{
-    RESOURCES.each(function() {
-        var limit = resources[$(this).res()].limit;
-        var maxShown = parseInt($(this).attr('max-shown'));
-        if (limit.hard_min === null) {
-            $(this).children('.hard.min').width(0);
-        } else {
-            $(this).children('.hard.min').width(100*min(1, limit.hard_min/maxShown)+"%");
-        }
-
-        if (limit.soft_min === null) {
-            $(this).children('.soft.min').width(0);
-        } else {
-            $(this).children('.soft.min').width(100*min(1, limit.soft_min/maxShown)+"%");
-        }
-
-        if (limit.soft_max === null) {
-            $(this).children('.soft.max').width(0);
-        } else {
-            $(this).children('.soft.max').width(100*min(1, 1-limit.soft_max/maxShown)+"%");
-        }
-
-        if (limit.hard_max === null) {
-            $(this).children('.hard.max').width(0);
-        } else {
-            $(this).children('.hard.max').width(100*min(1, 1-limit.hard_max/maxShown)+"%");
-        }
-    });
-}
-
-function refreshResourceLevels()
-{
-    var containerHeight = Math.round($('.res-levels').first().height());
-    $('.res-level').each(function() {
-        var res = $(this).res();
-        var organ = $(this).organ();
-
-        var amount = 0;
-        var softMin = null;
-        var softMax = null;
-
-        if (typeof resources !== 'undefined') {
-            var amount = resources[res].amounts[organ];
-            var softMin = resources[res].limit.soft_min;
-            var softMax = resources[res].limit.soft_max;
-        }
-
-        var min_variance = 0;
-        var max_variance = 0;
-
-        var intensity = parseInt($(this).attr('intensity'));
-        if (softMin !== null) {
-            if (amount < softMin + intensity) {
-                min_variance = Math.pow((amount - (softMin + intensity))/intensity, 2);
+            var variance = 0;
+            var intensity = recommended/2;
+            if (limit.soft_min !== null && amount < limit.soft_min + intensity) {
+                variance = min(1, max(variance, Math.pow((amount - (limit.soft_min + intensity))/intensity, 2)));
             }
-        }
-        if (softMax !== null) {
-            if (amount > softMax - intensity) {
-                max_variance = Math.pow((amount - (softMax - intensity))/intensity, 2);
+            if (limit.soft_max !== null && amount > limit.soft_max - intensity) {
+                variance = min(1, max(variance, Math.pow((amount - (limit.soft_max - intensity))/intensity, 2)));
             }
-        }
 
-        var variance = min(1, max(0.25, max(min_variance, max_variance)));
+            //console.log($(this).res(), variance);
 
-        $(this).find('.bar').each(function() {
-            var bad_color  = $(this).find('.bad').css('color').match(/\d+/g);
-            var med_color  = $(this).find('.med').css('color').match(/\d+/g);
-            var good_color = $(this).find('.good').css('color').match(/\d+/g);
+            var bad_color  = $(this).find('.level').find('.bad').css('background-color').match(/\d+/g);
+            var med_color  = $(this).find('.level').find('.med').css('background-color').match(/\d+/g);
+            var good_color = $(this).find('.level').find('.good').css('background-color').match(/\d+/g);
 
             if (variance > 0.5) {
                 var color = mixColors(bad_color, med_color, 2*(variance - 0.5));
@@ -129,16 +67,129 @@ function refreshResourceLevels()
                 var color = mixColors(med_color, good_color, 2*variance)
             }
 
-            var top = Math.round(containerHeight*(1 - variance)/2);
-            var h = containerHeight - 2*top;
+            $(this).find('.level')
+                .css('background-color', color)
+                .attr('level-top', min(50, heightFromTop(amount)) + '%')
+                .attr('level-bot', min(50, heightFromBot(amount)) + '%');
+        }
 
-            $(this).outerHeight(h);
-            $(this).css({
-                top             : top,
-                backgroundColor : color
-            });
-        });
+        $(this).find('.hard.min').css('max-height', heightFromBot(limit.hard_min) + '%');
+        $(this).find('.soft.min').css('max-height', heightFromBot(limit.soft_min) + '%');
+        $(this).find('.soft.max').css('max-height', heightFromTop(limit.soft_max) + '%');
+        $(this).find('.hard.max').css('max-height', heightFromTop(limit.hard_max) + '%');
+
+        var points = 0;
+        if (limit.soft_max !== null) {
+            points -= limit.penalization * max(0, amount - limit.soft_max)
+        }
+        if (limit.soft_min !== null) {
+            points -= limit.penalization * max(0, limit.soft_min - amount);
+        }
+        $(this).find('.points').text(formatPoints(points));
     });
+
+    return changed;
+}
+
+function resizeResource(res, resizeOuter, resizeInner, animateTime)
+{
+    resizeOuter = typeof resizeOuter === 'undefined' ? true  : resizeOuter;
+    resizeInner = typeof resizeInner === 'undefined' ? true  : resizeInner;
+    animateTime = typeof animateTime === 'undefined' ? false : animateTime;
+
+    var level = res.find('.level');
+    var levelHolder = res.find('.level-holder');
+
+    if (res.hasClass('compact')) {
+        if (resizeInner) {
+            var levelTop = parseInt(level.attr('level-top'));
+            if (levelTop < parseInt(res.find('.soft.max').css('max-height'))) {
+                var levelTop = 100;
+            } else {
+                var levelTop = min(45, levelTop);
+            }
+
+            var levelBot = parseInt(level.attr('level-bot'));
+            if (levelBot < parseInt(res.find('.soft.min').css('max-height'))) {
+                var levelBot = 0;
+            } else {
+                var levelBot = min(45, levelBot);    
+            }
+        }
+
+        if (resizeOuter) {
+            var levelHolderHeight = levelHolder.parents('.resources').css('min-height');
+
+            if (animateTime) {
+                res.find('.limit').animate({
+                    height : 0
+                }, animateTime);
+            } else {
+                res.find('.limit').height(0);
+            }
+
+            // TODO: fade these out if animateTime
+            //       but don't use fadeOut() since they must immediately have no height at the beginning of the animation
+            res.find('.name, .points-holder, .amount-holder').hide();
+        }
+    } else {
+        if (resizeInner) {
+            var levelTop = min(45, parseInt(level.attr('level-top')));
+            var levelBot = min(45, parseInt(level.attr('level-bot')));
+        }
+        
+        if (resizeOuter) {
+            var levelHolderHeight = parseInt(levelHolder.parents('.resources').css('max-height'));
+            levelHolder.siblings().each(function() {
+                levelHolderHeight -= parseInt($(this).css('height'));
+            });
+
+            res.find('.limit').each(function() {
+                var height = $(this).css('max-height');
+                if (animateTime) {
+                    $(this).animate({
+                        height : height
+                    }, animateTime)
+                } else {
+                    $(this).height(height);
+                }
+            });
+
+            if (animateTime) {
+                res.find('.name, .points-holder, .amount-holder').fadeIn(animateTime);
+            } else {
+                res.find('.name, .points-holder, .amount-holder').show();
+            }
+        }
+    }
+
+    if (resizeInner) {
+        var bottom = levelBot + '%';
+        var height = (100 - (levelTop + levelBot)) + '%';
+        if (animateTime) {
+            level.animate({
+                bottom : bottom,
+                height : height
+            }, animateTime);
+        } else {
+            level.css('bottom', bottom).height(height);
+        }
+    }
+
+    if (resizeOuter) {
+        if (animateTime) {
+            levelHolder.animate({
+                height : levelHolderHeight
+            }, animateTime);
+        } else {
+            levelHolder.height(levelHolderHeight);
+        }
+    }
+}
+
+function formatPoints(points)
+{
+    return (points < 0 ? '' : '+') + points.toFixed(1);
 }
 
 function mixColors(c1, c2, balance)

@@ -10,6 +10,8 @@ var ORGAN_SLIDE_OUT_DURATION  = 200;    // the time for an organ info popup to
 var ORGAN_SLIDE_DOWN_DURATION = 300;    // the time for an organ info popup to
                                         // slide down/up in ms
 
+var organColors;
+
 $(document).ready(function() {
     $('.pathways-header, .resources-header').click(function() {
         if (!$(this).hasClass('active')) {
@@ -58,8 +60,7 @@ function selectOrgan(organ, animate)
         animate = true;
     }
 
-    var bg = '#' + ORGAN_COLORS[organ];
-    console.log(bg);
+    var bg = '#' + organColors[organ];
     if (animate) {
         DIAGRAM.animate({ backgroundColor: bg }, ORGAN_TRANSITION);
     } else {
@@ -81,5 +82,15 @@ function selectOrgan(organ, animate)
         }
     }).promise().done(function() {
         selectPathway(getSelectedPathway(), false);
+    });
+
+    $('.resources').each(function() {
+        var active = $(this).hasClass('active');
+        $(this).find('.res').each(function() {
+            if (active === $(this).hasClass('compact')) {
+                $(this).toggleClass('compact', !active);
+                resizeResource($(this), true, true, animate ? ORGAN_TRANSITION : false);
+            }
+        });
     });
 }

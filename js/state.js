@@ -76,8 +76,3 @@ function refreshState(passivePathways)
     });
     LIMITED_RESOURCES.find('.total').html(formatPoints(total));
 }
-
-function formatPoints(points)
-{
-    return (points < 0 ? '' : '+') + points.toFixed(2);
-}

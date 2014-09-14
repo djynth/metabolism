@@ -1,5 +1,15 @@
 @import "base";
 
+.pathways-header {
+    &.active {
+        border-bottom-width: 1px;
+    }
+}
+
+.resources-header {
+    border-bottom-width: 1px;
+}
+
 .pathways-header, .resources-header {
     cursor: pointer;
     position: relative;
@@ -7,10 +17,6 @@
 
     &:first-of-type {
         border-top-width: 0;
-    }
-
-    &.active {
-        border-bottom-width: 1px;
     }
 
     > .name {
