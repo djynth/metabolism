@@ -56,8 +56,6 @@ $(document).ready(function() {
 
 function selectOrgan(organ, animate)
 {
-    var start = Date.now();
-
     if (typeof animate === 'undefined') {
         animate = true;
     }
@@ -86,9 +84,6 @@ function selectOrgan(organ, animate)
         selectPathway(getSelectedPathway(), false);
     });
 
-    console.log('other', Date.now() - start);
-    start = Date.now();
-
     $('.resources').each(function() {
         var active = $(this).organ() === organ;
         // ($(this).hasClass('active') !== active) {
@@ -102,6 +97,4 @@ function selectOrgan(organ, animate)
                 });
         //}
     });
-
-    console.log('resources', Date.now() - start);
 }

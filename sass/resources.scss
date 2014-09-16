@@ -14,6 +14,20 @@
         font-size: 12px;
         cursor: default;
 
+        &:not(.compact) {
+            .amount-holder {
+                border-bottom-width: 1px;
+            }
+
+            .points-holder {
+                border-top-width: 1px;
+            }    
+        }
+
+        &.primary {
+            display: none;
+        }
+
         > * {
             width: 100%;
         }
@@ -25,16 +39,6 @@
             left: 50%;
             text-align: center;
             white-space: nowrap;
-        }
-
-        &:not(.compact) {
-            .amount-holder {
-                border-bottom-width: 1px;
-            }
-
-            .points-holder {
-                border-top-width: 1px;
-            }    
         }
 
         .amount-holder, .points-holder {

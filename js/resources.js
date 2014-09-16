@@ -96,8 +96,6 @@ function refreshResources(refreshLimits)
 
 function resizeResources(resources, animateTime)
 {
-    var start = Date.now();
-
     animateTime = typeof animateTime === 'undefined' ? false : animateTime;
 
     if (resources.hasClass('active')) {
@@ -123,14 +121,10 @@ function resizeResources(resources, animateTime)
     } else {
         resources.find('.level-holder').height(levelHolderHeight);
     }
-
-    console.log('resizeResources', Date.now() - start);
 }
 
 function resizeResource(res, animateTime)
 {
-    var start = Date.now();
-
     animateTime = typeof animateTime === 'undefined' ? false : animateTime;
 
     var level = res.find('.level');
@@ -182,8 +176,6 @@ function resizeResource(res, animateTime)
     } else {
         level.css('bottom', bottom).height(height);
     }
-
-    console.log('resizeResource', Date.now() - start);
 }
 
 function formatPoints(points)
