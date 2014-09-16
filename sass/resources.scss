@@ -7,6 +7,16 @@
     width: 100%;
     min-height: 20px;
 
+    &.animate {
+        .limit, .level-holder {
+            @include transition(height, 5s);
+        }
+
+        .level {
+            
+        }
+    }
+
     .res {
         display: table-cell;
         height: 100%;
@@ -42,7 +52,7 @@
         }
 
         .amount-holder, .points-holder {
-            height: 35px;
+            max-height: 35px;
             line-height: 35px;
             position: relative;
         }
@@ -50,7 +60,7 @@
         .level-holder {
             position: relative;
 
-            .limit, .level {
+            .limit-holder, .limit, .level-bar {
                 position: absolute;
                 width: 100%;
             }

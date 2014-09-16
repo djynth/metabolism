@@ -46,7 +46,7 @@ $(document).ready(function() {
             function() {
                 var elem = $(this);
                 $(this).data('timeout', setTimeout(function() {
-                    elem.animate({ width: elem.css('max-width') }, {
+                    elem.velocity({ width: elem.css('max-width') }, {
                         progress: function() {
                             $(this).nextAll('.add-on.right').css(
                                 'right',
@@ -59,7 +59,7 @@ $(document).ready(function() {
             },
             function() {
                 clearTimeout($(this).data('timeout'));
-                $(this).animate({ width: $(this).css('min-width') }, {
+                $(this).velocity({ width: $(this).css('min-width') }, {
                         progress: function() {
                             $(this).nextAll('.add-on.right').css(
                                 'right',

@@ -11,7 +11,7 @@ function toggleFooter(open)
     }
 
     var h = open ? parseInt(FOOTER.find('.content').css('max-height')) : 0;
-    FOOTER.find('.content').animate({
+    FOOTER.find('.content').velocity({
         height: h
     }, {
         progress: onResize

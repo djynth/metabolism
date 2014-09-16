@@ -27,7 +27,7 @@ $(document).ready(function() {
         content.finish();
         if (popup.is(':visible')) {
             content.slideUp(ORGAN_SLIDE_DOWN_DURATION, function() {
-                popup.animate(
+                popup.velocity(
                     { width : 0 },
                     ORGAN_SLIDE_OUT_DURATION,
                     function() {
@@ -43,7 +43,7 @@ $(document).ready(function() {
             );
             content.hide();
 
-            popup.show().animate(
+            popup.show().velocity(
                 { width: popup.css('max-width') },
                 ORGAN_SLIDE_OUT_DURATION,
                 function() {
@@ -62,7 +62,7 @@ function selectOrgan(organ, animate)
 
     var bg = '#' + organColors[organ];
     if (animate) {
-        DIAGRAM.animate({ backgroundColor: bg }, ORGAN_TRANSITION);
+        DIAGRAM.velocity({ backgroundColor: bg }, ORGAN_TRANSITION);
     } else {
         DIAGRAM.css('background-color', bg);
     }
@@ -76,7 +76,7 @@ function selectOrgan(organ, animate)
     $('.pathways').each(function() {
         var h = $(this).organ() === organ ? $(this).css('max-height') : 0;
         if (animate) {
-            $(this).animate({ height: h }, ORGAN_TRANSITION);
+            $(this).velocity({ height: h }, ORGAN_TRANSITION);
         } else {
             $(this).height(h);
         }
@@ -86,15 +86,11 @@ function selectOrgan(organ, animate)
 
     $('.resources').each(function() {
         var active = $(this).organ() === organ;
-        // ($(this).hasClass('active') !== active) {
+        if ($(this).hasClass('active') !== active) {
             $(this).toggleClass('active', active);
             
             resizeResources($(this), animate ? ORGAN_TRANSITION : false);
-            $(this).find('.res')
-                .toggleClass('compact', !active)
-                .each(function() {
-                    resizeResource($(this), animate ? ORGAN_TRANSITION : false);
-                });
-        //}
+            $(this).find('.res').toggleClass('compact', !active);
+        }
     });
 }

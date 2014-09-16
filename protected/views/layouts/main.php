@@ -6,9 +6,7 @@
 <link rel="stylesheet" href="/lib/font-awesome-4.1.0/css/font-awesome.min.css">
 
 <script src="/lib/jquery-1.11.0.min.js"></script>
-<script src="/lib/jquery.animate-colors-min.js"></script>
-<script src="/lib/jquery.animate-shadow.js"></script>
-<script src="/lib/jquery.mousewheel.js"></script>
+<script src="/lib/velocity.min.js"></script>
 
 <?php
 $user = User::getCurrentUser();

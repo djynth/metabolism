@@ -1,8 +1,10 @@
 var resources;
-var LEVEL_HOLDER_PADDING;
+var AMOUNT_HEIGHT;
+var POINTS_HEIGHT;
 
 $(document).ready(function() {
-    LEVEL_HOLDER_PADDING = $('.amount-holder').first().height() + $('.points-holder').first().height();
+    AMOUNT_HEIGHT = parseInt($('.amount-holder').first().css('max-height'));
+    POINTS_HEIGHT = parseInt($('.points-holder').first().css('max-height'));
 });
 
 function getRes(resource, organ)
@@ -28,7 +30,7 @@ function refreshResources(refreshLimits)
         var amount = resource.amounts[$(this).organ()];
         var prevAmount = parseInt($(this).find('.amount').text());
         var change = amount - prevAmount;
-        var recommended = parseInt($(this).find('.level').attr('recommended'));
+        var recommended = parseInt($(this).find('.level-bar').attr('recommended'));
 
         function heightFromTop(amount) {
             if (amount === null || typeof amount === 'undefined') {
@@ -58,9 +60,9 @@ function refreshResources(refreshLimits)
                 variance = min(1, max(variance, Math.pow((amount - (limit.soft_max - intensity))/intensity, 2)));
             }
 
-            var bad_color  = $(this).find('.level').find('.bad').css('background-color').match(/\d+/g);
-            var med_color  = $(this).find('.level').find('.med').css('background-color').match(/\d+/g);
-            var good_color = $(this).find('.level').find('.good').css('background-color').match(/\d+/g);
+            var bad_color  = $(this).find('.level-bar').find('.bad').css('background-color').match(/\d+/g);
+            var med_color  = $(this).find('.level-bar').find('.med').css('background-color').match(/\d+/g);
+            var good_color = $(this).find('.level-bar').find('.good').css('background-color').match(/\d+/g);
 
             if (variance > 0.5) {
                 var color = mixColors(bad_color, med_color, 2*(variance - 0.5));
@@ -68,17 +70,17 @@ function refreshResources(refreshLimits)
                 var color = mixColors(med_color, good_color, 2*variance)
             }
 
-            $(this).find('.level')
-                .css('background-color', color)
+            $(this).find('.level-bar')
+                .css('background-color', color)     // TODO: animate this
                 .attr('level-top', min(50, heightFromTop(amount)) + '%')
                 .attr('level-bot', min(50, heightFromBot(amount)) + '%');
         }
 
         if (refreshLimits) {
-            $(this).find('.hard.min').css('max-height', heightFromBot(limit.hard_min) + '%');
-            $(this).find('.soft.min').css('max-height', heightFromBot(limit.soft_min) + '%');
-            $(this).find('.soft.max').css('max-height', heightFromTop(limit.soft_max) + '%');
-            $(this).find('.hard.max').css('max-height', heightFromTop(limit.hard_max) + '%');    
+            $(this).find('.limit-holder.hard.min').height(heightFromBot(limit.hard_min) + '%');
+            $(this).find('.limit-holder.soft.min').height(heightFromBot(limit.soft_min) + '%');
+            $(this).find('.limit-holder.soft.max').height(heightFromTop(limit.soft_max) + '%');
+            $(this).find('.limit-holder.hard.max').height(heightFromTop(limit.hard_max) + '%');    
         }
 
         var points = 0;
@@ -99,25 +101,34 @@ function resizeResources(resources, animateTime)
     animateTime = typeof animateTime === 'undefined' ? false : animateTime;
 
     if (resources.hasClass('active')) {
-        var levelHolderHeight = parseInt(resources.css('max-height')) - LEVEL_HOLDER_PADDING;
+        var levelHolderHeight = parseInt(resources.css('max-height')) - AMOUNT_HEIGHT - POINTS_HEIGHT;
 
         if (animateTime) {
-            resources.find('.name, .points-holder, .amount-holder').fadeIn(animateTime);
+            resources.find('.name').velocity({ opacity : 1}, animateTime);
+            resources.find('.limit').velocity({ height : '100%' }, animateTime);
+            resources.find('.points-holder').velocity({ height : POINTS_HEIGHT, opacity : 1 }, animateTime);
+            resources.find('.amount-holder').velocity({ height : AMOUNT_HEIGHT, opacity : 1 }, animateTime);
         } else {
-            resources.find('.name, .points-holder, .amount-holder').show();
+            resources.find('.name, .points-holder, .amount-holder').css('opacity', 1);
+            resources.find('.limit').height('100%');
+            resources.find('.points-holder').height(POINTS_HEIGHT);
+            resources.find('.amount-holder').height(AMOUNT_HEIGHT);
         }
     } else {
         var levelHolderHeight = parseInt(resources.css('min-height'));
 
-        // TODO: fade these out if animateTime
-        //       but don't use fadeOut() since they must immediately have no height at the beginning of the animation
-        resources.find('.name, .points-holder, .amount-holder').hide();
+        if (animateTime) {
+            resources.find('.name').velocity({ opacity : 0}, animateTime);
+            resources.find('.points-holder, .amount-holder').velocity({ height : 0, opacity : 0 }, animateTime);
+            resources.find('.limit').velocity({ height : 0 }, animateTime);
+        } else {
+            resources.find('.name, .points-holder, .amount-holder').css('opacity', 0);
+            resources.find('.limit, .points-holder, .amount-holder').height(0);
+        }
     }
 
     if (animateTime) {
-        resources.find('.level-holder').animate({
-            height : levelHolderHeight
-        }, animateTime);
+        resources.find('.level-holder').velocity({ height : levelHolderHeight }, animateTime);
     } else {
         resources.find('.level-holder').height(levelHolderHeight);
     }
@@ -127,7 +138,7 @@ function resizeResource(res, animateTime)
 {
     animateTime = typeof animateTime === 'undefined' ? false : animateTime;
 
-    var level = res.find('.level');
+    var level = res.find('.level-bar');
 
     if (res.hasClass('compact')) {
         var levelTop = parseInt(level.attr('level-top'));
@@ -143,33 +154,15 @@ function resizeResource(res, animateTime)
         } else {
             var levelBot = min(45, levelBot);    
         }
-
-        if (animateTime) {
-            res.find('.limit').animate({
-                height : 0
-            }, animateTime);
-        } else {
-            res.find('.limit').height(0);
-        }
     } else {
         var levelTop = min(45, parseInt(level.attr('level-top')));
         var levelBot = min(45, parseInt(level.attr('level-bot')));
-
-        res.find('.limit').each(function() {
-            if (animateTime) {
-                $(this).animate({
-                    height : $(this).css('max-height')
-                }, animateTime)
-            } else {
-                $(this).height($(this).css('max-height'));
-            }
-        });
     }
 
     var bottom = levelBot + '%';
     var height = (100 - (levelTop + levelBot)) + '%';
     if (animateTime) {
-        level.animate({
+        level.velocity({
             bottom : bottom,
             height : height
         }, animateTime);

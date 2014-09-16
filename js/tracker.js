@@ -34,7 +34,7 @@ function updateTrackerIcons(icons, resource, change, level) {
             });
 
             icons.append(icon);
-            icon.animate(
+            icon.velocity(
                 { left: left, opacity: 1 },
                 TRACKER_ANIMATION,
                 function() {
@@ -52,9 +52,9 @@ function updateTrackerIcons(icons, resource, change, level) {
 
             var icon = createIcon(resource, level + 1).css('left', left);
             icons.append(icon);
-            icon.animate({ opacity: 1 }, TRACKER_ANIMATION);
+            icon.velocity({ opacity: 1 }, TRACKER_ANIMATION);
 
-            $.when(icons.find('[level=' + level + ']').animate(
+            $.when(icons.find('[level=' + level + ']').velocity(
                 { left : left, opacity: 0 },
                 TRACKER_ANIMATION)
             ).then(function() {

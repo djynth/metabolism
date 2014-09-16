@@ -223,13 +223,13 @@ function selectPathway(pathway, scrollTo)
         var container = pathway.parents('.pathways');
 
         if (pathway.offset().top < container.offset().top) {
-            container.animate({
+            container.velocity({
                 scrollTop: pathway.offset().top - container.offset().top + container.scrollTop() - parseInt(pathway.css('marginTop'))
             }, 125);
         }
         
         if (pathway.offset().top + pathway.outerHeight(true) > container.offset().top + container.height()) {
-            container.animate({
+            container.velocity({
                 scrollTop: pathway.offset().top + pathway.outerHeight(true) - container.offset().top - container.height() + container.scrollTop() - parseInt(pathway.css('marginTop'))
             }, 125);
         }

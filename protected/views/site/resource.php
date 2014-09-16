@@ -11,16 +11,24 @@
     </div>
     
     <div class="level-holder">
-        <div class="level" recommended="<?= $resource->recommended_amount ?>">
+        <div class="level-bar" recommended="<?= $resource->recommended_amount ?>">
             <div class="bad"></div>
             <div class="med"></div>
             <div class="good"></div>
         </div>
 
-        <div class="limit hard max"></div>
-        <div class="limit soft max"></div>
-        <div class="limit soft min"></div>
-        <div class="limit hard min"></div>
+        <div class="limit-holder hard max">
+            <div class="limit hard max"></div>
+        </div>
+        <div class="limit-holder soft max">
+            <div class="limit soft max"></div>
+        </div>
+        <div class="limit-holder soft min">
+            <div class="limit soft min"></div>
+        </div>
+        <div class="limit-holder hard min">
+            <div class="limit hard min"></div>
+        </div>
 
         <div class="name rotate" names="<?= implode($resource->getNames(), ';') ?>"><?= $resource->name ?></div>
     </div>
