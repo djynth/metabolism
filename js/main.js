@@ -20,6 +20,20 @@ $(document).ready(function() {
         $(this).toggleClass('active');
     });
 
+    $('button.btn, input[type=button].btn').keydown(function(e) {
+        if (e.which === 32) {       // space
+            $(this).click();
+            $(this).focus();
+            e.stopPropagation();
+            e.preventDefault();
+        }
+
+        if (e.which === 27) {       // esc
+            $(this).blur();
+            e.stopPropagation();
+        }
+    });
+
     $('input[type=text], input[type=password], input[type=email]')
         .focusin(function() {
             $(this).siblings('.add-on').addClass('focus');
