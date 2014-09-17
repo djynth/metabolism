@@ -1,10 +1,13 @@
 var resources;
-var AMOUNT_HEIGHT;
-var POINTS_HEIGHT;
+
+var _RESOURCE_SIZES = { };
 
 $(document).ready(function() {
-    AMOUNT_HEIGHT = parseInt($('.amount-holder').first().css('max-height'));
-    POINTS_HEIGHT = parseInt($('.points-holder').first().css('max-height'));
+    var resourceHolders = $('.resources');
+    _RESOURCE_SIZES.amount = parseInt(resourceHolders.find('.amount-holder').css('max-height'));
+    _RESOURCE_SIZES.points = parseInt(resourceHolders.find('.points-holder').css('max-height'));
+    _RESOURCE_SIZES.min = parseInt(resourceHolders.css('min-height'));
+    _RESOURCE_SIZES.buffer = $('.resources-header').totalHeight() + (resourceHolders.length-1)*_RESOURCE_SIZES.min + _RESOURCE_SIZES.amount + _RESOURCE_SIZES.points;
 });
 
 function getRes(resource, organ)
@@ -60,18 +63,8 @@ function refreshResources(refreshLimits)
                 variance = min(1, max(variance, Math.pow((amount - (limit.soft_max - intensity))/intensity, 2)));
             }
 
-            var bad_color  = $(this).find('.level-bar').find('.bad').css('background-color').match(/\d+/g);
-            var med_color  = $(this).find('.level-bar').find('.med').css('background-color').match(/\d+/g);
-            var good_color = $(this).find('.level-bar').find('.good').css('background-color').match(/\d+/g);
-
-            if (variance > 0.5) {
-                var color = mixColors(bad_color, med_color, 2*(variance - 0.5));
-            } else {
-                var color = mixColors(med_color, good_color, 2*variance)
-            }
-
             $(this).find('.level-bar')
-                .css('background-color', color)     // TODO: animate this
+                .attr('variance', variance)
                 .attr('level-top', min(50, heightFromTop(amount)) + '%')
                 .attr('level-bot', min(50, heightFromBot(amount)) + '%');
         }
@@ -98,88 +91,80 @@ function refreshResources(refreshLimits)
 
 function resizeResources(resources, animateTime)
 {
-    animateTime = typeof animateTime === 'undefined' ? false : animateTime;
-
     if (resources.hasClass('active')) {
-        var levelHolderHeight = parseInt(resources.css('max-height')) - AMOUNT_HEIGHT - POINTS_HEIGHT;
-
         if (animateTime) {
-            resources.find('.name').velocity({ opacity : 1}, animateTime);
-            resources.find('.limit').velocity({ height : '100%' }, animateTime);
-            resources.find('.points-holder').velocity({ height : POINTS_HEIGHT, opacity : 1 }, animateTime);
-            resources.find('.amount-holder').velocity({ height : AMOUNT_HEIGHT, opacity : 1 }, animateTime);
+            resources.find('.name').velocity({ opacity : 1 }, { duration : animateTime, display : 'block' });
+            resources.find('.limit').velocity({ height : '100%' }, { duration : animateTime });
+            resources.find('.points-holder').velocity({ height : _RESOURCE_SIZES.points, opacity : 1 }, {duration : animateTime, display : 'block' });
+            resources.find('.amount-holder').velocity({ height : _RESOURCE_SIZES.amount, opacity : 1 }, {duration : animateTime, display : 'block' });
+            resources.find('.level-holder').velocity({ height : _RESOURCE_SIZES.max }, animateTime);
         } else {
-            resources.find('.name, .points-holder, .amount-holder').css('opacity', 1);
+            resources.find('.name, .points-holder, .amount-holder').css('opacity', 1).show();
             resources.find('.limit').height('100%');
-            resources.find('.points-holder').height(POINTS_HEIGHT);
-            resources.find('.amount-holder').height(AMOUNT_HEIGHT);
+            resources.find('.points-holder').height(_RESOURCE_SIZES.points);
+            resources.find('.amount-holder').height(_RESOURCE_SIZES.amount);
+            resources.find('.level-holder').height(_RESOURCE_SIZES.max);
         }
     } else {
-        var levelHolderHeight = parseInt(resources.css('min-height'));
-
         if (animateTime) {
-            resources.find('.name').velocity({ opacity : 0}, animateTime);
-            resources.find('.points-holder, .amount-holder').velocity({ height : 0, opacity : 0 }, animateTime);
+            resources.find('.name').velocity({ opacity : 0 }, { duration : animateTime, display : 'none' });
+            resources.find('.points-holder, .amount-holder').velocity({ height : 0, opacity : 0 }, { duration : animateTime, display : 'none' });
             resources.find('.limit').velocity({ height : 0 }, animateTime);
+            resources.find('.level-holder').velocity({ height : _RESOURCE_SIZES.min }, animateTime);
         } else {
-            resources.find('.name, .points-holder, .amount-holder').css('opacity', 0);
+            resources.find('.name, .points-holder, .amount-holder').css('opacity', 0).hide();
             resources.find('.limit, .points-holder, .amount-holder').height(0);
+            resources.find('.level-holder').height(_RESOURCE_SIZES.min);
         }
-    }
-
-    if (animateTime) {
-        resources.find('.level-holder').velocity({ height : levelHolderHeight }, animateTime);
-    } else {
-        resources.find('.level-holder').height(levelHolderHeight);
     }
 }
 
 function resizeResource(res, animateTime)
 {
-    animateTime = typeof animateTime === 'undefined' ? false : animateTime;
-
     var level = res.find('.level-bar');
 
+    var levelTop = min(45, level.attr('level-top'));
+    var levelBot = min(45, level.attr('level-bot'));
+    var color = varianceToColor(parseFloat(level.attr('variance')));
+
     if (res.hasClass('compact')) {
-        var levelTop = parseInt(level.attr('level-top'));
         if (levelTop < parseInt(res.find('.soft.max').css('max-height'))) {
             var levelTop = 100;
-        } else {
-            var levelTop = min(45, levelTop);
         }
 
-        var levelBot = parseInt(level.attr('level-bot'));
         if (levelBot < parseInt(res.find('.soft.min').css('max-height'))) {
             var levelBot = 0;
-        } else {
-            var levelBot = min(45, levelBot);    
         }
-    } else {
-        var levelTop = min(45, parseInt(level.attr('level-top')));
-        var levelBot = min(45, parseInt(level.attr('level-bot')));
     }
 
     var bottom = levelBot + '%';
     var height = (100 - (levelTop + levelBot)) + '%';
     if (animateTime) {
         level.velocity({
-            bottom : bottom,
-            height : height
+            bottom          : bottom,
+            height          : height,
+            backgroundColor : color
         }, animateTime);
     } else {
-        level.css('bottom', bottom).height(height);
+        level.css({ 'bottom' : bottom, 'height' : height, 'backgroundColor' : color });
     }
 }
 
-function formatPoints(points)
+function varianceToColor(variance)
 {
-    return (points < 0 ? '' : '+') + points.toFixed(1);
-}
+    if (typeof bad_color === 'undefined') {
+        bad_color = $('.level-bar').find('.bad').css('background-color').match(/\d+/g);
+    }
+    if (typeof med_color === 'undefined') {
+        med_color = $('.level-bar').find('.med').css('background-color').match(/\d+/g);
+    }
+    if (typeof good_color === 'undefined') {
+        good_color = $('.level-bar').find('.good').css('background-color').match(/\d+/g);
+    }
 
-function mixColors(c1, c2, balance)
-{
-    return 'rgb(' +
-        parseInt((balance*c1[0] + (1-balance)*c2[0])) + ',' +
-        parseInt((balance*c1[1] + (1-balance)*c2[1])) + ',' +
-        parseInt((balance*c1[2] + (1-balance)*c2[2])) + ')';
+    if (variance > 0.5) {
+        return mixColors(bad_color, med_color, 2*(variance - 0.5));
+    } else {
+        return mixColors(med_color, good_color, 2*variance)
+    }
 }

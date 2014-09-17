@@ -106,17 +106,8 @@ function onResize()
         }
     });
 
-    var resourcesContentHeight = contentHeight;
-    $('.resources-header').each(function() {
-        resourcesContentHeight -= $(this).outerHeight(true);
-    });
-    resourcesContentHeight -= ($('.resources').length-1) * parseInt($('.resources').css('min-height'));
-
-    $('.resources')
-        .css('max-height', resourcesContentHeight)
-        .each(function() {
-            resizeResources($(this), false);
-        });
+    _RESOURCE_SIZES.max = contentHeight - _RESOURCE_SIZES.buffer;
+    resizeResources($('.resources.active'), false);
 
     FILTER.find('input[type=text]').each(function() {
         $(this).outerWidth($(this).parent().width());
@@ -317,5 +308,21 @@ jQuery.fn.extend({
         updateResourceVisualImage();
 
         return this;
+    },
+
+    totalHeight: function() {
+        var h = 0;
+        this.each(function() {
+            h += $(this).outerHeight();
+        });
+        return h;
+    },
+
+    totalWidth: function() {
+        var w = 0;
+        this.each(function() {
+            w += $(this).outerWidth();
+        });
+        return w;
     }
 });

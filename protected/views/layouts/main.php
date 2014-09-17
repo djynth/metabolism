@@ -46,7 +46,10 @@ organColors = <?= json_encode($organColors) ?>;
 $(document).ready(function() {
     setWorking(false);
     onResize();
-    selectOrgan($('.pathways-header').first().organ());
+    selectOrgan($('.pathways-header').first().organ(), false);
+    $('.resources').each(function() {
+        resizeResources($(this));
+    });
     setTurn(0, -1);
     setPoints(0);
     $('.theme[theme=<?= User::getCurrentTheme($user)["theme"] ?>]').find('.select').click();

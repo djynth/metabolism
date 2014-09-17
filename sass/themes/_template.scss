@@ -254,7 +254,7 @@ body[theme='{name}'], .theme[theme='{name}'] {
             box-shadow: 0 2px 2px '{res/hard_box_shadow}' inset;
         }
 
-        .good {
+        .good, .level-bar {
             background-color: '{res-level/good}';
         }
 
