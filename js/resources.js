@@ -1,14 +1,23 @@
 var resources;
 
-var _RESOURCE_SIZES = { };
-
-$(document).ready(function() {
-    var resourceHolders = $('.resources');
-    _RESOURCE_SIZES.amount = parseInt(resourceHolders.find('.amount-holder').css('max-height'));
-    _RESOURCE_SIZES.points = parseInt(resourceHolders.find('.points-holder').css('max-height'));
-    _RESOURCE_SIZES.min = parseInt(resourceHolders.css('min-height'));
-    _RESOURCE_SIZES.buffer = $('.resources-header').totalHeight() + (resourceHolders.length-1)*_RESOURCE_SIZES.min + _RESOURCE_SIZES.amount + _RESOURCE_SIZES.points;
-});
+var _RESOURCE_SIZES = {
+    vertical : {
+        amount        : 36,
+        points        : 36,
+        activeHeight  : null,       // set in onResize
+        compactHeight : 20,
+    },
+    horizontal : {
+        amount        : 35,
+        points        : 35,
+        activeHeight  : null,       // set in onResize
+        compactHeight : 35,         // height of the entire resource bar when compact
+        activeWidth   : null,       // set in onResize
+        compactWidth  : null,       // set in onResize
+    }
+};
+var resourceOrientation;
+var resourceLevelStyle;
 
 function getRes(resource, organ)
 {
@@ -18,6 +27,32 @@ function getRes(resource, organ)
         var resources = $('.resources[organ="' + organ + '"]');
     }
     return resources.find('.res[res="' + resource + '"]').first();
+}
+
+function setResourceOrientation(orientation)
+{
+    resourceOrientation = orientation;
+
+    if (resourceOrientation === 'vertical') {
+        RESOURCES.addClass('vertical').removeClass('horizontal');
+    } else if (resourceOrientation === 'horizontal') {
+        RESOURCES.addClass('horizontal').removeClass('vertical');
+    }
+
+    $('.resources').each(function() {
+        resizeResources($(this));
+    });
+    RESOURCES.each(function() {
+        resizeResource($(this));
+    });
+}
+
+function setResourceLevelStyle(style)
+{
+    resourceLevelStyle = style;
+    RESOURCES.each(function() {
+        resizeResource($(this), 450);
+    });
 }
 
 function refreshResources(refreshLimits)
@@ -63,10 +98,12 @@ function refreshResources(refreshLimits)
                 variance = min(1, max(variance, Math.pow((amount - (limit.soft_max - intensity))/intensity, 2)));
             }
 
+            var fromBot = heightFromBot(amount);
             $(this).find('.level-bar')
                 .attr('variance', variance)
+                .attr('from-bot', fromBot + '%')
                 .attr('level-top', min(50, heightFromTop(amount)) + '%')
-                .attr('level-bot', min(50, heightFromBot(amount)) + '%');
+                .attr('level-bot', min(50, fromBot) + '%');
         }
 
         if (refreshLimits) {
@@ -91,75 +128,137 @@ function refreshResources(refreshLimits)
 
 function resizeResources(resources, animateTime)
 {
-    if (resources.hasClass('active')) {
-        if (animateTime) {
-            resources.find('.name').velocity({ opacity : 1 }, { duration : animateTime, display : 'block' });
-            resources.find('.limit').velocity({ height : '100%' }, { duration : animateTime });
-            resources.find('.points-holder').velocity({ height : _RESOURCE_SIZES.points, opacity : 1 }, {duration : animateTime, display : 'block' });
-            resources.find('.amount-holder').velocity({ height : _RESOURCE_SIZES.amount, opacity : 1 }, {duration : animateTime, display : 'block' });
-            resources.find('.level-holder').velocity({ height : _RESOURCE_SIZES.max }, animateTime);
-        } else {
-            resources.find('.name, .points-holder, .amount-holder').css('opacity', 1).show();
-            resources.find('.limit').height('100%');
-            resources.find('.points-holder').height(_RESOURCE_SIZES.points);
-            resources.find('.amount-holder').height(_RESOURCE_SIZES.amount);
-            resources.find('.level-holder').height(_RESOURCE_SIZES.max);
-        }
+    var vertical = resourceOrientation === 'vertical';
+    var active = resources.hasClass('active');
+
+    var hori = _RESOURCE_SIZES.horizontal;
+    var vert = _RESOURCE_SIZES.vertical;
+
+    // res
+    var numResources = resources.find('.res:not(.primary)').length;
+    var h = vertical ? '100%' : (active ? (hori.activeHeight - (numResources-1))/numResources : hori.compactHeight/numResources) + 'px';
+    var props = {
+        height     : h,
+        lineHeight : h
+    };
+    if (animateTime) {
+        resources.find('.res').velocity(props, { duration : animateTime });
     } else {
-        if (animateTime) {
-            resources.find('.name').velocity({ opacity : 0 }, { duration : animateTime, display : 'none' });
-            resources.find('.points-holder, .amount-holder').velocity({ height : 0, opacity : 0 }, { duration : animateTime, display : 'none' });
-            resources.find('.limit').velocity({ height : 0 }, animateTime);
-            resources.find('.level-holder').velocity({ height : _RESOURCE_SIZES.min }, animateTime);
-        } else {
-            resources.find('.name, .points-holder, .amount-holder').css('opacity', 0).hide();
-            resources.find('.limit, .points-holder, .amount-holder').height(0);
-            resources.find('.level-holder').height(_RESOURCE_SIZES.min);
-        }
+        resources.find('.res').css(props);
+    }
+
+    // name
+    var props = {
+        opacity    : active ? 1 : 0
+    };
+    if (animateTime) {
+        resources.find('.name').velocity(props, { duration : animateTime, display : (active ? 'block' : 'none') });
+    } else {
+        resources.find('.name').css(props).toggle(active);
+    }
+
+    // limit
+    var props = {
+        height : vertical ? (active ? '100%' : 0) : '100%',
+        width  : vertical ? '100%' : (active ? '100%' : 0)
+    };
+    if (animateTime) {
+        resources.find('.limit').velocity(props, { duration : animateTime });
+    } else {
+        resources.find('.limit').css(props);
+    }
+
+    // points holder
+    var props = {
+        height     : vertical ? (active ? vert.points : 0) : '100%',
+        width      : vertical ? '100%' : (active ? hori.points : 0),
+        opacity    : active ? 1 : 0
+    };
+    if (animateTime) {
+        resources.find('.points-holder').velocity(props, { duration : animateTime, display : (active ? 'block' : 'none') });
+    } else {
+        resources.find('.points-holder').css(props).toggle(active);
+    }
+
+    // amount holder
+    var props = {
+        height     : vertical ? (active ? vert.amount : 0) : '100%',
+        width      : vertical ? '100%' : (active ? hori.amount : 0),
+        opacity    : active ? 1 : 0
+    };
+    if (animateTime) {
+        resources.find('.amount-holder').velocity(props, { duration : animateTime, display : (active ? 'block' : 'none') });
+    } else {
+        resources.find('.amount-holder').css(props).toggle(active);
+    }
+
+    // level holder
+    var props = {
+        height : vertical ? (active ? vert.activeHeight : vert.compactHeight) : '100%',
+        width  : vertical ? '100%' : (active ? hori.activeWidth : hori.compactWidth),
+        left   : vertical ? 0 : (active ? hori.amount : 0)
+    };
+    if (animateTime) {
+        resources.find('.level-holder').velocity(props, { duration : animateTime });
+    } else {
+        resources.find('.level-holder').css(props);
     }
 }
 
 function resizeResource(res, animateTime)
 {
     var level = res.find('.level-bar');
-
-    var levelTop = min(45, level.attr('level-top'));
-    var levelBot = min(45, level.attr('level-bot'));
     var color = varianceToColor(parseFloat(level.attr('variance')));
 
-    if (res.hasClass('compact')) {
-        if (levelTop < parseInt(res.find('.soft.max').css('max-height'))) {
-            var levelTop = 100;
+    if (resourceLevelStyle === 'relative') {
+        var levelTop = min(45, level.attr('level-top'));
+        var levelBot = min(45, level.attr('level-bot'));
+
+        if (res.hasClass('compact')) {
+            if (levelTop < parseInt(res.find('.soft.max').css('max-height'))) {
+                var levelTop = 100;
+            }
+
+            if (levelBot < parseInt(res.find('.soft.min').css('max-height'))) {
+                var levelBot = 0;
+            }
         }
 
-        if (levelBot < parseInt(res.find('.soft.min').css('max-height'))) {
-            var levelBot = 0;
-        }
+        var bottom = levelBot + '%';
+        var height = (100 - (levelTop + levelBot)) + '%';
+    }
+    if (resourceLevelStyle === 'absolute') {
+        var bottom = 0;
+        var height = parseFloat(level.attr('from-bot')) + '%';
+    }
+    
+    var vertical = resourceOrientation === 'vertical';
+    var props = {
+        bottom          : vertical ? bottom : 0,
+        height          : vertical ? height : '100%',
+        lineHeight      : vertical ? '100%' : height,
+        left            : vertical ? 0 : bottom,
+        width           : vertical ? '100%' : height,
+        backgroundColor : color
     }
 
-    var bottom = levelBot + '%';
-    var height = (100 - (levelTop + levelBot)) + '%';
     if (animateTime) {
-        level.velocity({
-            bottom          : bottom,
-            height          : height,
-            backgroundColor : color
-        }, animateTime);
+        level.velocity(props, animateTime);
     } else {
-        level.css({ 'bottom' : bottom, 'height' : height, 'backgroundColor' : color });
+        level.css(props);
     }
 }
 
 function varianceToColor(variance)
 {
     if (typeof bad_color === 'undefined') {
-        bad_color = $('.level-bar').find('.bad').css('background-color').match(/\d+/g);
+        bad_color = RESOURCES.find('.bad').css('background-color').match(/\d+/g);
     }
     if (typeof med_color === 'undefined') {
-        med_color = $('.level-bar').find('.med').css('background-color').match(/\d+/g);
+        med_color = RESOURCES.find('.med').css('background-color').match(/\d+/g);
     }
     if (typeof good_color === 'undefined') {
-        good_color = $('.level-bar').find('.good').css('background-color').match(/\d+/g);
+        good_color = RESOURCES.find('.good').css('background-color').match(/\d+/g);
     }
 
     if (variance > 0.5) {

@@ -7,22 +7,35 @@
     width: 100%;
     min-height: 20px;
 
-    &.animate {
-        .limit, .level-holder {
-            @include transition(height, 5s);
+    .res {
+        font-size: 12px;
+        cursor: default;
+
+        &.primary {
+            display: none !important;
         }
 
-        .level {
-            
+        .name, .amount, .points {
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .level-holder {
+            position: relative;
+
+            .limit-holder, .limit, .level-bar {
+                position: absolute;
+            }
+
+            .limit {
+                opacity: 0.5;
+            }
         }
     }
 
-    .res {
-        display: table-cell;
+    .res.vertical {
         height: 100%;
-        border-right-width: 1px;
-        font-size: 12px;
-        cursor: default;
+        display: table-cell;
 
         &:not(.compact) {
             .amount-holder {
@@ -31,15 +44,12 @@
 
             .points-holder {
                 border-top-width: 1px;
-            }    
-        }
+            }
 
-        &.primary {
-            display: none;
-        }
-
-        > * {
-            width: 100%;
+            &:not(:last-of-type) {
+                border-right-width: 1px;    
+            }
+            
         }
 
         .rotate {
@@ -47,8 +57,6 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            text-align: center;
-            white-space: nowrap;
         }
 
         .amount-holder, .points-holder {
@@ -57,20 +65,9 @@
             position: relative;
         }
 
-        .amount-holder, .points-holder, .name {
-            display: none;
-        }
-
         .level-holder {
-            position: relative;
-
-            .limit-holder, .limit, .level-bar {
-                position: absolute;
+            .level-bar, .limit-holder, .limit {
                 width: 100%;
-            }
-
-            .limit {
-                opacity: 0.5;
             }
 
             .max {
@@ -79,6 +76,53 @@
 
             .min {
                 bottom: 0;
+            }
+        }
+    }
+
+    .res.horizontal {
+        width: 100%;
+        position: relative;
+
+        &:not(.compact) {
+            .amount-holder {
+                border-right-width: 1px;
+            }
+
+            .points-holder {
+                border-left-width: 1px;
+            }
+
+            &:not(:last-of-type) {
+                border-bottom-width: 1px;
+            }
+        }
+        
+        .amount-holder, .points-holder {
+            max-width: 35px;
+            position: absolute;
+            top: 0;
+        }
+
+        .amount-holder {
+            left: 0;
+        }
+
+        .points-holder {
+            right : 0;
+        }
+
+        .level-holder {
+            .level-bar, .limit-holder, .limit {
+                height: 100%;
+            }
+
+            .max {
+                right: 0;
+            }
+
+            .min {
+                left: 0;
             }
         }
     }

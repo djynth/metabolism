@@ -45,14 +45,17 @@ organColors = <?= json_encode($organColors) ?>;
 
 $(document).ready(function() {
     setWorking(false);
+    $('.theme[theme=<?= User::getCurrentTheme($user)["theme"] ?>]').find('.select').click();
+    $('.pref').find('.default').click();
     onResize();
+
     selectOrgan($('.pathways-header').first().organ(), false);
     $('.resources').each(function() {
         resizeResources($(this));
     });
     setTurn(0, -1);
     setPoints(0);
-    $('.theme[theme=<?= User::getCurrentTheme($user)["theme"] ?>]').find('.select').click();
+    
     setKeyboardShortcuts(<?= json_encode(KeyboardShortcut::getShortcuts($user)) ?>);
     log('Welcome to <?= Yii::app()->name ?>!');
 });

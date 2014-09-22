@@ -92,6 +92,16 @@ $(document).ready(function() {
         content.slideToggle();
     });
 
+    SETTINGS.find('.prefs').find('.btn').click(function(e) {
+        var pref = $(this).parents('.pref');
+
+        if (pref.hasClass('res-orientation')) {
+            setResourceOrientation($(this).attr('setting'));
+        } else if (pref.hasClass('res-level-style')) {
+            setResourceLevelStyle($(this).attr('setting'));
+        }
+    });
+
     SETTINGS.find('.theme').find('.select').click(function() {
         var theme = $(this).parents('.theme');
         setColorTheme(theme.attr('theme'), theme.attr('type'), true);

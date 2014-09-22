@@ -120,7 +120,14 @@ function onResize()
         }
     });
 
-    _RESOURCE_SIZES.max = contentHeight - _RESOURCE_SIZES.buffer;
+    var vert = _RESOURCE_SIZES.vertical;
+    var hori = _RESOURCE_SIZES.horizontal;
+    contentHeight -= $('.resources-header').totalHeight();
+    vert.activeHeight = contentHeight - ($('.resources').length-1)*vert.compactHeight - vert.amount - vert.points;
+    hori.activeHeight = contentHeight - ($('.resources').length-1)*hori.compactHeight;
+    hori.activeWidth = $('.resources').width() - hori.amount - hori.points;
+    hori.compactWidth = $('.resources').width();
+
     resizeResources($('.resources.active'), false);
 
     FILTER.find('input[type=text]').each(function() {

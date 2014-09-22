@@ -5,7 +5,7 @@
  */
 ?>
 
-<div class="res res-info-source <?= $resource->primary ? 'primary' : '' ?>" res="<?= $resource->id ?>" organ="<?= $organ->id ?>">
+<div class="res res-info-source compact <?= $resource->primary ? 'primary' : '' ?>" res="<?= $resource->id ?>" organ="<?= $organ->id ?>">
     <div class="amount-holder">
         <div class="amount rotate"></div>
     </div>
