@@ -39,6 +39,7 @@ function setResourceOrientation(orientation)
         RESOURCES.addClass('horizontal').removeClass('vertical');
     }
 
+    refreshResources(true);
     $('.resources').each(function() {
         resizeResources($(this));
     });
@@ -58,6 +59,10 @@ function setResourceLevelStyle(style)
 function refreshResources(refreshLimits)
 {
     refreshLimits = typeof refreshLimits === 'undefined' ? true : refreshLimits;
+
+    if (typeof resources === 'undefined') {
+        return null;
+    }
 
     var changed = new Array();
 
@@ -107,10 +112,15 @@ function refreshResources(refreshLimits)
         }
 
         if (refreshLimits) {
-            $(this).find('.limit-holder.hard.min').height(heightFromBot(limit.hard_min) + '%');
-            $(this).find('.limit-holder.soft.min').height(heightFromBot(limit.soft_min) + '%');
-            $(this).find('.limit-holder.soft.max').height(heightFromTop(limit.soft_max) + '%');
-            $(this).find('.limit-holder.hard.max').height(heightFromTop(limit.hard_max) + '%');    
+            var v = resourceOrientation === 'vertical';
+            $(this).find('.limit-holder.hard.min').height(v ? heightFromBot(limit.hard_min) + '%' : '100%');
+            $(this).find('.limit-holder.hard.min').width(!v ? heightFromBot(limit.hard_min) + '%' : '100%');
+            $(this).find('.limit-holder.soft.min').height(v ? heightFromBot(limit.soft_min) + '%' : '100%');
+            $(this).find('.limit-holder.soft.min').width(!v ? heightFromBot(limit.soft_min) + '%' : '100%');
+            $(this).find('.limit-holder.soft.max').height(v ? heightFromTop(limit.soft_max) + '%' : '100%');
+            $(this).find('.limit-holder.soft.max').width(!v ? heightFromTop(limit.soft_max) + '%' : '100%');
+            $(this).find('.limit-holder.hard.max').height(v ? heightFromTop(limit.hard_max) + '%' : '100%');
+            $(this).find('.limit-holder.hard.max').width(!v ? heightFromTop(limit.hard_max) + '%' : '100%');    
         }
 
         var points = 0;
