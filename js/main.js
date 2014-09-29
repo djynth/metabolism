@@ -221,6 +221,7 @@ function onTurn(data)
         refreshResources(typeof data.limits !== 'undefined'),
         data.restrictions
     );
+    updateRun(getSelectedPathway());
 
     refreshState(data.passive_pathways);
     refreshTrackers();

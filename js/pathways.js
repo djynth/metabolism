@@ -192,7 +192,7 @@ function updateEat(pathway, res, amount)
     var eatMax = pathway.find('.food').attr('eat-max');
     amount = max(0, min(amount, eatMax - total));
 
-    eat.val(getRes(res).attr('name') + ' x' + amount).attr('amount', amount);
+    eat.val(getRes(res).find('.name').text() + ' x' + amount).attr('amount', amount);
 
     pathway.find('.food').find('.inc, .max').prop('disabled', total + amount >= eatMax);
     pathway.find('.food').find('.dec, .min').prop('disabled', amount <= 0);
