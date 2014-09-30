@@ -4,29 +4,21 @@
 </div>
 
 <div class="prefs">
-    <div class="pref res-orientation">
-        <div class="title">
-            <p class="name">Resource Orientation</p>
+    <?php foreach (Preference::model()->findAll() as $pref): ?>
+        <div class="pref" preference-id="<?= $pref->id ?>">
+            <div class="title">
+                <p class="name"><?= $pref->name ?></p>
+                <p class="description"><?= $pref->description ?></p>
+            </div>
+            <div class="options btn-group radio">
+                <?php foreach ($pref->options as $option): ?>
+                    <button class="btn" option-id="<?= $option->option_id ?>">
+                        <?= $option->name ?>
+                    </button>
+                <?php endforeach ?>
+            </div>
         </div>
-        <div class="setting btn-group radio">
-            <button class="btn default" setting="vertical">Vertical</button>
-            <button class="btn" setting="horizontal">Horizontal</button>
-        </div>
-    </div>
-
-    <div class="pref res-level-style">
-        <div class="title">
-            <p class="name">Resource Level Style</p>
-            <p class="description">
-                absolute: resource levels are bars from the bottom (0)<br>
-                relative: resource levels are bars from the center indicating variance from the ideal zone
-            </p>
-        </div>
-        <div class="setting btn-group radio">
-            <button class="btn default" setting="absolute">Absolute</button>
-            <button class="btn" setting="relative">Relative</button>
-        </div>
-    </div>
+    <?php endforeach ?>
 </div>
 
 <div class="header btn-group">

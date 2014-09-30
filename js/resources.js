@@ -33,9 +33,9 @@ function setResourceOrientation(orientation)
 {
     resourceOrientation = orientation;
 
-    if (resourceOrientation === 'vertical') {
+    if (resourceOrientation === 'Vertical') {
         RESOURCES.addClass('vertical').removeClass('horizontal');
-    } else if (resourceOrientation === 'horizontal') {
+    } else if (resourceOrientation === 'Horizontal') {
         RESOURCES.addClass('horizontal').removeClass('vertical');
     }
 
@@ -112,7 +112,7 @@ function refreshResources(refreshLimits)
         }
 
         if (refreshLimits) {
-            var v = resourceOrientation === 'vertical';
+            var v = resourceOrientation === 'Vertical';
             $(this).find('.limit-holder.hard.min').height(v ? heightFromBot(limit.hard_min) + '%' : '100%');
             $(this).find('.limit-holder.hard.min').width(!v ? heightFromBot(limit.hard_min) + '%' : '100%');
             $(this).find('.limit-holder.soft.min').height(v ? heightFromBot(limit.soft_min) + '%' : '100%');
@@ -138,7 +138,7 @@ function refreshResources(refreshLimits)
 
 function resizeResources(resources, animateTime)
 {
-    var vertical = resourceOrientation === 'vertical';
+    var vertical = resourceOrientation === 'Vertical';
     var active = resources.hasClass('active');
 
     var hori = _RESOURCE_SIZES.horizontal;
@@ -220,7 +220,7 @@ function resizeResource(res, animateTime)
     var level = res.find('.level-bar');
     var color = varianceToColor(parseFloat(level.attr('variance')));
 
-    if (resourceLevelStyle === 'relative') {
+    if (resourceLevelStyle === 'Relative') {
         var levelTop = min(45, level.attr('level-top'));
         var levelBot = min(45, level.attr('level-bot'));
 
@@ -237,12 +237,12 @@ function resizeResource(res, animateTime)
         var bottom = levelBot + '%';
         var height = (100 - (levelTop + levelBot)) + '%';
     }
-    if (resourceLevelStyle === 'absolute') {
+    if (resourceLevelStyle === 'Absolute') {
         var bottom = 0;
         var height = parseFloat(level.attr('from-bot')) + '%';
     }
     
-    var vertical = resourceOrientation === 'vertical';
+    var vertical = resourceOrientation === 'Vertical';
     var props = {
         bottom          : vertical ? bottom : 0,
         height          : vertical ? height : '100%',

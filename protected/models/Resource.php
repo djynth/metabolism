@@ -1,22 +1,24 @@
 <?php
 
 /**
- * @db id              smallint(6)   a unique resource ID
- * @db name            varchar(20)   the most common user-readable name for this
- *                                   resource
- * @db max_shown_value int(11)       the point at which the indicator for this
- *                                   resource is maxed out
- * @db color           char(6)       the color of this resource
- * @db primary         tinyint(1)    whether this resource is a primary resource
- *                                   monitored at all times in the footer
- * @db formula         varchar(20)   the chemical formula of this resource
- * @db description     text          a full-text and user-readable description
- *                                   of the properties of this resource
- * @db group           smallint(6)   the non-unique group of this resource - 
- *                                   resources in the same group are placed
- *                                   together in the pathway reaction table
- * @fk organs          array(Organ)
- * @fk aliases         array(ResourceAlias)
+ * @db id                 smallint(6)   a unique resource ID
+ * @db name               varchar(20)   the most common user-readable name for
+ *                                      this resource
+ * @db recommended_amount int(11)       the ideal amount of this resource; also
+ *                                      the halfway point for the level bar
+ * @db color              char(6)       the color of this resource
+ * @db primary            tinyint(1)    whether this resource is a primary
+ *                                      resource monitored at all times in the
+ *                                      footer
+ * @db formula            varchar(20)   the chemical formula of this resource
+ * @db description        text          a full-text and user-readable
+ *                                      description
+ *                                      of the properties of this resource
+ * @db group              smallint(6)   the non-unique group of this resource - 
+ *                                      resources in the same group are placed
+ *                                      together in the pathway reaction table
+ * @fk organs             array(Organ)
+ * @fk aliases            array(ResourceAlias)
  */
 class Resource extends CActiveRecord
 {

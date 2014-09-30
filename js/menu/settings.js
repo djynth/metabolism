@@ -94,12 +94,24 @@ $(document).ready(function() {
 
     SETTINGS.find('.prefs').find('.btn').click(function(e) {
         var pref = $(this).parents('.pref');
+        var name = pref.find('.name').text();
+        var option = $(this).text().trim();
 
-        if (pref.hasClass('res-orientation')) {
-            setResourceOrientation($(this).attr('setting'));
-        } else if (pref.hasClass('res-level-style')) {
-            setResourceLevelStyle($(this).attr('setting'));
+        if (name === 'Resource Orientation') {
+            setResourceOrientation(option);
+        } else if (name === 'Resource Level Style') {
+            setResourceLevelStyle(option);
         }
+
+        $.ajax({
+            url: '/index.php/user/savePreference',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                preference_id: pref.attr('preference-id'),
+                option_id: $(this).attr('option-id')
+            }
+        });
     });
 
     SETTINGS.find('.theme').find('.select').click(function() {
@@ -213,6 +225,13 @@ function setShortcut(action, key, save)
 
         shortcuts[key] = action;
     }
+}
+
+function setPreferences(preferences)
+{
+    SETTINGS.find('.pref').each(function() {
+        $(this).find('[option-id=' + preferences[$(this).attr('preference-id')] + ']').click();
+    });
 }
 
 function codeToName(code)

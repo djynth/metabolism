@@ -81,9 +81,6 @@ class UserController extends CController
         $cookies[$cookie_name] = new CHttpCookie($cookie_name, $key, array(
             'expire' => time() + self::LOGIN_DURATION,
         ));
-
-        var_dump($action);
-        var_dump($cookie_name);
     }
 
     public function actionRemoveBinding($action)
@@ -102,6 +99,36 @@ class UserController extends CController
 
         $cookies = Yii::app()->request->cookies;
         unset($cookies[self::getBindingCookieName($action)]);
+    }
+
+    public function actionSavePreference($preference_id, $option_id)
+    {
+        $user = User::getCurrentUser();
+        if ($user !== null) {
+            $userPreference = UserPreference::model()->findByAttributes(array(
+                'user_id'       => $user->id,
+                'preference_id' => $preference_id,
+            ));
+
+            if ($userPreference === null) {
+                $userPreference = new UserPreference();
+                $userPreference->user_id = $user->id;
+                $userPreference->preference_id = $preference_id;
+            }
+
+            $userPreference->option_id = $option_id;
+            $userPreference->save();
+        }
+
+        $cookies = Yii::app()->request->cookies;
+        $cookie_name = self::getPreferenceCookieName($preference_id);
+        $cookies[$cookie_name] = new CHttpCookie(
+            $cookie_name,
+            $option_id,
+            array(
+                'expire' => time() + self::LOGIN_DURATION,
+            )
+        );
     }
 
     public function actionValidate($type, $value)
@@ -406,6 +433,19 @@ class UserController extends CController
     public static function getBindingCookieName($action)
     {
         return 'binding_' . $action;
+    }
+
+    public static function getPreferenceCookieName($preference_id)
+    {
+        $pref = Preference::model()->findByAttributes(array(
+            'id' => $preference_id
+        ));
+
+        if ($pref === null) {
+            return null;
+        }
+
+        return 'pref_' . str_replace(' ', '_', strtolower($pref->name));
     }
 
     private static function blowfishSalt($cost = 13)
