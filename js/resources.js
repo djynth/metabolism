@@ -113,14 +113,27 @@ function refreshResources(refreshLimits)
 
         if (refreshLimits) {
             var v = resourceOrientation === 'Vertical';
-            $(this).find('.limit-holder.hard.min').height(v ? heightFromBot(limit.hard_min) + '%' : '100%');
-            $(this).find('.limit-holder.hard.min').width(!v ? heightFromBot(limit.hard_min) + '%' : '100%');
-            $(this).find('.limit-holder.soft.min').height(v ? heightFromBot(limit.soft_min) + '%' : '100%');
-            $(this).find('.limit-holder.soft.min').width(!v ? heightFromBot(limit.soft_min) + '%' : '100%');
-            $(this).find('.limit-holder.soft.max').height(v ? heightFromTop(limit.soft_max) + '%' : '100%');
-            $(this).find('.limit-holder.soft.max').width(!v ? heightFromTop(limit.soft_max) + '%' : '100%');
-            $(this).find('.limit-holder.hard.max').height(v ? heightFromTop(limit.hard_max) + '%' : '100%');
-            $(this).find('.limit-holder.hard.max').width(!v ? heightFromTop(limit.hard_max) + '%' : '100%');    
+
+            $(this).find('.limit-holder').each(function() {
+                if ($(this).hasClass('min')) {
+                    if ($(this).hasClass('soft')) {
+                        var lim = heightFromBot(limit.soft_min);
+                    } else if ($(this).hasClass('hard')) {
+                        var lim = heightFromBot(limit.hard_min);
+                    }
+                } else if ($(this).hasClass('max')) {
+                    if ($(this).hasClass('soft')) {
+                        var lim = heightFromTop(limit.soft_max);
+                    } else if ($(this).hasClass('hard')) {
+                        var lim = heightFromTop(limit.hard_max);
+                    }
+                }
+
+                $(this)
+                    .height(v ? lim + '%' : '100%')
+                    .width(v ? '100%' : lim + '%')
+                    .toggleClass('at-min at-max', lim <= 0);
+            });
         }
 
         var points = 0;
@@ -206,7 +219,7 @@ function resizeResources(resources, animateTime)
     var props = {
         height : vertical ? (active ? vert.activeHeight : vert.compactHeight) : '100%',
         width  : vertical ? '100%' : (active ? hori.activeWidth : hori.compactWidth),
-        left   : vertical ? 0 : (active ? hori.amount : 0)
+        left   : vertical ? 0 : (active ? hori.amount+1 : 0)
     };
     if (animateTime) {
         resources.find('.level-holder').velocity(props, { duration : animateTime });
@@ -234,23 +247,26 @@ function resizeResource(res, animateTime)
             }
         }
 
-        var bottom = levelBot + '%';
-        var height = (100 - (levelTop + levelBot)) + '%';
+        var bottom = levelBot;
+        var height = (100 - (levelTop + levelBot));
     }
     if (resourceLevelStyle === 'Absolute') {
         var bottom = 0;
-        var height = parseFloat(level.attr('from-bot')) + '%';
+        var height = parseFloat(level.attr('from-bot'));
     }
     
     var vertical = resourceOrientation === 'Vertical';
     var props = {
-        bottom          : vertical ? bottom : 0,
-        height          : vertical ? height : '100%',
-        lineHeight      : vertical ? '100%' : height,
-        left            : vertical ? 0 : bottom,
-        width           : vertical ? '100%' : height,
+        bottom          : (vertical ? bottom :   0) + '%',
+        height          : (vertical ? height : 100) + '%',
+        lineHeight      : (vertical ? 100 : height) + '%',
+        left            : (vertical ?   0 : bottom) + '%',
+        width           : (vertical ? 100 : height) + '%',
         backgroundColor : color
     }
+
+    level.toggleClass('at-max', bottom + height <= 0 || bottom + height >= 100);
+    level.toggleClass('at-min', bottom <= 0);
 
     if (animateTime) {
         level.velocity(props, animateTime);

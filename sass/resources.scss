@@ -15,6 +15,12 @@
             display: none !important;
         }
 
+        &.compact {
+            .tick {
+                display: none !important;
+            }
+        }
+
         .name, .amount, .points {
             text-align: center;
             white-space: nowrap;
@@ -22,6 +28,24 @@
 
         .level-holder {
             position: relative;
+
+            .tick-holder {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: table;
+                table-layout: fixed;
+
+                .tick {
+                    position: relative;
+
+                    .left, .right {
+                        position: absolute;
+                    }
+                }
+            }
 
             .limit-holder, .limit, .level-bar {
                 position: absolute;
@@ -45,12 +69,11 @@
             .points-holder {
                 border-top-width: 1px;
             }
+        }
 
-            &:not(:last-of-type) {
+        &:not(:last-of-type) {
                 border-right-width: 1px;    
             }
-            
-        }
 
         .rotate {
             @include transform(translateX(-50%) translateY(-50%) rotate(90deg));
@@ -66,16 +89,55 @@
         }
 
         .level-holder {
+            .tick {
+                display: table-row;
+
+                .left, .right {
+                    width: 25%;
+                    border-bottom-width: 1px;
+                }
+
+                .left {
+                    left: 0;
+                }
+
+                .right {
+                    right: 0;
+                }
+            }
+
             .level-bar, .limit-holder, .limit {
                 width: 100%;
             }
 
-            .max {
-                top: 0;
+            .level-bar {
+                &:not(.at-max) {
+                    border-top-width: 1px;
+                }
+
+                &:not(.at-min) {
+                    border-bottom-width: 1px;
+                }
             }
 
-            .min {
+            .limit-holder.max {
+                top: 0;
+
+                &:not(.at-max) {
+                    .limit {
+                        //border-bottom-width: 1px;
+                    }
+                }
+            }
+
+            .limit-holder.min {
                 bottom: 0;
+
+                &:not(.at-min) {
+                    .limit {
+                        //border-top-width: 1px;    
+                    }
+                }
             }
         }
     }
@@ -113,8 +175,35 @@
         }
 
         .level-holder {
+            .tick {
+                display: table-cell;
+
+                .left, .right {
+                    height: 25%;
+                    border-right-width: 1px;
+                }
+
+                .left {
+                    top: 0;
+                }
+
+                .right {
+                    bottom: 0;
+                }
+            }
+
             .level-bar, .limit-holder, .limit {
                 height: 100%;
+            }
+
+            .level-bar {
+                &:not(.at-max) {
+                    border-right-width: 1px;
+                }
+
+                &:not(.at-min) {
+                    border-left-width: 1px;
+                }
             }
 
             .max {

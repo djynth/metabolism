@@ -111,6 +111,11 @@ class Resource extends CActiveRecord
         return $aliases;
     }
 
+    public function getTicks()
+    {
+        return $this->recommended_amount/10;
+    }
+
     public static function getAmounts()
     {
         return Yii::app()->session['amounts'];

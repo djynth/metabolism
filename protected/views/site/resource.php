@@ -30,6 +30,19 @@
             <div class="limit hard min"></div>
         </div>
 
+        <div class="tick-holder">
+            <?php
+            $ticks = $resource->getTicks();
+            for ($i = 0; $i < $ticks; $i++): ?>
+                <div class="tick">
+                    <?php if ($i !== 0): ?>
+                        <div class="left"></div>
+                        <div class="right"></div>
+                    <?php endif ?>
+                </div>
+            <?php endfor ?>
+        </div>
+
         <div class="name rotate" names="<?= implode($resource->getNames(), ';') ?>"><?= $resource->name ?></div>
     </div>
 

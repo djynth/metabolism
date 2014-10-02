@@ -1,4 +1,5 @@
 @import "base";
+@import "compass/css3/images";
 
 body[theme='{name}'], .theme[theme='{name}'] {
     color: '{main/text}';
@@ -244,9 +245,28 @@ body[theme='{name}'], .theme[theme='{name}'] {
             text-shadow: none;
         }
 
-        .limit.soft {
-            background-color: '{res/soft}';
-            box-shadow: 0 1px 1px '{res/soft_box_shadow}' inset;
+        &.vertical {
+            .limit.soft {
+                &.min {
+                    @include background-image(linear-gradient(to bottom, '{res/soft_border}' 20%, rgba(0,0,0,0)));
+                }
+
+                &.max {
+                    @include background-image(linear-gradient(to top, '{res/soft_border}' 20%, rgba(0,0,0,0)));
+                }
+            }
+        }
+
+        &.horizontal {
+            .limit.soft {
+                &.min {
+                    @include background-image(linear-gradient(to left, '{res/soft_border}' 20%, rgba(0,0,0,0)));
+                }
+
+                &.max {
+                    @include background-image(linear-gradient(to right, '{res/soft_border}' 20%, rgba(0,0,0,0)));
+                }
+            }
         }
 
         .limit.hard {
@@ -264,6 +284,10 @@ body[theme='{name}'], .theme[theme='{name}'] {
 
         .med {
             background-color: '{res-level/med}';
+        }
+
+        .tick * {
+            border-color: '{res/tick}';
         }
     }
 

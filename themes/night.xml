@@ -188,6 +188,11 @@
                 <b>0</b>
                 <a>0.4</a>
             </soft>
+            <soft_border>
+                <r>255</r>
+                <g>0</g>
+                <b>0</b>
+            </soft_border>
             <soft_box_shadow>
                 <r>0</r>
                 <g>0</g>
@@ -206,6 +211,12 @@
                 <b>0</b>
                 <a>0.8</a>
             </hard_box_shadow>
+            <tick>
+                <r>0</r>
+                <g>0</g>
+                <b>0</b>
+                <a>0.4</a>
+            </tick>
         </res>
 
         <tracker>
