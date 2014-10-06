@@ -1,16 +1,19 @@
 <?php
 
 /**
- * @db id          smallint(6)     a unique organ ID
- * @db name        varchar(20)     the user-readable name of the organ
- * @db color       char(6)         the HTML color code for the color related to
- *                                 this organ
- * @db description text            a user-readable description of the organ
- * @db action_name varchar(20)     a user-readable name for the tracked action
- *                                 specific to this organ - may be null if there
- *                                 is no such action
- * @fk pathways    array(Pathway)  ordered by pathway ID ascending
- * @fk resources   array(Resource) ordered by resource ID ascending
+ * @db id                  smallint(6) a unique organ ID
+ * @db name                varchar(20) the user-readable name of the organ
+ * @db color               char(6)     the HTML color code for the color
+ *                                     related to this organ
+ * @db description         text        a user-readable description
+ * @db action_name         varchar(20) a user-readable name for the tracked
+ *                                     action specific to this organ, null if
+ *                                     there is no such action
+ * @db storage_resource_id smallint(6) the ID of the resource which stores
+ *                                     energy in this organ
+ * @fk pathways            array(Pathway)
+ * @fk resources           array(Resource)
+ * @fk storage_resource    Resource
  */
 class Organ extends CActiveRecord
 {
@@ -45,6 +48,11 @@ class Organ extends CActiveRecord
                 'Resource',
                 'resource_organs(resource_id, organ_id)',
                 'order' => 'resources.id asc',
+            ),
+            'storage_resource' => array(
+                self::HAS_ONE,
+                'Resource',
+                array('id' => 'storage_resource_id'),
             ),
         );
     }

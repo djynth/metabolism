@@ -4,7 +4,7 @@ var TRACKER_ANIMATION = 500;
 
 function refreshTrackers()
 {
-    TRACKER.find('.tracker:not(.actions)').each(function() {
+    TRACKER.find('.tracker:not(.actions):not(.energy-storage)').each(function() {
         var total = 0;
         var res = $(this).res();
         var resource = resources[res];
@@ -19,6 +19,22 @@ function refreshTrackers()
             updateTrackerIcons($(this).find('.icons'), res, change);
         });
         
+        $(this).find('.total').text(total);
+    });
+
+    TRACKER.find('.tracker.energy-storage').each(function() {
+        var total = 0;
+        $(this).find('.organ').each(function() {
+            var res = $(this).res();
+            if (isNaN(res)) {
+                return;
+            }
+
+            var amount = resources[res].amounts[$(this).organ()];
+            $(this).find('.amount').text(amount);
+            total += amount;
+        });
+
         $(this).find('.total').text(total);
     });
 }

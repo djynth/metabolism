@@ -23,9 +23,25 @@
         </div>
     <?php endforeach ?>
 
+    <div class="tracker energy-storage">
+        <div class="header">
+            <p class="title">Energy Storage</p>
+            <p class="total"></p>
+        </div>
+
+        <?php foreach($non_global as $organ): ?>
+            <div class="organ" organ="<?= $organ->id ?>" res="<?= $organ->storage_resource_id ?>">
+                <?php if ($organ->storage_resource !== null): ?>
+                    <p class="amount"></p>
+                    <p class="name"><?= $organ->storage_resource->name ?>
+                <?php endif ?>
+            </div>
+        <?php endforeach ?>
+    </div>
+
     <div class="tracker actions">
         <div class="header">
-            <p class="title">Organ-Specific Actions</p>
+            <p class="title">Actions</p>
         </div>
 
         <?php foreach ($non_global as $organ): ?>
