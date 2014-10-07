@@ -43,6 +43,32 @@ class SiteController extends CController
         echo json_encode(self::getState($game));
     }
 
+    public function actionSaveGame()
+    {
+        $game = Yii::app()->session['game'];
+        $success = false;
+
+        if ($game !== null) {
+            try {
+                $game->save();
+                $success = true;
+            } catch (Exception $e) { }
+        }
+
+        echo json_encode(array(
+            'success' => $success,
+        ));
+    }
+
+    public function actionLoadGame($id)
+    {
+        $game = Game::load($id);
+        Yii::app()->session->clear();
+        Yii::app()->session['game'] = $game;
+
+        echo json_encode(self::getState($game));
+    }
+
     public function actionPathway($pathway_id, $times, $organ_id, $reverse)
     {
         $game = Yii::app()->session['game'];

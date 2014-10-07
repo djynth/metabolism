@@ -135,6 +135,7 @@ class Game extends CActiveRecord
         }
         Resource::setAmounts($amounts);
         Organ::setActionCounts($actionCounts);
+        $this->clearStates();
         $this->appendState();
         return $game;
     }
@@ -207,6 +208,11 @@ class Game extends CActiveRecord
             $this->completed = $this->isOver();
             $this->appendState();
         }
+    }
+
+    private function clearStates()
+    {
+        Yii::app()->session['states'] = array();
     }
 
     private function appendState()
