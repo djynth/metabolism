@@ -156,6 +156,11 @@ class UserController extends CController
                 $valid = false;
                 $message = 'Email address in use';
             }
+        } else if ($type === 'game-name') {
+            if (!Game::isValidName($value)) {
+                $valid = false;
+                $message = 'Invalid game name';
+            }
         }
         echo CJavaScript::jsonEncode(array(
             'valid' => $valid,

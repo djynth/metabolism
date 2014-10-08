@@ -1,5 +1,72 @@
 @import "base";
 
+.form {
+    display: table;
+    border-spacing: 30px 10px;
+    margin-bottom: 15px;
+
+    > * {
+        display: table-cell;
+    }
+
+    form {
+        padding-top: 2px;
+
+        input[type=text], input[type=password] {
+            width: 270px;
+        }
+
+        > * {
+            margin-bottom: 8px;
+        }
+
+        .forgot-password.add-on {
+            max-width: 122px;
+        }
+
+        .verified.add-on {
+            &[verified] {
+                max-width: 108px;
+            }
+
+            &:not([verified]) {
+                max-width: 159px;
+            }
+        }
+
+        .edit-email {
+            max-width: 58px;
+        }
+
+        #edit-email {
+            display: none;
+            margin-bottom: 0;
+
+            > * {
+                margin-bottom: 8px;
+            }
+        }
+
+        .submit {
+            float: right;
+        }
+    }
+
+    .form-info {
+        width: 100%;
+        border-width: 1px;
+        border-radius: 5px;
+        padding: 6px;
+        opacity: 0.25;
+
+        @include transition(opacity 0.4s);
+
+        &.active {
+            opacity: 0.9;
+        }
+    }
+}
+
 #menu .content.account {
     #account-info {
         p {
@@ -11,73 +78,6 @@
         button {
             display: inline-block;
             float: right;
-        }
-    }
-
-    .form {
-        display: table;
-        border-spacing: 30px 10px;
-        margin-bottom: 15px;
-
-        > * {
-            display: table-cell;
-        }
-
-        form {
-            padding-top: 2px;
-
-            input[type=text], input[type=password] {
-                width: 270px;
-            }
-
-            > * {
-                margin-bottom: 8px;
-            }
-
-            .forgot-password.add-on {
-                max-width: 122px;
-            }
-
-            .verified.add-on {
-                &[verified] {
-                    max-width: 108px;
-                }
-
-                &:not([verified]) {
-                    max-width: 159px;
-                }
-            }
-
-            .edit-email {
-                max-width: 58px;
-            }
-
-            #edit-email {
-                display: none;
-                margin-bottom: 0;
-
-                > * {
-                    margin-bottom: 8px;
-                }
-            }
-
-            .submit {
-                float: right;
-            }
-        }
-
-        .form-info {
-            width: 100%;
-            border-width: 1px;
-            border-radius: 5px;
-            padding: 6px;
-            opacity: 0.25;
-
-            @include transition(opacity 0.4s);
-
-            &.active {
-                opacity: 0.9;
-            }
         }
     }
 

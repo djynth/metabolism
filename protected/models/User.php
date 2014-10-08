@@ -12,7 +12,8 @@
  * @fk email_verification EmailVerification
  * @fk reset_password     ResetPassword
  * @fk shortcuts          UserKeyboardShortcut
- * @fk preferences        UserPreference
+ * @fk preferences        array(UserPreference)
+ * @fk games              array(Game)
  */
 class User extends CActiveRecord
 {
@@ -58,6 +59,11 @@ class User extends CActiveRecord
             'preferences' => array(
                 self::HAS_MANY,
                 'UserPreference',
+                array('user_id' => 'id'),
+            ),
+            'games' => array(
+                self::HAS_MANY,
+                'Game',
                 array('user_id' => 'id'),
             ),
         );

@@ -13,7 +13,6 @@
  * @db challenge_id int(11)     the ID of the challenge dictating the parameters
  *                              of this game
  * @fk user      User
- * @fk state     array(GameState)
  * @fk challenge Challenge
  */
 class Game extends CActiveRecord
@@ -22,7 +21,6 @@ class Game extends CActiveRecord
     public $score = 0;
     public $name = "New Game";
     public $turn = 0;
-    public $user_id = -1;
     public $max_turns = -1;
     public $mode = 1;
     
@@ -52,11 +50,6 @@ class Game extends CActiveRecord
                 self::BELONGS_TO,
                 'User',
                 array('user_id' => 'id'),
-            ),
-            'state' => array(
-                self::HAS_MANY,
-                'GameState',
-                array('id' => 'game_id'),
             ),
             'challenge' => array(
                 self::BELONGS_TO,
@@ -123,9 +116,11 @@ class Game extends CActiveRecord
     public static function load($id)
     {
         $game = self::model()->findByPk($id);
+        $states = GameState::model()->findAllByAttributes(array('game_id' => $id));
         $amounts = array();
         $actionCounts = array();
-        foreach ($game->state as $state) {
+
+        foreach ($states as $state) {
             if ($state->resource !== null) {
                 $amounts[$state->resource->id][$state->organ->id] = 
                     $state->amount;
@@ -133,10 +128,11 @@ class Game extends CActiveRecord
                 $actionCounts[$state->organ->id] = $state->amount;
             }
         }
+
         Resource::setAmounts($amounts);
         Organ::setActionCounts($actionCounts);
-        $this->clearStates();
-        $this->appendState();
+        $game->clearStates();
+        $game->appendState();
         return $game;
     }
 
@@ -148,7 +144,7 @@ class Game extends CActiveRecord
             'max_turns' => (int)$this->challenge->max_turns,
             'resources' => Resource::getAmounts(),
             'action_counts' => Organ::getActionCounts(),
-            'completed' => $this->completed,
+            'completed' => $this->completed ? true : false,
             'challenge_id' => $this->challenge_id,
         );
     }
@@ -232,6 +228,26 @@ class Game extends CActiveRecord
             array_pop($states);
             Yii::app()->session['states'] = $states;
             $this->setState($states[count($states) - 1]);
+        }
+    }
+
+    public static function isValidName($name)
+    {
+        return preg_match("/^[a-zA-Z0-9\W_]{3,20}$/", $name);
+    }
+
+    public static function getModeName($mode, $challenge)
+    {
+        switch($mode)
+        {
+            case self::MODE_CHALLENGE:
+                return 'Challenge: ' . $challenge->name;
+            case self::MODE_FREE_PLAY:
+                return 'Free Play';
+            case self::MODE_CAMPAIGN:
+                return 'Campaign';
+            default:
+                return 'Unknown Mode';
         }
     }
 }

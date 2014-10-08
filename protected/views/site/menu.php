@@ -59,12 +59,14 @@
         </div>
 
         <div class="content data">
-            <?php $this->renderPartial('menu/data'); ?>
+            <?php $this->renderPartial('menu/data', array(
+                'user' => $user,
+            )); ?>
         </div>
 
         <div class="content account">
             <?php $this->renderPartial('menu/account', array(
-                'user' => $user
+                'user' => $user,
             )); ?>
         </div>
 

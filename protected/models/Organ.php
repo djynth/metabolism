@@ -82,7 +82,11 @@ class Organ extends CActiveRecord
 
     public function getActionCount()
     {
-        return self::getActionCounts()[$this->id];
+        $counts = self::getActionCounts();
+        if (!count($counts)) {
+            return 0;
+        }
+        return $counts[$this->id];
     }
 
     public function setActionCount($count)

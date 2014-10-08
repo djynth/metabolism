@@ -1,5 +1,48 @@
 @import "base";
 
 #menu .content.data {
+    .load-games {
+        overflow: hidden;
 
+        .game {
+            margin: 0 20px;
+            padding: 10px;
+            border-width: 1px;
+            border-top-width: 0;    
+            position: relative;
+
+            &:first-of-type {
+                margin-top: 20px;
+                border-top-width: 1px;
+                @include border-top-radius(3px);
+            }
+
+            &:last-of-type {
+                margin-bottom: 20px;
+                @include border-bottom-radius(3px);
+            }
+
+            .title {
+                margin: 4px;
+                padding-right: 120px;
+
+                .name {
+                    font-size: 20px;
+                    line-height: 20px;
+                }
+
+                .description {
+                    font-size: 12px;
+                    line-height: 12px;
+                }
+            }
+
+            .load {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                width: 100px;
+            }
+        }
+    }
 }

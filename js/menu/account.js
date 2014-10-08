@@ -1,7 +1,7 @@
 var INTERNAL_ERROR = 'An internal error occurred.';
 
 $(document).ready(function() {
-    ACCOUNT.find('.form').find('input[type=text], input[type=password]')
+    $('.form').find('input[type=text], input[type=password]')
         .focusin(function() {
             $(this).parents('.form').find('.form-info')
                 .removeClass('error')
@@ -23,6 +23,9 @@ $(document).ready(function() {
             }
             if ($(this).hasClass('new-password') && $(this).attr('verify') !== 'no') {
                 validate($(this), 'password');
+            }
+            if ($(this).hasClass('game-name') && $(this).attr('verify') !== 'no') {
+                validate($(this), 'game-name');
             }
 
             if ($(this).hasClass('confirm') || $(this).hasClass('new-password')) {

@@ -26,7 +26,7 @@ class GameState extends CActiveRecord
 
     public function primaryKey()
     {
-        return 'game_id';
+        return array('game_id', 'resource_id', 'organ_id');
     }
 
     public function relations()

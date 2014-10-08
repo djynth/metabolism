@@ -10,6 +10,7 @@ class SiteController extends CController
     public function actionIndex($action='main', $username=null,
                                 $verification=null)
     {
+        Yii::app()->session['game'] = null;
         $this->render('index', array(
             'organs' => Organ::model()->findAll(),
             'non_global' => Organ::getNotGlobal(),
@@ -43,27 +44,44 @@ class SiteController extends CController
         echo json_encode(self::getState($game));
     }
 
-    public function actionSaveGame()
+    public function actionSaveGame($name=null)
     {
         $game = Yii::app()->session['game'];
         $success = false;
+        $message = 'No in-progress game';
 
         if ($game !== null) {
             try {
+                if ($name !== null && Game::isValidName($name)) {
+                    $game->name = $name;
+                }
                 $game->save();
+
+                if ($game->user === null) {
+                    $cookies = Yii::app()->request->cookies;
+                    $cookies['game_' . $game->id] = new CHttpCookie('game_' . $game->id, $game->id);
+                }
+
                 $success = true;
-            } catch (Exception $e) { }
+                $message = 'Game Saved';
+            } catch (Exception $e) {
+                $message = 'An error occurred';
+            }
         }
 
         echo json_encode(array(
             'success' => $success,
+            'message' => $message,
         ));
     }
 
     public function actionLoadGame($id)
     {
-        $game = Game::load($id);
+        // TODO: check that user_id matches
+
+        
         Yii::app()->session->clear();
+        $game = Game::load($id);
         Yii::app()->session['game'] = $game;
 
         echo json_encode(self::getState($game));
