@@ -24,7 +24,7 @@
 
             .title {
                 margin: 4px;
-                padding-right: 120px;
+                padding-right: 260px;
 
                 .name {
                     font-size: 20px;
@@ -37,11 +37,14 @@
                 }
             }
 
-            .load {
+            .btn-group {
                 position: absolute;
                 right: 10px;
                 top: 10px;
-                width: 100px;
+
+                .btn {
+                    width: 120px;
+                }
             }
         }
     }

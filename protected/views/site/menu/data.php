@@ -32,7 +32,9 @@ if ($user === null) {
             $game = Game::model()->findByAttributes(array(
                 'id' => $cookie->value,
             ));
-            array_push($games, $game);
+            if ($game !== null) {
+                array_push($games, $game);    
+            }
         }
     }
 } else {
@@ -51,7 +53,10 @@ if ($user === null) {
                     <p class="description"><?= Game::getModeName($game->mode, $game->challenge) ?> / <?= $game->turn ?> turns</p>
                 </div>
 
-                <input type="button" class="btn load" value="Load">
+                <div class="btn-group">
+                    <input type="button" class="btn load" value="Load">
+                    <input type="button" class="btn delete" value="Delete">
+                </div>
             </div>
         <?php endforeach ?>
     </div>

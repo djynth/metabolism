@@ -37,4 +37,36 @@ $(document).ready(function() {
                 success: onGameStart
             });
     });
+
+    DATA.find('.delete').click(function() {
+        var elem = $(this);
+        if (elem.hasClass('confirmed')) {
+            elem.attr('disabled', 'disabled').removeClass('confirmed');
+            elem.val('Deleting...');
+            clearTimeout(elem.data('timeout'));
+
+            $.ajax({
+                url : '/index.php/site/deleteGame',
+                type : 'POST',
+                dataType : 'json',
+                data : {
+                    id : parseInt(elem.parents('.game').attr('game'))
+                },
+                success: function() {
+                    elem.parents('.game').slideUp();
+                },
+                error: function() {
+                    elem.removeAttr('disabled').val('Delete');
+                }
+            })
+        } else {
+            elem.addClass('confirmed');
+            elem.val('Sure?');
+
+            elem.data('timeout', setTimeout(function() {
+                elem.removeClass('confirmed');
+                elem.val('Delete');
+            }, 7500));
+        }
+    });
 });

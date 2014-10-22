@@ -78,13 +78,21 @@ class SiteController extends CController
     public function actionLoadGame($id)
     {
         // TODO: check that user_id matches
-
         
         Yii::app()->session->clear();
         $game = Game::load($id);
         Yii::app()->session['game'] = $game;
 
         echo json_encode(self::getState($game));
+    }
+
+    public function actionDeleteGame($id)
+    {
+        // TODO: check that user_id matches
+
+        Game::model()->findByAttributes(array(
+            'id' => (int)$id,
+        ))->delete();
     }
 
     public function actionPathway($pathway_id, $times, $organ_id, $reverse)
