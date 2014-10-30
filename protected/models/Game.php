@@ -82,10 +82,8 @@ class Game extends CActiveRecord
         $this->appendState();
     }
 
-    public function save()
+    public function onSave()
     {
-        parent::save();
-
         $state = array();
         foreach (Resource::getAmounts() as $resource => $organs) {
             foreach ($organs as $organ => $amount) {

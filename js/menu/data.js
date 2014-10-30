@@ -52,11 +52,8 @@ $(document).ready(function() {
                 data : {
                     id : parseInt(elem.parents('.game').attr('game'))
                 },
-                success: function() {
+                complete: function() {
                     elem.parents('.game').slideUp();
-                },
-                error: function() {
-                    elem.removeAttr('disabled').val('Delete');
                 }
             })
         } else {

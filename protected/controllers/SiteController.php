@@ -55,16 +55,20 @@ class SiteController extends CController
                 if ($name !== null && Game::isValidName($name)) {
                     $game->name = $name;
                 }
+
                 $game->save();
+                $game->onSave();
 
                 if ($game->user === null) {
                     $cookies = Yii::app()->request->cookies;
                     $cookies['game_' . $game->id] = new CHttpCookie('game_' . $game->id, $game->id);
                 }
+                Yii::app()->session['game'] = $game;
 
                 $success = true;
                 $message = 'Game Saved';
             } catch (Exception $e) {
+                var_dump($e);
                 $message = 'An error occurred';
             }
         }
@@ -90,9 +94,11 @@ class SiteController extends CController
     {
         // TODO: check that user_id matches
 
-        Game::model()->findByAttributes(array(
+        $game = Game::model()->findByAttributes(array(
             'id' => (int)$id,
-        ))->delete();
+        ));
+        $game->isNewRecord = false;
+        $game->delete();
     }
 
     public function actionPathway($pathway_id, $times, $organ_id, $reverse)
