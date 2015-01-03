@@ -71,7 +71,7 @@ function refreshState(passivePathways)
             var points = times * parseInt(pathway.find('.points').text());
         }
         total += points;
-        $(this).html(pathway.children('.name').text() + ' (x' + times + ')');
+        $(this).html(pathway.find('.title .name').text() + ' (x' + times + ')');
         $(this).siblings('.change').html(formatPoints(points));
     });
     LIMITED_RESOURCES.find('.total').html(formatPoints(total));

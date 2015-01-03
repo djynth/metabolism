@@ -7,7 +7,7 @@
             </div>
         </div>
     </div>
-    
+    <!-- 
     <div class="row">
         <div class="buttons">
             <div class="btn-group checkbox">
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="row">
         <div>

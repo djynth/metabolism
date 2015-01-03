@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <div class="mode campaign" mode="<?= Game::MODE_CAMPAIGN ?>">
+    <!-- <div class="mode campaign" mode="<?= Game::MODE_CAMPAIGN ?>">
         <svg width="100%" height="100%" viewBox="0 0 13 13">
             <text x="-1" y="11.5">&#xf018;</text>
         </svg>
@@ -23,7 +23,7 @@
                 <li>Build and store resources for periodic challenges</li>
             </ul>
         </div>
-    </div>
+    </div> -->
 
     <div class="mode challenge" mode="<?= Game::MODE_CHALLENGE ?>">
         <svg width="100%" height="100%" viewBox="0 0 15 15">
@@ -107,6 +107,11 @@
 
     <?php foreach(Challenge::getChallenges() as $challenge): ?>
         <div class="details" challenge="<?= $challenge->id ?>">
+            <h2>Energy Storage Challenge: Description</h2>
+            <br>
+            <p>In this scenario, you have free access to food resources and your job is to efficiently store Glucose as Glycogen in both Muscle and the Liver as well as fatty acids as TAGs for future use.</p>
+            <br>
+
             <h2 class="pathway-restrictions">Pathway Restrictions</h2>
             <ul>
                 <?php foreach ($challenge->restrictions as $restriction): ?>
@@ -117,6 +122,8 @@
             </ul>
 
             <h2 class="goals">Goals</h2>
+            <br>
+            <p>To acheive these goals you need to store the following resources in the fewest turns possible while keeping the Brain fed and funcitoning each turn.</p>
             <ul>
                 <?php foreach ($challenge->goals as $goal): ?>
                     <li><?= $goal ?></li>

@@ -24,7 +24,7 @@
             <p class="subheading">load or save a game</p>
         </div>
         
-        <div class="tab" for="account">
+        <!-- <div class="tab" for="account">
             <i class="fa fa-user"></i>
             <p class="title">Account</p>
             <?php if ($user === null): ?>
@@ -32,7 +32,7 @@
             <?php else: ?>
                 <p class="subheading">logged in as <?= $user->username ?></p>
             <?php endif ?>
-        </div>
+        </div> -->
 
         <div class="tab" for="settings">
             <i class="fa fa-wrench"></i>

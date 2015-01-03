@@ -54,14 +54,14 @@
             </tr>
         </table>
 
-        <div id="challenge-info" class="content">
+        <!-- <div id="challenge-info" class="content">
             <p class="name"></p>
             <p class="goals"></p>
-        </div>
+        </div> -->
 
         <div class="tabs">
             <div class="tab" for="limited-resources">Resources</div>
-            <div class="tab" for="challenge-info">Challenge</div>
+            <!-- <div class="tab" for="challenge-info">Challenge</div> -->
         </div>
     </div>
 </div>
