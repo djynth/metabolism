@@ -1,0 +1,622 @@
+[
+    {
+        "name" : "Inhale",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : false,
+        "organs" : [ "global" ],
+        "reactants" : [ ],
+        "products" : [
+            { "oxygen" : 100, "range" : [50, 200] }
+        ]
+    },
+    {
+        "name" : "Exhale",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : false,
+        "organs" : [ "global" ],
+        "reactants" : [
+            { "carbon_dioxide" : 100, "range" : [50, 200] }
+        ],
+        "products" : [ ]
+    },
+    {
+        "name" : "Excretion",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : false,
+        "organs" : [ "global" ],
+        "reactants" : [
+            { "water" : 300, "range" : [200, 500] },
+            { "urea" : 10 }
+        ],
+        "products" : [ ]
+    },
+    {
+        "name" : "Eat",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : false,
+        "organs" : [ "global" ],
+        "reactants" : [ ],
+        "products" : [
+            { "glucose" : 60, "range" : [0, 100] },
+            { "alanine" : 20, "range" : [0, 100] },
+            { "palmitate" : 20, "range" : [0, 100] }
+        ],
+        "products_max" : 100
+    },
+    {
+        "name" : "brain Activity",
+        "points" : 32,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : false,
+        "organs" : [ "brain" ],
+        "reactants" : [
+            { "water" : 32 },
+            { "atp" : 32 }
+        ],
+        "products" : [
+            { "adp" : 32 },
+            { "pi" : 32 }
+        ]
+    },
+    {
+        "name" : "muscle Contraction",
+        "points" : 32,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : false,
+        "organs" : [ "muscle" ],
+        "reactants" : [
+            { "water" : 32 },
+            { "atp" : 32 }
+        ],
+        "products" : [
+            { "adp" : 32 },
+            { "pi" : 32 }
+        ]
+    },
+    {
+        "name" : "Protein Synthesis",
+        "points" : 4,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : true,
+        "organs" : [ "brain", "muscle", "liver", "fat" ],
+        "reactants" : [
+            { "alanine" : 1 },
+            { "atp" : 4 }
+        ],
+        "products" : [
+            { "protein" : 1 },
+            { "adp" : 4 },
+            { "pi" : 4 }
+        ]
+    },
+    {
+        "name" : "RNA Synthesis",
+        "points" : 2,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : true,
+        "organs" : [ "brain", "muscle", "liver", "fat" ],
+        "reactants" : [
+            { "r5p" : 1 },
+            { "atp" : 2 }
+        ],
+        "products" : [
+            { "rna" : 1 },
+            { "adp" : 2 },
+            { "pi" : 2 },
+        ]
+    },
+    {
+        "name" : "Glucose Phosporylation",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : false,
+        "organs" : [ "brain", "muscle", "liver", "fat" ],
+        "reactants" : [
+            { "glucose" : 1 },
+            { "atp" : 1 }
+        ],
+        "products" : [
+            { "g6p" : 1 },
+            { "adp" : 1 }
+        ]
+    },
+    {
+        "name" : "G-6-P Hydrolysis",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : false,
+        "organs" : [ "liver" ],
+        "reactants" : [
+            { "g6p" : 1 },
+            { "water" : 1 }
+        ],
+        "products" : [
+            { "glucose" : 1 },
+            { "pi" : 1 }
+        ]
+    },
+    {
+        "name" : "Glycolysis",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : true,
+        "anabolic" : false,
+        "organs" : [ "brain", "muscle", "liver", "fat" ],
+        "reactants" : [
+            { "g6p" : 1 },
+            { "adp" : 3 },
+            { "pi" : 3 },
+            { "nad+" : 2 }
+        ],
+        "products" : [
+            { "pyruvate" : 2 },
+            { "water" : 3 },
+            { "atp" : 3 },
+            { "nadh" : 2 },
+        ]
+    },
+    {
+        "name" : "Gluconeogenesis",
+        "points" : 6,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : true,
+        "organs" : [ "liver" ],
+        "reactants" : [
+            { "pyruvate" : 2 },
+            { "water" : 5 },
+            { "atp" : 6 },
+            { "nadh" : 2 }
+        ],
+        "products" : [
+            { "g6p" : 1 },
+            { "adp" : 6 },
+            { "pi" : 5 },
+            { "nad+" : 2 },
+        ]
+    },
+    {
+        "name" : "PPP (oxid)",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : true,
+        "anabolic" : false,
+        "organs" : [ "brain", "muscle", "liver", "fat" ],
+        "reactants" : [
+            { "g6p" : 1 },
+            { "water" : 1 },
+            { "nadp+" : 2 }
+        ],
+        "products" : [
+            { "r5p" : 1 },
+            { "carbon_dioxide" : 1 },
+            { "nadph" : 2 }
+        ]
+    },
+    {
+        "name" : "PPP (non-oxid)",
+        "points" : 0,
+        "reversible" : true,
+        "catabolic" : true,
+        "anabolic" : false,
+        "organs" : [ "brain", "muscle", "liver", "fat" ],
+        "reactants" : [
+            { "r5p" : 6 }
+        ],
+        "products" : [
+            { "g6p" : 5 }
+        ]
+    },
+    {
+        "name" : "Glycogen Synthesis",
+        "points" : 2,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : true,
+        "organs" : [ "muscle", "liver" ],
+        "reactants" : [
+            { "g6p" : 1 },
+            { "water" : 1 },
+            { "atp" : 1 }
+        ],
+        "products" : [
+            { "glycogen" : 1 },
+            { "adp" : 1 },
+            { "pi" : 2 }
+        ]
+    },
+    {
+        "name" : "Glycogen Breakdown",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : true,
+        "anabolic" : false,
+        "organs" : [ "muscle", "liver" ],
+        "reactants" : [
+            { "glycogen" : 1 },
+            { "pi" : 1 }
+        ],
+        "products" : [
+            { "g6p" : 1 }
+        ]
+    },
+    {
+        "name" : "Pyruvate Dehydrogenase",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : true,
+        "anabolic" : false,
+        "organs" : [ "brain", "muscle", "liver", "fat" ],
+        "reactants" : [
+            { "pyruvate" : 1 },
+            { "hscoa" : 1 },
+            { "nad+" : 1 }
+        ],
+        "products" : [
+            { "carbon_dioxide" : 1 },
+            { "acetylscoa" : 1 },
+            { "nadh" : 1 }
+        ]
+    },
+    {
+        "name" : "Pyruvate ↔ Lactate",
+        "points" : 0,
+        "reversible" : true,
+        "catabolic" : false,
+        "anabolic" : false,
+        "organs" : [ "muscle", "liver" ],
+        "reactants" : [
+            { "pyruvate" : 1 },
+            { "nadh" : 1 }
+        ],
+        "products" : [
+            { "lactate" : 1 },
+            { "nad+" : 1 }
+        ]
+    },
+    {
+        "name" : "Pyruvate ↔ Alanine",
+        "points" : 0,
+        "reversible" : true,
+        "catabolic" : false,
+        "anabolic" : false,
+        "organs" : [ "muscle", "liver" ],
+        "reactants" : [
+            { "pyruvate" : 1 },
+            { "ammonia" : 1 },
+            { "nadh" : 1 }
+        ],
+        "products" : [
+            { "alanine" : 1 },
+            { "nad+" : 1 }
+        ]
+    },
+    {
+        "name" : "Glycerol Synthesis",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : true,
+        "organs" : [ "brain", "muscle", "liver", "fat" ],
+        "reactants" : [
+            { "g6p" : 1 },
+            { "atp" : 1 },
+            { "nadh" : 2 }
+        ],
+        "products" : [
+            { "glycerol1p" : 2 },
+            { "adp" : 1 },
+            { "nad+" : 2 }
+        ]
+    },
+    {
+        "name" : "Glycerol Absorbtion",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : false,
+        "organs" : [ "liver", "fat" ],
+        "reactants" : [
+            { "glycerol" : 1 },
+            { "atp" : 1 }
+        ],
+        "products" : [
+            { "glycerol1p" : 1 },
+            { "adp" : 1 },
+            { "pi" : 1 }
+        ]
+    },
+    {
+        "name" : "Glycerol Degredation",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : false,
+        "organs" : [ "liver" ],
+        "reactants" : [
+            { "glycerol1p" : 1 },
+            { "adp" : 2 },
+            { "pi" : 1 },
+            { "nad+" : 2 }
+        ],
+        "products" : [
+            { "pyruvate" : 1 },
+            { "atp" : 2 },
+            { "nadh" : 2 }
+        ]
+    },
+    {
+        "name" : "Glycero-Neo-Genesis",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : true,
+        "organs" : [ "fat" ],
+        "reactants" : [
+            { "pyruvate" : 1 },
+            { "atp" : 3 },
+            { "nadh" : 2 }
+        ],
+        "products" : [
+            { "glycerol1p" : 1 },
+            { "adp" : 3 },
+            { "pi" : 2 },
+            { "nad+" : 2 }
+        ]
+    },
+    {
+        "name" : "Fatty Acid Absorbtion",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : false,
+        "organs" : [ "muscle", "liver", "fat" ],
+        "reactants" : [
+            { "water" : 1 },
+            { "palmitate" : 1 },
+            { "hscoa" : 1 },
+            { "atp" : 2 }
+        ],
+        "products" : [
+            { "palmitatescoa" : 1 },
+            { "adp" : 2 },
+            { "pi" : 2 }
+        ]
+    },
+    {
+        "name" : "Fatty Acid Synthesis",
+        "points" : 7,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : true,
+        "organs" : [ "liver", ],
+        "reactants" : [
+            { "water" : 6 },
+            { "acetylscoa" : 8 },
+            { "atp" : 7 },
+            { "nadph" : 14 }
+        ],
+        "products" : [
+            { "hscoa" : 7 },
+            { "palmitatescoa" : 1 },
+            { "adp" : 7 },
+            { "pi" : 7 },
+            { "nadp+" : 14 }
+        ]
+    },
+    {
+        "name" : "Fatty Acid Degradation",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : true,
+        "anabolic" : false,
+        "organs" : [ "fat" ],
+        "reactants" : [
+            { "water" : 7 },
+            { "hscoa" : 7 },
+            { "palmitatescoa" : 1 },
+            { "nad+" : 7 },
+            { "fad" : 7 }
+        ],
+        "products" : [
+            { "acetylscoa" : 8 },
+            { "nadh" : 7 },
+            { "fadh2" : 7 }
+        ]
+    },
+    {
+        "name" : "Fatty Acid Release",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : false,
+        "organs" : [ "liver", "fat" ],
+        "reactants" : [
+            { "water" : 1 },
+            { "palmitatescoa" : 1 }
+        ],
+        "products" : [
+            { "palmitate" : 1 },
+            { "hscoa" : 1 }
+        ]
+    },
+    {
+        "name" : "TAG Formation",
+        "points" : 7,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : true,
+        "organs" : [ "fat" ],
+        "reactants" : [
+            { "glycerol1p" : 1 },
+            { "palmitatescoa" : 3 }
+        ],
+        "products" : [
+            { "tag" : 1 },
+            { "hscoa" : 3 },
+            { "pi" : 1 }
+        ]
+    },
+    {
+        "name" : "TAG Hydrolysis",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : true,
+        "anabolic" : false,
+        "organs" : [ "fat" ],
+        "reactants" : [
+            { "water" : 3 },
+            { "tag" : 1 }
+        ],
+        "products" : [
+            { "glycerol" : 1 },
+            { "palmitate" : 3 }
+        ]
+    },
+    {
+        "name" : "Ketone Body Absorbtion",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : false,
+        "organs" : [ "brain", "muscle" ],
+        "reactants" : [
+            { "ketone_bodies" : 1 },
+            { "hscoa" : 2 },
+            { "atp" : 1 },
+            { "nad+" : 1 }
+        ],
+        "products" : [
+            { "acetylscoa" : 2 },
+            { "adp" : 1 },
+            { "pi" : 1 },
+            { "nadh" : 1 }
+        ]
+    },
+    {
+        "name" : "Ketone Body Synthesis",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : false,
+        "anabolic" : true,
+        "organs" : [ "liver" ],
+        "reactants" : [
+            { "acetylscoa" : 2 },
+            { "nadh" : 1 }
+        ],
+        "products" : [
+            { "ketone_bodies" : 1 },
+            { "hscoa" : 2 },
+            { "nad+" : 1 }
+        ]
+    },
+    {
+        "name" : "Kreb's Cycle",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : true,
+        "anabolic" : false,
+        "organs" : [ "brain", "muscle", "liver", "fat" ],
+        "reactants" : [
+            { "acetylscoa" : 1 },
+            { "adp" : 1 },
+            { "pi" : 1 },
+            { "nad+" : 3 },
+            { "fad" : 1 }
+        ],
+        "products" : [
+            { "carbon_dioxide" : 2 },
+            { "hscoa" : 1 },
+            { "atp" : 1 },
+            { "nadh" : 3 },
+            { "fadh2" : 1 }
+        ]
+    },
+    {
+        "name" : "Oxidative Phosphorylation NADH",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : true,
+        "anabolic" : false,
+        "organs" : [ "brain", "muscle", "liver", "fat" ],
+        "reactants" : [
+            { "oxygen" : 1 },
+            { "adp" : 5 },
+            { "pi" : 5 },
+            { "nadh" : 2 }
+        ],
+        "products" : [
+            { "water" : 6 },
+            { "atp" : 5 },
+            { "nad+" : 2 }
+        ]
+    },
+    {
+        "name" : "Oxidative Phosphorylation FADH2",
+        "points" : 0,
+        "reversible" : false,
+        "catabolic" : true,
+        "anabolic" : false,
+        "organs" : [ "brain", "muscle", "liver", "fat" ],
+        "reactants" : [
+            { "oxygen" : 1 },
+            { "adp" : 3 },
+            { "pi" : 3 },
+            { "fadh2" : 2 }
+        ],
+        "products" : [
+            { "water" : 4 },
+            { "atp" : 3 },
+            { "fad" : 2 }
+        ]
+    },
+    {
+        "name" : "Urea Cycle",
+        "points" : 4,
+        "reversible" : false,
+        "catabolic" : true,
+        "anabolic" : false,
+        "organs" : [ "liver" ],
+        "reactants" : [
+            { "carbon_dioxide" : 1 },
+            { "water" : 4 },
+            { "ammonia" : 2 },
+            { "atp" : 4 }
+        ],
+        "products" : [
+            { "urea" : 1 },
+            { "adp" : 4 },
+            { "pi" : 4 }
+        ]
+    },
+    {
+        "name" : "Creatine Phosphorylation",
+        "points" : 0,
+        "reversible" : true,
+        "catabolic" : false,
+        "anabolic" : false,
+        "organs" : [ "muscle" ],
+        "reactants" : [
+            { "atp" : 1 },
+            { "creatine" : 1 }
+        ],
+        "products" : [
+            { "adp" : 1 },
+            { "phosphocreatine" : 1 }
+        ]
+    }
+]

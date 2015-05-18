@@ -1,0 +1,32 @@
+[
+    {
+        "id" : "global",
+        "name" : "Bloodstream",
+        "color" : "FFE4B5",
+        "description" : "The global organ covers resources that are available in all organs through the blood and pathways that affect all organs."
+    },
+    {
+        "id" : "brain",
+        "name" : "Brain",
+        "color" : "D5B8D9",
+        "description" : "The brain is responsible for all neurological processes (i.e. thought) but does not function well when producing energy or synthesizing resources. The brain requires glucose to provide energy to pump ions for nerve conduction and to synthesize RNA and proteins. Fatty acids must be converted to ketone bodies to reach the brain when glucose is not available. "
+    },
+    {
+        "id" : "muscle",
+        "name" : "Muscle",
+        "color" : "DAA399",
+        "description" : "The muscle is responsible for contraction and movement and is thus specialized in converting energy-dense resources into usable energy."
+    },
+    {
+        "id" : "liver",
+        "name" : "Liver",
+        "color" : "B8E3B5",
+        "description" : "The liver functions to absorb energy-dense resources from food and convert it into more useful compounds for the rest of the body."
+    },
+    {
+        "id" : "fat",
+        "name" : "Adipose Tissue",
+        "color" : "CAF2F1",
+        "description" : "Adipose Tissue is specialized for Fatty Acid (represented by Palmitate) Storage. Its job is to absorb Fatty Acids from the blood after meals, react with Glycerol, and store as TAGs and then to release Fatty Acids when the blood levels of FA are low (between meals)."
+    }
+]
